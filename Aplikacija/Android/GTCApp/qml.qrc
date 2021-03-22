@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Sbutt.qml</file>
+        <file>prvi.qml</file>
+        <file>drugi.qml</file>
+        <file>treci.qml</file>
+        <file>cetvrti.qml</file>
+    </qresource>
+    <qresource prefix="/aa"/>
+    <qresource prefix="/saa"/>
+</RCC>
