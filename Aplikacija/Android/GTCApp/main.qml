@@ -59,119 +59,7 @@ ApplicationWindow
                 }
             }
         }
-        Drawer
-        {
-            id: drawer
-            width: 0.66 * parent.width
-            height: parent.height
-            Rectangle
-            {
-                color: "#ffffff"
-                height: parent.height
-                width: parent.width
-                Column
-                {
-                    width: parent.width
-                    Sbutt
-                    {
-                        MouseArea
-                        {
-                            anchors.fill: parent
-                            onClicked:
-                            {
-                                //console.log( men.fun1(dugme))
-                                pageLoader.source = "prvi.qml"
-                                if(pom!=null)
-                                {
-                                     pom.color_="#ffffff"
-                                }
-                                dugme.color_="#123456"
-                                pom=dugme
-                                drawer.close()
-                            }
-                        }
-                        id: dugme
-                        widt: parent.width
-                        heigh: 40
-                        sourc: "/new/prefix1/list.png"
-                        tex: "aaaa"
-                    }
-                    Sbutt
-                    {
-                        MouseArea
-                        {
-                            anchors.fill: parent
-                            onClicked:
-                            {
-                                // console.log( men.fun1(dugme1))
-                                if(pom!=null)
-                                {
-                                    pom.color_="#ffffff"
-                                }
-                            dugme1.color_="#123456"
-                            pom=dugme1
-                            pageLoader.source = "drugi.qml"
-                            drawer.close()
-                            }
-                       }
-                        id: dugme1
-                        widt: parent.width
-                        heigh: 40
-                        sourc: "/new/prefix1/list.png"
-                        tex: "Dodaj lokaciju"
-                    }
-                    Sbutt
-                    {
-                        MouseArea
-                        {
-                            anchors.fill: parent
-                            onClicked:
-                            {
-                                // console.log( men.fun1(dugme2))
-                                if(pom!=null)
-                                {
-                                    pom.color_="#ffffff"
-                                }
-                                dugme2.color_="#123456"
-                                pom=dugme2
-                                pageLoader.source = "treci.qml"
-                                drawer.close()
-                            }
-                        }
-                        id: dugme2
-                        widt: parent.width
-                        heigh: 40
-                        sourc: "/new/prefix1/list.png"
-                        tex: "Dodaj dogadjaj"
 
-                   }
-                   Sbutt
-                   {
-                       MouseArea
-                       {
-                            anchors.fill: parent
-                            onClicked:
-                            {
-                                //console.log( men.fun1(dugme3))
-                                if(pom!=null)
-                                {
-                                    pom.color_="#ffffff"
-                                }
-                                dugme3.color_="#123456"
-                                pom=dugme3
-                                pageLoader.source = "cetvrti.qml"
-                                drawer.close()
-                            }
-                        }
-                        id: dugme3
-                        widt: parent.width
-                        heigh: 40
-                        sourc: "/new/prefix1/list.png"
-                        tex: "Podesavanja"
-                   }
-               }
-           }
-       }
 
         Rectangle
         {
@@ -187,4 +75,117 @@ ApplicationWindow
             Layout.fillHeight: true
         }
     }
+    Drawer
+    {
+        id: drawer
+        width: 0.66 * parent.width
+        height: parent.height
+        Rectangle
+        {
+            color: "#ffffff"
+            height: parent.height
+            width: parent.width
+            Column
+            {
+                width: parent.width
+                Sbutt
+                {
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            //console.log( men.fun1(dugme))
+                            pageLoader.source = "prvi.qml"
+                            if(pom!=null)
+                            {
+                                 pom.color_="#ffffff"
+                            }
+                            dugme.color_="#123456"
+                            pom=dugme
+                            drawer.close()
+                        }
+                    }
+                    id: dugme
+                    widt: parent.width
+                    heigh: 40
+                    sourc: "/new/prefix1/list.png"
+                    tex: "Pretrazi lokacije"
+                }
+                Sbutt
+                {
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            // console.log( men.fun1(dugme1))
+                            if(pom!=null)
+                            {
+                                pom.color_="#ffffff"
+                            }
+                        dugme1.color_="#123456"
+                        pom=dugme1
+                        pageLoader.source = "drugi.qml"
+                        drawer.close()
+                        }
+                   }
+                    id: dugme1
+                    widt: parent.width
+                    heigh: 40
+                    sourc: "/new/prefix1/list.png"
+                    tex: "Dodaj lokaciju"
+                }
+                Sbutt
+                {
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            // console.log( men.fun1(dugme2))
+                            if(pom!=null)
+                            {
+                                pom.color_="#ffffff"
+                            }
+                            dugme2.color_="#123456"
+                            pom=dugme2
+                            pageLoader.source = "treci.qml"
+                            drawer.close()
+                        }
+                    }
+                    id: dugme2
+                    widt: parent.width
+                    heigh: 40
+                    sourc: "/new/prefix1/list.png"
+                    tex: "Dodaj dogadjaj"
+
+               }
+               Sbutt
+               {
+                   MouseArea
+                   {
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            //console.log( men.fun1(dugme3))
+                            if(pom!=null)
+                            {
+                                pom.color_="#ffffff"
+                            }
+                            dugme3.color_="#123456"
+                            pom=dugme3
+                            pageLoader.source = "cetvrti.qml"
+                            drawer.close()
+                        }
+                    }
+                    id: dugme3
+                    widt: parent.width
+                    heigh: 40
+                    sourc: "/new/prefix1/list.png"
+                    tex: "Podesavanja"
+               }
+           }
+       }
+   }
 }
