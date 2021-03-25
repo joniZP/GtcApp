@@ -8,5 +8,4 @@ Rectangle
     id: prikaz4
     width: 300
     height: 300
-
 }
