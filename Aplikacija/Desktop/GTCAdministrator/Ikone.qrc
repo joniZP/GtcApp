@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/new/icons">
+        <file>C:/Users/Petar/Downloads/dropdown-menu-icon-20.jpg</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>MenuItem.qml</file>
+    </qresource>
+</RCC>
