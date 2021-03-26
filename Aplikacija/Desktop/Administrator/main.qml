@@ -24,7 +24,7 @@ Window {
             id:img
             x:0
             y: 0
-            source: "../new/icons/C:/Users/Petar/Downloads/dropdown-menu-icon-20.jpg"
+            source: "/new/prefix1/dropdown-menu-icon-20.jpg"
             clip: false
             width:50
             height: 50
@@ -38,7 +38,7 @@ Window {
             id:img2
             x:parent.width-50
             y: 0
-            source: "../../Downloads/computer-icons-mobile-app-development-android-my-account-icon-ee5ed773331f0106436a0580fb3bce05.png"
+          // source: "../../Downloads/computer-icons-mobile-app-development-android-my-account-icon-ee5ed773331f0106436a0580fb3bce05.png"
             width:50
             height: 50
     }
@@ -63,16 +63,15 @@ Window {
         anchors.fill: parent
         color : "#549cff"
         opacity: 0.6
-        MenuItem{
+       MItem{
           //  clr: "#ff00ff"
             id: dugme1
             w: parent.width
             h: 40
-          //  sourc: "/new/prefix1/list.png"
+            src:"/new/prefix1/dropdown-menu-icon-20.jpg"
             txt: "Dodaj lokaciju"
         }
-
-        }
         }
     }
     }
+}

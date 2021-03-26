@@ -12,7 +12,6 @@ Item {
     id:id
     width:w
     height:h
-
     Rectangle{
         anchors.fill:parent
         color: clr
@@ -36,6 +35,8 @@ Item {
            Layout.leftMargin:10
            Layout.alignment: Qt.AlignVCenter
      }
+
+
        Text
        {
            id: name
