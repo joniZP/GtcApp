@@ -2,76 +2,77 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-Window {
-    width: 450
-    height: 300
+Window{
+    width: 1920
+    height: 1080
     visible: true
     //color: "blue"
   title: qsTr("GTCAdministrator")
-
-    ColumnLayout
-    {
-        width: parent.width
-        height : parent.height
-       spacing: 0
-
+  ColumnLayout
+  {
+      spacing:0
+      width: parent.width
+      height: parent.height
     Rectangle
     {
-        Layout.minimumHeight: 50
-        Layout.minimumWidth: parent.width
-        color:"#549cff"
-        Image {
-            id:img
-            x:0
-            y: 0
-            source: "/new/prefix1/dropdown-menu-icon-20.jpg"
-            clip: false
-            width:50
-            height: 50
-            MouseArea //:/new/icons/C:/Users/Petar/Downloads/dropdown-menu-icon-20.jpg
-            {
-                anchors.fill: parent
-                onClicked: crtaj.open()
-            }
+       //anchors.top : parent.top
+        Layout.alignment: top
+       Layout.minimumWidth: parent.width
+       Layout.minimumHeight: 20
+        color:"#0088ff"
+    }
+       RowLayout
+       {
+           Layout.fillWidth: true
+           Layout.fillHeight: true
+           spacing:0
+           Rectangle
+           {
+               Layout.minimumHeight: parent.height
+               Layout.minimumWidth: parent.width/5
+               color: "#0088ff"
+               MItem{
+                   x:0
+                   y:0
+                   w:parent.width
+                   h:parent.height/5
+                   txt:"ProbaProba"
+                   clr:parent.color
+               }
+               MItem{
+                   x:0
+                   y:parent.height/5
+                   w:parent.width
+                   h:parent.height/5
+                   txt:"Dva tri"
+                   clr:parent.color
+               }
+               MItem{
+                   x:0
+                   y:parent.height/5*2
+                   w:parent.width
+                   h:parent.height/5
+                   txt:"Tri cetri"
+                   clr:parent.color
+               }
+
+
+               Image {
+
+                   id: logo
+                   x:70
+                   y:parent.height-(sourceSize.height/4)-50
+                   source: "../new/prefix1/GTCLogo.png"
+                   width: sourceSize.width/4
+                   height:sourceSize.height/4
+               }
+           }
+           Rectangle
+           {
+               Layout.fillWidth: true
+               Layout.fillHeight: true
+                color:"white"
+           }
        }
-        Image {
-            id:img2
-            x:parent.width-50
-            y: 0
-          // source: "../../Downloads/computer-icons-mobile-app-development-android-my-account-icon-ee5ed773331f0106436a0580fb3bce05.png"
-            width:50
-            height: 50
-    }
-    }
-    Rectangle
-    {
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-        color:"#f9f8f8"
-
-    }
-
-
-    Drawer
-    {
-     id: crtaj
-    width: 350
-    height: parent.height
-
-    Rectangle
-    {
-        anchors.fill: parent
-        color : "#549cff"
-        opacity: 0.6
-       MItem{
-          //  clr: "#ff00ff"
-            id: dugme1
-            w: parent.width
-            h: 40
-            src:"/new/prefix1/dropdown-menu-icon-20.jpg"
-            txt: "Dodaj lokaciju"
-        }
-        }
-    }
-    }
+  }
 }

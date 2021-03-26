@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/new/prefix1">
         <file>dropdown-menu-icon-20.jpg</file>
+        <file>GTCLogo.png</file>
     </qresource>
 </RCC>
