@@ -2,5 +2,8 @@
     <qresource prefix="/new/prefix1">
         <file>slika.jfif</file>
         <file>list.png</file>
+        <file>person-icon.png</file>
+        <file>dropdown-menu-icon-20.jpg</file>
+        <file>search-3-24.png</file>
     </qresource>
 </RCC>

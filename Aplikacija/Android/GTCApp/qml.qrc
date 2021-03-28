@@ -6,6 +6,7 @@
         <file>drugi.qml</file>
         <file>treci.qml</file>
         <file>cetvrti.qml</file>
+        <file>pocetna.qml</file>
     </qresource>
     <qresource prefix="/aa"/>
     <qresource prefix="/saa"/>
