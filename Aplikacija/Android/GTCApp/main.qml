@@ -3,7 +3,7 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.3
-import QtGraphicalEffects 1.0
+//import QtGraphicalEffects 1.0
 import Events 1.0
 ApplicationWindow
 {
@@ -152,9 +152,9 @@ ApplicationWindow
                        height: 50
                        fillMode: Image.PreserveAspectCrop
                        layer.enabled: true
-                       layer.effect: OpacityMask {
-                           maskSource: mask
-                       }
+                       //layer.effect: OpacityMask {
+                       //    maskSource: mask
+                       //}
                 }
 
                 Rectangle {

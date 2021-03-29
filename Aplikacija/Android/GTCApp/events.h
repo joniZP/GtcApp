@@ -9,6 +9,10 @@
 #include <QQmlApplicationEngine>
 #include<QSqlDatabase>
 #include<QtSql>
+#include<QSqlQuery>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 
 
 class events : public QObject
@@ -21,27 +25,31 @@ public:
         o->setProperty("color","blue");
     }
 signals:
-   // QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
+   // QSqlDatabase db = QSqlDatabase::addDatabase("QOD");
 
 
 public slots:
-    void fun(QObject *t)
+
+    void fun()
     {
-        QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL"); // VERY IMPORTANT INSERT QODBC3 AND NOT QODBC
-        //db.setDatabaseName("Driver={MySQL ODBC 5.3 Unicode Driver};DATABASE=ZBdhQkqfvG;");
-        db.setHostName("remotemysql.com");
-        db.setUserName("ZBdhQkqfvG");
-        db.setDatabaseName("ZBdhQkqfvG");
-        db.setPassword("MhVT5jPGB3");
-        db.setPort(3306);
-        if(db.open())
-        {
-             t->setProperty("color","green");
-        }
-        else
-        {
-            t->setProperty("color","red");
-        }
+        QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+        QObject::connect(manager, &QNetworkAccessManager::finished, this, &events::Proba);
+       // manager->get(QNetworkRequest(QUrl("http://humanads.000webhostapp.com/webapi.php")));
+        QUrlQuery params;
+        params.addQueryItem("ime", "Sasfe");
+        params.addQueryItem("sifra", "000000");
+        params.addQueryItem("pol", "M");
+        params.addQueryItem("godine", "21");
+
+        QUrl ur("http://humanads.000webhostapp.com/webapi.php");
+        QNetworkRequest request(ur);
+
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+        manager->post(request, params.query().toUtf8());
+    }
+    static void Proba(QNetworkReply * reply)
+    {
+        qDebug() << "ASDFSA reply: " <<  reply->readAll();
     }
 };
 
