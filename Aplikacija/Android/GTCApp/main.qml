@@ -4,6 +4,7 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.3
 import QtGraphicalEffects 1.0
+import Events 1.0
 ApplicationWindow
 {
     visible: true
@@ -14,8 +15,11 @@ ApplicationWindow
     //Material.theme: Material.LightBlue
     //Material.accent: Material.DeepOrange
     property Sbutt pom:pocetna
-    
-    ColumnLayout
+   Events
+   {
+       id: event
+   }
+   ColumnLayout
     {
         // @disable-check M16
         width: parent.width
@@ -114,6 +118,7 @@ ApplicationWindow
         height: parent.height
         Rectangle
         {
+            id:qqq
             anchors.fill: parent
             color: "#878682"
         ColumnLayout
@@ -130,12 +135,16 @@ ApplicationWindow
                 {
                     width:parent.width
                     spacing: 0
+                    RowLayout
+                    {
+                        id: roo
+                        width:parent.width
                 Image
                 {
                        id: img
                        source: "/new/prefix1/person-icon.png"
-                      Layout.topMargin: 20
-                      Layout.leftMargin: 10
+                       Layout.topMargin: 20
+                       Layout.leftMargin: 10
                        //anchors.verticalCenter: parent.verticalCenter
                        Layout.maximumWidth: 60
                        Layout.maximumHeight: 60
@@ -147,6 +156,58 @@ ApplicationWindow
                            maskSource: mask
                        }
                 }
+
+                Rectangle {
+                       Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        color: "#00000000"
+                       id:aaaa
+                       Rectangle
+                       {
+                           width: childrenRect.width
+                           height: childrenRect.height
+                           anchors.top: parent.top
+
+                            color: "#00000000"
+                           MouseArea
+                           {
+                               anchors.fill: parent
+                               onClicked:
+                               {
+                                  event.fun(parent)
+                               }
+
+                           }
+
+                           anchors.right: parent.right
+                           anchors.rightMargin: 20
+                       Text {
+                           id: iiidi
+                           text: qsTr("Login")
+                            anchors.left: parent.left
+                           color: "#ffffff"
+                            anchors.verticalCenter: parent.verticalCenter
+
+
+                       }
+                       Text {
+                           id: iiijl
+                           text: qsTr("  >")
+                           anchors.left: iiidi.right
+                          // anchors.rightMargin: 20
+                           color: "#ffffff"
+                           anchors.verticalCenter: iiidi.verticalCenter
+                           //font.family: "Helvetica"
+                           font.pointSize: 30
+
+
+
+                       }
+                       }
+                   }
+
+
+                 }
                 Text {
 
                     id: id_ime
