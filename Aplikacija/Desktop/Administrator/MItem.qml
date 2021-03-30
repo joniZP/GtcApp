@@ -15,6 +15,11 @@ Item {
     Rectangle{
         anchors.fill:parent
         color: clr
+        opacity:1
+       radius:3
+        border.color: "white"
+        border.width: 1
+
         RowLayout
         {
         spacing: 20
@@ -24,15 +29,18 @@ Item {
        {
            id: imag
            color: clr
+           anchors.left: parent.left
+           anchors.leftMargin: 10
            Image
            {
                id: image
                anchors.fill: parent
+               source: src
            }
 
            width: 30
            height: 30
-           Layout.leftMargin:10
+           Layout.leftMargin:50
            Layout.alignment: Qt.AlignVCenter
      }
 
@@ -41,6 +49,10 @@ Item {
        {
            id: name
            text: qsTr(txt)
+           color:"white"
+           font.pointSize: 15
+           font.bold:true
+           anchors.centerIn: parent
        }
     }
 }

@@ -2,5 +2,9 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>MItem.qml</file>
+        <file>treca.qml</file>
+        <file>druga.qml</file>
+        <file>prva.qml</file>
+        <file>LoginForm.qml</file>
     </qresource>
 </RCC>

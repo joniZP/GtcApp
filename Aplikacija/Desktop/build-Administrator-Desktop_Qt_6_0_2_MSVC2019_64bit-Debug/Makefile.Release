@@ -168,8 +168,12 @@ compiler_rcc_clean:
 	-$(DEL_FILE) release\qrc_qml.cpp release\qrc_ikonice.cpp
 release\qrc_qml.cpp: ..\Administrator\qml.qrc \
 		..\..\..\..\Programs\QT\6.0.2\msvc2019_64\bin\rcc.exe \
+		..\Administrator\prva.qml \
 		..\Administrator\MItem.qml \
-		..\Administrator\main.qml
+		..\Administrator\main.qml \
+		..\Administrator\druga.qml \
+		..\Administrator\LoginForm.qml \
+		..\Administrator\treca.qml
 	D:\Programs\QT\6.0.2\msvc2019_64\bin\rcc.exe -name qml ..\Administrator\qml.qrc -o release\qrc_qml.cpp
 
 release\qrc_ikonice.cpp: ..\Administrator\ikonice.qrc \
