@@ -3,6 +3,7 @@
 #include <QQuickStyle>
 #include <events.h>
 #include <QSslSocket>
+//#include"MySqlKrsta.h"
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -20,6 +21,13 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     qmlRegisterType<events>("Events",1,0,"Events");
     engine.load(url);
+
+    MySqlService &s = MySqlService::MySqlInstance();
+
+
+
+
+
 
     return app.exec();
 }

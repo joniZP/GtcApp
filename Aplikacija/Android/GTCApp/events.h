@@ -13,7 +13,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-
+#include "MySqlKrsta.h"
 
 class events : public QObject
 {
@@ -32,7 +32,7 @@ public slots:
 
     void fun()
     {
-        QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+      /*  QNetworkAccessManager *manager = new QNetworkAccessManager(this);
         QObject::connect(manager, &QNetworkAccessManager::finished, this, &events::Proba);
        // manager->get(QNetworkRequest(QUrl("http://humanads.000webhostapp.com/webapi.php")));
         QUrlQuery params;
@@ -45,12 +45,29 @@ public slots:
         QNetworkRequest request(ur);
 
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-        manager->post(request, params.query().toUtf8());
+        manager->post(request, params.query().toUtf8());*/
+
+        MySqlService &s = MySqlService::MySqlInstance();
+
+
+
+        MySqlTable t;
+
+       t = s.WSendQuary("INSERT INTO Users VALUES('Ime','Sifra','M',19)");
+           if(t.isSuccessfully())
+           {
+           qDebug()<<"RADI";
+           }
+        //t = s.WSendQuary("SELECT * From Users");
+
+      // if(t.isSuccessfully())
+     //  {
+      //     qDebug()<<"RADI"<<t.Rows[0][0]<<t.Rows[0]["Pol"];
+     //  }
+
+
     }
-    static void Proba(QNetworkReply * reply)
-    {
-        qDebug() << "ASDFSA reply: " <<  reply->readAll();
-    }
+
 };
 
 #endif // EVENTS_H
