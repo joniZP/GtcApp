@@ -6,5 +6,6 @@
         <file>druga.qml</file>
         <file>prva.qml</file>
         <file>LoginForm.qml</file>
+        <file>Registracija.qml</file>
     </qresource>
 </RCC>

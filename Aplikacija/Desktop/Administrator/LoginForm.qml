@@ -39,7 +39,8 @@ Item {
         }
 
         Rectangle{
-            height:150
+            color: "transparent"
+            height:170
             width:450
             Layout.alignment:Qt.AlignCenter
             ColumnLayout
@@ -106,9 +107,46 @@ Item {
                     }
 
                 }
+                Rectangle//Registrujte se
+                   {
+                       color: "transparent"
+                       Layout.preferredHeight: 20
+                       Layout.preferredWidth: 450
+                       Layout.alignment: AlignBottom
+
+
+
+                        /*Rectangle//i send na registraciju
+                        {
+                            Layout.preferredHeight: 20
+                            Layout.preferredWidth: 100
+                            anchors.rightMargin:parent*/
+
+
+                    Text{
+                        topPadding:10
+                        anchors.centerIn: parent
+                        text:"Niste registrovani? Registruj se"
+                        color:"white"
+                        font.pointSize: 10
+                        font.bold: false
+                        MouseArea{
+                            id:dugmereg
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onClicked:
+                            {
+                                pageLoader.source="Registracija.qml"
+                            }
+
+                        }
+                        }
+
+                    //}
             }
+
         }
     }
     }
     }
-}
+}}

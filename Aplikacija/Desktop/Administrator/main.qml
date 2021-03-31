@@ -57,6 +57,38 @@ Window{
             font.pointSize: 15
         }
         }
+        Rectangle //--------------------REGISTRACIJA DUGME----------------------------------
+        {
+            id: regid
+           anchors.rightMargin: 100
+          anchors.right: parent.right
+          anchors.verticalCenter: parent.verticalCenter
+          anchors.baseline: parent.verticalCenter
+            width: childrenRect.width
+            height: childrenRect.height
+            anchors.top: parent.top
+            color: mArea.pressed ? "#003d57" : "white"
+            radius:10
+            scale:  mArea.containsMouse ? 0.6 :0.7
+               smooth: mArea.containsMouse
+               MouseArea {
+                   id: mArea
+                   anchors.fill: parent // BEZ NJEGA JE 0X0 mouseArea
+                   anchors.margins: -10
+                   hoverEnabled: true
+                   onClicked:pageLoader.source="Registracija.qml"
+               }
+        Text{
+            anchors.top:parent.top
+            font.bold: true
+           font.family: "Helvetica"
+
+            anchors.centerIn: parent
+            text:"Registracija"
+            color: mouseArea.pressed ? "white":"#003d57"
+            font.pointSize: 15
+        }
+        }
 
         }
 
