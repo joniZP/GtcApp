@@ -30,41 +30,30 @@ signals:
 
 public slots:
 
-    void fun()
+    bool registracija(QString ime,QString korisnickoime,QString email,QString sifra)
     {
-      /*  QNetworkAccessManager *manager = new QNetworkAccessManager(this);
-        QObject::connect(manager, &QNetworkAccessManager::finished, this, &events::Proba);
-       // manager->get(QNetworkRequest(QUrl("http://humanads.000webhostapp.com/webapi.php")));
-        QUrlQuery params;
-        params.addQueryItem("ime", "Sasfe");
-        params.addQueryItem("sifra", "000000");
-        params.addQueryItem("pol", "M");
-        params.addQueryItem("godine", "21");
-
-        QUrl ur("http://humanads.000webhostapp.com/webapi.php");
-        QNetworkRequest request(ur);
-
-        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-        manager->post(request, params.query().toUtf8());*/
 
         MySqlService &s = MySqlService::MySqlInstance();
-
-
-
         MySqlTable t;
 
-       t = s.WSendQuary("INSERT INTO Users VALUES('Ime','Sifra','M',19)");
+        QString query="INSERT INTO Users VALUES('"+ime+"','"+korisnickoime+"','"+email+"','"+sifra+"','')";
+        QString q="SELECT * FROM Users WHERE KorisnickoIme='"+korisnickoime+"'";
+qDebug()<<query;
+           t = s.WSendQuery(q);
            if(t.isSuccessfully())
            {
-           qDebug()<<"RADI";
+
+           if(t.Count()>1)
+           {
+               return false;
            }
-        //t = s.WSendQuary("SELECT * From Users");
+           }
+           s.SendQuery(query);
+           return true;
 
-      // if(t.isSuccessfully())
-     //  {
-      //     qDebug()<<"RADI"<<t.Rows[0][0]<<t.Rows[0]["Pol"];
-     //  }
-
+    }
+    void prijava(QString username,QString password)
+    {
 
     }
 

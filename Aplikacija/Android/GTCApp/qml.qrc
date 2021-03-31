@@ -7,6 +7,8 @@
         <file>treci.qml</file>
         <file>cetvrti.qml</file>
         <file>pocetna.qml</file>
+        <file>prijava.qml</file>
+        <file>registracija.qml</file>
     </qresource>
     <qresource prefix="/aa"/>
     <qresource prefix="/saa"/>

@@ -164,6 +164,7 @@ ApplicationWindow
                        id:aaaa
                        Rectangle
                        {
+                           id:naloglogin
                            width: childrenRect.width
                            height: childrenRect.height
                            anchors.top: parent.top
@@ -174,7 +175,8 @@ ApplicationWindow
                                anchors.fill: parent
                                onClicked:
                                {
-                                  event.fun(parent)
+                                  pageLoader.source = "prijava.qml"
+                                  drawer.close()
                                }
 
                            }
@@ -210,7 +212,7 @@ ApplicationWindow
                  }
                 Text {
 
-                    id: id_ime
+                    id: nalogime
                     text: qsTr("Sasa Stojiljkovic")
                     color: "#ffffff"
                      font.pointSize: 20
@@ -220,6 +222,7 @@ ApplicationWindow
 
                 }
                 Text {
+                       id: nalogemail
                         text: "sgssasa@gmail.com"
                         font.family: "Helvetica"
                         font.pointSize: 14
