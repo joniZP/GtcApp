@@ -1,3 +1,4 @@
+
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.2
@@ -17,11 +18,12 @@ Window{
       height: parent.height
     Rectangle // TOP BAR
     {
+
        //anchors.top : parent.top
         Layout.alignment: top
        Layout.minimumWidth: parent.width
        Layout.minimumHeight: 50
-        color:"#0088ff"
+        color:"#1b4676"
         radius:0
         Rectangle //--------------------LOGIN DUGME----------------------------------
         {
@@ -67,7 +69,7 @@ Window{
            {
                Layout.minimumHeight: parent.height
                Layout.minimumWidth: parent.width/5
-               color: "#0088ff"
+               color: "#1b4676"
               radius: 20
                MItem{
                    MouseArea{
