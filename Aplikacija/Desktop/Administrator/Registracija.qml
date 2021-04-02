@@ -31,7 +31,7 @@ Item {
                    Text {
                        id: textiznad
                        anchors.centerIn: parent
-                       text: qsTr("text")
+                       text: qsTr("REGISTRACIJA")
                        font.bold:true
                        font.pixelSize: 20
                        color:"white"
@@ -255,7 +255,7 @@ Item {
                            }
 
                        }
-                       Rectangle
+                       Rectangle//registruj se dugme
                        {
                            Layout.preferredHeight: 50
                            Layout.preferredWidth: 450

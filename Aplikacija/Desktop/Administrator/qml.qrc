@@ -7,5 +7,6 @@
         <file>prva.qml</file>
         <file>LoginForm.qml</file>
         <file>Registracija.qml</file>
+        <file>ZablozForm.qml</file>
     </qresource>
 </RCC>

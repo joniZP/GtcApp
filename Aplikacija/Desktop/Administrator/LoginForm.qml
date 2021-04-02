@@ -96,6 +96,10 @@ Item {
                            id:buttonce
                            anchors.fill: parent
                            hoverEnabled: true
+                           onClicked:
+                           {
+
+                           }
                        }
 
                     Text{
@@ -107,42 +111,98 @@ Item {
                     }
 
                 }
-                Rectangle//Registrujte se
+                Rectangle//REGISTRACIJA i zaboravljena lozinka
                    {
                        color: "transparent"
-                       Layout.preferredHeight: 20
+                       Layout.preferredHeight: 40
                        Layout.preferredWidth: 450
-                       Layout.alignment: AlignBottom
+                       ColumnLayout
+                       {
+
+                           anchors.fill:parent
+                           spacing: 0
+
+                           Rectangle//zaboravljena lozinka
+                           {
+                               color: "transparent"
+                               Layout.preferredHeight: 20
+                               Layout.preferredWidth: 450
+                               Text
+                               {
+                                   //
+                                   //topPadding: 10
+
+                                   anchors.centerIn: parent
+                                   color: zablozinkabutton.pressed ? "#003d57" : "#33AAFF"
+                                   MouseArea{
+                                       id:zablozinkabutton
+                                       anchors.fill: parent
+                                       hoverEnabled: true
+                                       onClicked:
+                                       {
+                                           pageLoader.source="ZablozForm.qml"
+                                       }
+                                   }
+                                   text:"Zaboravili ste lozinku?"
+                                   font.pixelSize: 15
+                                   font.bold: false
+
+                               }
+                           }
+                       RowLayout{
+                           Layout.preferredHeight: 20
+                           Layout.preferredWidth: 450
+                           //anchors.fill:parent
+                           spacing:0
+                           Rectangle
+                           {
+                               width:225
+                               height:20
+                               color:"transparent"
+                               anchors.left: parent
+                               Text
+                               {
+                                   anchors.right: parent.right
+                                   text:"Niste registrovani?"
+                                   font.pixelSize: 15
+                                   font.bold: false
+                                   color:"white"
+                               }
+
+                           }
+                           Rectangle
+                           {
+                               width:225
+                               height:20
+
+                               color:"transparent"
+                               anchors.right: parent
+                               Text
+                               {
+                                   anchors.leftMargin: parent
+                                   color: registracijabutton.pressed ? "#003d57" : "#33FFF4"
+                                   MouseArea{
+                                       id:registracijabutton
+                                       anchors.fill: parent
+                                       hoverEnabled: true
+                                       onClicked:
+                                       {
+                                           pageLoader.source="Registracija.qml"
+                                       }
+                                   }
+                                   text:"  Registrujte se"
+                                   font.pixelSize: 15
+                                   font.bold: false
+                                  // font.family: "Helvetica"
 
 
+                               }
 
-                        /*Rectangle//i send na registraciju
-                        {
-                            Layout.preferredHeight: 20
-                            Layout.preferredWidth: 100
-                            anchors.rightMargin:parent*/
+                           }
+                       }
 
+                     }
 
-                    Text{
-                        topPadding:10
-                        anchors.centerIn: parent
-                        text:"Niste registrovani? Registruj se"
-                        color:"white"
-                        font.pointSize: 10
-                        font.bold: false
-                        MouseArea{
-                            id:dugmereg
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onClicked:
-                            {
-                                pageLoader.source="Registracija.qml"
-                            }
-
-                        }
-                        }
-
-                    //}
             }
 
         }

@@ -27,12 +27,13 @@ Window{
         radius:0
         Rectangle //--------------------LOGIN DUGME----------------------------------
         {
+            width:120
             id: logid
            anchors.rightMargin: 0
           anchors.right: parent.right
           anchors.verticalCenter: parent.verticalCenter
           anchors.baseline: parent.verticalCenter
-            width: childrenRect.width
+            //width: childrenRect.width
             height: childrenRect.height
             anchors.top: parent.top
             color: mouseArea.pressed ? "#003d57" : "white"
@@ -57,14 +58,15 @@ Window{
             font.pointSize: 15
         }
         }
-        Rectangle //--------------------REGISTRACIJA DUGME----------------------------------
+        /*Rectangle //--------------------REGISTRACIJA DUGME----------------------------------
         {
+            width:120
             id: regid
            anchors.rightMargin: 100
           anchors.right: parent.right
           anchors.verticalCenter: parent.verticalCenter
           anchors.baseline: parent.verticalCenter
-            width: childrenRect.width
+            //width: childrenRect.width
             height: childrenRect.height
             anchors.top: parent.top
             color: mArea.pressed ? "#003d57" : "white"
@@ -83,12 +85,13 @@ Window{
             font.bold: true
            font.family: "Helvetica"
 
+
             anchors.centerIn: parent
             text:"Registracija"
             color: mouseArea.pressed ? "white":"#003d57"
             font.pointSize: 15
         }
-        }
+        }*/
 
         }
 
