@@ -45,7 +45,6 @@ void MySqlService::SendQuery(QString request)
 
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     manager->post(req, params.query().toUtf8());
-
 }
 
 QString MySqlService::WSendQuery(QString request)

@@ -14,6 +14,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include "MySqlKrsta.h"
+#include "EmailVerificator.h"
 
 class events : public QObject
 {

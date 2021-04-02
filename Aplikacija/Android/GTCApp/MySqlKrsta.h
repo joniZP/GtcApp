@@ -99,6 +99,9 @@ struct MyQuery{
 
 
 
+
+
+
 #endif // MYSQLKRSTA_H
 
 

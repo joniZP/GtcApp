@@ -24,6 +24,8 @@ int main(int argc, char *argv[])
 
     MySqlService &s = MySqlService::MySqlInstance();
 
+   // EmailVerificator &ev = EmailVerificator::GetInstance();
+    //ev.SendVerificationEmail("sgssasa@elfak.rs","Sasa","Sasa Stojiljkovic");
 
 
 
