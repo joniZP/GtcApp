@@ -3,6 +3,7 @@
 #include <QQuickStyle>
 #include <events.h>
 #include <QSslSocket>
+#include<QQmlContext>
 //#include"MySqlKrsta.h"
 int main(int argc, char *argv[])
 {
@@ -21,9 +22,9 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     qmlRegisterType<events>("Events",1,0,"Events");
     engine.load(url);
-
-    MySqlService &s = MySqlService::MySqlInstance();
-
+     LokacijaModel &model =LokacijaModel::GetInstance();
+     MySqlService &s = MySqlService::MySqlInstance();
+    engine.rootContext()->setContextProperty("_model", &model);
    // EmailVerificator &ev = EmailVerificator::GetInstance();
     //ev.SendVerificationEmail("sgssasa@elfak.rs","Sasa","Sasa Stojiljkovic");
 

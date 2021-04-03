@@ -376,4 +376,28 @@ ApplicationWindow
    }
         }
 }
+
+    Rectangle
+    {
+        id:block
+        anchors.fill: parent
+        visible: false
+        color: "transparent"
+
+        AnimatedImage
+        {
+            source: "/new/prefix1/Spinner-1s-200px (1).gif"
+            width: 150
+            height: 150
+            anchors.centerIn: parent
+        }
+        MouseArea {
+
+        anchors.fill: parent
+
+        onClicked: mouse.accepted = true
+
+        }
+
+    }
 }

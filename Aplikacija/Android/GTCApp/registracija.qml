@@ -78,6 +78,7 @@ ColumnLayout{
 
          //Layout.alignment: Qt.AlignHCenter
            Layout.minimumWidth: parent.width/5*4
+          echoMode: TextInput.Password
     }
     Text {
         id: greskalozinka
@@ -98,6 +99,7 @@ ColumnLayout{
 
          //Layout.alignment: Qt.AlignHCenter
            Layout.minimumWidth: parent.width/5*4
+           echoMode: TextInput.Password
     }
     Text {
         id: greskapotvrdalozinke
@@ -144,7 +146,7 @@ ColumnLayout{
                greskaemail.visible=true
                 b=true;
             }
-            if(lozinka.text.length>8)
+            if(lozinka.text.length>7)
             {
                 if(potvrdalozinke.text!=lozinka.text)
                 {
@@ -166,20 +168,20 @@ ColumnLayout{
 
             if(b==false)
             {
+                block.visible=true
                 if(!event.registracija(ime.text,korisnickoime.text,email.text,lozinka.text))
                 {
 
                     korisnickoime.text=""
                     greskakorisnickoime.text="Korisnicko ime zauzeto"
                     greskakorisnickoime.visible=true
+                    block.visible=false
 
                 }
                 else
                 {
-                    nalogime.text=ime.text
-                    nalogemail.text=email.text
-                    naloglogin.visible=false
-                    pageLoader.source = "pocetna.qml"
+                    pageLoader.source = "prijava.qml"
+                    block.visible=false
                 }
             }
         }
@@ -187,6 +189,7 @@ ColumnLayout{
 
 
 }
+
 }
 
 
