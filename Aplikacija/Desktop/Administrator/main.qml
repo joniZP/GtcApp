@@ -3,13 +3,16 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-
+import Events 1.0
 Window{
     width: 1920
     height: 1080
     visible: true
     title: qsTr("GTCAdministrator")
-
+    Events
+    {
+        id: event
+    }
 
   ColumnLayout // ----------------------------LAYOUT ZA BAR I LEVI SIDE-MENU----------------------------------------
   {

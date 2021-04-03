@@ -311,7 +311,17 @@ Item {
                                    if(a===false)
                                    {
                                        //prijavljivanje nakon provere u bazi to ne moze odavde
-                                       pageLoader.source="LoginForm.qml"
+                                       if(!event.registracija(ime.text,korime.text,email.text,lozinka.text))
+                                       {
+                                           korimerect.text="Korisnicko ime zauzeto."
+                                           korimerect.visible=true
+                                           korime.text=""
+                                       }
+                                       else
+                                       {
+                                           pageLoader.source="LoginForm.qml"
+                                       }
+
                                    }
                                }
                            }
