@@ -16,6 +16,12 @@
 #include "MySqlKrsta.h"
 #include "EmailVerificator.h"
 #include<LokacijaModel.h>
+#include<qlist.h>
+#include <QFile>
+#include <string>
+#include <QHttpMultiPart>
+#include <QLoggingCategory>
+#include <QTextStream>
 
 class events : public QObject
 {
@@ -85,13 +91,37 @@ public slots:
          LokacijaModel &model =LokacijaModel::GetInstance();
          for(int i=0;i<t.Count()-1;i++)
          {
-         model.dodajlokaciju(lokacija("https://en.wikipedia.org/wiki/File:Vonspee1.JPG",t.Rows[i]["Email"],t.Rows[i]["Password"]));
+         model.dodajlokaciju(lokacija("http://www.it-akademija.com/cms/mestoZaUploadFajlove/kako-napraviti-sajt.jpg",t.Rows[i]["Email"],t.Rows[i]["Password"]));
          }
     }
     void fun3()
     {
         LokacijaModel &model =LokacijaModel::GetInstance();
         model.remove();
+    }
+    void fun4()
+    {
+                     QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+                    // add image
+                    QHttpPart imagePart;
+                    imagePart.setHeader(QNetworkRequest::ContentDispositionHeader,QVariant("form-data; name=\"image\"; filename=\"slika.jpeg\""));
+                    imagePart.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("image/jpeg"));
+
+                    // open file
+                    QUrl url1("file:///Telefon/DCIM/Camera/IMG20210401181938.jpg");
+                    QFile file;
+                     file.setFileName(url1.toLocalFile());
+                     if (file.open(QIODevice::ReadOnly)) {
+
+                     }
+                     else {
+                         qDebug() << file.errorString();
+                     }
+
+                    // read file and set data into object
+                    QByteArray fileContent(file.readAll());
+                    imagePart.setBody(fileContent);
+                    qDebug() <<"VELICINA SLIKE"<< file.readAll().count();
     }
 
 };

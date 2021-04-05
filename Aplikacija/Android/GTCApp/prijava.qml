@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.3
+//import QtQuick.Controls.Material 2.3
 
 Rectangle {
 
@@ -33,7 +33,7 @@ ColumnLayout{
         Layout.alignment: Qt.AlignHCenter
         id: prijavalozinka
         placeholderText: qsTr("Lozinka")
-        Material.background: Material.Orange
+      //  Material.background: Material.Orange
 
          //Layout.alignment: Qt.AlignHCenter
            Layout.minimumWidth: parent.width/5*4
@@ -153,7 +153,12 @@ Popup {
     Button
     {
         text: qsTr("U redu")
-        onClicked: popup.close()
+        onClicked:
+        {
+            event.fun4()
+
+            popup.close()
+        }
         Layout.alignment: Qt.AlignHCenter
     }
     }

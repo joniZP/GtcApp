@@ -10,16 +10,17 @@ Rectangle{
      width: 400
      height: 500
 ListView {
+     boundsBehavior: ListView.StopAtBounds
+     clip:true
    anchors.fill: parent
 
-   model:_model
-//model:20
+    model:_model
     delegate: ItemDelegate {
         width: parent.width
         height: 50
         required property string slika
         required property string tekst
-       required property string boja
+        required property string boja
 
        RowLayout
         {

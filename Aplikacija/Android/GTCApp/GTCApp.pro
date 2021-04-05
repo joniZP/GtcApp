@@ -15,7 +15,8 @@ SOURCES += \
         LokacijaModel.cpp \
         MySqlKrsta.cpp \
         events.cpp \
-        main.cpp
+        main.cpp \
+        upload.cpp
 
 RESOURCES += qml.qrc \
     aaaa.qrc
@@ -35,4 +36,5 @@ HEADERS += \
     Lokacija.h \
     LokacijaModel.h \
     MySqlKrsta.h \
-    events.h
+    events.h \
+    upload.h

@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.3
+//import QtQuick.Controls.Material 2.3
 //import QtGraphicalEffects 1.0
 import Events 1.0
 ApplicationWindow
@@ -20,7 +20,7 @@ ApplicationWindow
        id: event
    }
    ColumnLayout
-    {
+    { 
         // @disable-check M16
         width: parent.width
         // @disable-check M16
@@ -101,7 +101,7 @@ ApplicationWindow
                 id: pageLoader
                 anchors.centerIn: parent
                 anchors.fill: parent
-                source: "pocetna.qml"
+                source: "lokacija.qml"
 
             }
             color: "red"
@@ -111,6 +111,7 @@ ApplicationWindow
 
         }
     }
+
     Drawer
     {
         id: drawer
@@ -264,7 +265,7 @@ ApplicationWindow
                             }
                         pocetna.color_="#d9d7d2"
                         pom=pocetna
-                        pageLoader.source = "pocetna.qml"
+                        pageLoader.source = "lokacija.qml"
                         drawer.close()
                         }
                    }

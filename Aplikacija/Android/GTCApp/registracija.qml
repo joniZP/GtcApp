@@ -2,8 +2,7 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.3
-import QtQuick.Controls.Styles 1.4
+//import QtQuick.Controls.Material 2.3
 Rectangle {
 
 ColumnLayout{
@@ -35,7 +34,7 @@ ColumnLayout{
         Layout.alignment: Qt.AlignHCenter
         id: korisnickoime
         placeholderText: qsTr("Korisnicko ime")
-        Material.background: Material.Orange
+       // Material.background: Material.Orange
 
          //Layout.alignment: Qt.AlignHCenter
            Layout.minimumWidth: parent.width/5*4
@@ -55,7 +54,7 @@ ColumnLayout{
         Layout.alignment: Qt.AlignHCenter
         id: email
         placeholderText: qsTr("Email adresa")
-        Material.background: Material.Orange
+       // Material.background: Material.Orange
          //Layout.alignment: Qt.AlignHCenter
            Layout.minimumWidth: parent.width/5*4
     }
@@ -74,7 +73,7 @@ ColumnLayout{
         Layout.alignment: Qt.AlignHCenter
         id: lozinka
         placeholderText: qsTr("Lozinka")
-        Material.background: Material.Orange
+      //  Material.background: Material.Orange
 
          //Layout.alignment: Qt.AlignHCenter
            Layout.minimumWidth: parent.width/5*4
@@ -95,7 +94,7 @@ ColumnLayout{
         Layout.alignment: Qt.AlignHCenter
         id: potvrdalozinke
         placeholderText: qsTr("Potvrdi lozinku")
-        Material.background: Material.Orange
+      //  Material.background: Material.Orange
 
          //Layout.alignment: Qt.AlignHCenter
            Layout.minimumWidth: parent.width/5*4
