@@ -22,6 +22,7 @@
 #include <QHttpMultiPart>
 #include <QLoggingCategory>
 #include <QTextStream>
+#include<komentarimodel.h>
 
 class events : public QObject
 {
@@ -50,7 +51,7 @@ public slots:
            if(t.isSuccessfully())
            {
 
-           if(t.Count()>1)
+           if(t.Count()>0)
            {
                return false;
            }
@@ -69,7 +70,7 @@ public slots:
            t = s.WSendQuery(q);
            if(t.isSuccessfully())
            {
-           if(t.Count()>1)
+           if(t.Count()>0)
            {
                if(t.Rows[0]["Verifikovan"]=="0")
                {
@@ -89,7 +90,7 @@ public slots:
            t = s.WSendQuery(q);
          qDebug()<<"radi";
          LokacijaModel &model =LokacijaModel::GetInstance();
-         for(int i=0;i<t.Count()-1;i++)
+         for(int i=0;i<t.Count();i++)
          {
          model.dodajlokaciju(lokacija("http://www.it-akademija.com/cms/mestoZaUploadFajlove/kako-napraviti-sajt.jpg",t.Rows[i]["Email"],t.Rows[i]["Password"]));
          }
@@ -122,6 +123,38 @@ public slots:
                     QByteArray fileContent(file.readAll());
                     imagePart.setBody(fileContent);
                     qDebug() <<"VELICINA SLIKE"<< file.readAll().count();
+    }
+    void dodajkomentar(QString text,QString username)
+    {
+        KomentariModel &model=KomentariModel::GetInstance();
+        model.dodajkomentar(Komentar("/new/prefix1/person-icon.png",text,username));
+
+    }
+    QString zaboravljena_lozinka(QString username)
+    {
+        EmailVerificator & e=EmailVerificator::GetInstance();
+        MySqlService &s = MySqlService::MySqlInstance();
+        MySqlTable t;
+        QString q="SELECT * FROM Users WHERE KorisnickoIme='"+username+"'";
+        t = s.WSendQuery(q);
+        if(t.isSuccessfully())
+        {
+        if(t.Count()==0)
+        {
+           return "0";
+        }
+        else
+        {
+
+           e.SendForgotPasswordEmail(t.Rows[0]["Email"],username,t.Rows[0]["PunoIme"]);
+            return t.Rows[0]["Email"];
+        }
+        }
+        else
+        {
+            return "ne valja";
+        }
+
     }
 
 };

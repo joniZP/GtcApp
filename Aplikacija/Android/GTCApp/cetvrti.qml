@@ -11,7 +11,7 @@ Rectangle{
     ScrollView {
            id: scView
            anchors.centerIn: parent
-           width: 200; height: 24 // The initial height is one line
+           width: 200; height: 70 // The initial height is one line
            background: Rectangle {
                anchors.fill: parent
                border.color: "gray"
@@ -21,9 +21,9 @@ Rectangle{
            TextArea {
                Material.accent: "white"
                id: contentText
-               property int preContentHeight: 0
+              // property int preContentHeight: 0
                wrapMode: TextArea.Wrap; selectByMouse: true;
-               onContentHeightChanged: {
+              /* onContentHeightChanged: {
                    //The height of each line is 14, and it will scroll automatically when the input is greater than 3 lines
                    if(contentHeight > 14 && contentHeight < 56) {
                        if(contentHeight != preContentHeight) {
@@ -31,7 +31,7 @@ Rectangle{
                            scView.height += 14;
                        }
                    }
-               }
+               }*/
            }
        }
 

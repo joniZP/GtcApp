@@ -6,6 +6,7 @@
 #include<QQmlContext>
 #include<QLoggingCategory>
 #include<upload.h>
+//#include<komentarimodel.h>
 //#include"MySqlKrsta.h"
 int main(int argc, char *argv[])
 {
@@ -28,14 +29,17 @@ int main(int argc, char *argv[])
     qmlRegisterType<events>("Events",1,0,"Events");
     engine.load(url);
      LokacijaModel &model =LokacijaModel::GetInstance();
-     model.dodajlokaciju(lokacija("http://humanads.000webhostapp.com/upload/slika.jpeg","s",""));
-     model.dodajlokaciju(lokacija("http://humanads.000webhostapp.com/upload/slika.jpeg","s",""));
+     KomentariModel &kommodel =KomentariModel::GetInstance();
+     model.dodajlokaciju(lokacija("http://humanads.000webhostapp.com/GTCAPP/upload/slika.jpeg","s",""));
+     model.dodajlokaciju(lokacija("http://humanads.000webhostapp.com/GTCAPP/upload/slika.jpeg","s",""));
      model.dodajlokaciju(lokacija("/new/prefix1/person-icon.png","s",""));
      model.dodajlokaciju(lokacija("/new/prefix1/person-icon.png","s",""));
+     kommodel.dodajkomentar(Komentar("http://humanads.000webhostapp.com/GTCAPP/upload/slika.jpeg","neki komentar  dsdsdsd dsds dsds d dsds sd s ",""));
      FileUploader *f = new FileUploader();
     // f->UploadFiles();
      MySqlService &s = MySqlService::MySqlInstance();
     engine.rootContext()->setContextProperty("_model", &model);
+     engine.rootContext()->setContextProperty("_kommodel", &kommodel);
    // EmailVerificator &ev = EmailVerificator::GetInstance();
     //ev.SendVerificationEmail("sgssasa@elfak.rs","Sasa","Sasa Stojiljkovic");
 

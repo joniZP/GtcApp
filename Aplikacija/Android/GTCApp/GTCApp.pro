@@ -15,6 +15,8 @@ SOURCES += \
         LokacijaModel.cpp \
         MySqlKrsta.cpp \
         events.cpp \
+        komentar.cpp \
+        komentarimodel.cpp \
         main.cpp \
         upload.cpp
 
@@ -37,4 +39,6 @@ HEADERS += \
     LokacijaModel.h \
     MySqlKrsta.h \
     events.h \
+    komentar.h \
+    komentarimodel.h \
     upload.h

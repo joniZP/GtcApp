@@ -2,7 +2,7 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
-//import QtQuick.Controls.Material 2.3
+import QtQuick.Controls.Material 2.3
 Rectangle {
     id:par
 anchors.fill: parent
@@ -72,7 +72,7 @@ Drawer
    {
        id:koment
        width: parent.width
-       height: parent.height/10*9
+       height: parent.height-flickable.height
        ScrollView
        {
           anchors.fill: parent
@@ -82,17 +82,19 @@ Drawer
            boundsBehavior: ListView.StopAtBounds
            anchors.fill: parent
            clip: true
-           model: 20
+           model: _kommodel
            spacing: 10
            delegate:ItemDelegate
            {
-
+               required property string slika
+               required property string tekst
+               required property string boja
                width:parent.width
                height: tex.implicitHeight+tex0.implicitHeight+20
                     Image
                     {
                            id: img11
-                           source: "/new/prefix1/person-icon.png"
+                           source: slika
                            //anchors.verticalCenter: parent.verticalCenter
                            width: 30
                            height: 30
@@ -127,7 +129,7 @@ Drawer
                          id:tex
                          clip: true
                          wrapMode: Text.Wrap
-                         text: qsTr("jjjjjjjjjjjjjjjjjjjjjjj jjjjjjjjjjjjjjjjjjjjjjjjjjjjjj jjjjjjjjjjggggggggggg ggggggggggggggggggggggggggggggggggggggggg")
+                         text: qsTr(tekst)
                     }
                     }
 
@@ -138,16 +140,61 @@ Drawer
    }
    Rectangle
    {
+       id: komentarunos
        anchors.top: koment.bottom
        width: parent.width
        height: parent.height/10
        //color: "red"
-       TextArea
-       {
-           width: parent.width-100
-           height: parent.height
+
+       ScrollView {
+           id: flickable
+           width: parent.width
+           height: Math.max(40,Math.min(contentHeight, 60))
+           contentWidth: width
+           contentHeight: komentartext1.implicitHeight
+           background: Rectangle {
+               anchors.fill: parent
+               border.color: "gray"
+               radius: 5
+
+           }
+           TextArea {
+                 id: komentartext1
+                      leftPadding: 6
+                      rightPadding: 30
+                      topPadding: 0
+                      bottomPadding: 0
+                      background: null
+
+                      wrapMode: Text.WordWrap
+
+           }
+       }
+
+       Button{
+
+           width: 30
+           height: 30
+           anchors.right:flickable.right
+           anchors.verticalCenter: flickable.verticalCenter
+           onClicked:
+           {
+               //if(komentartext1.text)
+                  // var regExp = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+                   //if(!regExp.test(email.text))
+                  var string = event.zaboravljena_lozinka("Sasa");
+               event.dodajkomentar(string,"")
+               komentartext1.remove(0,komentartext1.length)
+           }
+       background:Image {
+           anchors.fill: parent
+           id: send
+           source: "/new/prefix1/pngkit_send-icon-png_1882365.png"
+
 
        }
+       }
+
    }
 
    }
