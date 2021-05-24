@@ -5,16 +5,16 @@
 class Komentar
 {
 public:
-    Komentar(const QString &slika, const QString &text,const QString &boja);
+    Komentar(const QString &slika, const QString &text,const QString &ime);
 
     QString slika() const;
     QString tekst() const;
-    QString boja() const;
+    QString ime() const;
 
 private:
     QString m_slika;
     QString m_text;
-    QString m_boja;
+    QString m_ime;
 };
 
 #endif // KOMENTAR_H

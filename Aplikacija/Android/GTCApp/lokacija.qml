@@ -88,7 +88,7 @@ Drawer
            {
                required property string slika
                required property string tekst
-               required property string boja
+               required property string ime
                width:parent.width
                height: tex.implicitHeight+tex0.implicitHeight+20
                     Image
@@ -118,7 +118,7 @@ Drawer
                           topPadding: 5
                           leftPadding: 10
                           id: tex0
-                          text: qsTr("Ime Prezime")
+                          text: qsTr(ime)
                       }
                     Text {
                          anchors.top: tex0.bottom
@@ -182,8 +182,7 @@ Drawer
                //if(komentartext1.text)
                   // var regExp = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
                    //if(!regExp.test(email.text))
-                  var string = event.zaboravljena_lozinka("Sasa");
-               event.dodajkomentar(string,"")
+               var string = event.dodajkomentar(komentartext1.text,"jjjj");
                komentartext1.remove(0,komentartext1.length)
            }
        background:Image {

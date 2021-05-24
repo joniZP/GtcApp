@@ -42,7 +42,7 @@ QVariant KomentariModel::data(const QModelIndex &index, int role) const
     }
     else if(role==ColorRole)
     {
-        return Komentari.boja();
+        return Komentari.ime();
     }
     return QVariant();
 }
@@ -52,7 +52,7 @@ QHash<int, QByteArray> KomentariModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles[TypeRole] = "slika";
     roles[SizeRole] = "tekst";
-    roles[ColorRole] = "boja";
+    roles[ColorRole] = "ime";
     return roles;
 }
 

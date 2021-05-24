@@ -1,7 +1,7 @@
 #include "Komentar.h"
 
-Komentar::Komentar(const QString &slika, const QString &text,const QString &boja)
-    : m_slika(slika), m_text(text),m_boja(boja)
+Komentar::Komentar(const QString &slika, const QString &text,const QString &ime)
+    : m_slika(slika), m_text(text),m_ime(ime)
 {
 }
 
@@ -14,8 +14,8 @@ QString Komentar::tekst() const
 {
     return m_text;
 }
-QString Komentar::boja() const
+QString Komentar::ime() const
 {
-    return m_boja;
+    return m_ime;
 }
 

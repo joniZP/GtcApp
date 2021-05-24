@@ -39,7 +39,7 @@ void MySqlService::SendQuery(QString request)
     params.addQueryItem("query", request);
     params.addQueryItem("proba", "request");
 
-    QUrl ur("http://humanads.000webhostapp.com/GTCAPP/Database/GtcService.php");
+    QUrl ur("http://gotochillapp.000webhostapp.com/GTCAPP/Database/GtcService.php");
     QNetworkRequest req(ur);
 
 
@@ -58,7 +58,7 @@ QString MySqlService::WSendQuery(QString request)
     QUrlQuery params;
     params.addQueryItem("query", request);
 
-    QUrl ur("http://humanads.000webhostapp.com/GTCAPP/Database/GtcService.php");
+    QUrl ur("http://gotochillapp.000webhostapp.com/GTCAPP/Database/GtcService.php");
     QNetworkRequest req(ur);
 
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");

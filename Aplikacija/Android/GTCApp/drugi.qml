@@ -30,6 +30,7 @@ Rectangle
         {
             console.log("You chose: " + fileDialog.fileUrls)
             profilnaslika.source=fileDialog.fileUrl
+            event.upload(fileDialog.fileUrl)
         }
         onRejected:
         {

@@ -36,7 +36,7 @@ bool FileUploader::uploadImage(QString imagename, QString path)
     multiPart->append(imagePart);
 
     // set url
-    QUrl url("http://humanads.000webhostapp.com/GTCAPP/upload.php");
+    QUrl url("http://gotochillapp.000webhostapp.com/GTCAPP/upload.php");
     QNetworkRequest request(url);
 
     QLoggingCategory::setFilterRules("qt.network.ssl.warning=false");

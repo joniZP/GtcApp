@@ -23,6 +23,7 @@
 #include <QLoggingCategory>
 #include <QTextStream>
 #include<komentarimodel.h>
+#include<FileUploader.h>
 
 class events : public QObject
 {
@@ -51,7 +52,7 @@ public slots:
            if(t.isSuccessfully())
            {
 
-           if(t.Count()>0)
+           if(t.Count()>1)
            {
                return false;
            }
@@ -90,7 +91,7 @@ public slots:
            t = s.WSendQuery(q);
          qDebug()<<"radi";
          LokacijaModel &model =LokacijaModel::GetInstance();
-         for(int i=0;i<t.Count();i++)
+         for(int i=0;i<t.Count()-1;i++)
          {
          model.dodajlokaciju(lokacija("http://www.it-akademija.com/cms/mestoZaUploadFajlove/kako-napraviti-sajt.jpg",t.Rows[i]["Email"],t.Rows[i]["Password"]));
          }
@@ -155,6 +156,11 @@ public slots:
             return "ne valja";
         }
 
+    }
+    void upload(QString url)
+    {
+        FileUploader *f = new FileUploader();
+        f->uploadImage("slikaaa",url);
     }
 
 };
