@@ -5,8 +5,17 @@ import QtQuick.Layouts 1.3
 //import QtQuick.Controls.Material 2.3
 //import QtGraphicalEffects 1.0
 import Events 1.0
+import Klasa 1.0
 ApplicationWindow
 {
+    property Klasa klas
+    Component.onCompleted:
+    {
+
+       let klas1= event.fun1()
+       klas=klas1
+    }
+
     visible: true
     width: 300
     height: 500
@@ -18,9 +27,15 @@ ApplicationWindow
    Events
    {
        id: event
+
+   }
+   Klasa
+   {
+     id:klass
    }
    ColumnLayout
-    { 
+    {
+
         // @disable-check M16
         width: parent.width
         // @disable-check M16
@@ -41,6 +56,7 @@ ApplicationWindow
             {
                 // @disable-check M16
                 height: parent.height
+                  // @disable-check M16
                 width: parent.width
                 Rectangle
                 {
@@ -66,7 +82,7 @@ ApplicationWindow
                 }
                 Text {
                     id: iii
-                    text: pom.tex
+                    text:klas.getp1();
                     color: "#ffffff"
                     font.family: "Helvetica"
                     font.pointSize: 18
@@ -125,6 +141,7 @@ ApplicationWindow
         ColumnLayout
         {
             spacing: 1
+              // @disable-check M16
             anchors.fill: parent
 
             Rectangle
@@ -134,11 +151,13 @@ ApplicationWindow
                 color:"#66a3ff"
                 ColumnLayout
                 {
+                      // @disable-check M16
                     width:parent.width
                     spacing: 0
                     RowLayout
                     {
                         id: roo
+                          // @disable-check M16
                         width:parent.width
                 Image
                 {
@@ -158,7 +177,7 @@ ApplicationWindow
                        //}
                 }
 
-                Rectangle {
+              /*  Rectangle {
                        Layout.fillWidth: true
                         Layout.fillHeight: true
                         color: "#00000000"
@@ -207,7 +226,7 @@ ApplicationWindow
 
                        }
                        }
-                   }
+                   }*/
 
 
                  }
@@ -313,7 +332,7 @@ ApplicationWindow
                             }
                         dugme1.color_="#d9d7d2"
                         pom=dugme1
-                        pageLoader.source = "drugi.qml"
+                        pageLoader.source = "profil.qml"
                         drawer.close()
                         }
                    }
@@ -337,7 +356,7 @@ ApplicationWindow
                             }
                             dugme2.color_="#d9d7d2"
                             pom=dugme2
-                            pageLoader.source = "treci.qml"
+                            pageLoader.source = "drugi.qml"
                             drawer.close()
                         }
                     }
@@ -362,7 +381,7 @@ ApplicationWindow
                             }
                             dugme3.color_="#d9d7d2"
                             pom=dugme3
-                            pageLoader.source = "cetvrti.qml"
+                            pageLoader.source = "zaboravljena_lozinka.qml"
                             drawer.close()
                         }
                     }
@@ -375,6 +394,28 @@ ApplicationWindow
            }
        }
    }
+
+        Text {
+            id: iiidi
+            text: qsTr("Login  >")
+             anchors.right: parent.right
+             anchors.top: parent.top
+             anchors.topMargin: 10
+             anchors.rightMargin: 10
+             color: "#ffffff"
+             anchors.verticalCenter: parent.verticalCenter
+
+             MouseArea
+             {
+                 anchors.fill: parent
+                 onClicked:
+                 {
+                    pageLoader.source = "prijava.qml"
+                    drawer.close()
+                 }
+
+             }
+        }
         }
 }
 

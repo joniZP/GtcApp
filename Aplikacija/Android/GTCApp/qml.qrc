@@ -11,6 +11,8 @@
         <file>registracija.qml</file>
         <file>lokacija.qml</file>
         <file>khvkhb.qml</file>
+        <file>profil.qml</file>
+        <file>zaboravljena_lozinka.qml</file>
     </qresource>
     <qresource prefix="/aa"/>
     <qresource prefix="/saa"/>

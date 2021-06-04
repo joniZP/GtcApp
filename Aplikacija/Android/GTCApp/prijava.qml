@@ -6,6 +6,7 @@ import QtQuick.Layouts 1.3
 
 Rectangle {
 
+
 ColumnLayout{
     width:parent.width
 

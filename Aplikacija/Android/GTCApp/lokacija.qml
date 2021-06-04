@@ -3,6 +3,10 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.3
+import QtLocation 5.6
+import QtPositioning 5.6
+import QtGraphicalEffects 1.12
+import QtWebView 1.1
 Rectangle {
     id:par
 anchors.fill: parent
@@ -16,7 +20,6 @@ Flickable{
 SwipeView{
      id:slider
      anchors.top: parent.top
-     anchors.topMargin:verticalMargin
      height: par.height/2.3
      width: parent.width
      x:(parent.width-width)/2
@@ -46,15 +49,308 @@ Rectangle
 {
     id:hhh
     anchors.top: slider.bottom
-    color: "blue"
+    color: "#d3d3d3"
     width: parent.width
     height: 1000
-    Button
+
+
+
+
+    Rectangle
     {
-        width: 100
-        height: 50
-        onClicked: draw.open()
+
+      width:parent.width
+      anchors.top: parent.top
+      anchors.topMargin: 10
+
+    Rectangle
+    {
+        id: lokacija_opis_kontejner
+        width: parent.width-20
+        height: naziv_lokacije.height+opis_lokacije.height+20
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: "white"
+        Text {
+            id: naziv_lokacije
+            text: qsTr("Naziv lokacije")
+            font.family: "Helvetica"
+            font.pointSize: 18
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+
+        Text {
+            id: opis_lokacije
+            anchors.top: naziv_lokacije.bottom
+            anchors.topMargin: 20
+            text: qsTr("Opis lokacije eeee d nnnnnnnnnnnnnnnnnnn     nnnnnnnnnn  nnnnnnnnnnnnnn   nnnn  sfds dsf llll ll lll l l l l l l l l l l l l l l ll l ll l lll l ds dfdsfds dfdsf fdsfd sf df ds f ")
+
+            font.family: "Helvetica"
+            font.pointSize: 14
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width-50
+            wrapMode: Text.WordWrap
+        }
+        }
+
+    Rectangle {
+
+        id: webView
+        anchors.top: lokacija_opis_kontejner.bottom
+        anchors.topMargin: 10
+        width: parent.width-20
+        anchors.horizontalCenter: parent.horizontalCenter
+        height: 200
+        Plugin {
+               id: mapPlugin
+               name: "osm" // "mapboxgl", "esri", ...
+               // specify plugin parameters if necessary
+               // PluginParameter {
+               //     name:
+               //     value:
+               // }
+           }
+
+           Map {
+               anchors.fill: parent
+               plugin: mapPlugin
+               center: QtPositioning.coordinate(43.320833,21.895833) // Oslo
+               zoomLevel: 14
+               MapItemView{
+                          model: markerModel
+                          delegate: mapcomponent
+                      }
+               Component.onCompleted:
+               {
+                   var coordinate = mapview.toCoordinate(43.320833,21.895833)
+                   markerModel.addMarker(coordinate)
+               }
+           }
+
+           Component {
+                  id: mapcomponent
+                  MapQuickItem {
+                      id: marker
+                      anchorPoint.x: image.width/4
+                      anchorPoint.y: image.height
+                      coordinate: position
+
+                      sourceItem: Image {
+                          id: image
+                          source: "qrc:/new/prefix1/star.png"
+                      }
+                  }
+              }
+
+
     }
+
+
+       Rectangle
+       {
+           id: lokacija_kreator
+           width: parent.width-20
+           height: 50
+           anchors.top: webView.bottom
+           anchors.topMargin: 10
+           anchors.horizontalCenter: parent.horizontalCenter
+           color: "white"
+           Image {
+                   id: profilnaimage
+                   source: "../new/prefix1/slika.jfif"
+                   width: parent.height*0.8
+                   height:parent.height*0.8
+                   fillMode: Image.PreserveAspectCrop
+                   anchors.left: parent.left
+                   anchors.verticalCenter: parent.verticalCenter
+                   anchors.leftMargin: 10
+                   layer.enabled: true
+                   layer.effect: OpacityMask
+                   {
+                       maskSource: mask
+                   }
+
+                   MouseArea
+                   {
+                       anchors.fill: parent
+                       onClicked:
+                       {
+                          pageLoader.source = "profil.qml"
+
+                       }
+                   }
+                   }
+           Text {
+               id: kreator_ime
+               text: qsTr("Ime Prezime")
+               font.family: "Helvetica"
+               font.pointSize: 18
+               anchors.left: profilnaimage.right
+               anchors.verticalCenter: parent.verticalCenter
+               anchors.leftMargin: 10
+           }
+
+
+
+               Rectangle {
+                   id: mask
+                   width: parent.height*0.8
+                   height:parent.height*0.8
+                   radius: parent.height*0.4
+                   visible: false
+               }
+
+       }
+
+       Rectangle
+       {
+           id: lokacija_kreat
+           width: parent.width-20
+           height: 50
+           anchors.top: lokacija_kreator.bottom
+           anchors.topMargin: 5
+           anchors.horizontalCenter: parent.horizontalCenter
+           color: "white"
+          Rectangle
+          {
+              id: like
+              width: parent.width/3
+              height: parent.height
+             // color: "red"
+              anchors.left: parent.left
+
+              Rectangle{
+                  //color:"red"
+                  anchors.centerIn: parent
+                  width: like_slika.width+like_tekst.width+5
+                  height: parent.height
+              Image {
+                      id: like_slika
+                      source: "../new/prefix1/like.png"
+                      width: parent.height*0.5
+                      height:parent.height*0.5
+                      fillMode: Image.PreserveAspectCrop
+                      anchors.left: parent.left
+                      anchors.verticalCenter:parent.verticalCenter
+                      anchors.leftMargin: 5
+              }
+              Text {
+                  id: like_tekst
+                  text: qsTr("Svidja mi se")
+                  font.family: "Helvetica"
+                  font.pointSize: 14
+                  anchors.left: like_slika.right
+                  anchors.verticalCenter: parent.verticalCenter
+                  anchors.leftMargin: 5
+              }
+              MouseArea
+              {
+                  anchors.fill: parent
+                  onClicked:
+                  {
+                      if(like_slika.source!="qrc:/new/prefix1/heart.png")
+                      {
+                        like_slika.source="../new/prefix1/heart.png"
+                      }
+                      else
+                      {
+                         like_slika.source="../new/prefix1/like.png"
+                      }
+                  }
+              }
+              }
+          }
+          Rectangle
+          {
+
+              id:komentar_dugme
+              width: parent.width/3
+              height: parent.height
+              //color: "blue"
+              anchors.left: like.right
+
+              Rectangle{
+                  //color:"red"
+                  anchors.centerIn: parent
+                  width: komentar_slika.width+komentar_text.width+10
+                  height: parent.height
+              Image {
+                      id: komentar_slika
+                      source: "../new/prefix1/comment.png"
+                      width: parent.height*0.5
+                      height:parent.height*0.5
+                      fillMode: Image.PreserveAspectCrop
+                      anchors.left: parent.left
+                      anchors.verticalCenter: parent.verticalCenter
+                      anchors.leftMargin: 5
+              }
+              Text {
+                  id: komentar_text
+                  text: qsTr("Komentar")
+                  font.family: "Helvetica"
+                  font.pointSize: 14
+                  anchors.left: komentar_slika.right
+                  anchors.verticalCenter: parent.verticalCenter
+                  anchors.leftMargin: 5
+              }
+              MouseArea
+              {
+                  anchors.fill: parent
+                  onClicked:
+                  {
+                      draw.open()
+                  }
+              }
+              }
+
+          }
+          Rectangle
+          {
+              width: parent.width/3
+              height: parent.height
+             // color: "green"
+              anchors.left: komentar_dugme.right
+
+              Rectangle{
+                 // color:"red"
+                  anchors.centerIn: parent
+                  width: share_slika.width+share_tekst.width+10
+                  height: parent.height
+              Image {
+                      id: share_slika
+                      source: "../new/prefix1/share.png"
+                      width: parent.height*0.5
+                      height:parent.height*0.5
+                      fillMode: Image.PreserveAspectCrop
+                      anchors.left: parent.left
+                      anchors.verticalCenter: parent.verticalCenter
+                      anchors.leftMargin: 5
+              }
+              Text {
+                  id: share_tekst
+                  text: qsTr("Podeli")
+                  font.family: "Helvetica"
+                  font.pointSize: 14
+                  anchors.left: share_slika.right
+                  anchors.verticalCenter: parent.verticalCenter
+                  anchors.leftMargin: 5
+              }
+              MouseArea
+              {
+                  anchors.fill: parent
+                  onClicked:
+                  {
+
+                  }
+              }
+              }
+          }
+
+
+
+
+
+
+       }
 }
 }
 Drawer
@@ -201,3 +497,4 @@ Drawer
 
 }
 
+}

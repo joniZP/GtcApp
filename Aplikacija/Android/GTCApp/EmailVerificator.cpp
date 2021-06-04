@@ -35,7 +35,7 @@ void EmailVerificator::SendVerificationEmail(QString email, QString username, QS
     params.addQueryItem("username", username);
     params.addQueryItem("fullname", fullname);
     params.addQueryItem("table","Users");
-    QUrl ur("http://gotochillapp.000webhostapp.com/GTCAPP/MyMailer/Verification/MailVerification.php");
+    QUrl ur("http://gtcappservice.000webhostapp.com/GTCAPP/MyMailer/Verification/MailVerification.php");
     QNetworkRequest req(ur);
 
 
@@ -50,7 +50,7 @@ void EmailVerificator::SendForgotPasswordEmail(QString email, QString username, 
     params.addQueryItem("username", username);
     params.addQueryItem("fullname", fullname);
     params.addQueryItem("table","Users");
-    QUrl ur("http://gotochillapp.000webhostapp.com/GTCAPP/MyMailer/ForgotPassword/MailForgotPassword.php");
+    QUrl ur("http://gtcappservice.000webhostapp.com/GTCAPP/MyMailer/ForgotPassword/MailForgotPassword.php");
     QNetworkRequest req(ur);
 
 

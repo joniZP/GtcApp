@@ -24,20 +24,21 @@
 #include <QTextStream>
 #include<komentarimodel.h>
 #include<FileUploader.h>
+#include"klasa.h"
 
 class events : public QObject
 {
     Q_OBJECT
 public:
+    int promenljiva;
     explicit events(QObject *parent = nullptr);
-    Q_INVOKABLE void fun1(QObject *o)
+    Q_INVOKABLE klasa* fun1()
     {
-        o->setProperty("color","blue");
+     klasa *k=new klasa(55452);
+     return k;
     }
 signals:
    // QSqlDatabase db = QSqlDatabase::addDatabase("QOD");
-
-
 public slots:
 
     bool registracija(QString ime,QString korisnickoime,QString email,QString sifra)

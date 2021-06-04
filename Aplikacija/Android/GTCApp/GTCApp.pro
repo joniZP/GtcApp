@@ -4,7 +4,10 @@ QT += quickcontrols2
 QT += qml quick
 QT += network
 QT += gui
+QT += webview
+QT += location positioning
 CONFIG += c++11
+PKGCONFIG += openssl
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -16,9 +19,11 @@ SOURCES += \
         LokacijaModel.cpp \
         MySqlKrsta.cpp \
         events.cpp \
+        klasa.cpp \
         komentar.cpp \
         komentarimodel.cpp \
-        main.cpp
+        main.cpp \
+        markermodel.cpp
 
 RESOURCES += qml.qrc \
     aaaa.qrc
@@ -40,5 +45,8 @@ HEADERS += \
     LokacijaModel.h \
     MySqlKrsta.h \
     events.h \
+    klasa.h \
     komentar.h \
-    komentarimodel.h
+    komentarimodel.h \
+    markermodel.h
+android: include(C:/Users/PC/AppData/Local/Android/Sdk/android_openssl/openssl.pri)

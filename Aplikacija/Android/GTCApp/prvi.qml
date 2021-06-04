@@ -13,7 +13,6 @@ ListView {
      boundsBehavior: ListView.StopAtBounds
      clip:true
    anchors.fill: parent
-
     model:_model
     delegate: ItemDelegate {
         width: parent.width
@@ -21,10 +20,9 @@ ListView {
         required property string slika
         required property string tekst
         required property string boja
-
        RowLayout
         {
-            Image {
+        Image {
                 source: slika
                 Layout.maximumWidth: 50
                 Layout.maximumHeight: 50
@@ -58,7 +56,6 @@ ListView {
             onClicked:
             {
                 event.fun2()
-
             }
         }
     }
