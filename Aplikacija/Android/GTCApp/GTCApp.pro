@@ -22,7 +22,8 @@ SOURCES += \
         komentar.cpp \
         komentarimodel.cpp \
         main.cpp \
-        markermodel.cpp
+        markermodel.cpp \
+        ucitavanjelokacije.cpp
 
 RESOURCES += qml.qrc \
     aaaa.qrc
@@ -42,10 +43,12 @@ HEADERS += \
     FileUploader.h \
     Lokacija.h \
     LokacijaModel.h \
+    MLokacija.h \
     MySqlKrsta.h \
     events.h \
     klasa.h \
     komentar.h \
     komentarimodel.h \
-    markermodel.h
-android: include(C:/Users/PC/AppData/Local/Android/Sdk/android_openssl/openssl.pri)
+    markermodel.h \
+    ucitavanjelokacije.h
+android: include(C:/Users/krsti/AppData/Local/Android/Sdk/android_openssl/openssl.pri)

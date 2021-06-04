@@ -6,7 +6,8 @@
 #include<QQmlContext>
 #include<QLoggingCategory>
 #include<upload.h>
-#include"markermodel.h"
+//#include"markermodel.h"
+#include"ucitavanjelokacije.h"
 //#include<komentarimodel.h>
 //#include"MySqlKrsta.h"
 int main(int argc, char *argv[])
@@ -29,6 +30,8 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     qmlRegisterType<events>("Events",1,0,"Events");
     qmlRegisterType<klasa>("Klasa",1,0,"Klasa");
+    qmlRegisterType<UcitavanjeLokacije>("UcitavanjeLokacije",1,0,"UcitavanjeLokacije");
+    qmlRegisterType<MLokacija>("MLokacija",1,0,"MLokacija");
     engine.load(url);
      LokacijaModel &model =LokacijaModel::GetInstance();
      KomentariModel &kommodel =KomentariModel::GetInstance();
@@ -36,14 +39,14 @@ int main(int argc, char *argv[])
      model.dodajlokaciju(lokacija("http://gtcappservice.000webhostapp.com/GTCAPP/upload/slika.jpeg","s",""));
      model.dodajlokaciju(lokacija("/new/prefix1/person-icon.png","s",""));
      model.dodajlokaciju(lokacija("/new/prefix1/person-icon.png","s",""));
-     kommodel.dodajkomentar(Komentar("http://gtcappservice.000webhostapp.com/GTCAPP/upload/slika.jpeg","neki komentar  dsdsdsd dsds dsds d dsds sd s ",""));
+    // kommodel.dodajkomentar(Komentar("http://gtcappservice.000webhostapp.com/GTCAPP/upload/slika.jpeg","neki komentar  dsdsdsd dsds dsds d dsds sd s ",""));
      FileUploader *f = new FileUploader();
-     MarkerModel & m=MarkerModel::GetInstance();
+    // MarkerModel & m=MarkerModel::GetInstance();
 
     // f->UploadFiles();
      MySqlService &s = MySqlService::MySqlInstance();
     engine.rootContext()->setContextProperty("_model", &model);
-     engine.rootContext()->setContextProperty("markerModel", &m);
+    // engine.rootContext()->setContextProperty("markerModel", &m);
      engine.rootContext()->setContextProperty("_kommodel", &kommodel);
    // EmailVerificator &ev = EmailVerificator::GetInstance();
     //ev.SendVerificationEmail("sgssasa@elfak.rs","Sasa","Sasa Stojiljkovic");

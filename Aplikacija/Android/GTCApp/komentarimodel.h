@@ -1,3 +1,8 @@
+
+
+#ifndef KOMENTARMODEL_H
+#define KOMENTARMODEL_H
+
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -37,3 +42,5 @@ protected:
 private:
 
 };
+
+#endif

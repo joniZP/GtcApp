@@ -7,8 +7,23 @@ import QtLocation 5.6
 import QtPositioning 5.6
 import QtGraphicalEffects 1.12
 import QtWebView 1.1
+import UcitavanjeLokacije 1.0
+import MLokacija 1.0
+
 Rectangle {
     id:par
+
+    property MLokacija location
+    Component.onCompleted:
+    {
+       let ll= ucitajInstance.getLokacija(0)
+       location = ll;
+    }
+
+    UcitavanjeLokacije{
+    id:ucitajInstance;
+    }
+
 anchors.fill: parent
 Flickable{
 //  contentHeight: 800
@@ -72,7 +87,7 @@ Rectangle
         color: "white"
         Text {
             id: naziv_lokacije
-            text: qsTr("Naziv lokacije")
+            text: qsTr(location.getNaziv())
             font.family: "Helvetica"
             font.pointSize: 18
             anchors.horizontalCenter: parent.horizontalCenter
@@ -82,7 +97,7 @@ Rectangle
             id: opis_lokacije
             anchors.top: naziv_lokacije.bottom
             anchors.topMargin: 20
-            text: qsTr("Opis lokacije eeee d nnnnnnnnnnnnnnnnnnn     nnnnnnnnnn  nnnnnnnnnnnnnn   nnnn  sfds dsf llll ll lll l l l l l l l l l l l l l l ll l ll l lll l ds dfdsfds dfdsf fdsfd sf df ds f ")
+            text: qsTr(location.getOpis())
 
             font.family: "Helvetica"
             font.pointSize: 14
@@ -113,13 +128,13 @@ Rectangle
            Map {
                anchors.fill: parent
                plugin: mapPlugin
-               center: QtPositioning.coordinate(43.320833,21.895833)
+               center: QtPositioning.coordinate(location.getX(),location.getY())
                zoomLevel: 14
                MapQuickItem {
                    id: marker
                    anchorPoint.x: image.width/4
                    anchorPoint.y: image.height
-                   coordinate: QtPositioning.coordinate(43.320833,21.895833);
+                   coordinate: QtPositioning.coordinate(location.getX(),location.getY());
 
                    sourceItem: Image {
                        id: image
@@ -144,7 +159,7 @@ Rectangle
            color: "white"
            Image {
                    id: profilnaimage
-                   source: "../new/prefix1/slika.jfif"
+                   source: location.getSlika()
                    width: parent.height*0.8
                    height:parent.height*0.8
                    fillMode: Image.PreserveAspectCrop
@@ -169,7 +184,7 @@ Rectangle
                    }
            Text {
                id: kreator_ime
-               text: qsTr("Ime Prezime")
+               text: qsTr(location.getPunoIme())
                font.family: "Helvetica"
                font.pointSize: 18
                anchors.left: profilnaimage.right

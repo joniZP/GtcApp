@@ -127,7 +127,7 @@ void MySqlTable::operator =(QString s)
         ///////////////////////// DATA
         QStringList Data = delovi[2].split("##");
 
-        for(int i = 0;i< Data.count();i++)
+        for(int i = 0;i< Data.count()-1;i++)
         {
             Rows.append(MySqlRow(colNames,Data[i].split("|")));
         }
