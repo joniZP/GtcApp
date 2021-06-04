@@ -6,7 +6,6 @@
 #include<QQmlContext>
 #include<QLoggingCategory>
 #include<upload.h>
-#include <QtWebView>
 #include"markermodel.h"
 //#include<komentarimodel.h>
 //#include"MySqlKrsta.h"
@@ -46,7 +45,6 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("_model", &model);
      engine.rootContext()->setContextProperty("markerModel", &m);
      engine.rootContext()->setContextProperty("_kommodel", &kommodel);
-     QtWebView::initialize();
    // EmailVerificator &ev = EmailVerificator::GetInstance();
     //ev.SendVerificationEmail("sgssasa@elfak.rs","Sasa","Sasa Stojiljkovic");
 

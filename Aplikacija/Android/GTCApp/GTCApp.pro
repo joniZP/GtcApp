@@ -4,7 +4,6 @@ QT += quickcontrols2
 QT += qml quick
 QT += network
 QT += gui
-QT += webview
 QT += location positioning
 CONFIG += c++11
 PKGCONFIG += openssl

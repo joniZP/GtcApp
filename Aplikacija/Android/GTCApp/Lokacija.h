@@ -1,7 +1,6 @@
 
 #include <QAbstractListModel>
 #include <QStringList>
-
 class lokacija
 {
 public:

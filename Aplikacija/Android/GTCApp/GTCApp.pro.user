@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.14.1, 2021-06-04T10:54:27. -->
+<!-- Written by QtCreator 4.14.1, 2021-06-04T21:32:26. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -282,10 +282,7 @@
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.PluginSettings">
     <valuelist type="QVariantList" key="AndroidDeviceAbis">
      <value type="QString">x86</value>
-     <value type="QString">armeabi-v7a</value>
-     <value type="QString">armeabi</value>
     </valuelist>
-    <value type="QString" key="AndroidDeviceSerialNumber">emulator-5554</value>
     <value type="int" key="AndroidVersion.ApiLevel">30</value>
    </valuemap>
    <valuemap type="QVariantMap" key="ProjectExplorer.Target.RunConfiguration.0">

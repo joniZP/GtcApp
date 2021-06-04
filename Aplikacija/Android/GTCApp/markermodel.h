@@ -1,61 +1,39 @@
-#ifndef MARKERMODEL_H
-#define MARKERMODEL_H
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include<QObject>
+#include<QtSql>
+#include<QtSql>
+#include<QGeoCoordinate>
+class MarkerModel: public QAbstractListModel{
+    Q_OBJECT
 
-#include <QAbstractListModel>
-#include <QGeoCoordinate>
-
-class MarkerModel : public QAbstractListModel {
-  Q_OBJECT
 private:
+
+    enum MarkerRoles
+     {
+         positionRole = Qt::UserRole + 1
+     };
+
     static MarkerModel* instance;
-    MarkerModel()
-    {
-
-    }
-
-public:
-
-
+    MarkerModel();
     public:
-    static MarkerModel& GetInstance()
+    static MarkerModel& GetInstance();
+    void dodajmarker(const QGeoCoordinate &coordinate);
+    void remove()
     {
-        if(instance == NULL)
+        beginRemoveRows(QModelIndex(), 0, 0);
+        if(m_coordinates.count()>0)
         {
-            instance = new MarkerModel();
+             m_coordinates.removeFirst();
         }
-        return *instance;
+        endRemoveRows();
     }
-  using QAbstractListModel::QAbstractListModel;
-  enum MarkerRoles { positionRole = Qt::UserRole + 1 };
-
-  Q_INVOKABLE void addMarker(const QGeoCoordinate &coordinate) {
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    m_coordinates.append(coordinate);
-    endInsertRows();
-  }
-
-  int rowCount(const QModelIndex &parent = QModelIndex()) const override {
-    Q_UNUSED(parent)
-    return m_coordinates.count();
-  }
-
-  QVariant data(const QModelIndex &index,
-                int role = Qt::DisplayRole) const override {
-    if (index.row() < 0 || index.row() >= m_coordinates.count())
-      return QVariant();
-    if (role == MarkerModel::positionRole)
-      return QVariant::fromValue(m_coordinates[index.row()]);
-    return QVariant();
-  }
-
-  QHash<int, QByteArray> roleNames() const {
-    QHash<int, QByteArray> roles;
-    roles[positionRole] = "position";
-    return roles;
-  }
-
+    int rowCount(const QModelIndex & parent = QModelIndex()) const;
+    QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
+protected:
+    QHash<int, QByteArray> roleNames() const;
+      QList<QGeoCoordinate> m_coordinates;
 private:
-  QList<QGeoCoordinate> m_coordinates;
-};
 
-#endif // MARKERMODEL_H
+};

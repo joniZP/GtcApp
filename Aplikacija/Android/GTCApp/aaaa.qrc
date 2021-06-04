@@ -24,5 +24,6 @@
         <file>like.png</file>
         <file>share (1).png</file>
         <file>share.png</file>
+        <file>pin.png</file>
     </qresource>
 </RCC>

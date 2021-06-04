@@ -113,35 +113,23 @@ Rectangle
            Map {
                anchors.fill: parent
                plugin: mapPlugin
-               center: QtPositioning.coordinate(43.320833,21.895833) // Oslo
+               center: QtPositioning.coordinate(43.320833,21.895833)
                zoomLevel: 14
-               MapItemView{
-                          model: markerModel
-                          delegate: mapcomponent
-                      }
-               Component.onCompleted:
-               {
-                   var coordinate = mapview.toCoordinate(43.320833,21.895833)
-                   markerModel.addMarker(coordinate)
+               MapQuickItem {
+                   id: marker
+                   anchorPoint.x: image.width/4
+                   anchorPoint.y: image.height
+                   coordinate: QtPositioning.coordinate(43.320833,21.895833);
+
+                   sourceItem: Image {
+                       id: image
+                       source: "qrc:/new/prefix1/pin.png"
+                       width: 20
+                       height: 20
+                   }
                }
+
            }
-
-           Component {
-                  id: mapcomponent
-                  MapQuickItem {
-                      id: marker
-                      anchorPoint.x: image.width/4
-                      anchorPoint.y: image.height
-                      coordinate: position
-
-                      sourceItem: Image {
-                          id: image
-                          source: "qrc:/new/prefix1/star.png"
-                      }
-                  }
-              }
-
-
     }
 
 
