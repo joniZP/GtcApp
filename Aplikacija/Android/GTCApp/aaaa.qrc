@@ -25,5 +25,7 @@
         <file>share (1).png</file>
         <file>share.png</file>
         <file>pin.png</file>
+        <file>addimage.png</file>
+        <file>addimage2.png</file>
     </qresource>
 </RCC>

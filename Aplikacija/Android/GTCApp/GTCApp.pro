@@ -14,13 +14,17 @@ PKGCONFIG += openssl
 SOURCES += \
         EmailVerificator.cpp \
         FileUploader.cpp \
+        LOCALDATA.cpp \
         Lokacija.cpp \
         LokacijaModel.cpp \
         MySqlKrsta.cpp \
+        UpisLokacijaDogadjaj.cpp \
+        dogadjajdodaj.cpp \
         events.cpp \
         klasa.cpp \
         komentar.cpp \
         komentarimodel.cpp \
+        lokacijadodaj.cpp \
         main.cpp \
         markermodel.cpp \
         ucitavanjelokacije.cpp
@@ -41,14 +45,18 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     EmailVerificator.h \
     FileUploader.h \
+    LOCALDATA.h \
     Lokacija.h \
     LokacijaModel.h \
     MLokacija.h \
     MySqlKrsta.h \
+    UpisLokacijaDogadjaj.h \
+    dogadjajdodaj.h \
     events.h \
     klasa.h \
     komentar.h \
     komentarimodel.h \
+    lokacijadodaj.h \
     markermodel.h \
     ucitavanjelokacije.h
 android: include(C:/Users/krsti/AppData/Local/Android/Sdk/android_openssl/openssl.pri)

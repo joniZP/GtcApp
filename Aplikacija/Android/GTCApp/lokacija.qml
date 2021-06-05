@@ -16,7 +16,7 @@ Rectangle {
     property MLokacija location
     Component.onCompleted:
     {
-       let ll= ucitajInstance.getLokacija(0)
+       let ll= ucitajInstance.getLokacija(1)
        location = ll;
     }
 

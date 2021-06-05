@@ -8,6 +8,7 @@
 #include<upload.h>
 //#include"markermodel.h"
 #include"ucitavanjelokacije.h"
+#include"UpisLokacijaDogadjaj.h"
 //#include<komentarimodel.h>
 //#include"MySqlKrsta.h"
 int main(int argc, char *argv[])
@@ -32,6 +33,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<klasa>("Klasa",1,0,"Klasa");
     qmlRegisterType<UcitavanjeLokacije>("UcitavanjeLokacije",1,0,"UcitavanjeLokacije");
     qmlRegisterType<MLokacija>("MLokacija",1,0,"MLokacija");
+    qmlRegisterType<UpisLokacijaDogadjaj>("UpisLokacijaDogadjaj",1,0,"UpisLokacijaDogadjaj");
     engine.load(url);
      LokacijaModel &model =LokacijaModel::GetInstance();
      KomentariModel &kommodel =KomentariModel::GetInstance();

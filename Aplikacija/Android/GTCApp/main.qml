@@ -332,7 +332,7 @@ ApplicationWindow
                             }
                         dugme1.color_="#d9d7d2"
                         pom=dugme1
-                        pageLoader.source = "profil.qml"
+                        pageLoader.source = "DodajLokaciju.qml"
                         drawer.close()
                         }
                    }
@@ -356,7 +356,7 @@ ApplicationWindow
                             }
                             dugme2.color_="#d9d7d2"
                             pom=dugme2
-                            pageLoader.source = "drugi.qml"
+                            pageLoader.source = "DodajDogadjaj.qml"
                             drawer.close()
                         }
                     }

@@ -1,0 +1,453 @@
+import QtQuick 2.0
+import QtQuick.Window 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.3
+import QtGraphicalEffects 1.12
+import QtQuick.Dialogs 1.0
+import QtPositioning 5.6
+import QtLocation 5.6
+import UpisLokacijaDogadjaj 1.0
+
+
+
+Rectangle{
+
+    UpisLokacijaDogadjaj{
+    id:upisservis;
+    }
+
+    Flickable{
+    //  contentHeight: 800
+        id:flick
+     anchors.fill: parent
+     boundsBehavior: Flickable.StopAtBounds
+     contentWidth: parent.width
+     contentHeight:800// nazivnovelokacije.height+opisrectangle.height+gradnovelokacije.height+40+10+slikarectangle.height+dugmedodajsliku.height+dugmeizaberilokaciju.height+dugmedodajlokaciju.height+maparectangle.height+80+10+17
+
+     clip: true
+
+
+Rectangle
+{
+
+    gradient: Gradient{
+    GradientStop{position:0.0; color:"#2A9FF3"}
+     GradientStop{position:1.0; color:"white"}
+    }
+    anchors.fill:parent
+    color:parent.color
+    id: glavni
+
+
+        Rectangle{
+            color:"transparent"
+             //height: Math.min(nazivnovelokacije.height+opisnovelokacije.height+gradnovelokacije.height+40, nazivnovelokacije.height+nazivnovelokacije.height+gradnovelokacije.height+40+40)
+            height:parent.height// nazivnovelokacije.height+opisrectangle.height+gradnovelokacije.height+40+10+slikarectangle.height+dugmedodajsliku.height+dugmeizaberilokaciju.height+dugmedodajlokaciju.height+maparectangle.height+10+10+17
+            width: parent.width/5*4
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: 20
+
+
+            TextField {
+                 id: nazivnovelokacije
+
+                 placeholderText: qsTr("Naziv nove lokacije")
+                 anchors.top: parent.top
+                 anchors.topMargin: 40
+                 width:parent.width
+            }
+            TextField {
+                 id: gradnovelokacije
+                 placeholderText: qsTr("Grad")
+                 anchors.top: nazivnovelokacije.bottom
+                 //anchors.topMargin: 20
+                 width:parent.width
+
+            }
+            Rectangle//OPIS LOKACIJE
+            {
+
+                id:opisrectangle
+                anchors.top: gradnovelokacije.bottom
+                width: parent.width
+                height: gradnovelokacije.height*4/2
+                color: "transparent"
+                border.color:"#595959"
+
+
+                ScrollView {
+                    id: flickable
+                    width: parent.width
+                    height: Math.max(40,Math.min(contentHeight, 80))
+                    contentWidth: width
+
+                    TextArea {
+                           id: opisnovelokacije
+                            placeholderText: qsTr("Opis")
+                               leftPadding: 6
+                               rightPadding: 30
+                               topPadding: 0
+                               bottomPadding: 0
+                               background: null
+                               wrapMode: Text.WordWrap
+                    }
+                }
+            }
+
+            Rectangle
+            {
+
+                id:slikarectangle
+                anchors.top: opisrectangle.bottom
+                anchors.topMargin: 10
+                width: parent.width
+                height:parent.width/5
+                color: "transparent"
+                border.color:"#595959"
+                Image{
+                    id: slika1
+                    anchors.left:slikarectangle.left
+                    width: parent.height
+                    height: parent.height
+                    source:"../new/prefix1/addimage2.png"
+
+                }
+                Image{
+                    id: slika2
+                    anchors.left:slika1.right
+                    width: parent.height
+                    height: parent.height
+
+                }
+                Image{
+                    id: slika3
+                    anchors.left:slika2.right
+                    width: parent.height
+                    height: parent.height
+
+                }
+                Image{
+                    id: slika4
+                    anchors.left:slika3.right
+                    width: parent.height
+                    height: parent.height
+
+                }
+                Image{
+                    id: slika5
+                    anchors.left:slika4.right
+                    width: parent.height
+                    height: parent.height
+
+                }
+            }
+            Button{
+                id: dugmedodajsliku
+                anchors.top: slikarectangle.bottom
+                anchors.left: parent.left
+                height: parent.height/10
+                width: parent.width/2
+                //anchors.horizontalCenter: parent.horizontalCenter
+
+                text: qsTr("Dodaj sliku")
+                onClicked:
+                {
+                    fileDialog.open()
+                    //ovde klasa dodaje slike u listu ako nije slika.source=="" ustv nije ovde nego na krajnje dugme dodaj lokaciju
+
+                }
+                hoverEnabled: true
+
+                        background: Rectangle {
+                            id:bek
+                            //height: parent.height
+                            //width: parent.width
+                            border.width: 3
+                            border.color: "#6AB1F9"
+                            radius: 10
+                            /*gradient: Gradient {
+                                GradientStop { position: 0 ; color: control.pressed ? "yellow" : "#eee" }
+                                GradientStop { position: 1 ; color: control.pressed ? "#aaa" : "#ccc" }
+                            }*/
+                            color: "#2A9FF3"
+                        }
+                        onPressed:
+                        {
+                             bek.color="#2775C4"
+
+                        }
+                        onPressedChanged: {
+                             bek.color="#2A9FF3"
+                        }
+
+
+                /*onHoveredChanged:
+                {
+                    if(hovered==true){
+                    bek.color="#2775C4"
+                    }
+                    else
+                    {
+                         bek.color="#2A9FF3"
+                    }
+                }*/
+                //background: "red"
+            }
+            FileDialog {
+                id: fileDialog
+                title: "Please choose a file"
+                folder: shortcuts.home
+                onAccepted:
+                {
+                    console.log("You chose: " + fileDialog.fileUrls)
+
+                    if(slika1.source.toString()=="qrc:/new/prefix1/addimage2.png"){
+                    slika1.source=fileDialog.fileUrl
+                    //    event.dodajsliku(fileDialog.fileUrl)
+                        upisservis.dodajSliku(fileDialog.fileUrl);
+
+                        slika2.source="../new/prefix1/addimage2.png"
+                    }
+                    else if(slika2.source.toString()=="qrc:/new/prefix1/addimage2.png")
+                    {
+                        slika2.source=fileDialog.fileUrl
+                      //  event.dodajsliku(fileDialog.fileUrl)
+                        slika3.source="../new/prefix1/addimage2.png"
+                        upisservis.dodajSliku(fileDialog.fileUrl);
+
+                        //ovde se slike dodaju u listu slika klase dodaj lokaciju
+                    }
+                    else if(slika3.source.toString()=="qrc:/new/prefix1/addimage2.png")
+                    {
+                        slika3.source=fileDialog.fileUrl
+                   //     event.dodajsliku(fileDialog.fileUrl)
+                        upisservis.dodajSliku(fileDialog.fileUrl);
+                        slika4.source="../new/prefix1/addimage2.png"
+                    }
+                    else if(slika4.source.toString()=="qrc:/new/prefix1/addimage2.png")
+                    {
+                        slika4.source=fileDialog.fileUrl
+                      //  event.dodajsliku(fileDialog.fileUrl)
+                        upisservis.dodajSliku(fileDialog.fileUrl);
+                        slika5.source="../new/prefix1/addimage2.png"
+                    }
+                    else if(slika5.source.toString()=="qrc:/new/prefix1/addimage2.png")
+                    {
+                        slika5.source=fileDialog.fileUrl
+                        upisservis.dodajSliku(fileDialog.fileUrl);
+                    //    event.dodajsliku(fileDialog.fileUrl)
+                    }
+                    else
+                    {
+                          console.log("Prekoracili ste broj slika")
+                    }
+                }
+                onRejected:
+                {
+                    console.log("Canceled")
+                }
+
+            }
+
+            Text {
+                id: nebitantext
+                anchors.top: dugmedodajsliku.bottom
+                anchors.topMargin: 10
+                anchors.left: parent.left
+                color: "#45BDEC"
+               // font.family: "Times"
+                font.bold: true
+                font.italic: true
+                font.pointSize: 9
+                //Font.Light: true
+
+
+                text: qsTr("Cekiraj lokaciju na mapi")
+            }
+            Rectangle
+            {
+                id:maparectangle
+                anchors.top: nebitantext.bottom
+                anchors.topMargin: 10
+                width: parent.width
+                height:200
+                //color: "transparent"
+                border.color:"#595959"
+
+                Plugin {
+                               id: mapPlugin
+                               name: "osm" // "mapboxgl", "esri", ...
+                               // specify plugin parameters if necessary
+                               // PluginParameter {
+                               //     name:
+                               //     value:
+                               // }
+                           }
+
+                           Map {
+                               id:mapa
+                               anchors.fill: parent
+                               plugin: mapPlugin
+                               center: QtPositioning.coordinate(location.getX(),location.getY())
+                               zoomLevel: 14
+                               MapQuickItem {
+                                   id: marker
+                                   anchorPoint.x: image.width/4
+                                   anchorPoint.y: image.height
+                                   coordinate: QtPositioning.coordinate(location.getX(),location.getY());
+
+
+                                   sourceItem: Image {
+                                       id: image
+                                       source: "qrc:/new/prefix1/pin.png"
+                                       width: 20
+                                       height: 20
+                                   }
+
+                               }
+                               Component.onCompleted: {
+                                   var coord = src.position.coordinate;
+                                   console.log("Coordinate:", coord.longitude, coord.latitude)
+                                   marker.coordinate= QtPositioning.coordinate(coord.latitude,coord.longitude);
+                                   mapa.center= QtPositioning.coordinate(coord.latitude,coord.longitude)
+                                   upisservis.setCoo(coord.latitude,coord.longitude)
+                               }
+
+                           }
+                    }
+
+                    PositionSource {
+                        id: src
+                        updateInterval: 1000
+                        active: true
+
+                    }
+
+
+                ///////////////////////////////////////////////////////////////////////
+
+             /*  Button{
+                id: dugmeizaberilokaciju
+                anchors.top: maparectangle.bottom
+                height: 0
+                width: parent.width/2
+                visible: false
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Izaberi lokaciju")
+                onClicked:
+                {
+                   mapa.visible=true
+                }
+
+            }*/
+
+
+
+            Button{
+                id: dugmedodajlokaciju
+                anchors.top: maparectangle.bottom
+                anchors.topMargin: 17
+                height: parent.height/8
+                width: parent.width
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Dodaj lokaciju")
+                hoverEnabled: true
+
+                        background: Rectangle {
+                            id:bekgraund
+                            //height: parent.height
+                            //width: parent.width
+                            border.width: 3
+                            border.color: "#6AB1F9"
+                            radius: 9
+                            color: "#2A9FF3"
+                        }
+
+                        onPressed:
+                        {
+                             bekgraund.color="#2775C4"
+
+                        }
+                        onPressedChanged: {
+                             bekgraund.color="#2A9FF3"
+                        }
+               /* onHoveredChanged:
+                {
+                    if(hovered==true){
+                    bekgraund.color="#2775C4"
+                    }
+                    else
+                    {
+                         bekgraund.color="#2A9FF3"
+                    }
+                }*/
+
+                onClicked:
+                {
+                    if(nazivnovelokacije.text=="")
+                    {
+                        nazivnovelokacije.placeholderText="Unesite naziv"
+                        nazivnovelokacije.placeholderTextColor="red"
+                    }
+                    if(gradnovelokacije.text=="")
+                    {
+                        gradnovelokacije.placeholderText="Unesite ime grada"
+                        gradnovelokacije.placeholderTextColor="red"
+                    }
+                    if(opisnovelokacije.text=="")
+                    {
+                        opisnovelokacije.placeholderText="Opis";
+                        opisnovelokacije.placeholderTextColor="red"
+                    }
+
+                    if(nazivnovelokacije.text!="" && gradnovelokacije.text!="" && opisnovelokacije.text!=""){
+                        block.visible = true;
+                        upisservis.upisiLokaciju(nazivnovelokacije.text,gradnovelokacije.text,opisnovelokacije.text);
+                        block.visible = false;
+                        pageLoader.source= "lokacija.qml"
+                        /*if(event.getpom()===1){
+                            event.dodajlokaciju(nazivnovelokacije.text, gradnovelokacije.text, opisnovelokacije.text, "nikola", "11", "11");
+                            event.setpom(0);
+                            pageLoader.source = "DodajDogadjaj.qml"
+                        }
+                        else
+                        {*/
+                          //  event.dodajlokaciju(nazivnovelokacije.text, gradnovelokacije.text, opisnovelokacije.text, "nikola", "11", "11");
+//
+                        //}
+                    }
+                }
+            }
+
+
+
+    }
+      /*  Rectangle
+        {
+            id:mapa
+
+            height: glavni.height
+            width:glavni.width
+            visible: false
+            color:"green"
+            Button{
+                id: dugme
+
+                height: parent.height/10
+                width: parent.width/2
+                anchors.top: parent.top
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Izaberi lokacijuuuu")
+                onClicked:
+                {
+                    event.dodajkoordinate("","");
+                   mapa.visible=false
+                }
+            }
+
+
+        }*/
+    }
+    }
+}

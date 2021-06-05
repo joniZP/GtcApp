@@ -13,6 +13,8 @@
         <file>khvkhb.qml</file>
         <file>profil.qml</file>
         <file>zaboravljena_lozinka.qml</file>
+        <file>DodajDogadjaj.qml</file>
+        <file>DodajLokaciju.qml</file>
     </qresource>
     <qresource prefix="/aa"/>
     <qresource prefix="/saa"/>
