@@ -2,11 +2,12 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>MItem.qml</file>
-        <file>treca.qml</file>
-        <file>druga.qml</file>
-        <file>prva.qml</file>
-        <file>LoginForm.qml</file>
-        <file>Registracija.qml</file>
-        <file>ZablozForm.qml</file>
+        <file>prijavljeneLokacijeForm.qml</file>
+        <file>prijavljeniDogadjajiForm.qml</file>
+        <file>prijavljeniKomentariForm.qml</file>
+        <file>loginForm.qml</file>
+        <file>registracijaForm.qml</file>
+        <file>zaboravljenaLozinkaForm.qml</file>
+        <file>odobriLokacijuForm.qml</file>
     </qresource>
 </RCC>

@@ -13,8 +13,8 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
-#include "MySqlKrsta.h"
-#include "EmailVerificator.h"
+#include "mySqlFile.h"
+#include "emailVerificator.h"
 //#include<LokacijaModel.h>
 
 

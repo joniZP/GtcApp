@@ -11,7 +11,7 @@ Item {
             GradientStop { position: 1.0; color: "#2970b1" }
         }
     anchors.fill: parent
-    color:parent.color
+    //color:parent.color
     ColumnLayout
     {
        anchors.fill: parent
@@ -24,7 +24,7 @@ Item {
         Rectangle
         {
             color:"transparent"
-            anchors.horizontalCenter: parent.horizontalCenter
+       //     anchors.horizontalCenter: parent.horizontalCenter
             Layout.alignment: Qt.AlignTop
             width:450
             height:50
@@ -52,7 +52,7 @@ Item {
                       id:usericon
                       height:20
                       width:20
-                      source: "../new/prefix1/user.png"
+                      source: "../ikonice/user.png"
                       anchors.left: parent.left
                       anchors.leftMargin: 10
                       anchors.verticalCenter: parent.verticalCenter
@@ -61,10 +61,10 @@ Item {
                    placeholderText: "username"
                    leftPadding: 40
                    topPadding: 20
-                    font.pointSize: 40
+                    font.pointSize: 20
                    Layout.preferredHeight: 50
                    Layout.preferredWidth: 450
-                    Layout.alignment: AlignTop
+                    //Layout.alignment: AlignTop
                 }
                 TextField{
                     Image
@@ -72,7 +72,7 @@ Item {
                         id:passicon
                         height:20
                         width:20
-                        source: "../new/prefix1/lock.png"
+                        source: "../ikonice/lock.png"
                         anchors.left: parent.left
                         anchors.leftMargin: 10
                          anchors.verticalCenter: parent.verticalCenter
@@ -81,16 +81,16 @@ Item {
                   placeholderText: "password"
                   leftPadding: 40
                   topPadding: 20
-                  font.pointSize: 40
+                  font.pointSize: 20
                   Layout.preferredHeight: 50
                   Layout.preferredWidth: 450
-                    Layout.alignment: AlignVCenter
+                    //Layout.alignment: AlignVCenter
                 }
                    Rectangle
                    {
                        Layout.preferredHeight: 50
                        Layout.preferredWidth: 450
-                       Layout.alignment: AlignBottom
+                       //Layout.alignment: AlignBottom
                        color: buttonce.pressed ? "#1b4676":"#1e9ad9"
                        MouseArea{
                            id:buttonce
@@ -140,7 +140,7 @@ Item {
                                        hoverEnabled: true
                                        onClicked:
                                        {
-                                           pageLoader.source="ZablozForm.qml"
+                                           pageLoader.source="zaboravljenaLozinkaForm.qml"
                                        }
                                    }
                                    text:"Zaboravili ste lozinku?"
@@ -159,7 +159,7 @@ Item {
                                width:225
                                height:20
                                color:"transparent"
-                               anchors.left: parent
+                             //anchors.left: parent
                                Text
                                {
                                    anchors.right: parent.right
@@ -176,10 +176,10 @@ Item {
                                height:20
 
                                color:"transparent"
-                               anchors.right: parent
+                               //anchors.right: parent
                                Text
                                {
-                                   anchors.leftMargin: parent
+                                   //anchors.leftMargin: parent
                                    color: registracijabutton.pressed ? "#003d57" : "#33FFF4"
                                    MouseArea{
                                        id:registracijabutton
@@ -187,7 +187,7 @@ Item {
                                        hoverEnabled: true
                                        onClicked:
                                        {
-                                           pageLoader.source="Registracija.qml"
+                                           pageLoader.source="registracijaForm.qml"
                                        }
                                    }
                                    text:"  Registrujte se"

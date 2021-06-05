@@ -29,8 +29,7 @@ Item {
        {
            id: imag
            color: clr
-           anchors.left: parent.left
-           anchors.leftMargin: 10
+           Layout.alignment: Qt.AlignLeft
            Image
            {
                id: image
@@ -41,7 +40,7 @@ Item {
            width: 30
            height: 30
            Layout.leftMargin:50
-           Layout.alignment: Qt.AlignVCenter
+           //Layout.alignment: Qt.AlignVCenter
      }
 
 
@@ -52,7 +51,7 @@ Item {
            color:"white"
            font.pointSize: 15
            font.bold:true
-           anchors.centerIn: parent
+           //anchors.centerIn: parent
        }
     }
 }

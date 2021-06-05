@@ -12,12 +12,18 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        EmailVerificator.cpp \
-        MySqlKrsta.cpp \
+        emailVerificator.cpp \
         events.cpp \
-        main.cpp
+        lokacija.cpp \
+        lokacijaModel.cpp \
+        main.cpp \
+        mySqlFile.cpp \
+        slika.cpp \
+        slikaModel.cpp
 
 RESOURCES += qml.qrc \
+    ikonice.qrc \
+    ikonice.qrc \
     ikonice.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
@@ -32,6 +38,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    EmailVerificator.h \
-    MySqlKrsta.h \
-    events.h
+    emailVerificator.h \
+    events.h \
+    lokacija.h \
+    lokacijaModel.h \
+    mySqlFile.h \
+    slika.h \
+    slikaModel.h
+
+DISTFILES +=

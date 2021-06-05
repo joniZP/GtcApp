@@ -1,4 +1,4 @@
-#include"EmailVerificator.h"
+#include"emailVerificator.h"
 
 #ifndef VERIFICATOR
 #define VERIFICATOR

@@ -23,7 +23,7 @@ Window{
     {
 
        //anchors.top : parent.top
-        Layout.alignment: top
+        //Layout.alignment: top
        Layout.minimumWidth: parent.width
        Layout.minimumHeight: 50
         color:"#1b4676"
@@ -32,12 +32,12 @@ Window{
         {
             width:120
             id: logid
-           anchors.rightMargin: 0
+      //    anchors.rightMargin: 0
           anchors.right: parent.right
-          anchors.verticalCenter: parent.verticalCenter
-          anchors.baseline: parent.verticalCenter
+          //nchors.verticalCenter: parent.verticalCenter
+         // anchors.baseline: parent.verticalCenter
             //width: childrenRect.width
-            height: childrenRect.height
+            height: 50
             anchors.top: parent.top
             color: mouseArea.pressed ? "#003d57" : "white"
             radius:10
@@ -48,7 +48,7 @@ Window{
                    anchors.fill: parent // BEZ NJEGA JE 0X0 mouseArea
                    anchors.margins: -10
                    hoverEnabled: true
-                   onClicked:pageLoader.source="LoginForm.qml"
+                   onClicked:pageLoader.source="loginForm.qml"
                }
         Text{
             anchors.top:parent.top
@@ -106,7 +106,7 @@ Window{
            Rectangle
            {
                Layout.minimumHeight: parent.height
-               Layout.minimumWidth: parent.width/5
+               Layout.minimumWidth: parent.width/4
                color: "#1b4676"
               radius: 20
                MItem{
@@ -114,16 +114,16 @@ Window{
                        anchors.fill: parent
                        onClicked:
                        {
-                           pageLoader.source="treca.qml"
+                           pageLoader.source="prijavljeneLokacijeForm.qml"
                        }
 
                    }
                    x:0
                    y:0
                    w:parent.width
-                   h:parent.height/5
+                   h:parent.height/6
                    txt:"PRIJAVLJENE LOKACIJE"
-                   src: "../new/prefix1/location.png"
+                   src: "../ikonice/location.png"
                    clr:parent.color
                }
                MItem{
@@ -131,16 +131,16 @@ Window{
                        anchors.fill: parent
                        onClicked:
                        {
-                           pageLoader.source="druga.qml"
+                           pageLoader.source="prijavljeniDogadjajiForm.qml"
                        }
 
                    }
                    x:0
-                   y:parent.height/5
+                   y:parent.height/6
                    w:parent.width
-                   h:parent.height/5
+                   h:parent.height/6
                    txt:"PRIJAVLJENI DOGADJAJI"
-                   src: "../new/prefix1/event.png"
+                   src: "../ikonice/event.png"
                    clr:parent.color
                }
                MItem{
@@ -148,17 +148,35 @@ Window{
                        anchors.fill: parent
                        onClicked:
                        {
-                           pageLoader.source="prva.qml"
+                           pageLoader.source="prijavljeniKomentariForm.qml"
                        }
 
                    }
 
                    x:0
-                   y:parent.height/5*2
+                   y:parent.height/6*2
                    w:parent.width
-                   h:parent.height/5
+                   h:parent.height/6
                    txt:"PRIJAVLJENI KOMENTARI"
-                   src: "../new/prefix1/comment.png"
+                   src: "../ikonice/comment.png"
+                   clr:parent.color
+               }
+               MItem{
+                   MouseArea{
+                       anchors.fill: parent
+                       onClicked:
+                       {
+                           pageLoader.source="odobriLokacijuForm.qml"
+                       }
+
+                   }
+
+                   x:0
+                   y:parent.height/6*3
+                   w:parent.width
+                   h:parent.height/6
+                   txt:"LOKACIJE ZA ODOBRAVANJE"
+                   src: "../ikonice/location.png"
                    clr:parent.color
                }
 
@@ -168,7 +186,7 @@ Window{
                    id: logo
                    x:70
                    y:parent.height-(sourceSize.height/4)-50
-                   source: "../new/prefix1/GTCLogo.png"
+                   source: "../ikonice/GTCLogo.png"
                    width: sourceSize.width/4
                    height:sourceSize.height/4
                }
@@ -183,7 +201,7 @@ Window{
                     id: pageLoader
                     anchors.centerIn: parent
                     anchors.fill: parent
-                    source: "pocetna.qml"
+                    source: "loginForm.qml"
 
                 }
                // color: "red"
