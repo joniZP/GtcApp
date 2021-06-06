@@ -6,3 +6,5 @@ QString LOCALDATA::ime = "Nema";
 QString LOCALDATA::prezime = "Nema";
 QString LOCALDATA::korisnickoime = "sale";
 
+
+

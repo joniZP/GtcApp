@@ -9,6 +9,7 @@
 //#include"markermodel.h"
 #include"ucitavanjelokacije.h"
 #include"UpisLokacijaDogadjaj.h"
+#include"slikamodel.h"
 //#include<komentarimodel.h>
 //#include"MySqlKrsta.h"
 int main(int argc, char *argv[])
@@ -31,6 +32,7 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     LokacijaModel &model =LokacijaModel::GetInstance();
     KomentariModel &kommodel =KomentariModel::GetInstance();
+    SlikaModel &slikamodel =SlikaModel::GetInstance();
     qmlRegisterType<events>("Events",1,0,"Events");
     qmlRegisterType<klasa>("Klasa",1,0,"Klasa");
     qmlRegisterType<UcitavanjeLokacije>("UcitavanjeLokacije",1,0,"UcitavanjeLokacije");
@@ -38,20 +40,37 @@ int main(int argc, char *argv[])
     qmlRegisterType<UpisLokacijaDogadjaj>("UpisLokacijaDogadjaj",1,0,"UpisLokacijaDogadjaj");
     engine.rootContext()->setContextProperty("_kommodel", &kommodel);
     engine.rootContext()->setContextProperty("_model", &model);
+    engine.rootContext()->setContextProperty("_slikamodel", &slikamodel);
     engine.load(url);
-for (int i=0;i<10;i++)
-{
-     model.dodajlokaciju(lokacija(1,"https://gtcappservice.000webhostapp.com/GTCAPP/upload/slika.jpeg","Naziv","Grad"));
-     model.dodajlokaciju(lokacija(2,"http://gtcappservice.000webhostapp.com/GTCAPP/upload/slika.jpeg","Naziv","Grad"));
-     model.dodajlokaciju(lokacija(3,"/new/prefix1/person-icon.png","Naziv","Grad"));
-     model.dodajlokaciju(lokacija(4,"/new/prefix1/person-icon.png","Naziv","Grad"));
-}
+
+      MySqlService &s = MySqlService::MySqlInstance();
+      MySqlTable t;
+      MyQuery query("SELECT * FROM Lokacija");
+      t = s.WSendQuery(query);
+      if(t.isSuccessfully())
+      {
+
+              for (int i=0;i<t.Count();i++)
+              {
+                  if(t.Rows[i]["brojSlika"].toInt() == 0)
+                  {
+                      model.dodajlokaciju(lokacija(t.Rows[i]["id"].toInt(),LINKS::APILINK+"/upload/noimageavailable.jpeg",t.Rows[i]["naziv"],t.Rows[i]["grad"]));
+                  }
+                  else
+                  {
+                       model.dodajlokaciju(lokacija(t.Rows[i]["id"].toInt(),LINKS::getLocationPicture(t.Rows[i]["id"].toInt(),0),t.Rows[i]["naziv"],t.Rows[i]["grad"]));
+                  }
+
+              }
+      }
+
+
     // kommodel.dodajkomentar(Komentar("http://gtcappservice.000webhostapp.com/GTCAPP/upload/slika.jpeg","neki komentar  dsdsdsd dsds dsds d dsds sd s ",""));
      FileUploader *f = new FileUploader();
     // MarkerModel & m=MarkerModel::GetInstance();
 
     // f->UploadFiles();
-     MySqlService &s = MySqlService::MySqlInstance();
+
 
     // engine.rootContext()->setContextProperty("markerModel", &m);
 

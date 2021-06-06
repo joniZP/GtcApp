@@ -38,7 +38,7 @@ SwipeView{
      property var model :ListModel{}
      clip:true
      Repeater {
-         model:_model
+         model:_slikamodel
          Image{
              id:slikalokacija
             width: slider.width

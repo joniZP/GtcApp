@@ -20,6 +20,7 @@ public:
 
 
 
+
     LOCALDATA& getInstance(){
         if(instance == NULL)
         {

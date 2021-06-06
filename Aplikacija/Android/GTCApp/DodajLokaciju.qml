@@ -9,7 +9,6 @@ import QtLocation 5.6
 import UpisLokacijaDogadjaj 1.0
 
 
-
 Rectangle{
     property int slike: 0
     UpisLokacijaDogadjaj{
