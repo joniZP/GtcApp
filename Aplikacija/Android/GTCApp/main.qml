@@ -6,14 +6,27 @@ import QtQuick.Layouts 1.3
 //import QtGraphicalEffects 1.0
 import Events 1.0
 import Klasa 1.0
+import UcitavanjeLokacije 1.0
+import MLokacija 1.0
 ApplicationWindow
 {
+    property MLokacija location
     property Klasa klas
     Component.onCompleted:
     {
 
        let klas1= event.fun1()
        klas=klas1
+    }
+
+    UcitavanjeLokacije
+    {
+       id:ucitajInstance;
+    }
+    function funkcija(a)
+    {
+        let ll= ucitajInstance.getLokacija(a)
+        location = ll;
     }
 
     visible: true
@@ -117,7 +130,7 @@ ApplicationWindow
                 id: pageLoader
                 anchors.centerIn: parent
                 anchors.fill: parent
-                source: "lokacija.qml"
+                source: "ListaLokacija.qml"
 
             }
             color: "red"
@@ -391,6 +404,31 @@ ApplicationWindow
                     sourc: "/new/prefix1/list.png"
                     tex: "Podesavanja"
                }
+
+               Sbutt
+               {
+                   MouseArea
+                   {
+                       anchors.fill: parent
+                       onClicked:
+                       {
+                           // console.log( men.fun1(dugme1))
+                           if(pom!=null)
+                           {
+                               pom.color_="#ffffff"
+                           }
+                       pocetna.color_="#d9d7d2"
+                       pom=pocetna
+                       pageLoader.source = "ListaLokacija.qml"
+                       drawer.close()
+                       }
+                  }
+                   id: listalokacija
+                   widt: parent.width
+                   heigh: 40
+                   sourc: "/new/prefix1/list.png"
+                   tex: "ListaLokacija"
+               }
            }
        }
    }
@@ -424,7 +462,8 @@ ApplicationWindow
         id:block
         anchors.fill: parent
         visible: false
-        color: "transparent"
+        color: "black"
+        opacity: 0.2
 
         AnimatedImage
         {

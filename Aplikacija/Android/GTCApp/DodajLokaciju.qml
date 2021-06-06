@@ -11,7 +11,7 @@ import UpisLokacijaDogadjaj 1.0
 
 
 Rectangle{
-
+    property int slike: 0
     UpisLokacijaDogadjaj{
     id:upisservis;
     }
@@ -22,7 +22,7 @@ Rectangle{
      anchors.fill: parent
      boundsBehavior: Flickable.StopAtBounds
      contentWidth: parent.width
-     contentHeight:800// nazivnovelokacije.height+opisrectangle.height+gradnovelokacije.height+40+10+slikarectangle.height+dugmedodajsliku.height+dugmeizaberilokaciju.height+dugmedodajlokaciju.height+maparectangle.height+80+10+17
+     contentHeight:700// nazivnovelokacije.height+opisrectangle.height+gradnovelokacije.height+40+10+slikarectangle.height+dugmedodajsliku.height+dugmeizaberilokaciju.height+dugmedodajlokaciju.height+maparectangle.height+80+10+17
 
      clip: true
 
@@ -35,7 +35,6 @@ Rectangle
      GradientStop{position:1.0; color:"white"}
     }
     anchors.fill:parent
-    color:parent.color
     id: glavni
 
 
@@ -112,12 +111,34 @@ Rectangle
                     height: parent.height
                     source:"../new/prefix1/addimage2.png"
 
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            if(slike==0)
+                            {
+                              fileDialog.open()
+                            }
+                        }
+                    }
                 }
                 Image{
                     id: slika2
                     anchors.left:slika1.right
                     width: parent.height
                     height: parent.height
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            if(slike==1)
+                            {
+                              fileDialog.open()
+                            }
+                        }
+                    }
 
                 }
                 Image{
@@ -125,6 +146,17 @@ Rectangle
                     anchors.left:slika2.right
                     width: parent.height
                     height: parent.height
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            if(slike==2)
+                            {
+                              fileDialog.open()
+                            }
+                        }
+                    }
 
                 }
                 Image{
@@ -132,6 +164,17 @@ Rectangle
                     anchors.left:slika3.right
                     width: parent.height
                     height: parent.height
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            if(slike==3)
+                            {
+                              fileDialog.open()
+                            }
+                        }
+                    }
 
                 }
                 Image{
@@ -139,60 +182,19 @@ Rectangle
                     anchors.left:slika4.right
                     width: parent.height
                     height: parent.height
-
-                }
-            }
-            Button{
-                id: dugmedodajsliku
-                anchors.top: slikarectangle.bottom
-                anchors.left: parent.left
-                height: parent.height/10
-                width: parent.width/2
-                //anchors.horizontalCenter: parent.horizontalCenter
-
-                text: qsTr("Dodaj sliku")
-                onClicked:
-                {
-                    fileDialog.open()
-                    //ovde klasa dodaje slike u listu ako nije slika.source=="" ustv nije ovde nego na krajnje dugme dodaj lokaciju
-
-                }
-                hoverEnabled: true
-
-                        background: Rectangle {
-                            id:bek
-                            //height: parent.height
-                            //width: parent.width
-                            border.width: 3
-                            border.color: "#6AB1F9"
-                            radius: 10
-                            /*gradient: Gradient {
-                                GradientStop { position: 0 ; color: control.pressed ? "yellow" : "#eee" }
-                                GradientStop { position: 1 ; color: control.pressed ? "#aaa" : "#ccc" }
-                            }*/
-                            color: "#2A9FF3"
-                        }
-                        onPressed:
-                        {
-                             bek.color="#2775C4"
-
-                        }
-                        onPressedChanged: {
-                             bek.color="#2A9FF3"
-                        }
-
-
-                /*onHoveredChanged:
-                {
-                    if(hovered==true){
-                    bek.color="#2775C4"
-                    }
-                    else
+                    MouseArea
                     {
-                         bek.color="#2A9FF3"
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            if(slike==4)
+                            {
+                              fileDialog.open()
+                            }
+                        }
                     }
-                }*/
-                //background: "red"
+
+                }
             }
             FileDialog {
                 id: fileDialog
@@ -202,46 +204,36 @@ Rectangle
                 {
                     console.log("You chose: " + fileDialog.fileUrls)
 
-                    if(slika1.source.toString()=="qrc:/new/prefix1/addimage2.png"){
-                    slika1.source=fileDialog.fileUrl
-                    //    event.dodajsliku(fileDialog.fileUrl)
-                        upisservis.dodajSliku(fileDialog.fileUrl);
-
+                    if(slike==0)
+                    {
+                        slika1.source=fileDialog.fileUrl
                         slika2.source="../new/prefix1/addimage2.png"
+                        slike++
                     }
-                    else if(slika2.source.toString()=="qrc:/new/prefix1/addimage2.png")
+                    else if(slike==1)
                     {
                         slika2.source=fileDialog.fileUrl
-                      //  event.dodajsliku(fileDialog.fileUrl)
                         slika3.source="../new/prefix1/addimage2.png"
-                        upisservis.dodajSliku(fileDialog.fileUrl);
-
-                        //ovde se slike dodaju u listu slika klase dodaj lokaciju
+                        slike++
                     }
-                    else if(slika3.source.toString()=="qrc:/new/prefix1/addimage2.png")
+                    else if(slike==2)
                     {
                         slika3.source=fileDialog.fileUrl
-                   //     event.dodajsliku(fileDialog.fileUrl)
-                        upisservis.dodajSliku(fileDialog.fileUrl);
                         slika4.source="../new/prefix1/addimage2.png"
+                        slike++
                     }
-                    else if(slika4.source.toString()=="qrc:/new/prefix1/addimage2.png")
+                    else if(slike==3)
                     {
                         slika4.source=fileDialog.fileUrl
-                      //  event.dodajsliku(fileDialog.fileUrl)
-                        upisservis.dodajSliku(fileDialog.fileUrl);
                         slika5.source="../new/prefix1/addimage2.png"
+                        slike++
                     }
-                    else if(slika5.source.toString()=="qrc:/new/prefix1/addimage2.png")
+                    else if(slike==4)
                     {
                         slika5.source=fileDialog.fileUrl
-                        upisservis.dodajSliku(fileDialog.fileUrl);
-                    //    event.dodajsliku(fileDialog.fileUrl)
+                        slike++
                     }
-                    else
-                    {
-                          console.log("Prekoracili ste broj slika")
-                    }
+                    upisservis.dodajSliku(fileDialog.fileUrl);
                 }
                 onRejected:
                 {
@@ -249,26 +241,10 @@ Rectangle
                 }
 
             }
-
-            Text {
-                id: nebitantext
-                anchors.top: dugmedodajsliku.bottom
-                anchors.topMargin: 10
-                anchors.left: parent.left
-                color: "#45BDEC"
-               // font.family: "Times"
-                font.bold: true
-                font.italic: true
-                font.pointSize: 9
-                //Font.Light: true
-
-
-                text: qsTr("Cekiraj lokaciju na mapi")
-            }
             Rectangle
             {
                 id:maparectangle
-                anchors.top: nebitantext.bottom
+                anchors.top: slikarectangle .bottom
                 anchors.topMargin: 10
                 width: parent.width
                 height:200
@@ -277,12 +253,8 @@ Rectangle
 
                 Plugin {
                                id: mapPlugin
-                               name: "osm" // "mapboxgl", "esri", ...
-                               // specify plugin parameters if necessary
-                               // PluginParameter {
-                               //     name:
-                               //     value:
-                               // }
+                               name: "osm"
+
                            }
 
                            Map {
@@ -321,29 +293,16 @@ Rectangle
                         id: src
                         updateInterval: 1000
                         active: true
+                       /* onPositionChanged:
+                        {
+                            var coord = src.position.coordinate;
+                            console.log("Coordinate:", coord.longitude, coord.latitude)
+                            marker.coordinate= QtPositioning.coordinate(coord.latitude,coord.longitude);
+                            mapa.center= QtPositioning.coordinate(coord.latitude,coord.longitude)
+                            upisservis.setCoo(coord.latitude,coord.longitude)
+                        }*/
 
                     }
-
-
-                ///////////////////////////////////////////////////////////////////////
-
-             /*  Button{
-                id: dugmeizaberilokaciju
-                anchors.top: maparectangle.bottom
-                height: 0
-                width: parent.width/2
-                visible: false
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: qsTr("Izaberi lokaciju")
-                onClicked:
-                {
-                   mapa.visible=true
-                }
-
-            }*/
-
-
-
             Button{
                 id: dugmedodajlokaciju
                 anchors.top: maparectangle.bottom
@@ -372,16 +331,6 @@ Rectangle
                         onPressedChanged: {
                              bekgraund.color="#2A9FF3"
                         }
-               /* onHoveredChanged:
-                {
-                    if(hovered==true){
-                    bekgraund.color="#2775C4"
-                    }
-                    else
-                    {
-                         bekgraund.color="#2A9FF3"
-                    }
-                }*/
 
                 onClicked:
                 {
@@ -406,16 +355,7 @@ Rectangle
                         upisservis.upisiLokaciju(nazivnovelokacije.text,gradnovelokacije.text,opisnovelokacije.text);
                         block.visible = false;
                         pageLoader.source= "lokacija.qml"
-                        /*if(event.getpom()===1){
-                            event.dodajlokaciju(nazivnovelokacije.text, gradnovelokacije.text, opisnovelokacije.text, "nikola", "11", "11");
-                            event.setpom(0);
-                            pageLoader.source = "DodajDogadjaj.qml"
-                        }
-                        else
-                        {*/
-                          //  event.dodajlokaciju(nazivnovelokacije.text, gradnovelokacije.text, opisnovelokacije.text, "nikola", "11", "11");
-//
-                        //}
+
                     }
                 }
             }
@@ -423,31 +363,6 @@ Rectangle
 
 
     }
-      /*  Rectangle
-        {
-            id:mapa
-
-            height: glavni.height
-            width:glavni.width
-            visible: false
-            color:"green"
-            Button{
-                id: dugme
-
-                height: parent.height/10
-                width: parent.width/2
-                anchors.top: parent.top
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: qsTr("Izaberi lokacijuuuu")
-                onClicked:
-                {
-                    event.dodajkoordinate("","");
-                   mapa.visible=false
-                }
-            }
-
-
-        }*/
     }
     }
 }

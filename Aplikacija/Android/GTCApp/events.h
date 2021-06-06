@@ -94,7 +94,7 @@ public slots:
          LokacijaModel &model =LokacijaModel::GetInstance();
          for(int i=0;i<t.Count()-1;i++)
          {
-         model.dodajlokaciju(lokacija("http://www.it-akademija.com/cms/mestoZaUploadFajlove/kako-napraviti-sajt.jpg",t.Rows[i]["Email"],t.Rows[i]["Password"]));
+         model.dodajlokaciju(lokacija(1,"http://www.it-akademija.com/cms/mestoZaUploadFajlove/kako-napraviti-sajt.jpg",t.Rows[i]["Email"],t.Rows[i]["Password"]));
          }
     }
     void fun3()

@@ -27,6 +27,7 @@ SOURCES += \
         lokacijadodaj.cpp \
         main.cpp \
         markermodel.cpp \
+        slikamodel.cpp \
         ucitavanjelokacije.cpp
 
 RESOURCES += qml.qrc \
@@ -58,5 +59,6 @@ HEADERS += \
     komentarimodel.h \
     lokacijadodaj.h \
     markermodel.h \
+    slikamodel.h \
     ucitavanjelokacije.h
-android: include(C:/Users/krsti/AppData/Local/Android/Sdk/android_openssl/openssl.pri)
+android: include(C:/Users/PC/AppData/Local/Android/Sdk/android_openssl/openssl.pri)

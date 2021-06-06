@@ -5,22 +5,19 @@
 #include<QtSql>
 #include<QtSql>
 #include<Lokacija.h>
-class LokacijaModel: public QAbstractListModel{
+class SlikaModel: public QAbstractListModel{
     Q_OBJECT
 
 private:
 
     enum LokacijaRoles {
         SlikaRole = Qt::UserRole + 1,
-        NazivRole,
-        GradRole,
-        IdRole
     };
-    static LokacijaModel* instance;
-    LokacijaModel();
+    static SlikaModel* instance;
+    SlikaModel();
     public:
-    static LokacijaModel& GetInstance();
-    void dodajlokaciju(const lokacija &lok);
+    static SlikaModel& GetInstance();
+    void dodajlokaciju(const QString slika);
     void remove()
     {
         beginRemoveRows(QModelIndex(), 0, 0);

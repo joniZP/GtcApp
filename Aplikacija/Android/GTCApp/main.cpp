@@ -29,27 +29,32 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
+    LokacijaModel &model =LokacijaModel::GetInstance();
+    KomentariModel &kommodel =KomentariModel::GetInstance();
     qmlRegisterType<events>("Events",1,0,"Events");
     qmlRegisterType<klasa>("Klasa",1,0,"Klasa");
     qmlRegisterType<UcitavanjeLokacije>("UcitavanjeLokacije",1,0,"UcitavanjeLokacije");
     qmlRegisterType<MLokacija>("MLokacija",1,0,"MLokacija");
     qmlRegisterType<UpisLokacijaDogadjaj>("UpisLokacijaDogadjaj",1,0,"UpisLokacijaDogadjaj");
+    engine.rootContext()->setContextProperty("_kommodel", &kommodel);
+    engine.rootContext()->setContextProperty("_model", &model);
     engine.load(url);
-     LokacijaModel &model =LokacijaModel::GetInstance();
-     KomentariModel &kommodel =KomentariModel::GetInstance();
-     model.dodajlokaciju(lokacija("http://gtcappservice.000webhostapp.com/GTCAPP/upload/slika.jpeg","s",""));
-     model.dodajlokaciju(lokacija("http://gtcappservice.000webhostapp.com/GTCAPP/upload/slika.jpeg","s",""));
-     model.dodajlokaciju(lokacija("/new/prefix1/person-icon.png","s",""));
-     model.dodajlokaciju(lokacija("/new/prefix1/person-icon.png","s",""));
+for (int i=0;i<10;i++)
+{
+     model.dodajlokaciju(lokacija(1,"https://gtcappservice.000webhostapp.com/GTCAPP/upload/slika.jpeg","Naziv","Grad"));
+     model.dodajlokaciju(lokacija(2,"http://gtcappservice.000webhostapp.com/GTCAPP/upload/slika.jpeg","Naziv","Grad"));
+     model.dodajlokaciju(lokacija(3,"/new/prefix1/person-icon.png","Naziv","Grad"));
+     model.dodajlokaciju(lokacija(4,"/new/prefix1/person-icon.png","Naziv","Grad"));
+}
     // kommodel.dodajkomentar(Komentar("http://gtcappservice.000webhostapp.com/GTCAPP/upload/slika.jpeg","neki komentar  dsdsdsd dsds dsds d dsds sd s ",""));
      FileUploader *f = new FileUploader();
     // MarkerModel & m=MarkerModel::GetInstance();
 
     // f->UploadFiles();
      MySqlService &s = MySqlService::MySqlInstance();
-    engine.rootContext()->setContextProperty("_model", &model);
+
     // engine.rootContext()->setContextProperty("markerModel", &m);
-     engine.rootContext()->setContextProperty("_kommodel", &kommodel);
+
    // EmailVerificator &ev = EmailVerificator::GetInstance();
     //ev.SendVerificationEmail("sgssasa@elfak.rs","Sasa","Sasa Stojiljkovic");
 

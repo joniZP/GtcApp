@@ -1,8 +1,9 @@
 #include "Lokacija.h"
 
-lokacija::lokacija(const QString &slika, const QString &text,const QString &boja)
-    : m_slika(slika), m_text(text),m_boja(boja)
+lokacija::lokacija(const int& id,const QString &slika, const QString &naziv,const QString &grad)
+    :m_id(id), m_slika(slika), m_naziv(naziv),m_grad(grad)
 {
+
 }
 
 QString lokacija::slika() const
@@ -10,14 +11,17 @@ QString lokacija::slika() const
     return m_slika;
 }
 
-QString lokacija::tekst() const
+QString lokacija::naziv() const
 {
-    return m_text;
+    return m_naziv;
 }
-QString lokacija::boja() const
+QString lokacija::grad() const
 {
-    return m_boja;
+    return m_grad;
 }
-
+int lokacija::id() const
+{
+    return m_id;
+}
 
 

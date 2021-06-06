@@ -38,7 +38,7 @@ public:
 
                     qDebug() << query.toStr();
                      t3 = s.WSendQuery(query);
-                     if(t3.isSuccessfully())
+                     if(t3.isSuccessfully()&&t3.Count()>0)
                   lokacija = new MLokacija(id,t.Rows[0]["idkorisnika"],t3.Rows[0]["ime"] +" " + t3.Rows[0]["prezime"],t.Rows[0]["naziv"],t.Rows[0]["opis"],t.Rows[0]["grad"],t.Rows[0]["likes"].toInt(),t.Rows[0]["x"].toDouble(),t.Rows[0]["y"].toDouble());
                }
            }

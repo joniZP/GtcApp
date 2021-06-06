@@ -12,17 +12,14 @@ import MLokacija 1.0
 
 Rectangle {
     id:par
-
-    property MLokacija location
+/*
     Component.onCompleted:
     {
        let ll= ucitajInstance.getLokacija(1)
        location = ll;
     }
+*/
 
-    UcitavanjeLokacije{
-    id:ucitajInstance;
-    }
 
 anchors.fill: parent
 Flickable{

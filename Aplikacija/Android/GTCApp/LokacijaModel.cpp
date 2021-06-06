@@ -32,17 +32,21 @@ QVariant LokacijaModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
     const lokacija &lokacija = m_lokacije[index.row()];
-    if (role == TypeRole)
+    if (role == SlikaRole)
     {
         return lokacija.slika();
     }
-    else if (role == SizeRole)
+    else if (role == NazivRole)
     {
-        return lokacija.tekst();
+        return lokacija.naziv();
     }
-    else if(role==ColorRole)
+    else if(role==GradRole)
     {
-        return lokacija.boja();
+        return lokacija.grad();
+    }
+    else if(role==IdRole)
+    {
+        return lokacija.id();
     }
     return QVariant();
 }
@@ -50,9 +54,10 @@ QVariant LokacijaModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> LokacijaModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[TypeRole] = "slika";
-    roles[SizeRole] = "tekst";
-    roles[ColorRole] = "boja";
+    roles[SlikaRole] = "slika";
+    roles[NazivRole] = "naziv";
+    roles[GradRole] = "grad";
+    roles[IdRole] = "id";
     return roles;
 }
 

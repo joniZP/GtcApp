@@ -4,16 +4,18 @@
 class lokacija
 {
 public:
-    lokacija(const QString &slika, const QString &text,const QString &boja);
+    lokacija(const int& id,const QString &slika, const QString &naziv,const QString &grad);
 //![0]
 
+    int id() const;
     QString slika() const;
-    QString tekst() const;
-    QString boja() const;
+    QString naziv() const;
+    QString grad() const;
 
 private:
+    int m_id;
     QString m_slika;
-    QString m_text;
-     QString m_boja;
+    QString m_naziv;
+    QString m_grad;
 //![1]
 };
