@@ -12,8 +12,12 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        dogadjaj.cpp \
+        dogadjajmodel.cpp \
         emailVerificator.cpp \
         events.cpp \
+        komentar.cpp \
+        komentarmodel.cpp \
         lokacija.cpp \
         lokacijaModel.cpp \
         main.cpp \
@@ -38,8 +42,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    dogadjaj.h \
+    dogadjajmodel.h \
     emailVerificator.h \
     events.h \
+    komentar.h \
+    komentarmodel.h \
     lokacija.h \
     lokacijaModel.h \
     mySqlFile.h \

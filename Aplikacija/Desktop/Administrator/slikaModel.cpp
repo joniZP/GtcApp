@@ -44,14 +44,31 @@ slikamodel &slikamodel::GetInstance()
         {
             return slika.boja();
         }
+        else if(role==IdRole)
+        {
+            return slika.id();
+        }
+        else if(role==NazivRole)
+        {
+            return slika.naziv();
+        }
+        else if(role==GradRole)
+        {
+            return slika.grad();
+        }
+        else if(role==SlikaRole)
+        {
+            return slika.slika();
+        }
         return QVariant();
     }
 
     QHash<int, QByteArray>slikamodel::roleNames() const
     {
         QHash<int, QByteArray> roles;
-        roles[TypeRole] = "slika";
-        roles[SizeRole] = "tekst";
-        roles[ColorRole] = "boja";
+        roles[IdRole] = "id";
+        roles[SlikaRole] = "slika";
+        roles[NazivRole] = "naziv";
+        roles[GradRole] = "grad";
         return roles;
     }

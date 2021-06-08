@@ -22,7 +22,11 @@ private:
     enum SlikaRoles {
         TypeRole = Qt::UserRole + 1,
         SizeRole,
-        ColorRole
+        ColorRole,
+        IdRole,
+        SlikaRole,
+        NazivRole,
+        GradRole
     };
     static slikamodel* instance;
    slikamodel();
