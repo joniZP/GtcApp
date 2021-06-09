@@ -9,6 +9,8 @@ Rectangle
     width: 300
     height: 300
 
+
+
     Rectangle {
            anchors.fill: flickable
            radius: 20
