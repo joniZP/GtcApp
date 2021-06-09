@@ -10,6 +10,8 @@
 #include"ucitavanjelokacije.h"
 #include"UpisLokacijaDogadjaj.h"
 #include"slikamodel.h"
+#include<kategorijamodel.h>
+#include<PretragaLokacija.h>
 //#include<komentarimodel.h>
 //#include"MySqlKrsta.h"
 int main(int argc, char *argv[])
@@ -33,12 +35,14 @@ int main(int argc, char *argv[])
     LokacijaModel &model =LokacijaModel::GetInstance();
     KomentariModel &kommodel =KomentariModel::GetInstance();
     SlikaModel &slikamodel =SlikaModel::GetInstance();
+    KategorijaModel &kategorijamodel=KategorijaModel::GetInstance();
     qmlRegisterType<events>("Events",1,0,"Events");
     qmlRegisterType<klasa>("Klasa",1,0,"Klasa");
     qmlRegisterType<UcitavanjeLokacije>("UcitavanjeLokacije",1,0,"UcitavanjeLokacije");
     qmlRegisterType<MLokacija>("MLokacija",1,0,"MLokacija");
     qmlRegisterType<UpisLokacijaDogadjaj>("UpisLokacijaDogadjaj",1,0,"UpisLokacijaDogadjaj");
     engine.rootContext()->setContextProperty("_kommodel", &kommodel);
+    engine.rootContext()->setContextProperty("_katmodel", &kategorijamodel);
     engine.rootContext()->setContextProperty("_model", &model);
     engine.rootContext()->setContextProperty("_slikamodel", &slikamodel);
     engine.load(url);
@@ -63,8 +67,13 @@ int main(int argc, char *argv[])
 
               }
       }
+       PretragaLokacija p;
+       p.Pretrazi("neki tamo opis");
 
-
+      for (int i=0;i<10;i++)
+      {
+          kategorijamodel.dodajkategoriju(Kategorija("kategorija",false,i));
+      }
     // kommodel.dodajkomentar(Komentar("http://gtcappservice.000webhostapp.com/GTCAPP/upload/slika.jpeg","neki komentar  dsdsdsd dsds dsds d dsds sd s ",""));
      FileUploader *f = new FileUploader();
     // MarkerModel & m=MarkerModel::GetInstance();

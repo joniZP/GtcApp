@@ -25,7 +25,6 @@
 #include<komentarimodel.h>
 #include<FileUploader.h>
 #include"klasa.h"
-
 class events : public QObject
 {
     Q_OBJECT
@@ -42,8 +41,7 @@ signals:
 public slots:
 
     bool registracija(QString ime,QString korisnickoime,QString email,QString sifra)
-    {
-
+    { 
         MySqlService &s = MySqlService::MySqlInstance();
         MySqlTable t;
         QString query="INSERT INTO Users VALUES('"+ime+"','"+korisnickoime+"','"+email+"','"+sifra+"',0,'')";

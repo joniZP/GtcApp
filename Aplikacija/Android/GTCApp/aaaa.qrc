@@ -27,5 +27,6 @@
         <file>pin.png</file>
         <file>addimage.png</file>
         <file>addimage2.png</file>
+        <file>loupe.png</file>
     </qresource>
 </RCC>

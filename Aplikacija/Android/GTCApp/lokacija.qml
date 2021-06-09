@@ -34,7 +34,6 @@ SwipeView{
      anchors.top: parent.top
      height: par.height/2.3
      width: parent.width
-     x:(parent.width-width)/2
      property var model :ListModel{}
      clip:true
      Repeater {
@@ -44,8 +43,24 @@ SwipeView{
             width: slider.width
             height: slider.height
             source:slika
-            fillMode: Image.Stretch
-
+            fillMode: Image.PreserveAspectFit
+            onProgressChanged:
+            {
+                if(slikalokacija.progress==1)
+                {
+                   // slider.height=slikalokacija.paintedHeight
+                    spiner.visible=false
+                }
+            }
+            AnimatedImage
+            {
+                id:spiner
+                source: "/new/prefix1/Spinner-1s-200px (1).gif"
+                width: 60
+                height: 60
+                anchors.centerIn: parent
+               // visible: slikalokacija.progress!=1
+            }
          }
 
      }

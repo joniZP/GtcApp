@@ -12,6 +12,7 @@ ApplicationWindow
 {
     property MLokacija location
     property Klasa klas
+    property string natpis: ""
     Component.onCompleted:
     {
 
@@ -105,6 +106,10 @@ ApplicationWindow
                 }
                 Rectangle
                 {
+                    id:pretragalupa
+                    width: 25
+                    height: 25
+                    color: "#549cff"
                     Layout.alignment: Qt.AlignRight
                     Layout.rightMargin: 10
                     Image
@@ -113,9 +118,17 @@ ApplicationWindow
                         source: "/new/prefix1/search-3-24.png"
                         anchors.fill: parent
                     }
-                    width: 25
-                    height: 25
-                    color: "#549cff"
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        onClicked:
+                        {
+                            pageLoader.source="pretraga.qml"
+                            natpis="Pretraga"
+                        }
+                    }
+
+
                    // Layout.leftMargin:100
 
             }
@@ -131,6 +144,19 @@ ApplicationWindow
                 anchors.centerIn: parent
                 anchors.fill: parent
                 source: "ListaLokacija.qml"
+                onSourceChanged:
+                {
+                    iii.text=natpis
+                    if(source!="qrc:/pretraga.qml")
+                    {
+                        pretragalupa.visible=true
+
+                    }
+                    else
+                    {
+                       pretragalupa.visible=false
+                    }
+                }
 
             }
             color: "red"
@@ -297,7 +323,8 @@ ApplicationWindow
                             }
                         pocetna.color_="#d9d7d2"
                         pom=pocetna
-                        pageLoader.source = "lokacija.qml"
+                            natpis="Pocetna"
+                        pageLoader.source = "lokacija.qml" 
                         drawer.close()
                         }
                    }
@@ -316,6 +343,7 @@ ApplicationWindow
                         {
                             //console.log( men.fun1(dugme))
                             pageLoader.source = "prvi.qml"
+                            natpis="Prvi"
                             if(pom!=null)
                             {
                                  pom.color_="#ffffff"
@@ -345,7 +373,9 @@ ApplicationWindow
                             }
                         dugme1.color_="#d9d7d2"
                         pom=dugme1
+                        natpis="Dodaj lokaciju"
                         pageLoader.source = "DodajLokaciju.qml"
+
                         drawer.close()
                         }
                    }
@@ -369,6 +399,7 @@ ApplicationWindow
                             }
                             dugme2.color_="#d9d7d2"
                             pom=dugme2
+                            natpis="Dodaj dogadjaj"
                             pageLoader.source = "DodajDogadjaj.qml"
                             drawer.close()
                         }
@@ -394,7 +425,8 @@ ApplicationWindow
                             }
                             dugme3.color_="#d9d7d2"
                             pom=dugme3
-                            pageLoader.source = "zaboravljena_lozinka.qml"
+                            natpis="Pretraga"
+                            pageLoader.source = "pretraga.qml"
                             drawer.close()
                         }
                     }
@@ -419,7 +451,8 @@ ApplicationWindow
                            }
                        pocetna.color_="#d9d7d2"
                        pom=pocetna
-                       pageLoader.source = "ListaLokacija.qml"
+                       natpis="Lista lokacija"
+                       pageLoader.source = "proba.qml"
                        drawer.close()
                        }
                   }

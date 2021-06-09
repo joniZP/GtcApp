@@ -9,8 +9,6 @@ Rectangle {
 
 ColumnLayout{
     width:parent.width
-
-
     TextField {
         id: prijavakorisnickoime
         Layout.topMargin: 120
@@ -103,6 +101,10 @@ ColumnLayout{
         font.pixelSize: 15
         MouseArea{
             anchors.fill:parent
+            onClicked:
+            {
+                pageLoader.source = "zaboravljena_lozinka.qml"
+            }
 
         }
     }
