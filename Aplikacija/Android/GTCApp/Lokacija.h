@@ -1,4 +1,5 @@
-
+#ifndef LOKACIJA_H
+#define LOKACIJA_H
 #include <QAbstractListModel>
 #include <QStringList>
 class lokacija
@@ -19,3 +20,4 @@ private:
     QString m_grad;
 //![1]
 };
+#endif

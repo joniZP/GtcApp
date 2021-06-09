@@ -31,6 +31,7 @@ SOURCES += \
         lokacijadodaj.cpp \
         main.cpp \
         markermodel.cpp \
+        mestomodel.cpp \
         slikamodel.cpp \
         ucitavanjelokacije.cpp
 
@@ -67,6 +68,7 @@ HEADERS += \
     komentarimodel.h \
     lokacijadodaj.h \
     markermodel.h \
+    mestomodel.h \
     slikamodel.h \
     ucitavanjelokacije.h
 android: include(C:/Users/PC/AppData/Local/Android/Sdk/android_openssl/openssl.pri)

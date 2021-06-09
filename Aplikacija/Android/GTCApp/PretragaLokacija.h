@@ -3,6 +3,10 @@
 
 #include <QObject>
 #include <MySqlKrsta.h>
+#include<kategorijamodel.h>
+#include<mestomodel.h>
+#include<LINKS.h>
+#include<LokacijaModel.h>
 class PretragaLokacija : public QObject
 {
     Q_OBJECT
@@ -11,26 +15,53 @@ public:
     QStringList gradovi;
     QStringList kategorije;
 
+    KategorijaModel &m=KategorijaModel::GetInstance();
+    MestoModel &mesto=MestoModel::GetInstance();
     Q_INVOKABLE
-    void Pretrazi(QString text)
+    void reset()
+    {
+        m.reset();
+        mesto.reset();
+    }
+    Q_INVOKABLE
+    void pretrazi(QString text)
     {
 
        getGradoviKategorije();
        MySqlService & s = MySqlService::MySqlInstance();
        MySqlTable t;
        MyQuery q;
+        qDebug()<<text;
+       QStringList recipom = text.split(" ");
+       QStringList reci;
 
-       QStringList reci = text.split(" ");
-       QString query = "SELECT * from (Select Konacna.id,COUNT(id) as prioritet from (";
-
-       for(int i=0;i<reci.count()-1;i++)
-       {
-           query.append("(SELECT id FROM `Lokacija` WHERE opis LIKE '%"+reci[i]+"%')  UNION ALL ");
-       }
-         query.append("(SELECT id FROM `Lokacija` WHERE opis LIKE '%"+reci[reci.count()-1]+"%')");
-         query.append(")  as Konacna GROUP BY Konacna.id) as spoj left join Lokacija ON spoj.id = Lokacija.id ");
+        for(int i = 0;i< recipom.count();i++)
+        {
+             qDebug()<<recipom[i]<<" ";
+            if(recipom[i].length() >= 3)
+                reci.push_back(recipom[i]);
+        }
 
 
+        qDebug()<<reci.count();
+       QString query ="";
+        if(reci.count()>0)
+        {
+
+            query.append("SELECT * from (Select Konacna.id,COUNT(id) as prioritet from (");
+
+               for(int i=0;i<reci.count()-1;i++)
+               {
+                   query.append("(SELECT id FROM Lokacija WHERE opis LIKE '%"+reci[i]+"%')  UNION ALL ");
+               }
+             query.append("(SELECT id FROM Lokacija WHERE opis LIKE '%"+reci[reci.count()-1]+"%')");
+             query.append(")  as Konacna GROUP BY Konacna.id) as spoj left join Lokacija ON spoj.id = Lokacija.id ");
+
+        }
+        else
+        {
+            query.append("SELECT * FROM Lokacija ");
+        }
 
          if(gradovi.count() > 0 || kategorije.count() > 0)
          {
@@ -66,21 +97,55 @@ public:
 
          }
 
+         if(reci.count()>0)
          query.append(" ORDER BY prioritet DESC");
-
-
 
        qDebug()<<query;
 
 
+       t = s.WSendQuery(query);
+       if(t.isSuccessfully())
+       {
+            LokacijaModel &model =LokacijaModel::GetInstance();
+            model.removeAll();
+
+               for (int i=0;i<t.Count();i++)
+               {
+                   if(t.Rows[i]["brojSlika"].toInt() == 0)
+                   {
+                       model.dodajlokaciju(lokacija(t.Rows[i]["id"].toInt(),LINKS::APILINK+"/upload/noimageavailable.jpeg",t.Rows[i]["naziv"],t.Rows[i]["grad"]));
+                   }
+                   else
+                   {
+                        model.dodajlokaciju(lokacija(t.Rows[i]["id"].toInt(),LINKS::getLocationPicture(t.Rows[i]["id"].toInt(),0),t.Rows[i]["naziv"],t.Rows[i]["grad"]));
+                   }
+
+               }
+       }
+
+
     }
 
-    void getGradoviKategorije(){
-        gradovi.push_back("Nis");
-        gradovi.push_back("Leskovac");
+    void getGradoviKategorije()
+    {
+        kategorije.clear();
+        gradovi.clear();
+          for(int i=0;i<m.m_kategorije.length();i++)
+          {
+              if(m.m_kategorije[i].cekirana())
+              {
+                  kategorije.push_back(m.m_kategorije[i].kategorija());
+              }
+          }
+          for(int i=0;i<mesto.m_mesta.length();i++)
+          {
+              qDebug()<<mesto.m_mesta[i].cekirana()<< " ";
+              if(mesto.m_mesta[i].cekirana())
+              {
 
-        kategorije.push_back("Sport");
-        kategorije.push_back("Izlet");
+                  gradovi.push_back(mesto.m_mesta[i].kategorija());
+              }
+          }
     }
 
 signals:

@@ -1,5 +1,5 @@
-#ifndef KATEGORIJAMODEL_H
-#define KATEGORIJAMODEL_H
+#ifndef MestoModel_H
+#define MestoModel_H
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -7,27 +7,27 @@
 #include<QtSql>
 #include<QtSql>
 #include<kategorija.h>
-class KategorijaModel: public QAbstractListModel{
+class MestoModel: public QAbstractListModel{
     Q_OBJECT
 
 private:
 
     enum KomentariRoles {
-        KategorijaRole = Qt::UserRole + 1,
+        MestoRole = Qt::UserRole + 1,
         CekiranRole,
         IndeksRole
     };
-    static KategorijaModel* instance;
-    KategorijaModel();
+    static MestoModel* instance;
+    MestoModel();
     public:
-    static KategorijaModel& GetInstance();
-    void dodajkategoriju(const Kategorija &kat);
+    static MestoModel& GetInstance();
+    void dodajmesto(const Kategorija &kat);
     void remove()
     {
         beginRemoveRows(QModelIndex(), 0, 0);
-        if(m_kategorije.count()>0)
+        if(m_mesta.count()>0)
         {
-             m_kategorije.removeFirst();
+             m_mesta.removeFirst();
         }
         endRemoveRows();
     }
@@ -36,29 +36,30 @@ private:
 protected:
     QHash<int, QByteArray> roleNames() const;
 public:
-    QList<Kategorija> m_kategorije;
+    QList<Kategorija> m_mesta;
     Q_INVOKABLE
     void dodaj(int i)
     {
-        if(m_kategorije[i].cekirana()==false)
+        if(m_mesta[i].cekirana()==false)
         {
-            m_kategorije[i].setCekirana(true);
+            m_mesta[i].setCekirana(true);
         }
         else
         {
-            m_kategorije[i].setCekirana(false);
+            m_mesta[i].setCekirana(false);
         }
-        qDebug()<<m_kategorije[i].cekirana();
+        qDebug()<<m_mesta[i].cekirana();
     }
     void ukloni(int i)
     {
-        m_kategorije[i].setCekirana(true);
+        m_mesta[i].setCekirana(true);
     }
+
     void reset()
     {
-        for(int i=0;i<m_kategorije.length();i++)
+        for(int i=0;i<m_mesta.length();i++)
         {
-            m_kategorije[i].setCekirana(false);
+            m_mesta[i].setCekirana(false);
         }
     }
 private:

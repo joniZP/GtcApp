@@ -8,11 +8,17 @@ import Events 1.0
 import Klasa 1.0
 import UcitavanjeLokacije 1.0
 import MLokacija 1.0
+import PretragaLokacija 1.0
 ApplicationWindow
 {
     property MLokacija location
     property Klasa klas
     property string natpis: ""
+
+    PretragaLokacija
+    {
+        id:pretrazi
+    }
     Component.onCompleted:
     {
 
@@ -123,6 +129,7 @@ ApplicationWindow
                         anchors.fill: parent
                         onClicked:
                         {
+                            pretrazi.reset()
                             pageLoader.source="pretraga.qml"
                             natpis="Pretraga"
                         }
