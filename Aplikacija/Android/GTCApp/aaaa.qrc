@@ -29,5 +29,7 @@
         <file>addimage2.png</file>
         <file>loupe.png</file>
         <file>check.png</file>
+        <file>change.png</file>
+        <file>friendlist.png</file>
     </qresource>
 </RCC>

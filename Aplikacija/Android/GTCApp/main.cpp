@@ -34,6 +34,13 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     LokacijaModel &model =LokacijaModel::GetInstance();
+    //neke lokacije /////////////////////////////////
+    /// \brief kommodel
+    model.dodajlokaciju(lokacija(0, "http://humanads.000webhostapp.com/upload/slika.jpeg","s",""));
+    model.dodajlokaciju(lokacija(1, "http://humanads.000webhostapp.com/upload/slika.jpeg","s",""));
+    model.dodajlokaciju(lokacija(2, "/new/prefix1/person-icon.png","s",""));
+    model.dodajlokaciju(lokacija(3, "/new/prefix1/person-icon.png","s",""));
+
     KomentariModel &kommodel =KomentariModel::GetInstance();
     SlikaModel &slikamodel =SlikaModel::GetInstance();
     KategorijaModel &kategorijamodel=KategorijaModel::GetInstance();
@@ -71,8 +78,8 @@ int main(int argc, char *argv[])
 
               }
       }
-       PretragaLokacija p;
-       p.pretrazi("neki tamo opis");
+       //PretragaLokacija p;
+       //p.pretrazi("neki tamo opis");
 
           kategorijamodel.dodajkategoriju(Kategorija("sport",false,0));
           kategorijamodel.dodajkategoriju(Kategorija("izlet",false,1));

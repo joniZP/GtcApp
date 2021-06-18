@@ -62,6 +62,54 @@ public slots:
            return true;
 
     }
+    bool izmenaprofila(QString trenutnokorisnickoime, QString ime,QString korisnickoime,QString email,QString sifra, QString telefon)
+    {
+        MySqlService &s = MySqlService::MySqlInstance();
+        MySqlTable t;
+        QString query="UPDATE Users SET KorisnickoIme ='"+ korisnickoime+"' Email='"+email+"' Password='"+sifra+"' PunoIme='"+ime+"' Telefon='"+telefon+"' WHERE KorisnickoIme ='"+trenutnokorisnickoime+"'";
+
+        //QString query="INSERT INTO Users VALUES('"+ime+"','"+korisnickoime+"','"+email+"','"+sifra+"',0,'')";
+        QString q="SELECT * FROM Users WHERE KorisnickoIme='"+korisnickoime+"'";
+        qDebug()<<query;
+           t = s.WSendQuery(q);
+           if(t.isSuccessfully())
+           {
+
+           if(t.Count()>1)
+           {
+               return false;
+           }
+           }
+           s.SendQuery(query);
+           EmailVerificator &ev = EmailVerificator::GetInstance();
+           //ev.SendVerificationEmail(email,korisnickoime,ime);
+           return true;
+
+    }
+    bool izmenislikuprofila(QString slika, QString korisnickoime)
+    {
+        MySqlService &s = MySqlService::MySqlInstance();
+        MySqlTable t;
+        QString query="UPDATE Users SET SlikaLink ='"+slika+"' WHERE KorisnickoIme ='"+korisnickoime+"'";
+
+        //QString query="INSERT INTO Users VALUES('"+ime+"','"+korisnickoime+"','"+email+"','"+sifra+"',0,'')";
+        QString q="SELECT * FROM Users WHERE KorisnickoIme='"+korisnickoime+"'";
+        qDebug()<<query;
+           t = s.WSendQuery(q);
+           if(t.isSuccessfully())
+           {
+
+           if(t.Count()>1)
+           {
+               return false;
+           }
+           }
+           s.SendQuery(query);
+           //EmailVerificator &ev = EmailVerificator::GetInstance();
+           //ev.SendVerificationEmail(email,korisnickoime,ime);
+           return true;
+
+    }
     int prijava(QString korisnickoime,QString password)
     {
         MySqlService &s = MySqlService::MySqlInstance();

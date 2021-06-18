@@ -17,6 +17,8 @@
         <file>DodajLokaciju.qml</file>
         <file>ListaLokacija.qml</file>
         <file>proba.qml</file>
+        <file>mojprofil.qml</file>
+        <file>izmeniprofil.qml</file>
     </qresource>
     <qresource prefix="/aa"/>
     <qresource prefix="/saa"/>

@@ -165,7 +165,7 @@ ColumnLayout{
                 b=true
             }
 
-            if(b==false)
+            if(b===false)
             {
                 block.visible=true
                 if(!event.registracija(ime.text,korisnickoime.text,email.text,lozinka.text))

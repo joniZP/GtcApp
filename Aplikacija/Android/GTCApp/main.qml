@@ -218,6 +218,18 @@ ApplicationWindow
                        height: 50
                        fillMode: Image.PreserveAspectCrop
                        layer.enabled: true
+                       MouseArea
+                       {
+                           anchors.fill: parent
+                           id: mojprofilotvori
+                           onClicked: {
+
+                                    pageLoader.source = "mojprofil.qml"
+                               drawer.close()
+
+                               }
+
+                       }
                        //layer.effect: OpacityMask {
                        //    maskSource: mask
                        //}
@@ -349,7 +361,7 @@ ApplicationWindow
                         onClicked:
                         {
                             //console.log( men.fun1(dugme))
-                            pageLoader.source = "prvi.qml"
+                            pageLoader.source = "profil.qml"
                             natpis="Prvi"
                             if(pom!=null)
                             {

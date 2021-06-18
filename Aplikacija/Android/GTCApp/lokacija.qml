@@ -6,7 +6,7 @@ import QtQuick.Controls.Material 2.3
 import QtLocation 5.6
 import QtPositioning 5.6
 import QtGraphicalEffects 1.12
-import QtWebView 1.1
+//import QtWebView 1.1
 import UcitavanjeLokacije 1.0
 import MLokacija 1.0
 
