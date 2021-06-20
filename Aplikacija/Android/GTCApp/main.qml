@@ -3,17 +3,38 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 //import QtQuick.Controls.Material 2.3
-//import QtGraphicalEffects 1.0
+import QtGraphicalEffects 1.0
 import Events 1.0
 import Klasa 1.0
 import UcitavanjeLokacije 1.0
 import MLokacija 1.0
 import PretragaLokacija 1.0
+import LOCALDATA 1.0
+import KorisnikEvents 1.0
+import MProfil 1.0
+import UcitavanjeProfila 1.0
+
 ApplicationWindow
 {
     property MLokacija location
     property Klasa klas
     property string natpis: ""
+    property MProfil mProfil
+    property MProfil mProfilInst;
+
+    LOCALDATA{
+    id:localData
+
+    Component.onCompleted: {
+    mProfilInst = localData.getMProfil();
+    }
+    }
+
+
+    KorisnikEvents{
+    id:korisnikEvents
+    }
+
 
     PretragaLokacija
     {
@@ -26,15 +47,65 @@ ApplicationWindow
        klas=klas1
     }
 
+
     UcitavanjeLokacije
     {
        id:ucitajInstance;
     }
-    function funkcija(a)
-    {
-        let ll= ucitajInstance.getLokacija(a)
-        location = ll;
+
+    UcitavanjeProfila{
+        id:ucitavanjeProfilaInstance
     }
+
+
+
+
+
+
+    function getProfilByUsername(username)
+    {
+        let userpom = ucitavanjeProfilaInstance.getProfil(username);
+        mProfil = userpom;
+    }
+
+    function getDogadjajById(id)
+    {
+
+    }
+
+    function getLokacijaById(id)
+    {
+        let lokacijapom= ucitajInstance.getLokacija(id)
+        location = lokacijapom;
+    }
+
+    function refreshProfilData()
+    {
+        nalogIme.text = qsTr(mProfilInst.getIme()+" "+mProfilInst.getPrezime());
+        nalogImg.source = mProfilInst.getSlikaURL();
+        nalogEmail.text = qsTr(mProfilInst.getEmail());
+        const obavestenja = localData.getBrObavestenja();
+        if(obavestenja === 0)
+            nalogSlikaPoruka.visible = false;
+        else
+        {
+             nalogBrojPoruka.text = obavestenja;
+            nalogSlikaPoruka.visible = true;
+        }
+        const ulogovan = localData.getUlogovan();
+        porukeID.visible = zahteviID.visible = ulogovan;
+        loginID.visible = !ulogovan;
+        mojprofilotvori.visible = ulogovan;
+       // refreshSlika();
+
+    }
+    function refreshSlika(url)
+    {
+       mProfilInst.setSlikaURL(url);
+        const nesto = localData.getMProfil();
+        console.log("\n\n\n"+nesto.getSlikaURL());
+    }
+
 
     visible: true
     width: 300
@@ -96,6 +167,7 @@ ApplicationWindow
                         anchors.fill: parent
                         onClicked:
                         {
+                            refreshProfilData();
                             drawer.open()
                         }
                     }
@@ -207,8 +279,8 @@ ApplicationWindow
                         width:parent.width
                 Image
                 {
-                       id: img
-                       source: "/new/prefix1/person-icon.png"
+                       id: nalogImg
+                       source: mProfilInst.getSlikaURL()
                        Layout.topMargin: 20
                        Layout.leftMargin: 10
                        //anchors.verticalCenter: parent.verticalCenter
@@ -218,21 +290,25 @@ ApplicationWindow
                        height: 50
                        fillMode: Image.PreserveAspectCrop
                        layer.enabled: true
+
                        MouseArea
                        {
                            anchors.fill: parent
                            id: mojprofilotvori
                            onClicked: {
+                                drawer.close()
+                               block.visible = true;
+                               ucitavanjeProfilaInstance.ucitajLokacijeiDogadjaje(mProfilInst.getKorisnickoIme())
+                               pageLoader.source = "mojprofil.qml"
 
-                                    pageLoader.source = "mojprofil.qml"
-                               drawer.close()
+                               block.visible = false;
 
                                }
 
                        }
-                       //layer.effect: OpacityMask {
-                       //    maskSource: mask
-                       //}
+                       layer.effect: OpacityMask {
+                           maskSource: mask
+                       }
                 }
 
               /*  Rectangle {
@@ -290,8 +366,8 @@ ApplicationWindow
                  }
                 Text {
 
-                    id: nalogime
-                    text: qsTr("Sasa Stojiljkovic")
+                    id: nalogIme
+                    text: qsTr(mProfilInst.getIme() + mProfilInst.getPrezime())
                     color: "#ffffff"
                      font.pointSize: 20
                      Layout.leftMargin: 10
@@ -300,8 +376,8 @@ ApplicationWindow
 
                 }
                 Text {
-                       id: nalogemail
-                        text: "sgssasa@gmail.com"
+                       id: nalogEmail
+                        text: qsTr(mProfilInst.getEmail())
                         font.family: "Helvetica"
                         font.pointSize: 14
                         color: "#d6d3cb"
@@ -481,18 +557,46 @@ ApplicationWindow
                    sourc: "/new/prefix1/list.png"
                    tex: "ListaLokacija"
                }
+
+               Sbutt
+               {
+                   MouseArea
+                   {
+                       anchors.fill: parent
+                       onClicked:
+                       {
+                           // console.log( men.fun1(dugme1))
+                           if(pom!=null)
+                           {
+                               pom.color_="#ffffff"
+                           }
+                       pocetna.color_="#d9d7d2"
+                       pom=pocetna
+                           natpis="Pocetna"
+                       pageLoader.source = "pocetna.qml"
+                        korisnikEvents.odjava()
+                       drawer.close()
+                       }
+                  }
+                   id: pocetnastrana
+                   widt: parent.width
+                   heigh: 40
+                   sourc: "/new/prefix1/list.png"
+                   tex: "Log out"
+               }
            }
        }
    }
 
         Text {
-            id: iiidi
+            id: loginID
             text: qsTr("Login  >")
              anchors.right: parent.right
              anchors.top: parent.top
              anchors.topMargin: 10
              anchors.rightMargin: 10
              color: "#ffffff"
+             visible: (!localData.getUlogovan());
              anchors.verticalCenter: parent.verticalCenter
 
              MouseArea
@@ -506,6 +610,79 @@ ApplicationWindow
 
              }
         }
+
+
+        Image {
+                    id: porukeID
+                    source: "qrc:/new/prefix1/comment__2_-removebg-preview.png"
+                    width:25
+                    height:25
+                    visible: localData.getUlogovan();
+
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    anchors.topMargin: 10
+
+                    anchors.rightMargin: 20
+
+
+                    Image {
+                        id: nalogSlikaPoruka
+                        source: "qrc:/new/prefix1/reddot.png"
+
+                        width:13
+                        height:13
+
+                        anchors.right:parent.right
+                        anchors.top: parent.top
+                        anchors.rightMargin: -3
+                        anchors.topMargin: -3
+                        Text {
+                            id: nalogBrojPoruka
+                            text:  localData.getBrObavestenja()
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.family: "Helvetica"
+                            anchors.centerIn: parent
+                            font.pointSize: 10
+                            color: "white"
+                        }
+                    }
+
+                    MouseArea{
+                        anchors.fill:parent
+
+                        onClicked: {
+
+                            pageLoader.source = "obavestenja.qml"
+                            drawer.close()
+                        }
+                    }
+                }
+                Image {
+                    id: zahteviID
+                    source: "qrc:/new/prefix1/comment__2_-removebg-preview.png"
+                    width:20
+                    height:20
+                    visible: localData.getUlogovan()
+
+                    anchors.right: porukeID.left
+                    anchors.top: porukeID.top
+                    anchors.topMargin: 10
+                    anchors.rightMargin: 10
+
+                    MouseArea{
+                        anchors.fill:parent
+
+                        onClicked: {
+
+                            pageLoader.source = "zahtevi.qml"
+                            drawer.close()
+                        }
+                    }
+                }
+
+
+
         }
 }
 

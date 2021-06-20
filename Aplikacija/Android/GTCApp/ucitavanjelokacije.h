@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <MLokacija.h>
-#include <MySqlKrsta.h>
+#include <MySqlService.h>
 #include<komentarimodel.h>
 #include<LINKS.h>
 #include<slikamodel.h>

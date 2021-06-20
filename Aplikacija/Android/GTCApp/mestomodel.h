@@ -21,7 +21,7 @@ private:
     MestoModel();
     public:
     static MestoModel& GetInstance();
-    void dodajmesto(const Kategorija &kat);
+    void dodajmesto(const Kategorija &kat);////Treba da se izmeni
     void remove()
     {
         beginRemoveRows(QModelIndex(), 0, 0);
@@ -36,7 +36,7 @@ private:
 protected:
     QHash<int, QByteArray> roleNames() const;
 public:
-    QList<Kategorija> m_mesta;
+    QList<Kategorija> m_mesta;//Treba da se izmeni
     Q_INVOKABLE
     void dodaj(int i)
     {

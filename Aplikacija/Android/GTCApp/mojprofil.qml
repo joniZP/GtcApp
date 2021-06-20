@@ -91,7 +91,7 @@ Rectangle{
                         //visible: false
                     Image {
                             id: profilnaimage
-                            source: "../new/prefix1/slika.jfif"
+                            source: mProfilInst.getSlikaURL()// "../new/prefix1/slika.jfif"
                             width: (parent.height)/100*80
                             height:(parent.height)/100*80
                             fillMode: Image.PreserveAspectCrop
@@ -158,7 +158,10 @@ Rectangle{
                                         onAccepted:
                                         {
                                             profilnaimage.source=fileDialog.fileUrl
-                                            events.izmenislikuprofila(fileDialog.fileUrl);
+                                            //events.izmenislikuprofila(fileDialog.fileUrl);
+                                            korisnikEvents.izmeniSlikuProfila(fileDialog.fileUrl);
+                                            refreshSlika(fileDialog.fileUrl);
+
                                         }
                                         onRejected:
                                         {
@@ -189,7 +192,7 @@ Rectangle{
 
                     Text {
                         id: imeiprezimeprofil
-                        text: qsTr("Ime Prezime\n")
+                        text: qsTr(mProfilInst.getIme() +" "+ mProfilInst.getPrezime())
                         //anchors.centerIn: parent
                         //anchors.top: parent
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -213,7 +216,7 @@ Rectangle{
                     Text{
                         anchors.centerIn: parent
                         id: ocenaprofila
-                        text: "Ocena: "+ocenaprofilavrednost.text
+                        text: "Ocena: "+ mProfilInst.getOcena();
                         font.pointSize: 10
                         color:"green"
                         font.bold: false
@@ -221,12 +224,7 @@ Rectangle{
                     }
 
                 }
-                    Text{
-                        visible: false
-                        id: ocenaprofilavrednost
-                        text: "5"
 
-                    }
             }
         }
         Rectangle{//resto
@@ -354,6 +352,7 @@ Rectangle{
             color:"transparent"
 
             ScrollView{
+                id:scrollmojprofillokacije
              width: parent.width
              height: parent.height
 
@@ -363,57 +362,92 @@ Rectangle{
            anchors.fill: parent
            width: parent.width
            height: parent.height
-            model:_model
+            model:_korisniklokacijamodel
             delegate: ItemDelegate {
-                width: profildolerectangle1.width
-                height: profildolerectangle1.height*0.25
-                required property string id
-                required property string slika
-                required property string tekst
-                required property string boja
+                height:100
+                width:scrollmojprofillokacije.width
+               required property int id
+               required property string slika
+               required property string naziv
+               required property string grad
+                   Rectangle
+                   {
+                   width: parent.width
+                   height: parent.height-10
+                   anchors.verticalCenter: parent.verticalCenter
+                   Rectangle
+                   {
+                         //border.color:"#595959"
+                       id:slikarect
+                       height: parent.height
+                       width: parent.height
+                       //color: "red"
+                       anchors.left: parent.left
+                       Image
+                       {
+                           id:lokacijaprofilimage
+                           source: slika
+                           width: parent.width
+                           height: parent.height
+                       }
+                   }
+                   Rectangle
+                   {
+                       id:nazivrect
+                       height: parent.height
+                       width: 170
+                       anchors.left: slikarect.right
+                       Text
+                       {
+                           id:nazivlokacijeprofil
+                           text: qsTr(naziv)
+                           anchors.left: parent.left
+                           anchors.leftMargin: 20
+                           anchors.verticalCenter: parent.verticalCenter
+                       }
+                   }
+                   Rectangle
+                   {
+                       id:gradrect
+                       height: parent.height
+                       width:parent.width-parent.height-200
+                       anchors.left: nazivrect.right
+                       color: "white"
+                       Text
+                       {
+                           id:opislokacijeprofil
+                           text: qsTr(grad)
+                           anchors.left: parent.left
+                           anchors.leftMargin: 15
+                           anchors.verticalCenter: parent.verticalCenter
+                           wrapMode: Text.WordWrap
+                           width: parent.width
 
-               RowLayout
-                {
-                      // @disable-check M16
-                    anchors.fill:parent
-                    Image {
-                        id:lokacijaprofilimage
-                        source: "../new/prefix1/slika.jfif"
-                        Layout.preferredWidth: parent.height
-                        Layout.preferredHeight: parent.height
-                    }
-                    Text {
-                        id:nazivlokacijeprofil
-                        text: qsTr("Naziv")
-                    }
+                       }
+                   }
+                   MouseArea
+                   {
+                       anchors.fill:parent
+                       onClicked:
+                       {
+                           opislokacijeprofil.text=id
+                           block.visible=true
+                           getLokacijaById(id)
+                           block.visible=false
+                           pageLoader.source= "lokacija.qml"
+                       }
+                   }
 
-                    Text {
-                        id:opislokacijeprofil
-                        text: qsTr("Opis")
-                    }
-                    Text {
-                        id:opislokacijaid
-                        text: qsTr("id")
-                    }
-                    MouseArea{
-                        id:mouseareaprofillokacija
-                     anchors.fill:parent
-                     onPressed: {
-                         lokacijaprofilimage.opacity=0.5
-                     }
-                     onExited: {
-                         lokacijaprofilimage.opacity=1
-                     }
-                     onEntered: {
-                         lokacijaprofilimage.opacity=0.5
-                     }
-                     onClicked: {
-                  //   pageLoader.source= "LoginForm.qml"
-                     }
-                    }
-                }
 
+            }
+               Rectangle
+               {
+                   width: parent.width
+                   height: 1
+                   color: "#c9c9c9"
+                   anchors.bottom: parent.bottom
                }
+        }
         }
         }
         }
@@ -424,6 +458,7 @@ Rectangle{
             color:"transparent"
 
             ScrollView{
+                id:scrollmojprofildogadjaji
              width: parent.width
              height: parent.height
 
@@ -433,47 +468,47 @@ Rectangle{
            anchors.fill: parent
            width: parent.width
            height: parent.height
-            model:_model
+            model:_korisnikdogadjajmodel
             delegate: ItemDelegate {
-                width: profildolerectangle1.width
-                height: profildolerectangle1.height*0.25
-                required property string slika
-                required property string tekst
-                required property string boja
+                width: scrollmojprofildogadjaji.width
+                height: 80
+                required property string tip
+                required property string opis
+                required property string vreme
+                required property int id
 
                RowLayout
                 {
                       // @disable-check M16
                     anchors.fill:parent
-                    Image {
+                 /*   Image {
                         id:dogadjajprofilimage
-                        source: "../new/prefix1/slika.jfif"
+                        source: slika
                         Layout.preferredWidth: parent.height
                         Layout.preferredHeight: parent.height
-                    }
+                    }*/
                     Text {
-                        id:nazivdogadjajaprofil
-                        text: qsTr("Naziv")
+                        id:tipdogadjajaprofil
+                        text: qsTr(tip)
                     }
 
                     Text {
                         id:opisdogadjajaprofil
-                        text: qsTr("Opis dogadjaja iz baze procitan")
+                        text: qsTr(opis)
+                    }
+                    Text {
+                        id:vremedogadjajaprofil
+                        text: qsTr(vreme)
                     }
                     MouseArea{
                         id:mouseareaprofildogadjaj
                      anchors.fill:parent
-                     onPressed: {
-                         dogadjajprofilimage.opacity=0.5
-                     }
-                     onExited: {
-                         dogadjajprofilimage.opacity=1
-                     }
-                     onEntered: {
-                         dogadjajprofilimage.opacity=0.5
-                     }
-                     onClicked: {
-                     pageLoader.source= "LoginForm.qml"
+                     onClicked:
+                     {
+                     block.visible = true;
+                     getDogadjajById(id);
+                     pageLoader.source= "dogadjaj.qml"
+                     block.visible = false;
                      }
                     }
                 }

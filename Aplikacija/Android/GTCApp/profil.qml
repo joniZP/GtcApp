@@ -74,7 +74,7 @@ Rectangle{
                         //visible: false
                     Image {
                             id: profilnaimage
-                            source: "../new/prefix1/slika.jfif"
+                            source: mProfil.getSlikaURL()
                             width: (parent.height)/100*80
                             height:(parent.height)/100*80
                             fillMode: Image.PreserveAspectCrop
@@ -125,7 +125,7 @@ Rectangle{
 
                     Text {
                         id: imeiprezimeprofil
-                        text: qsTr("Ime Prezime\n")
+                        text: qsTr(mProfil.getIme()+" "+mProfil.getPrezime())//\n
                         //anchors.centerIn: parent
                         //anchors.top: parent
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -320,7 +320,7 @@ Rectangle{
                         Layout.preferredHeight: parent.height*0.5
                         Layout.preferredWidth: parent.height*0.5
                         id: ocenaprofila
-                        text: "Ocena: "+""//OVDE TREBA DA SE DODA OCENA KOJA SE RACUNA
+                        text: "Ocena: "+mProfil.getOcena()//OVDE TREBA DA SE DODA OCENA KOJA SE RACUNA
                         font.pointSize: 10
                         color:"#DC5421"
                         font.bold: true
@@ -457,6 +457,7 @@ Rectangle{
             color:"transparent"
 
             ScrollView{
+                id:scrollkorisniklokacija
              width: parent.width
              height: parent.height
 
@@ -466,52 +467,90 @@ Rectangle{
            anchors.fill: parent
            width: parent.width
            height: parent.height
-            model:_model
+            model:_korisniklokacijamodel
             delegate: ItemDelegate {
-                width: profildolerectangle1.width
-                height: profildolerectangle1.height*0.25
-                required property string slika
-                required property string tekst
-                required property string boja
+                height:100
+                width:scrollkorisniklokacija.width
+               required property int id
+               required property string slika
+               required property string naziv
+               required property string grad
+                   Rectangle
+                   {
+                   width: parent.width
+                   height: parent.height-10
+                   anchors.verticalCenter: parent.verticalCenter
+                   Rectangle
+                   {
+                         //border.color:"#595959"
+                       id:slikarect
+                       height: parent.height
+                       width: parent.height
+                       //color: "red"
+                       anchors.left: parent.left
+                       Image
+                       {
+                           id:lokacijaprofilimage
+                           source: slika
+                           width: parent.width
+                           height: parent.height
+                       }
+                   }
+                   Rectangle
+                   {
+                       id:nazivrect
+                       height: parent.height
+                       width: 170
+                       anchors.left: slikarect.right
+                       Text
+                       {
+                           id:nazivlokacijeprofil
+                           text: qsTr(naziv)
+                           anchors.left: parent.left
+                           anchors.leftMargin: 20
+                           anchors.verticalCenter: parent.verticalCenter
+                       }
+                   }
+                   Rectangle
+                   {
+                       id:gradrect
+                       height: parent.height
+                       width:parent.width-parent.height-200
+                       anchors.left: nazivrect.right
+                       Text
+                       {
+                           id:opislokacijeprofil
+                           text: qsTr(grad)
+                           anchors.left: parent.left
+                           anchors.leftMargin: 15
+                           anchors.verticalCenter: parent.verticalCenter
+                           wrapMode: Text.WordWrap
+                           width: parent.width
+                       }
+                   }
+                   MouseArea
+                   {
+                       anchors.fill:parent
+                       onClicked:
+                       {
+                           opislokacijeprofil.text=id
+                           block.visible=true
+                           getLokacijaById(id)
+                           block.visible=false
+                           pageLoader.source= "lokacija.qml"
+                       }
+                   }
 
-               RowLayout
-                {
-                      // @disable-check M16
-                    anchors.fill:parent
-                    Image {
-                        id:lokacijaprofilimage
-                        source: "../new/prefix1/slika.jfif"
-                        Layout.preferredWidth: parent.height
-                        Layout.preferredHeight: parent.height
-                    }
-                    Text {
-                        id:nazivlokacijeprofil
-                        text: qsTr("Naziv")
-                    }
 
-                    Text {
-                        id:opislokacijeprofil
-                        text: qsTr("Opis lokacije iz baze procitan")
-                    }
-                    MouseArea{
-                        id:mouseareaprofillokacija
-                     anchors.fill:parent
-                     onPressed: {
-                         lokacijaprofilimage.opacity=0.5
-                     }
-                     onExited: {
-                         lokacijaprofilimage.opacity=1
-                     }
-                     onEntered: {
-                         lokacijaprofilimage.opacity=0.5
-                     }
-                     onClicked: {
-                  //   pageLoader.source= "LoginForm.qml"
-                     }
-                    }
-                }
-
+            }
+               Rectangle
+               {
+                   width: parent.width
+                   height: 1
+                   color: "#c9c9c9"
+                   anchors.bottom: parent.bottom
                }
+        }
         }
         }
         }
@@ -531,47 +570,47 @@ Rectangle{
            anchors.fill: parent
            width: parent.width
            height: parent.height
-            model:_model
+            model:_korisnikdogadjajmodel
             delegate: ItemDelegate {
                 width: profildolerectangle1.width
                 height: profildolerectangle1.height*0.25
-                required property string slika
-                required property string tekst
-                required property string boja
+                required property string tip
+                required property string opis
+                required property string vreme
+                required property int id
 
                RowLayout
                 {
                       // @disable-check M16
                     anchors.fill:parent
-                    Image {
+                 /*   Image {
                         id:dogadjajprofilimage
-                        source: "../new/prefix1/slika.jfif"
+                        source: slika
                         Layout.preferredWidth: parent.height
                         Layout.preferredHeight: parent.height
-                    }
+                    }*/
                     Text {
-                        id:nazivdogadjajaprofil
-                        text: qsTr("Naziv")
+                        id:tipdogadjajaprofil
+                        text: qsTr(tip)
                     }
 
                     Text {
                         id:opisdogadjajaprofil
-                        text: qsTr("Opis dogadjaja iz baze procitan")
+                        text: qsTr(opis)
+                    }
+                    Text {
+                        id:vremedogadjajaprofil
+                        text: qsTr(vreme)
                     }
                     MouseArea{
                         id:mouseareaprofildogadjaj
                      anchors.fill:parent
-                     onPressed: {
-                         dogadjajprofilimage.opacity=0.5
-                     }
-                     onExited: {
-                         dogadjajprofilimage.opacity=1
-                     }
-                     onEntered: {
-                         dogadjajprofilimage.opacity=0.5
-                     }
-                     onClicked: {
-                     pageLoader.source= "LoginForm.qml"
+                     onClicked:
+                     {
+                     block.visible = true;
+                     getDogadjajById(id);
+                     pageLoader.source= "dogadjaj.qml"
+                     block.visible = false;
                      }
                     }
                 }
@@ -615,7 +654,7 @@ Rectangle{
                     Text{
                         anchors.verticalCenter: parent.verticalCenter
                         id: emailprofil
-                        text:"email"
+                        text:qsTr(mProfil.getEmail())
                         anchors.left: parent.left
                         anchors.leftMargin: 15
 
@@ -649,7 +688,7 @@ Rectangle{
                     Text{
                         anchors.verticalCenter: parent.verticalCenter
                         id: telefonprofil
-                        text:"telefon"
+                        text: qsTr(mProfil.getTelefon())
                         anchors.left: parent.left
                         anchors.leftMargin: 15
 

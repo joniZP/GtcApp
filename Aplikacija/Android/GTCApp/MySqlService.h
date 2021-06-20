@@ -1,5 +1,5 @@
-#ifndef MYSQLKRSTA_H
-#define MYSQLKRSTA_H
+#ifndef MYSQLSERVICE_H
+#define MYSQLSERVICE_H
 
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -104,7 +104,7 @@ struct MyQuery{
 
 
 
-#endif // MYSQLKRSTA_H
+#endif // MYSQLSERVICE_H
 
 
 

@@ -140,6 +140,7 @@ Rectangle
         anchors.top: prvii.bottom
         ScrollView
         {
+            id:scrollpretraga
             width: parent.width
             height: parent.height
 
@@ -154,7 +155,7 @@ Rectangle
                  delegate: ItemDelegate
                  {
                      height:100
-                     width:parent.width
+                     width:scrollpretraga.width
                     required property int id
                     required property string slika
                     required property string naziv
@@ -219,7 +220,7 @@ Rectangle
                             {
                                 opislokacijeprofil.text=id
                                 block.visible=true
-                                funkcija(id)
+                                getLokacijaById(id)
                                 block.visible=false
                                 pageLoader.source= "lokacija.qml"
                             }

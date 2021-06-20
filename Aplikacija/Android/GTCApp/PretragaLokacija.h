@@ -2,7 +2,7 @@
 #define PRETRAGALOKACIJA_H
 
 #include <QObject>
-#include <MySqlKrsta.h>
+#include <MySqlService.h>
 #include<kategorijamodel.h>
 #include<mestomodel.h>
 #include<LINKS.h>

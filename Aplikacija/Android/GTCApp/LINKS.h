@@ -1,7 +1,7 @@
 #ifndef LINKS_H
 #define LINKS_H
 
-#include<MySqlKrsta.h>
+#include<MySqlService.h>
 #include <QObject>
 
 class LINKS
@@ -20,6 +20,16 @@ static QString getLocationPicture(int idLokacije, int idSlike)
     return str.toStr();
 }
 
+static QString getProfileDefaultPicture()
+{
+    return APILINK+"/upload/noavailableprofilepicture.jpeg";
+}
+
+
+static QString getNoImageAvailable()
+{
+    return APILINK+"/upload/noimageavailable.jpeg";
+}
 
 signals:
 

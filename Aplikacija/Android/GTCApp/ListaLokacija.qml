@@ -86,7 +86,7 @@ Rectangle
                        {
                            opislokacijeprofil.text=id
                            block.visible=true
-                           funkcija(id)
+                           getLokacijaById(id)
                            block.visible=false
                            pageLoader.source= "lokacija.qml"
                        }

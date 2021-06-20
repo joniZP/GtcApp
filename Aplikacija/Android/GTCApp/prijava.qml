@@ -3,6 +3,7 @@ import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 //import QtQuick.Controls.Material 2.3
+//import KorisnikEvents 1.0
 
 Rectangle {
 
@@ -73,7 +74,7 @@ ColumnLayout{
              if(b==false)
              {
                  block.visible=true
-                 let pom=event.prijava(prijavakorisnickoime.text,prijavalozinka.text);
+                 let pom=korisnikEvents.prijava(prijavakorisnickoime.text,prijavalozinka.text);
                  block.visible=false
                  if(pom==0)
                  {
@@ -87,6 +88,10 @@ ColumnLayout{
                  }
                  else
                  {
+
+                     loginID.visible = false;
+                     porukeID.visible = true;
+                     zahteviID.visible = true;
                      pageLoader.source = "pocetna.qml"
                  }
              }

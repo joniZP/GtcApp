@@ -13,6 +13,16 @@
 #include<kategorijamodel.h>
 #include<PretragaLokacija.h>
 #include<mestomodel.h>
+#include<KorisnikEvents.h>
+#include<LOCALDATA.h>
+#include<QSqlQuery>
+#include<obavestenjamodel.h>
+#include<zahtevimodel.h>
+#include<korisnikdogadjajmodel.h>
+#include<korisniklokacijamodel.h>
+#include<UcitavanjeProfila.h>
+#include<MProfil.h>
+
 //#include<komentarimodel.h>
 //#include"MySqlKrsta.h"
 int main(int argc, char *argv[])
@@ -33,76 +43,58 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
-    LokacijaModel &model =LokacijaModel::GetInstance();
-    //neke lokacije /////////////////////////////////
-    /// \brief kommodel
-    model.dodajlokaciju(lokacija(0, "http://humanads.000webhostapp.com/upload/slika.jpeg","s",""));
-    model.dodajlokaciju(lokacija(1, "http://humanads.000webhostapp.com/upload/slika.jpeg","s",""));
-    model.dodajlokaciju(lokacija(2, "/new/prefix1/person-icon.png","s",""));
-    model.dodajlokaciju(lokacija(3, "/new/prefix1/person-icon.png","s",""));
 
+    //--------------------------[ MODELI ] --------------------------------------------
+    LokacijaModel &model =LokacijaModel::GetInstance();
     KomentariModel &kommodel =KomentariModel::GetInstance();
     SlikaModel &slikamodel =SlikaModel::GetInstance();
     KategorijaModel &kategorijamodel=KategorijaModel::GetInstance();
     MestoModel &mestomodel=MestoModel::GetInstance();
+    ObavestenjaModel &obavestenjamodel=ObavestenjaModel::GetInstance();
+    ZahteviModel &zahtevimodel=ZahteviModel::GetInstance();
+    KorisnikDogadjajModel &korisnikdogadjajmodel = KorisnikDogadjajModel::GetInstance();
+    KorisnikLokacijaModel &korisniklokacijamodel = KorisnikLokacijaModel::GetInstance();
+
+
+    engine.rootContext()->setContextProperty("_kommodel", &kommodel);
+    engine.rootContext()->setContextProperty("_mestomodel", &mestomodel);
+    engine.rootContext()->setContextProperty("_katmodel", &kategorijamodel);
+    engine.rootContext()->setContextProperty("_model", &model);
+    engine.rootContext()->setContextProperty("_slikamodel", &slikamodel);
+    engine.rootContext()->setContextProperty("_obavestenjamodel", &obavestenjamodel);
+    engine.rootContext()->setContextProperty("_zahtevimodel", &zahtevimodel);
+    engine.rootContext()->setContextProperty("_korisnikdogadjajmodel", &korisnikdogadjajmodel);
+    engine.rootContext()->setContextProperty("_korisniklokacijamodel", &korisniklokacijamodel);
+
+    zahtevimodel.dodajzahtev(zahtev("qrc:/new/prefix1/change.png","Ime","ID",false));
+    zahtevimodel.dodajzahtev(zahtev("qrc:/new/prefix1/change.png","Ime1","ID",false));
+    zahtevimodel.dodajzahtev(zahtev("qrc:/new/prefix1/change.png","Ime2","ID",false));
+
+    obavestenjamodel.dodajobavestenje(obavestenje("qrc:/new/prefix1/change.png","TEKST","ID",false,true));
+    obavestenjamodel.dodajobavestenje(obavestenje("qrc:/new/prefix1/change.png","TEKST","ID",false,false));
+
+    //--------------------------[ IMPORTI ] --------------------------------------------
     qmlRegisterType<events>("Events",1,0,"Events");
     qmlRegisterType<klasa>("Klasa",1,0,"Klasa");
     qmlRegisterType<UcitavanjeLokacije>("UcitavanjeLokacije",1,0,"UcitavanjeLokacije");
     qmlRegisterType<PretragaLokacija>("PretragaLokacija",1,0,"PretragaLokacija");
     qmlRegisterType<MLokacija>("MLokacija",1,0,"MLokacija");
     qmlRegisterType<UpisLokacijaDogadjaj>("UpisLokacijaDogadjaj",1,0,"UpisLokacijaDogadjaj");
-    engine.rootContext()->setContextProperty("_kommodel", &kommodel);
-    engine.rootContext()->setContextProperty("_mestomodel", &mestomodel);
-    engine.rootContext()->setContextProperty("_katmodel", &kategorijamodel);
-    engine.rootContext()->setContextProperty("_model", &model);
-    engine.rootContext()->setContextProperty("_slikamodel", &slikamodel);
+    qmlRegisterType<KorisnikEvents>("KorisnikEvents",1,0,"KorisnikEvents");
+    qmlRegisterType<LOCALDATA>("LOCALDATA",1,0,"LOCALDATA");
+    qmlRegisterType<UcitavanjeProfila>("UcitavanjeProfila",1,0,"UcitavanjeProfila");
+    qmlRegisterType<MProfil>("MProfil",1,0,"MProfil");
+
     engine.load(url);
 
-      MySqlService &s = MySqlService::MySqlInstance();
-      MySqlTable t;
-      MyQuery query("SELECT * FROM Lokacija");
-      t = s.WSendQuery(query);
-      if(t.isSuccessfully())
-      {
-
-              for (int i=0;i<t.Count();i++)
-              {
-                  if(t.Rows[i]["brojSlika"].toInt() == 0)
-                  {
-                      model.dodajlokaciju(lokacija(t.Rows[i]["id"].toInt(),LINKS::APILINK+"/upload/noimageavailable.jpeg",t.Rows[i]["naziv"],t.Rows[i]["grad"]));
-                  }
-                  else
-                  {
-                       model.dodajlokaciju(lokacija(t.Rows[i]["id"].toInt(),LINKS::getLocationPicture(t.Rows[i]["id"].toInt(),0),t.Rows[i]["naziv"],t.Rows[i]["grad"]));
-                  }
-
-              }
-      }
-       //PretragaLokacija p;
-       //p.pretrazi("neki tamo opis");
-
-          kategorijamodel.dodajkategoriju(Kategorija("sport",false,0));
-          kategorijamodel.dodajkategoriju(Kategorija("izlet",false,1));
-          kategorijamodel.dodajkategoriju(Kategorija("fudbal",false,2));
-          mestomodel.dodajmesto(Kategorija("Nis",false,0));
-          mestomodel.dodajmesto(Kategorija("Leskovac",false,1));
-          mestomodel.dodajmesto(Kategorija("Beograd",false,2));
-          mestomodel.dodajmesto(Kategorija("Sombor",false,3));
-
-    // kommodel.dodajkomentar(Komentar("http://gtcappservice.000webhostapp.com/GTCAPP/upload/slika.jpeg","neki komentar  dsdsdsd dsds dsds d dsds sd s ",""));
-     FileUploader *f = new FileUploader();
-    // MarkerModel & m=MarkerModel::GetInstance();
-
-    // f->UploadFiles();
-
-
-    // engine.rootContext()->setContextProperty("markerModel", &m);
-
-   // EmailVerificator &ev = EmailVerificator::GetInstance();
-    //ev.SendVerificationEmail("sgssasa@elfak.rs","Sasa","Sasa Stojiljkovic");
-
-
-
+    //--------------------------[ TEST ] --------------------------------------------
+      kategorijamodel.dodajkategoriju(Kategorija("sport",false,0));
+      kategorijamodel.dodajkategoriju(Kategorija("izlet",false,1));
+      kategorijamodel.dodajkategoriju(Kategorija("fudbal",false,2));
+      mestomodel.dodajmesto(Kategorija("Nis",false,0));
+      mestomodel.dodajmesto(Kategorija("Leskovac",false,1));
+      mestomodel.dodajmesto(Kategorija("Beograd",false,2));
+      mestomodel.dodajmesto(Kategorija("Sombor",false,3));
 
 
     return app.exec();

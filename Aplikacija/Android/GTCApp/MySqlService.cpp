@@ -1,4 +1,4 @@
-#include "MySqlKrsta.h"
+#include "MySqlService.h"
 
 #ifndef KRSTA
 #define KRSTA

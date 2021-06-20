@@ -12,160 +12,78 @@ import MLokacija 1.0
 
 Rectangle {
     id:par
-/*
-    Component.onCompleted:
-    {
-       let ll= ucitajInstance.getLokacija(1)
-       location = ll;
-    }
-*/
-
-
-anchors.fill: parent
-Flickable{
-//  contentHeight: 800
- anchors.fill: parent
- boundsBehavior: Flickable.StopAtBounds
- contentWidth: parent.width
- contentHeight: slider.height+hhh.height
- clip: true
-SwipeView{
-     id:slider
-     anchors.top: parent.top
-     height: par.height/2.3
-     width: parent.width
-     property var model :ListModel{}
-     clip:true
-     Repeater {
-         model:_slikamodel
-         Image{
-             id:slikalokacija
-            width: slider.width
-            height: slider.height
-            source:slika
-            fillMode: Image.PreserveAspectFit
-            onProgressChanged:
-            {
-                if(slikalokacija.progress==1)
-                {
-                   // slider.height=slikalokacija.paintedHeight
-                    spiner.visible=false
-                }
-            }
-            AnimatedImage
-            {
-                id:spiner
-                source: "/new/prefix1/Spinner-1s-200px (1).gif"
-                width: 60
-                height: 60
-                anchors.centerIn: parent
-               // visible: slikalokacija.progress!=1
-            }
-         }
-
-     }
-  }
-PageIndicator {
-   anchors.bottom: slider.bottom
-  // anchors.topMargin: verticalMargin
-   anchors.horizontalCenter: parent.horizontalCenter
-   currentIndex: slider.currentIndex
-   count: slider.count
-}
 Rectangle
 {
-    id:hhh
-    anchors.top: slider.bottom
     color: "#d3d3d3"
     width: parent.width
     height: 1000
-
-
-
-
     Rectangle
     {
-
       width:parent.width
       anchors.top: parent.top
       anchors.topMargin: 10
-
     Rectangle
     {
         id: lokacija_opis_kontejner
         width: parent.width-20
-        height: naziv_lokacije.height+opis_lokacije.height+20
+        height: 50
         anchors.horizontalCenter: parent.horizontalCenter
-        color: "white"
-        Text {
-            id: naziv_lokacije
-            text: qsTr(location.getNaziv())
-            font.family: "Helvetica"
-            font.pointSize: 18
-            anchors.horizontalCenter: parent.horizontalCenter
+        color: "#d3d3d3"
         }
-
-        Text {
-            id: opis_lokacije
-            anchors.top: naziv_lokacije.bottom
-            anchors.topMargin: 20
-            text: qsTr(location.getOpis())
-
-            font.family: "Helvetica"
-            font.pointSize: 14
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width-50
-            wrapMode: Text.WordWrap
-        }
-        }
-
-    Rectangle {
-
-        id: webView
-        anchors.top: lokacija_opis_kontejner.bottom
-        anchors.topMargin: 10
-        width: parent.width-20
-        anchors.horizontalCenter: parent.horizontalCenter
-        height: 200
-        Plugin {
-               id: mapPlugin
-               name: "osm" // "mapboxgl", "esri", ...
-               // specify plugin parameters if necessary
-               // PluginParameter {
-               //     name:
-               //     value:
-               // }
+       Rectangle
+       {
+           id: tekst
+           width: parent.width-20
+           height: childrenRect.height
+           anchors.top:parent.top
+           anchors.topMargin: 10
+           anchors.horizontalCenter: parent.horizontalCenter
+           color: "white"
+           Rectangle{
+                     id: prviPravougaonik
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.topMargin: 30
+                    width: parent.width*0.4
+                    height: 50
+                    Text{
+                        anchors.topMargin: 20
+                        anchors.centerIn: parent
+                        text: "Fudbal"
+                        font.pointSize: 25
+                    }
+}
+           Rectangle{
+                       id: drugiPravougaonik
+                       anchors.top: prviPravougaonik.bottom
+                       anchors.horizontalCenter: parent.horizontalCenter
+                       width: parent.width*0.8
+                       height: 50
+                       Text{
+                           id: lokacija
+                           anchors.left: parent.left
+                           text:"Dubocicin stadion"
+                           font.pointSize: 10
+                       }
+                       Text{
+                           anchors.right: parent.right
+                           text:"Vreme"
+                           font.pointSize: 10
+                       }
            }
-
-           Map {
-               anchors.fill: parent
-               plugin: mapPlugin
-               center: QtPositioning.coordinate(location.getX(),location.getY())
-               zoomLevel: 14
-               MapQuickItem {
-                   id: marker
-                   anchorPoint.x: image.width/4
-                   anchorPoint.y: image.height
-                   coordinate: QtPositioning.coordinate(location.getX(),location.getY());
-
-                   sourceItem: Image {
-                       id: image
-                       source: "qrc:/new/prefix1/pin.png"
-                       width: 20
-                       height: 20
-                   }
+           Rectangle{
+               id: treciPravougaonik
+               anchors.top: drugiPravougaonik.bottom
+               width: parent.width
+               color:"#d3d3d3"
+               height:5
                }
-
-           }
-    }
-
-
+}
        Rectangle
        {
            id: lokacija_kreator
            width: parent.width-20
            height: 50
-           anchors.top: webView.bottom
+           anchors.top: tekst.bottom
            anchors.topMargin: 10
            anchors.horizontalCenter: parent.horizontalCenter
            color: "white"
@@ -189,10 +107,13 @@ Rectangle
                        anchors.fill: parent
                        onClicked:
                        {
-                          getProfilByUsername(location.getKreator())
                           pageLoader.source = "profil.qml"
 
                        }
+                   }
+                   Component.onCompleted:
+                   {
+                       //funkcija(5);
                    }
                    }
            Text {
@@ -321,13 +242,14 @@ Rectangle
           }
           Rectangle
           {
+              id: podelidugme
               width: parent.width/3
               height: parent.height
              // color: "green"
               anchors.left: komentar_dugme.right
 
               Rectangle{
-                 // color:"red"
+                //  color:"red"
                   anchors.centerIn: parent
                   width: share_slika.width+share_tekst.width+10
                   height: parent.height
@@ -359,6 +281,38 @@ Rectangle
                   }
               }
               }
+
+          }
+          Rectangle
+          {
+              width: parent.width/3
+              height: parent.height
+             color: "#2970b1"
+              anchors.right: parent.right
+              anchors.top: podelidugme.bottom
+              radius:10
+         //     color:"blue"
+              Text {
+                  id: prijaviSe
+                  color:"white"
+                  anchors.centerIn: parent
+                  text: qsTr("Pretplati se")
+                  font.family: "Helvetica"
+                  font.pointSize: 14
+                 // anchors.left: share_slika.right
+                  anchors.verticalCenter: parent.verticalCenter
+                  anchors.leftMargin: 5
+              }
+              MouseArea
+              {
+                  anchors.fill: parent
+                  onClicked:
+                  {
+
+                  }
+              }
+              }
+
           }
 
 
@@ -367,7 +321,6 @@ Rectangle
 
 
        }
-}
 }
 Drawer
 {
@@ -509,8 +462,6 @@ Drawer
    }
 
    }
-}
-
 }
 
 }

@@ -2,7 +2,7 @@
 #define UPISLOKACIJADOGADJAJ_H
 
 #include <QObject>
-#include<MySqlKrsta.h>
+#include<MySqlService.h>
 #include<LOCALDATA.h>
 #include<FileUploader.h>
 
@@ -21,7 +21,7 @@ public:
     {
         MySqlService &s = MySqlService::MySqlInstance();
          MyQuery query("INSERT INTO `Lokacija`(`naziv`, `grad`, `opis`, `idkorisnika`, `ocena`, `brojOcena`, `x`, `y`, `brojSlika`, `likes`, `Verifikovana`) VALUES ('%2','%3','%4','%5',%6,%7,%8,%9,%10,%11,%12)");
-          query<<naziv<<grad<<opis<<LOCALDATA::korisnickoime<<0<<0<<xcoo<<ycoo<<slike.length()<<0<<0;
+          query<<naziv<<grad<<opis<<LOCALDATA::mProfil->getKorisnickoIme()<<0<<0<<xcoo<<ycoo<<slike.length()<<0<<0;
           s.WSendQuery(query);
 
 
@@ -29,7 +29,7 @@ public:
                  t = s.WSendQuery("SELECT max(Id) FROM Lokacija");
 
            MyQuery query1("INSERT INTO `Korisnik_Lokacija`(`idKorisnika`, `idLokacije`) VALUES ('%1',%2)");
-           query1<<LOCALDATA::korisnickoime<<t.Rows[0][0];
+           query1<<LOCALDATA::mProfil->getKorisnickoIme()<<t.Rows[0][0];
            s.WSendQuery(query1);
 
            FileUploader *f = new FileUploader();
