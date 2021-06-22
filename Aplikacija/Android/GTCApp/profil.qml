@@ -1,3 +1,4 @@
+
 import QtQuick 2.0
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
@@ -6,13 +7,34 @@ import QtGraphicalEffects 1.12
 
 Rectangle{
     property int pom: 0
+    property var slikazvezda: [zvezda1,zvezda2,zvezda3,zvezda4,zvezda5]
+    function oceni(k)
+    {
+        for(var i=0;i<5;i++)
+        {
+            if(i<k)
+            {
+                slikazvezda[i].source="qrc:/new/prefix1/star.png"
+            }
+            else
+            {
+                 slikazvezda[i].source="qrc:/new/prefix1/star-empty.png"
+            }
+        }
+    }
+
+    function refreshIcon(username)
+    {
+        dodajprijateljaimage.source = prijateljiEvents.getSlikaByUsername(username);
+    }
+
     gradient: Gradient{
     GradientStop{position:0.0; color:"#2A9FF3"}
      GradientStop{position:1.0; color:"white"}
     }
     id: glavni
     anchors.fill:parent
-    color:parent.color
+
     ColumnLayout{
           // @disable-check M16
         anchors.fill:parent
@@ -29,7 +51,7 @@ Rectangle{
                         id:dodajprijateljaimage
                         height:(parent.height)/100*80
                         width:(parent.height)/100*80
-                        source: "../new/prefix1/add-friend.png"
+                        source: friendsIcon
                         //dodaj sliku posaljizahtev
 
                         anchors.right: parent.right
@@ -43,17 +65,10 @@ Rectangle{
                             anchors.fill: parent
                             id:dodajprijateljaarea
 
-                            onClicked: {
-                                var a=0//kreiraj u c++ globalnu promenljivu za ovo koja ce da pamti dal je zahtev posla, kako bi mogo da se obrise ako ne zelim da ga posaljem
-                                if(a===0){
-                                   dodajprijateljaimage.source="../new/prefix1/request-send.png"
-                                    a=1
-                                }
-                                else
-                                {
-                                     dodajprijateljaimage.source="../new/prefix1/add-friend.png"
-                                    a=0
-                                }
+                            onClicked: {                              
+
+                                prijateljiEvents.postaviNovoStanje(mProfil.getKorisnickoIme());
+                                refreshIcon(mProfil.getKorisnickoIme());
                                    //dodaj sliku zahtev poslat
                                 //tu treba da se odradi i ako mu je vec prijatelj, da cim udje u profil da se skloni ova slika
                                 //to ce da znaci if(u listi prijatelja){dodajprijateljaimage.source="" dodajprijateljaimage.height=0 i w=0}
@@ -90,7 +105,8 @@ Rectangle{
                                 onPressed:
                                 {
 
-                                    profilnaimage.width=glavni.width
+
+profilnaimage.width=glavni.width
                                     profilnaimage.height=glavni.height/100*40
                                     profilnaimage.layer.enabled=false
                                     imeiprezimeprofil.visible=false
@@ -134,179 +150,110 @@ Rectangle{
 
          }
 
-        Rectangle{//ocena
+        Rectangle{
             color:"transparent"
             height:parent.height*0.1
             width:parent.width
-            property int pom: 10
-            property int pom2: 10
-
             RowLayout{
-                //Layout.alignment: Qt.AlignHCenter
-                  // @disable-check M16
                 anchors.fill: parent
                 spacing:0
 
-
-                Rectangle{
-                    color:"transparent"
-
-                    Layout.preferredHeight: parent.height*0.5
-                    Layout.preferredWidth: parent.height*0.5
                     Image {
 
-                        anchors.fill:parent
+                        Layout.preferredHeight: parent.height*0.5
+                        Layout.preferredWidth: parent.height*0.5
                               id: zvezda1
-                              source: "../new/prefix1/star-empty.png"
+                              source: "qrc:/new/prefix1/star-empty.png"
 
-                              MouseArea{
+                              MouseArea
+                              {
                                   anchors.fill:parent
-                                  id: zv1
-                                  hoverEnabled: true
                                   onClicked:
                                   {
-                                      pom+=1
-
+                                      oceni(1)
                                   }
-                                  onEntered: {
-                                      zvezda1.opacity=0.3
 
-                                  }
-                                  onExited: {
-                                      zvezda1.opacity=1
-
-                                  }
                               }
                     }
-                }
-                Rectangle{
-                    color:"transparent"
 
-                    Layout.preferredHeight: parent.height*0.5
-                    Layout.preferredWidth: parent.height*0.5
+
+
                     Image {
-                        anchors.fill:parent
+                        Layout.preferredHeight: parent.height*0.5
+                        Layout.preferredWidth: parent.height*0.5
                               id: zvezda2
-                              source: "../new/prefix1/star-empty.png"
+                              source: "qrc:/new/prefix1/star-empty.png"
 
-                              MouseArea{
+                              MouseArea
+                              {
                                   anchors.fill:parent
-                                  id: zv2
-                                  hoverEnabled: true
                                   onClicked:
                                   {
+                                      oceni(2)
+                                  }
 
-                                  }
-                                  onEntered: {
-                                      zvezda1.opacity=0.3
-                                      zvezda2.opacity=0.3
-                                  }
-                                  onExited: {
-                                      zvezda1.opacity=1
-                                      zvezda2.opacity=1
-                                  }
+
                               }
                           }
-                }
-                Rectangle{
-                    color:"transparent"
 
-                    Layout.preferredHeight: parent.height*0.5
-                    Layout.preferredWidth: parent.height*0.5
+
                     Image {
-                        anchors.fill:parent
+                        Layout.preferredHeight: parent.height*0.5
+                        Layout.preferredWidth: parent.height*0.5
                               id: zvezda3
-                              source: "../new/prefix1/star-empty.png"
+                              source: "qrc:/new/prefix1/star-empty.png"
                               fillMode: Image.PreserveAspectCrop
+                              MouseArea
+                              {
+                                  anchors.fill:parent
+                                  onClicked:
+                                  {
+                                     oceni(3)
+                                  }
+
+
+                              }
                           }
-                    MouseArea{
-                        anchors.fill:parent
-                        id: zv3
-                        hoverEnabled: true
-                        onClicked:
-                        {
 
-                        }
-                        onEntered: {
-                            zvezda1.opacity=0.3
-                            zvezda2.opacity=0.3
-                            zvezda3.opacity=0.3
-                        }
-                        onExited: {
-                            zvezda1.opacity=1
-                            zvezda2.opacity=1
-                            zvezda3.opacity=1
-                        }
-                    }
-                }
-                Rectangle{
-                    color:"transparent"
 
-                    Layout.preferredHeight: parent.height*0.5
-                    Layout.preferredWidth: parent.height*0.5
-                    Image {
-                        anchors.fill:parent
+Image {
+                        Layout.preferredHeight: parent.height*0.5
+                        Layout.preferredWidth: parent.height*0.5
                               id: zvezda4
-                              source: "../new/prefix1/star-empty.png"
+                              source: "qrc:/new/prefix1/star-empty.png"
                               fillMode: Image.PreserveAspectCrop
-                              MouseArea{
+                              MouseArea
+                              {
                                   anchors.fill:parent
-                                  id: zv4
-                                  hoverEnabled: true
                                   onClicked:
                                   {
+                                      oceni(4)
+                                  }
 
-                                  }
-                                  onEntered: {
-                                      zvezda1.opacity=0.3
-                                      zvezda2.opacity=0.3
-                                      zvezda3.opacity=0.3
-                                      zvezda4.opacity=0.3
-                                  }
-                                  onExited: {
-                                      zvezda1.opacity=1
-                                      zvezda2.opacity=1
-                                      zvezda3.opacity=1
-                                      zvezda4.opacity=1
-                                  }
+
                               }
                           }
-                }
-                Rectangle{
-                    color:"transparent"
 
-                    Layout.preferredHeight: parent.height*0.5
-                    Layout.preferredWidth: parent.height*0.5
+
+
                     Image {
-                        anchors.fill:parent
+                        Layout.preferredHeight: parent.height*0.5
+                        Layout.preferredWidth: parent.height*0.5
                               id: zvezda5
-                              source: "../new/prefix1/star-empty.png"
-                              MouseArea{
+                              source: "qrc:/new/prefix1/star-empty.png"
+                              MouseArea
+                              {
                                   anchors.fill:parent
-                                  id: zv5
-                                  hoverEnabled: true
                                   onClicked:
                                   {
+                                     oceni(5)
+                                  }
 
-                                  }
-                                  onEntered: {
-                                      zvezda1.opacity=0.3
-                                      zvezda2.opacity=0.3
-                                      zvezda3.opacity=0.3
-                                      zvezda4.opacity=0.3
-                                      zvezda5.opacity=0.3
-                                  }
-                                  onExited: {
-                                      zvezda1.opacity=1
-                                      zvezda2.opacity=1
-                                      zvezda3.opacity=1
-                                      zvezda4.opacity=1
-                                      zvezda5.opacity=1
-                                  }
+
                               }
 
                           }
-                }
+
 
 
                 Rectangle{//text gde treba da se doda ocena
@@ -380,9 +327,7 @@ Rectangle{
                     //border.width: 0.5
 
 
-
-
-                }
+}
                 Rectangle{
                     id:drugi
                     Layout.preferredHeight: parent.height
@@ -454,14 +399,15 @@ Rectangle{
             id:profildolerectangle1
             height:parent.height*0.4
             width:parent.width
-            color:"transparent"
+            color:"white"
 
             ScrollView{
                 id:scrollkorisniklokacija
              width: parent.width
              height: parent.height
 
-        ListView {
+
+ListView {
              boundsBehavior: ListView.StopAtBounds
              clip:true
            anchors.fill: parent
@@ -564,7 +510,8 @@ Rectangle{
              width: parent.width
              height: parent.height
 
-        ListView {
+
+ListView {
              boundsBehavior: ListView.StopAtBounds
              clip:true
            anchors.fill: parent
@@ -658,7 +605,8 @@ Rectangle{
                         anchors.left: parent.left
                         anchors.leftMargin: 15
 
-                    }}
+
+}}
                     }
                 }
                 Rectangle{
@@ -674,7 +622,6 @@ Rectangle{
                             Layout.preferredHeight: parent.height/2
                             Layout.preferredWidth: parent.height/2
                             anchors.verticalCenter: parent.verticalCenter
-                            anchors.left:parent
                             anchors.leftMargin: 10
                             id: telefonprofilslika
                             source: "../new/prefix1/smartphone-call.png"
@@ -705,4 +652,3 @@ Rectangle{
         }
     }
 }
-

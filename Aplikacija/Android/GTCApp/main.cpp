@@ -22,7 +22,8 @@
 #include<korisniklokacijamodel.h>
 #include<UcitavanjeProfila.h>
 #include<MProfil.h>
-
+#include<prijateljimodel.h>
+#include<prijateljievents.h>
 //#include<komentarimodel.h>
 //#include"MySqlKrsta.h"
 int main(int argc, char *argv[])
@@ -54,6 +55,7 @@ int main(int argc, char *argv[])
     ZahteviModel &zahtevimodel=ZahteviModel::GetInstance();
     KorisnikDogadjajModel &korisnikdogadjajmodel = KorisnikDogadjajModel::GetInstance();
     KorisnikLokacijaModel &korisniklokacijamodel = KorisnikLokacijaModel::GetInstance();
+    PrijateljiModel &prijateljimodel = PrijateljiModel::GetInstance();
 
 
     engine.rootContext()->setContextProperty("_kommodel", &kommodel);
@@ -65,6 +67,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("_zahtevimodel", &zahtevimodel);
     engine.rootContext()->setContextProperty("_korisnikdogadjajmodel", &korisnikdogadjajmodel);
     engine.rootContext()->setContextProperty("_korisniklokacijamodel", &korisniklokacijamodel);
+    engine.rootContext()->setContextProperty("_prijateljimodel", &prijateljimodel);
+
 
     zahtevimodel.dodajzahtev(zahtev("qrc:/new/prefix1/change.png","Ime","ID",false));
     zahtevimodel.dodajzahtev(zahtev("qrc:/new/prefix1/change.png","Ime1","ID",false));
@@ -84,6 +88,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<LOCALDATA>("LOCALDATA",1,0,"LOCALDATA");
     qmlRegisterType<UcitavanjeProfila>("UcitavanjeProfila",1,0,"UcitavanjeProfila");
     qmlRegisterType<MProfil>("MProfil",1,0,"MProfil");
+    qmlRegisterType<PrijateljiEvents>("PrijateljiEvents",1,0,"PrijateljiEvents");
 
     engine.load(url);
 

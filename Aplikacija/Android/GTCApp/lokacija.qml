@@ -55,9 +55,9 @@ SwipeView{
             AnimatedImage
             {
                 id:spiner
-                source: "/new/prefix1/Spinner-1s-200px (1).gif"
-                width: 60
-                height: 60
+                source: "/new/prefix1/spinnerpicture.gif"
+                width: 150
+                height: 150
                 anchors.centerIn: parent
                // visible: slikalokacija.progress!=1
             }
@@ -189,9 +189,10 @@ Rectangle
                        anchors.fill: parent
                        onClicked:
                        {
+                          block.visible = true;
                           getProfilByUsername(location.getKreator())
                           pageLoader.source = "profil.qml"
-
+                          block.visible = false;
                        }
                    }
                    }

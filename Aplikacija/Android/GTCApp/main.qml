@@ -13,6 +13,7 @@ import LOCALDATA 1.0
 import KorisnikEvents 1.0
 import MProfil 1.0
 import UcitavanjeProfila 1.0
+import PrijateljiEvents 1.0
 
 ApplicationWindow
 {
@@ -20,7 +21,8 @@ ApplicationWindow
     property Klasa klas
     property string natpis: ""
     property MProfil mProfil
-    property MProfil mProfilInst;
+    property MProfil mProfilInst;//localdata
+    property string friendsIcon;
 
     LOCALDATA{
     id:localData
@@ -30,6 +32,9 @@ ApplicationWindow
     }
     }
 
+    PrijateljiEvents{
+        id:prijateljiEvents
+    }
 
     KorisnikEvents{
     id:korisnikEvents
@@ -66,6 +71,7 @@ ApplicationWindow
     {
         let userpom = ucitavanjeProfilaInstance.getProfil(username);
         mProfil = userpom;
+        friendsIcon=prijateljiEvents.getSlikaByUsername(username);
     }
 
     function getDogadjajById(id)
@@ -581,7 +587,7 @@ ApplicationWindow
                    id: pocetnastrana
                    widt: parent.width
                    heigh: 40
-                   sourc: "/new/prefix1/list.png"
+                   sourc: "/new/prefix1/log-out.png"
                    tex: "Log out"
                }
            }
@@ -660,13 +666,13 @@ ApplicationWindow
                 }
                 Image {
                     id: zahteviID
-                    source: "qrc:/new/prefix1/comment__2_-removebg-preview.png"
-                    width:20
-                    height:20
+                    source: "qrc:/new/prefix1/friends.png"
+                    width:25
+                    height:25
                     visible: localData.getUlogovan()
 
                     anchors.right: porukeID.left
-                    anchors.top: porukeID.top
+                    anchors.top: parent.top
                     anchors.topMargin: 10
                     anchors.rightMargin: 10
 
@@ -691,12 +697,19 @@ ApplicationWindow
         id:block
         anchors.fill: parent
         visible: false
-        color: "black"
-        opacity: 0.2
+        color: "transparent"
+
+
+        Rectangle{
+        id: blockcolor
+        anchors.fill: block
+        color: "white"
+        opacity: 0.4
+        }
 
         AnimatedImage
         {
-            source: "/new/prefix1/Spinner-1s-200px (1).gif"
+            source: "/new/prefix1/spinnerpage.gif"
             width: 150
             height: 150
             anchors.centerIn: parent

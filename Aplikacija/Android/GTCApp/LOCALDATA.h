@@ -38,6 +38,15 @@ public:
         if(db.open())
         {
             QSqlQuery sqlquery;
+            sqlquery.exec("CREATE TABLE IF NOT EXISTS \"LocalData\" (\
+                            \"id\"	INTEGER,\
+                            \"ulogovan\"	INTEGER,\
+                            \"korisnickoime\"	TEXT,\
+                            PRIMARY KEY(\"id\")\
+                            );");
+            sqlquery.exec("INSERT or IGNORE INTO LocalData VALUES(0,0,'Nema')");
+
+
             if(!sqlquery.exec("SELECT * FROM LocalData"))
             {
                   qDebug()<<"\n\nSQLITE ERROR: "<< sqlquery.lastError().text();

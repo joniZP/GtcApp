@@ -33,5 +33,11 @@
         <file>friendlist.png</file>
         <file>comment__2_-removebg-preview.png</file>
         <file>reddot.png</file>
+        <file>spinnerpicture.gif</file>
+        <file>spinnerpage.gif</file>
+        <file>log-out.png</file>
+        <file>city.png</file>
+        <file>kategorije.png</file>
+        <file>friends.png</file>
     </qresource>
 </RCC>

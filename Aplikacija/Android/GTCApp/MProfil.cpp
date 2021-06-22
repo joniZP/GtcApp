@@ -111,10 +111,7 @@ void MProfil::setSlikaURL(const QString &value)
     slikaURL = value;
 }
 
-MProfil::MProfil(QObject *parent) : QObject(parent)
-{
 
-}
 
 MProfil::MProfil(QString korisnickoIme, QString ime, QString prezime, QString email, QString lozinka, float ocena, bool verifikovan, int brojOcena, QString telefon, bool slika)
 {
@@ -129,6 +126,17 @@ MProfil::MProfil(QString korisnickoIme, QString ime, QString prezime, QString em
     this->telefon = telefon;
     this->slika = slika;
     this->slikaURL = LINKS::getProfileDefaultPicture();
+}
+
+MProfil::MProfil(QString ime, QString prezime,QString korisnickoime, bool slika)
+{
+    this->ime = ime;
+    this->prezime = prezime;
+    this->korisnickoIme = korisnickoime;
+    if(slika)
+    this->slikaURL = LINKS::getProfilePicture(korisnickoIme);
+    else
+        this->slikaURL = LINKS::getProfileDefaultPicture();
 }
 
 

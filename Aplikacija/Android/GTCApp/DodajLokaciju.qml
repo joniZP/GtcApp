@@ -351,9 +351,11 @@ Rectangle
 
                     if(nazivnovelokacije.text!="" && gradnovelokacije.text!="" && opisnovelokacije.text!=""){
                         block.visible = true;
-                        upisservis.upisiLokaciju(nazivnovelokacije.text,gradnovelokacije.text,opisnovelokacije.text);
-                        block.visible = false;
+                       const lokid = upisservis.upisiLokaciju(nazivnovelokacije.text,gradnovelokacije.text,opisnovelokacije.text);
+
+                        getLokacijaById(lokid);
                         pageLoader.source= "lokacija.qml"
+                         block.visible = false;
 
                     }
                 }

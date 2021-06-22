@@ -22,8 +22,10 @@ private:
     QString slikaURL;
 
 public:
-    explicit MProfil(QObject *parent = nullptr);
+   // explicit MProfil(QObject *parent = nullptr);
     MProfil(QString korisnickoIme,QString ime,QString prezime, QString email, QString lozinka, float ocena, bool verifikovan, int brojOcena, QString telefon, bool slika);
+    MProfil(QString ime, QString prezime,QString korisnickoime,bool slika);
+    MProfil(){};
     Q_INVOKABLE
     QString getKorisnickoIme() const;
     Q_INVOKABLE

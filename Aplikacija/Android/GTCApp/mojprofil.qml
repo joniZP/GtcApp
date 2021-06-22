@@ -72,8 +72,10 @@ Rectangle{
                             id:listaprijateljaarea
 
                             onClicked: {
+                                block.visible = true
+                                prijateljiEvents.prikaziListuPrijatelja()
                                 rectanglelistaprijatelja.visible=true
-
+                                 block.visible = false
                               }
                     }
 
@@ -607,73 +609,135 @@ Rectangle{
         id:rectanglelistaprijatelja
         anchors.fill:parent
         visible: false
-        gradient: Gradient{
-        GradientStop{position:0.0; color:"#2A9FF3"}
-         GradientStop{position:1.0; color:"white"}
-        }
+        color:"#A7DBFA"
+       // gradient: Gradient{
+     //   GradientStop{position:0.0; color:"#2A9FF3"}
+     //    GradientStop{position:1.0; color:"#2A9FF3"}
+      //  }
 
 
-        height:parent.height
-        width:parent.width
+
         //color:"transparent"
 
         ScrollView{
+            id:scrollprijatelji
          width: parent.width
-         height: parent.height-dugmevratise.height-20
+         height: parent.height//-dugmevratise.height-20
 
     ListView {
-         boundsBehavior: ListView.StopAtBounds
-         clip:true
-       anchors.fill: parent
-       width: parent.width
-       height: parent.height
-        model:_model
+        boundsBehavior: ListView.StopAtBounds
+        clip:true
+        anchors.fill: parent
+        model:_prijateljimodel
         delegate: ItemDelegate {
-            width: profildolerectangle1.width
-            height: profildolerectangle1.height*0.25
-            required property string slika
-            required property string ime
-            required property string prezime
-            required property string profil
+            height:70
+            width:scrollprijatelji.width
+           required property string korisnickoime
+           required property string slika
+           required property string ime
+           required property string index
 
-           RowLayout
-            {
-                  // @disable-check M16
-                anchors.fill:parent
-                Image {
-                    id:mojprofilprijateljimage
-                    source: slika
-                    Layout.preferredWidth: parent.height
-                    Layout.preferredHeight: parent.height
-                }
-                Text {
-                    id:mojprofilimeprijatelja
-                    text: ime
-                }
+           Rectangle
+           {
+               anchors.fill: parent
+               Rectangle
+               {
+               id:glavnirect
+               width: parent.width
+               height: parent.height-10
+               anchors.verticalCenter: parent.verticalCenter
+               color: "transparent"
 
-                Text {
-                    id:mojprofilprezimeprijatelja
-                    text: prezime
-                }
-                MouseArea{
-                    id:mouseareaprijatelj
-                 anchors.fill:parent
-                 onPressed: {
-                     dogadjajprofilimage.opacity=0.5
-                 }
-                 onExited: {
-                     dogadjajprofilimage.opacity=1
-                 }
-                 onEntered: {
-                     dogadjajprofilimage.opacity=0.5
-                 }
-                 onClicked: {
-                 pageLoader.source= profil
-                 }
-                }
-            }
+               Rectangle
+               {
 
+                   //border.color:"#595959"
+                   color: "transparent"
+                   id:slikaprofil
+                   height: parent.height
+                   width: parent.height
+                   anchors.left: parent.left
+                   Image
+                   {
+                       id:zahtevimage
+                       //source: slika
+                      source: slika
+                       width: parent.width
+                       height: parent.height
+                       fillMode: Image.PreserveAspectCrop
+                       layer.enabled: true
+                       layer.effect: OpacityMask
+                       {
+                           maskSource: mask
+                       }
+                   }
+                   MouseArea
+                   {
+                       anchors.fill: parent
+                       onClicked:
+                       {
+                           block.visible = true;
+                           getProfilByUsername(korisnickoime)
+                           pageLoader.source = "profil.qml"
+                           block.visible = false;
+                           //pozovi funkciju da ucita korisnika
+                       }
+                   }
+               }
+
+               Rectangle
+               {
+                   id:nazivprofil
+                   height: parent.height
+                   width: parent.width-parent.height
+                   anchors.left: slikaprofil.right
+                   color: "transparent"
+                   Text
+                   {
+                       text: qsTr(ime)
+                       anchors.left: parent.left
+                       anchors.leftMargin: 20
+                       anchors.top: parent.top
+                       anchors.topMargin: 2
+                       width: parent.width
+                       wrapMode: Text.WordWrap
+                   }
+
+                   Button
+                   {
+                       id:prihvatidugme
+                       width: 80
+                       height: 35
+                       anchors.right: parent.right
+                       anchors.rightMargin: 10
+                       anchors.bottom: parent.bottom
+                       anchors.bottomMargin: 5
+                       Text
+                       {
+                            text: qsTr("Izbrisi")
+                            anchors.centerIn: parent
+                       }
+                       onClicked:
+                       {
+                           _prijateljimodel.obrisi(index)
+                           prijateljiEvents.izbrisiPrijatelja(korisnickoime)
+                           console.log(index)
+                       }
+                   }
+
+               }
+
+        }
+           Rectangle
+           {
+               width: parent.width
+               height: 1
+               color: "#c9c9c9"
+               anchors.bottom: parent.bottom
            }
+
+    }
+   }
     }
     }
         Button{

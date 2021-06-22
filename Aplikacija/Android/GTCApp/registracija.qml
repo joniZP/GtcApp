@@ -12,7 +12,7 @@ ColumnLayout{
     TextField {
         id: ime
         Layout.topMargin: 120
-        placeholderText: qsTr("Ime i prezime")
+        placeholderText: qsTr("Ime")
          Layout.alignment: Qt.AlignHCenter
            Layout.minimumWidth: parent.width/5*4
     }
@@ -23,6 +23,26 @@ ColumnLayout{
         Layout.alignment: Qt.AlignHCenter
         color: "red"
         anchors.left: ime.left
+        font.family: "Helvetica"
+        font.pointSize: 12
+        Layout.topMargin: -10
+    }
+
+
+    TextField {
+        id: prezime
+        Layout.topMargin: 120
+        placeholderText: qsTr("Prezime")
+         Layout.alignment: Qt.AlignHCenter
+           Layout.minimumWidth: parent.width/5*4
+    }
+    Text {
+        id: greskaprezime
+        text: qsTr("Unesi prezime")
+        visible: false
+        Layout.alignment: Qt.AlignHCenter
+        color: "red"
+        anchors.left: prezime.left
         font.family: "Helvetica"
         font.pointSize: 12
         Layout.topMargin: -10
@@ -124,12 +144,19 @@ ColumnLayout{
             greskakorisnickoime.visible=false
             greskalozinka.visible=false
             greskapotvrdalozinke.visible=false
+            greskaprezime.visible = false
             let b=false;
             if(ime.text.length==0||ime.text.length>=40)
             {
                 b=true;
                 ime.text=""
                greskaime.visible=true
+            }
+            if(prezime.text.length==0||prezime.text.length>=40)
+            {
+                b=true;
+                prezime.text=""
+               greskaprezime.visible=true
             }
             if(korisnickoime.text.length==0)
             {
@@ -168,20 +195,18 @@ ColumnLayout{
             if(b===false)
             {
                 block.visible=true
-                if(!event.registracija(ime.text,korisnickoime.text,email.text,lozinka.text))
+                if(!korisnikEvents.registracija(ime.text,prezime.text,korisnickoime.text,email.text,lozinka.text))
                 {
 
                     korisnickoime.text=""
                     greskakorisnickoime.text="Korisnicko ime zauzeto"
                     greskakorisnickoime.visible=true
-                    block.visible=false
-
                 }
                 else
                 {
-                    pageLoader.source = "prijava.qml"
-                    block.visible=false
+                    pageLoader.source = "prijava.qml"   
                 }
+                 block.visible=false
             }
         }
     }

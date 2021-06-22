@@ -16,13 +16,16 @@ public:
 
 
     Q_INVOKABLE
-    bool registracija(QString ime,QString korisnickoime,QString email,QString sifra)
+    bool registracija(QString ime,QString prezime,QString korisnickoime,QString email,QString sifra)
     {
         MySqlService &s = MySqlService::MySqlInstance();
         MySqlTable t;
-        QString query="INSERT INTO Users VALUES('"+ime+"','"+korisnickoime+"','"+email+"','"+sifra+"',0,'')";
-        QString q="SELECT * FROM Users WHERE KorisnickoIme='"+korisnickoime+"'";
-        qDebug()<<query;
+        MyQuery query;
+                query="INSERT INTO Korisnik VALUES('%1','%2','%3','%4','%5',%6,%7,%8,%9,'%10',%11)";
+        query<<korisnickoime<<ime<<prezime<<email<<sifra<<0<<0<<0<<0<<"Nema"<<0;
+
+        QString q="SELECT * FROM Korisnik WHERE korisnickoIme='"+korisnickoime+"'";
+        qDebug()<<query.toStr();
            t = s.WSendQuery(q);
            if(t.isSuccessfully())
            {
@@ -69,6 +72,11 @@ public:
             FileUploader *f = new FileUploader();
             f->uploadImage(LOCALDATA::mProfil->getKorisnickoIme(), slikaurl);
             qDebug()<<"URL SLIKE:; "<< slikaurl;
+
+            MySqlService &s = MySqlService::MySqlInstance();
+            QString q="UPDATE Korisnik SET slika=1 WHERE korisnickoIme='"+LOCALDATA::mProfil->getKorisnickoIme()+"'";
+            s.SendQuery(q);
+
            return true;
     }
      Q_INVOKABLE
@@ -105,7 +113,7 @@ public:
               if(db.open())
               {
                    QSqlQuery sqlquery;
-                   if(!sqlquery.exec("UPDATE LocalData SET ulogovan=1, korisnickoime='"+korisnickoime+"' WHERE id=1"))
+                   if(!sqlquery.exec("UPDATE LocalData SET ulogovan=1, korisnickoime='"+korisnickoime+"' WHERE id=0"))
                    {
                          qDebug()<<"\n\nSQLITE ERROR: "<< sqlquery.lastError().text();
                    }
@@ -138,12 +146,13 @@ public:
         if(db.open())
         {
              QSqlQuery sqlquery;
-             if(!sqlquery.exec("UPDATE LocalData SET ulogovan=0 WHERE id=1"))
+             if(!sqlquery.exec("UPDATE LocalData SET ulogovan=0 WHERE id=0"))
              {
                    qDebug()<<"\n\nSQLITE ERROR: "<< sqlquery.lastError().text();
              }
         }
     }
+
 
 
 signals:

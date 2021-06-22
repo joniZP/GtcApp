@@ -16,7 +16,7 @@ Rectangle
 
         id:prvii
         width: parent.width
-        height: parent.height/8
+        height: parent.height/6
         anchors.top: parent.top
         Rectangle
         {
@@ -41,6 +41,7 @@ Rectangle
                     anchors.left: parent.left
                     anchors.leftMargin: 5
                     maximumLength: 80
+
 
 
                     // background: null
@@ -76,6 +77,8 @@ Rectangle
             }
 
         }
+
+
         Rectangle
         {
             id:pretragaFilterRectangle
@@ -84,11 +87,31 @@ Rectangle
             anchors.top: pretragaUnosRectangle.bottom
             Rectangle
             {
-                id:mesto
+                id:kategorija
                 height: parent.height
                 width: parent.width/2
                 anchors.left: parent.left
-                color: "red"
+                color: "#3db1ce"
+                border.color: "#333333"
+                radius: 3
+                Image {
+                    id: cityimage
+                    source: "/new/prefix1/kategorije.png"
+                    anchors.verticalCenter: kategorija.verticalCenter
+                    width:parent.height
+                    height:parent.height*0.8
+                    anchors.left: kategorija.left
+                    anchors.leftMargin: 10
+                }
+
+                Text{
+                anchors.left: cityimage.right
+                anchors.leftMargin: 10
+                anchors.verticalCenter: cityimage.verticalCenter
+                text: "Kategorija"
+                font.bold: true
+                }
+
                 MouseArea
                 {
                     anchors.fill: parent
@@ -102,16 +125,47 @@ Rectangle
                        {
                            kategorijapopup.visible=true
                        }
+
                     }
+
+                    onPressed: {
+                      kategorija.color="#064a87"
+                    }
+                    onReleased: {
+                         kategorija.color = "#3db1ce";
+                    }
+
                 }
             }
             Rectangle
             {
-                id:kategorija
+                id:mesto
                 height: parent.height
                 width: parent.width/2
-                anchors.left: mesto.right
-                color: "blue"
+                anchors.left: kategorija.right
+                color: "#3db1ce"
+                border.color: "#333333"
+                radius: 3
+
+                Image {
+                    id: mestoimage
+                    source: "/new/prefix1/city.png"
+                    anchors.verticalCenter:  mesto.verticalCenter
+                    width:parent.height
+                    height:parent.height*0.8
+                    anchors.left: mesto.left
+                    anchors.leftMargin: 10
+                }
+
+                Text{
+                anchors.left: mestoimage.right
+                anchors.leftMargin: 10
+                anchors.verticalCenter: mestoimage.verticalCenter
+                text: "Mesto"
+                font.bold: true
+
+                }
+
                 MouseArea
                 {
                     anchors.fill: parent
@@ -125,6 +179,13 @@ Rectangle
                         {
                             mestopopup.visible=true
                         }
+                    }
+
+                    onPressed: {
+                      mesto.color="#064a87"
+                    }
+                    onReleased: {
+                         mesto.color = "#3db1ce";
                     }
                 }
             }
@@ -246,14 +307,12 @@ Rectangle
             width: parent.width/2
             anchors.left: parent.left
             anchors.top: parent.top
-            height: parent.height
             border.color: "#c9c9c9"
             visible: false
            // kategorije
             ScrollView
             {
                 width: parent.width
-                height: parent.height
                 property var kategorije:[]
                 ListView
                 {
@@ -274,7 +333,7 @@ Rectangle
                             Rectangle
                             {
                                 width: parent.width
-                                height: parent.height-10
+                                height: parent.height
                                 anchors.verticalCenter: parent.verticalCenter
 
                                 Rectangle
@@ -349,13 +408,11 @@ Rectangle
             width: parent.width/2
             anchors.right: parent.right
             anchors.top: parent.top
-            height: parent.height
             border.color: "#c9c9c9"
             visible: false
             ScrollView
             {
                 width: parent.width
-                height: parent.height
                 property var kategorije:[]
                 ListView
                 {
@@ -376,7 +433,7 @@ Rectangle
                             Rectangle
                             {
                                 width: parent.width
-                                height: parent.height-10
+                                height: parent.height
                                 anchors.verticalCenter: parent.verticalCenter
 
                                 Rectangle
