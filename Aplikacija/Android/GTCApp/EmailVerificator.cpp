@@ -2,6 +2,7 @@
 
 #ifndef VERIFICATOR
 #define VERIFICATOR
+#include<LINKS.h>
 
 EmailVerificator * EmailVerificator::instance = NULL;
 
@@ -34,8 +35,8 @@ void EmailVerificator::SendVerificationEmail(QString email, QString username, QS
     params.addQueryItem("email", email);
     params.addQueryItem("username", username);
     params.addQueryItem("fullname", fullname);
-    params.addQueryItem("table","Users");
-    QUrl ur("http://gtcappservice.000webhostapp.com/GTCAPP/MyMailer/Verification/MailVerification.php");
+    params.addQueryItem("table","Korisnik");
+    QUrl ur(LINKS::APILINK+"/MyMailer/Verification/MailVerification.php");
     QNetworkRequest req(ur);
 
 
@@ -49,8 +50,8 @@ void EmailVerificator::SendForgotPasswordEmail(QString email, QString username, 
     params.addQueryItem("email", email);
     params.addQueryItem("username", username);
     params.addQueryItem("fullname", fullname);
-    params.addQueryItem("table","Users");
-    QUrl ur("http://gtcappservice.000webhostapp.com/GTCAPP/MyMailer/ForgotPassword/MailForgotPassword.php");
+    params.addQueryItem("table","Korisnik");
+    QUrl ur(LINKS::APILINK+"/MyMailer/ForgotPassword/MailForgotPassword.php");
     QNetworkRequest req(ur);
 
 

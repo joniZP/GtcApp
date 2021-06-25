@@ -1,7 +1,7 @@
 #include "zahtev.h"
 
-zahtev::zahtev(const QString &slika, const QString &ime,const QString &id,const bool& prihvacen)
-    : m_slika(slika), m_ime(ime),m_id(id),m_prihvacen(prihvacen)
+zahtev::zahtev(const QString &slika, const QString &ime,const QString &id,const bool& vidjen,const bool& prihvacen)
+    : m_slika(slika), m_ime(ime),m_id(id),m_vidjen(vidjen),m_prihvacen(prihvacen)
 {
 }
 
@@ -17,6 +17,11 @@ QString zahtev::ime() const
 QString zahtev::id() const
 {
     return m_id;
+}
+
+bool zahtev::vidjen() const
+{
+        return m_vidjen;
 }
 bool zahtev::prihvacen() const
 {

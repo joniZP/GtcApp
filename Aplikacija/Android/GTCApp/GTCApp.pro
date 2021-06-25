@@ -12,7 +12,7 @@ PKGCONFIG += openssl
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 SOURCES += \
-    EmailVerificator.cpp \
+ EmailVerificator.cpp \
         FileUploader.cpp \
         KorisnikEvents.cpp \
         LINKS.cpp \
@@ -21,6 +21,7 @@ SOURCES += \
         LokacijaModel.cpp \
         MProfil.cpp \
         MySqlService.cpp \
+        Notification.cpp \
         PretragaLokacija.cpp \
         PrijateljiEvents.cpp \
         UcitavanjeProfila.cpp \
@@ -62,7 +63,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-   EmailVerificator.h \
+    EmailVerificator.h \
     FileUploader.h \
     KorisnikEvents.h \
     LINKS.h \
@@ -73,6 +74,7 @@ HEADERS += \
     MLokacija.h \
     MProfil.h \
     MySqlService.h \
+    Notification.h \
     PretragaLokacija.h \
     PrijateljiEvents.h \
     UcitavanjeProfila.h \

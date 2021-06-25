@@ -24,6 +24,7 @@ ApplicationWindow
     property MProfil mProfilInst;//localdata
     property string friendsIcon;
 
+
     LOCALDATA{
     id:localData
 
@@ -33,7 +34,7 @@ ApplicationWindow
     }
 
     PrijateljiEvents{
-        id:prijateljiEvents
+    id:prijateljiEvents
     }
 
     KorisnikEvents{
@@ -53,11 +54,6 @@ ApplicationWindow
     }
 
 
-    UcitavanjeLokacije
-    {
-       id:ucitajInstance;
-    }
-
     UcitavanjeProfila{
         id:ucitavanjeProfilaInstance
     }
@@ -71,7 +67,7 @@ ApplicationWindow
     {
         let userpom = ucitavanjeProfilaInstance.getProfil(username);
         mProfil = userpom;
-        friendsIcon=prijateljiEvents.getSlikaByUsername(username);
+        prijateljiEvents.setStanjeByUsername(username);
     }
 
     function getDogadjajById(id)
@@ -111,6 +107,7 @@ ApplicationWindow
         const nesto = localData.getMProfil();
         console.log("\n\n\n"+nesto.getSlikaURL());
     }
+
 
 
     visible: true
@@ -676,11 +673,58 @@ ApplicationWindow
                     anchors.topMargin: 10
                     anchors.rightMargin: 10
 
+
+
+                    Image {
+                        id: nalogSlikaPrijatelji
+                        source: "qrc:/new/prefix1/reddot.png"
+
+                        width:13
+                        height:13
+                        visible:false
+
+                        anchors.right:parent.right
+                        anchors.top: parent.top
+                        anchors.rightMargin: -3
+                        anchors.topMargin: -3
+                        Text {
+                            id: nalogBrojPrijatelji
+                            text:  notification.getBrNovihZahteva()
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            font.family: "Helvetica"
+                            anchors.centerIn: parent
+                            font.pointSize: 10
+                            color: "white"
+
+
+
+                            Connections {
+                                  target: notification
+                                  function onNekiNasSignal(br){
+                                      if(br > 99)
+                                          br = 99;
+                                      if(br === 0)
+                                      {
+                                          nalogSlikaPrijatelji.visible = false;
+                                      }
+                                      else
+                                      {
+                                          nalogSlikaPrijatelji.visible = true;
+                                          nalogBrojPrijatelji.text=br;
+                                      }
+
+                                 }
+                             }
+
+                        }
+                    }
+
+
                     MouseArea{
                         anchors.fill:parent
 
                         onClicked: {
-
+                            notification.ucitajZahtevi();
                             pageLoader.source = "zahtevi.qml"
                             drawer.close()
                         }

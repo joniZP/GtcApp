@@ -25,6 +25,8 @@ int ZahteviModel::rowCount(const QModelIndex &parent) const
     return m_zahtevi.count();
 }
 
+
+
 QVariant ZahteviModel::data(const QModelIndex &index, int role) const
 {
 
@@ -49,6 +51,10 @@ QVariant ZahteviModel::data(const QModelIndex &index, int role) const
     {
         return z.prihvacen();
     }
+    else if(role==VidjenRole)
+    {
+        return z.vidjen();
+    }
     return QVariant();
 }
 
@@ -59,6 +65,7 @@ QHash<int, QByteArray> ZahteviModel::roleNames() const
     roles[ImeRole] = "ime";
     roles[IdKorisnikaRole] = "id";
     roles[PrihvacenRole] = "prihvacen";
+    roles[VidjenRole] = "vidjen";
     return roles;
 }
 

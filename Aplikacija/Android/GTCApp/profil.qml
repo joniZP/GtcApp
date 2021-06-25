@@ -51,7 +51,7 @@ Rectangle{
                         id:dodajprijateljaimage
                         height:(parent.height)/100*80
                         width:(parent.height)/100*80
-                        source: friendsIcon
+                        source: prijateljiEvents.getFriendSlika();
                         //dodaj sliku posaljizahtev
 
                         anchors.right: parent.right
@@ -67,8 +67,8 @@ Rectangle{
 
                             onClicked: {                              
 
-                                prijateljiEvents.postaviNovoStanje(mProfil.getKorisnickoIme());
-                                refreshIcon(mProfil.getKorisnickoIme());
+                                prijateljiEvents.postaviNovoStanje();
+                                dodajprijateljaimage.source =  prijateljiEvents.getFriendSlika();
                                    //dodaj sliku zahtev poslat
                                 //tu treba da se odradi i ako mu je vec prijatelj, da cim udje u profil da se skloni ova slika
                                 //to ce da znaci if(u listi prijatelja){dodajprijateljaimage.source="" dodajprijateljaimage.height=0 i w=0}

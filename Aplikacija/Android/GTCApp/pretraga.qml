@@ -65,6 +65,18 @@ Rectangle
                             //pretrazi.Pretrazi(unospretraga.text)
                             onClicked:
                             {
+                                if(radio1.checked)
+                                {
+                                    scrollpretraga.visible=true
+                                    scrollpretragadogadjaj.visible=false
+
+                                }
+                                else
+                                {
+                                    scrollpretraga.visible=false
+                                    scrollpretragadogadjaj.visible=true
+                                }
+
                                 kategorijapopup.visible=false
                                 mestopopup.visible=false
                                 block.visible=true
@@ -201,6 +213,7 @@ Rectangle
         anchors.top: prvii.bottom
         ScrollView
         {
+            visible: false
             id:scrollpretraga
             width: parent.width
             height: parent.height
@@ -279,7 +292,7 @@ Rectangle
                             anchors.fill:parent
                             onClicked:
                             {
-                                opislokacijeprofil.text=id
+                               // opislokacijeprofil.text=id
                                 block.visible=true
                                 getLokacijaById(id)
                                 block.visible=false
@@ -300,7 +313,126 @@ Rectangle
          }
      }
 
+///////////////////////////////////////////////
 
+        ScrollView
+        {
+                visible: false
+                id:scrollpretragadogadjaj
+                width: parent.width
+                height: parent.height
+
+                ListView
+                {
+                     boundsBehavior: ListView.StopAtBounds
+                     clip:true
+                     anchors.fill: parent
+                     width: parent.width
+                     height: parent.height
+                     model:_korisnikdogadjajmodel
+                     delegate: ItemDelegate
+                     {
+                         height:60
+                         width:scrollpretraga.width
+                         required property string tip
+                         required property string opis
+                         required property string vreme
+                         required property int id
+
+                            Rectangle
+                            {
+                            width: parent.width
+                            height: parent.height
+                            anchors.verticalCenter: parent.verticalCenter
+                            Rectangle
+                            {
+                                id:nazivdogadjaja
+                                height: parent.height
+                                width: parent.width/4
+                                anchors.left: parent.left
+                                Text
+                                {
+                                    id:nazivdogadjajaprofil
+                                    text: qsTr(tip)
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 20
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+                            }
+                            Rectangle
+                            {
+                                id:opisdogadjaja
+                                height: parent.height
+                                width: parent.width*3/8
+                                anchors.left:nazivdogadjaja.right
+                                Text
+                                {
+                                    anchors.fill: parent
+                                    id:opisdogadjajatekst
+                                    text: qsTr(opis)
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 5
+                                    font.pixelSize: 20
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    wrapMode: Text.WordWrap
+                                    minimumPixelSize: 10
+                                    maximumLineCount: 4
+                                    fontSizeMode: Text.Fit
+                                    verticalAlignment: Text.AlignVCenter
+
+                                }
+                            }
+
+                            Rectangle
+                            {
+                                id:vremedogadjaja
+                                height: parent.height
+                                 width: parent.width*3/8
+                                anchors.left: opisdogadjaja.right
+                                Text
+                                {
+                                    id:vremedogadjajatekst
+                                    text: qsTr(vreme)
+                                    anchors.left: parent.left
+
+                                    anchors.leftMargin: 15
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    wrapMode: Text.WordWrap
+                                    width: parent.width
+                                }
+                            }
+
+                            MouseArea
+                            {
+                                anchors.fill:parent
+                                onClicked:
+                                {
+                                    opislokacijeprofil.text=id
+                                    block.visible=true
+                                    getLokacijaById(id)
+                                    block.visible=false
+                                    pageLoader.source= "lokacija.qml"
+                                }
+                            }
+
+
+                     }
+                        Rectangle
+                        {
+                            width: parent.width
+                            height: 1
+                            color: "#c9c9c9"
+                            anchors.bottom: parent.bottom
+                        }
+                 }
+             }
+        }
+
+
+
+
+
+////////////////////////////////////////////////////////////
         Rectangle
         {
             id:kategorijapopup
@@ -309,10 +441,73 @@ Rectangle
             anchors.top: parent.top
             border.color: "#c9c9c9"
             visible: false
+
+            ////radio..
+
+            Rectangle
+            {
+                id:radio
+                anchors.top: parent.top
+                width: parent.width
+                height: 30
+                ButtonGroup
+                {
+                    id: grupa
+                }
+
+                Rectangle{
+                    id:prviradio
+                    height: parent.height
+                    width: parent.width/2
+                    anchors.left: parent.left
+                    RadioButton
+                    {
+                        id:radio1
+                        checked: true
+                        ButtonGroup.group: grupa
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: qsTr("Lokacije")
+                        scale: 0.75
+                        anchors.left: parent.left
+                        anchors.leftMargin: -10
+
+                    }
+                }
+                Rectangle{
+                    height: parent.height
+                    width: parent.width/2
+                    anchors.left: prviradio.right
+                    RadioButton
+                    {
+                        id:radio2
+                         ButtonGroup.group: grupa
+                         anchors.verticalCenter: parent.verticalCenter
+                         text: qsTr("Dogadjaji")
+                         scale: 0.75
+                         anchors.left: parent.left
+                         anchors.leftMargin: -10
+
+                   }
+                }
+                    Rectangle
+                    {
+                        width: parent.width
+                        height: 1
+                        color: "#c9c9c9"
+                        anchors.bottom: parent.bottom
+                    }
+
+            }
+            ////radio
+
+
+
+
            // kategorije
             ScrollView
             {
                 width: parent.width
+                anchors.top: radio.bottom
                 property var kategorije:[]
                 ListView
                 {

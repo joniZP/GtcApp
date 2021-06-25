@@ -5,44 +5,47 @@
 #include<MySqlService.h>
 #include<LOCALDATA.h>
 #include<prijateljimodel.h>
-#include<zahtevimodel.h>
 #include<obavestenjamodel.h>
 
 class PrijateljiEvents : public QObject
 {
 private:
-    int stanje= -1;
-    QString imeprijatelja;
-    void brisanjeZahteva(QString primalac, QString posiljalac)
+
+
+    static void brisanjeZahteva(QString primalac, QString posiljalac)
     {
         MySqlService &s = MySqlService::MySqlInstance();
         MyQuery query;
-                query="DELETE FROM Zahtev WHERE primalac='%1' and posiljalac='%2'";//primalac, posiljalac
+                query="DELETE FROM Zahtev WHERE (primalac='%1' and posiljalac='%2') or (primalac='%2' and posiljalac='%1')";//primalac, posiljalac
                 query<<primalac<<posiljalac;
            s.SendQuery(query);
            qDebug()<<"BRISE ZAHTEV" << query.toStr();
     }
     Q_OBJECT
 public:
+    static int Stanje;
+    static QString imeprijatelja;
+
     explicit PrijateljiEvents(QObject *parent = nullptr);
 
+
     Q_INVOKABLE
-    void posaljiZahtev(QString korisnickoimeprijatelja)
+    static void posaljiZahtev(QString korisnickoimeprijatelja)
     {
         MySqlService &s = MySqlService::MySqlInstance();
         MyQuery query;
-                query="INSERT IGNORE INTO Zahtev VALUES('%1','%2')";//primalac, posiljalac
+                query="INSERT IGNORE INTO Zahtev VALUES('%1','%2',0)";//primalac, posiljalac
                 query<<korisnickoimeprijatelja<<LOCALDATA::mProfil->getKorisnickoIme();
            s.SendQuery(query);
            qDebug()<<"Salje ZAHTEV" << query.toStr();
     }
     Q_INVOKABLE
-    void izbrisiZahtev(QString korisnickoimeprijatelja)
+    static void izbrisiZahtev(QString korisnickoimeprijatelja)
     {
         brisanjeZahteva(korisnickoimeprijatelja, LOCALDATA::mProfil->getKorisnickoIme());
     }
     Q_INVOKABLE
-    void prihvatiZahtev(QString korisnickoimeprijatelja)
+    static void prihvatiZahtev(QString korisnickoimeprijatelja)
     {
         brisanjeZahteva(LOCALDATA::mProfil->getKorisnickoIme(),korisnickoimeprijatelja);
 
@@ -116,6 +119,13 @@ public:
     }
 
 
+      Q_INVOKABLE
+    void setStanjeByUsername(QString username)
+    {
+        Stanje = uzmiStanje(username);
+        imeprijatelja = username;
+    }
+
  /*   Q_INVOKABLE
     QString vratiURLIkonice(QString korisnickoimeprijatelja)
     {
@@ -124,7 +134,7 @@ public:
         return getSlikaByStanje(stanje);
     }*/
 
-    Q_INVOKABLE
+  /*  Q_INVOKABLE
     QString getSlikaByUsername(QString korisnickoimeprijatelja)
     {
         int stanjeid = uzmiStanje(korisnickoimeprijatelja);
@@ -144,37 +154,55 @@ public:
         {
             return "/new/prefix1/add-friend.png";
         }
-    }
+    }*/
 
 
     Q_INVOKABLE
-    int postaviNovoStanje(QString korisnickoime)
+    QString getFriendSlika()
     {
+        if(Stanje == 1)//Primio zahtev, odobri zahtev
+        {
+            return "/new/prefix1/add-friend.png";
+        }
+        else if(Stanje == 2)//Poslat zahtev, ponisti zahtev
+        {
+            return "/new/prefix1/remove-user.png";
+        }
+        else if(Stanje == 3)//Prijatelji, izbrisi prijatelja
+        {
+            return "/new/prefix1/remove-user.png";
+        }
+        else//dodaj prijatelja
+        {
+            return "/new/prefix1/add-friend.png";
+        }
+    }
 
-        int starostanje = uzmiStanje(korisnickoime);
 
-        if(starostanje == 0)
-        {
-           stanje = 2;
-           posaljiZahtev(korisnickoime);
-        }
-        else if(starostanje == 1)
-        {
-            stanje=3;
-            prihvatiZahtev(korisnickoime);
-        }
-        else if(starostanje == 2)
-        {
-            stanje = 0;
-            izbrisiZahtev(korisnickoime);
-        }
-        else if(starostanje == 3)
-        {
-            stanje =0;
-            izbrisiPrijatelja(korisnickoime);
-        }
 
-        return stanje;
+    Q_INVOKABLE
+    void postaviNovoStanje()
+    {
+        if(Stanje == 0)
+        {
+           Stanje = 2;
+           posaljiZahtev(imeprijatelja);
+        }
+        else if(Stanje == 1)
+        {
+            Stanje=3;
+            prihvatiZahtev(imeprijatelja);
+        }
+        else if(Stanje == 2)
+        {
+            Stanje = 0;
+            izbrisiZahtev(imeprijatelja);
+        }
+        else if(Stanje == 3)
+        {
+            Stanje =0;
+            izbrisiPrijatelja(imeprijatelja);
+        }
     }
 
 signals:

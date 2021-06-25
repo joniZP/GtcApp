@@ -24,6 +24,10 @@
 #include<MProfil.h>
 #include<prijateljimodel.h>
 #include<prijateljievents.h>
+#include<Notification.h>
+
+
+
 //#include<komentarimodel.h>
 //#include"MySqlKrsta.h"
 int main(int argc, char *argv[])
@@ -56,6 +60,9 @@ int main(int argc, char *argv[])
     KorisnikDogadjajModel &korisnikdogadjajmodel = KorisnikDogadjajModel::GetInstance();
     KorisnikLokacijaModel &korisniklokacijamodel = KorisnikLokacijaModel::GetInstance();
     PrijateljiModel &prijateljimodel = PrijateljiModel::GetInstance();
+    Notification &notification = Notification::GetInstance();
+    UcitavanjeLokacije *ucitavanjeLokacije = new UcitavanjeLokacije();
+
 
 
     engine.rootContext()->setContextProperty("_kommodel", &kommodel);
@@ -68,11 +75,13 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("_korisnikdogadjajmodel", &korisnikdogadjajmodel);
     engine.rootContext()->setContextProperty("_korisniklokacijamodel", &korisniklokacijamodel);
     engine.rootContext()->setContextProperty("_prijateljimodel", &prijateljimodel);
+    engine.rootContext()->setContextProperty("notification", &notification);
+    engine.rootContext()->setContextProperty("ucitajInstance", ucitavanjeLokacije);
 
 
-    zahtevimodel.dodajzahtev(zahtev("qrc:/new/prefix1/change.png","Ime","ID",false));
-    zahtevimodel.dodajzahtev(zahtev("qrc:/new/prefix1/change.png","Ime1","ID",false));
-    zahtevimodel.dodajzahtev(zahtev("qrc:/new/prefix1/change.png","Ime2","ID",false));
+    zahtevimodel.dodajzahtev(zahtev("qrc:/new/prefix1/change.png","Ime","ID",false,false));
+    zahtevimodel.dodajzahtev(zahtev("qrc:/new/prefix1/change.png","Ime1","ID",false,false));
+    zahtevimodel.dodajzahtev(zahtev("qrc:/new/prefix1/change.png","Ime2","ID",false,false));
 
     obavestenjamodel.dodajobavestenje(obavestenje("qrc:/new/prefix1/change.png","TEKST","ID",false,true));
     obavestenjamodel.dodajobavestenje(obavestenje("qrc:/new/prefix1/change.png","TEKST","ID",false,false));
@@ -90,6 +99,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<MProfil>("MProfil",1,0,"MProfil");
     qmlRegisterType<PrijateljiEvents>("PrijateljiEvents",1,0,"PrijateljiEvents");
 
+
     engine.load(url);
 
     //--------------------------[ TEST ] --------------------------------------------
@@ -100,6 +110,10 @@ int main(int argc, char *argv[])
       mestomodel.dodajmesto(Kategorija("Leskovac",false,1));
       mestomodel.dodajmesto(Kategorija("Beograd",false,2));
       mestomodel.dodajmesto(Kategorija("Sombor",false,3));
+
+     // QObject::connect(Notification::GetInstance(),SIGNAL(onDataChanged),)
+
+
 
 
     return app.exec();

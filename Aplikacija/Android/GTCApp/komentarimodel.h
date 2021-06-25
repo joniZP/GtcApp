@@ -34,6 +34,14 @@ private:
         }
         endRemoveRows();
     }
+
+    void removeAll()
+    {
+        beginRemoveRows(QModelIndex(), 0,m_lokacije.count());
+        m_lokacije.clear();
+        endRemoveRows();
+    }
+
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
 protected:

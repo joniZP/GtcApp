@@ -31,7 +31,7 @@ ColumnLayout{
 
     TextField {
         id: prezime
-        Layout.topMargin: 120
+        //Layout.topMargin: 120
         placeholderText: qsTr("Prezime")
          Layout.alignment: Qt.AlignHCenter
            Layout.minimumWidth: parent.width/5*4

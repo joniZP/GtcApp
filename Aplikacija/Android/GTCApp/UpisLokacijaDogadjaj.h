@@ -22,11 +22,14 @@ public:
         MySqlService &s = MySqlService::MySqlInstance();
          MyQuery query("INSERT INTO `Lokacija`(`naziv`, `grad`, `opis`, `idkorisnika`, `ocena`, `brojOcena`, `x`, `y`, `brojSlika`, `likes`, `Verifikovana`,`kategorija`) VALUES ('%2','%3','%4','%5',%6,%7,%8,%9,%10,%11,%12,'%13')");
           query<<naziv<<grad<<opis<<LOCALDATA::mProfil->getKorisnickoIme()<<0<<0<<xcoo<<ycoo<<slike.length()<<0<<0<<"Nema";
-          s.WSendQuery(query);
+          MySqlTable tpom;
+          tpom = s.WSendQuery(query);
+          if(tpom.isSuccessfully())
+          {
 
             qDebug()<<query.toStr();
 
-           MySqlTable t;
+                  MySqlTable t;
                  t = s.WSendQuery("SELECT max(Id) FROM Lokacija");
 
         //   MyQuery query1("INSERT INTO `Korisnik_Lokacija`(`idKorisnika`, `idLokacije`) VALUES ('%1',%2)");
@@ -42,6 +45,8 @@ public:
            }
 
            return t.Rows[0][0].toInt();
+          }
+          return -1;
 
     }
     Q_INVOKABLE

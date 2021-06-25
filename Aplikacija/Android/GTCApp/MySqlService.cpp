@@ -1,7 +1,12 @@
-#include "MySqlService.h"
+
 
 #ifndef KRSTA
 #define KRSTA
+
+#include "MySqlService.h"
+#include<LINKS.h>
+
+
 bool MySqlService::WaitAnswer = false;
 QString MySqlService::Answer = " ";
 MySqlService * MySqlService::instance = NULL;
@@ -39,7 +44,7 @@ void MySqlService::SendQuery(QString request)
     params.addQueryItem("query", request);
     params.addQueryItem("proba", "request");
 
-    QUrl ur("http://gtcappservice.000webhostapp.com/GTCAPP/Database/GtcService.php");
+    QUrl ur(LINKS::APILINK+"/Database/GtcService.php");
     QNetworkRequest req(ur);
 
 
@@ -58,7 +63,7 @@ QString MySqlService::WSendQuery(QString request)
     QUrlQuery params;
     params.addQueryItem("query", request);
 
-    QUrl ur("http://gtcappservice.000webhostapp.com/GTCAPP/Database/GtcService.php");
+    QUrl ur(LINKS::APILINK+"/Database/GtcService.php");
     QNetworkRequest req(ur);
 
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
@@ -105,6 +110,13 @@ bool MySqlTable::isSuccessfully()
 void MySqlTable::operator =(QString s)
 {
     QStringList delovi  =  s.split("###");
+    //Validacija odgovora
+    if(s[3] != '|')
+    {
+        status = 500;
+        status_message ="Konekcija nije uspostavljena";
+        return;
+    }
     ///////////////////////// STATUS
     QStringList Status = delovi[0].split("|");
     status = Status[0].toInt();

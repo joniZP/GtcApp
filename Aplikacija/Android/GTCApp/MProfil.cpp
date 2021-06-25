@@ -125,7 +125,10 @@ MProfil::MProfil(QString korisnickoIme, QString ime, QString prezime, QString em
     this->brojOcena = brojOcena;
     this->telefon = telefon;
     this->slika = slika;
-    this->slikaURL = LINKS::getProfileDefaultPicture();
+    if(slika)
+    this->slikaURL = LINKS::getProfilePicture(korisnickoIme);
+    else
+        this->slikaURL = LINKS::getProfileDefaultPicture();
 }
 
 MProfil::MProfil(QString ime, QString prezime,QString korisnickoime, bool slika)

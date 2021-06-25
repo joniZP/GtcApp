@@ -8,6 +8,10 @@
 #include<QtSql>
 #include<QtSql>
 #include<zahtev.h>
+#include<MySqlService.h>
+#include<LOCALDATA.h>
+#include<prijateljievents.h>
+
 
 class ZahteviModel: public QAbstractListModel{
     Q_OBJECT
@@ -19,6 +23,7 @@ private:
         ImeRole,
         IdKorisnikaRole,
         PrihvacenRole,
+        VidjenRole,
 
     };
     static ZahteviModel* instance;
@@ -36,13 +41,25 @@ private:
         }
         endRemoveRows();
     }
+
+    void removeAll()
+    {
+        beginRemoveRows(QModelIndex(), 0,m_zahtevi.count());
+        m_zahtevi.clear();
+        endRemoveRows();
+    }
+
     Q_INVOKABLE
     void prihvati(int i)
     {
+        beginRemoveRows(QModelIndex(),i,i);
         if(m_zahtevi[i].prihvacen()==false)
         {
-            m_zahtevi[i].prihvati(true);
+            PrijateljiEvents::prihvatiZahtev(m_zahtevi[i].id());
+           // m_zahtevi[i].prihvati(true);
+            m_zahtevi.removeAt(i);
         }
+         endRemoveRows();
     }
 
     Q_INVOKABLE
@@ -51,9 +68,22 @@ private:
         beginRemoveRows(QModelIndex(),i,i);
         if(m_zahtevi.count()>0)
         {
+             PrijateljiEvents::izbrisiZahtev(m_zahtevi[i].id());
              m_zahtevi.removeAt(i);
+
         }
         endRemoveRows();
+    }
+
+    Q_INVOKABLE
+    void setVidjeni()
+    {
+        MySqlService &s = MySqlService::MySqlInstance();
+        MyQuery query;
+        query="UPDATE Zahtev SET vidjen=1 WHERE primalac='%1' and vidjen=0";
+        query<<LOCALDATA::mProfil->getKorisnickoIme();
+        s.SendQuery(query);
+
     }
 
 

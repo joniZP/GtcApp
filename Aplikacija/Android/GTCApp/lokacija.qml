@@ -242,7 +242,7 @@ Rectangle
                   height: parent.height
               Image {
                       id: like_slika
-                      source: "../new/prefix1/like.png"
+                      source: ucitajInstance.vratiIkonicu()
                       width: parent.height*0.5
                       height:parent.height*0.5
                       fillMode: Image.PreserveAspectCrop
@@ -264,14 +264,8 @@ Rectangle
                   anchors.fill: parent
                   onClicked:
                   {
-                      if(like_slika.source!="qrc:/new/prefix1/heart.png")
-                      {
-                        like_slika.source="../new/prefix1/heart.png"
-                      }
-                      else
-                      {
-                         like_slika.source="../new/prefix1/like.png"
-                      }
+                    ucitajInstance.clickOnLike();
+                    like_slika.source = ucitajInstance.vratiIkonicu();
                   }
               }
               }
@@ -314,7 +308,10 @@ Rectangle
                   anchors.fill: parent
                   onClicked:
                   {
+                      block.visible=true;
+                      ucitajInstance.ucitajKomentare(location.getId())
                       draw.open()
+                      block.visible = false;
                   }
               }
               }
@@ -388,12 +385,28 @@ Drawer
        height: parent.height-flickable.height
        ScrollView
        {
-          anchors.fill: parent
+          //anchors.fill: parent
+          anchors.top: parent.top
+          height: parent.height
+          //anchors.topMargin: 10
+          width:  parent.width
+
+          Rectangle{
+              id:linija
+              anchors.top: parent.top
+            height: 5
+            width: parent.width
+            color:"#2596be"
+          }
 
        ListView
        {
            boundsBehavior: ListView.StopAtBounds
-           anchors.fill: parent
+           //anchors.fill: parent
+           anchors.top: linija.bottom
+           width: parent.width
+           height: parent.height-15
+           anchors.topMargin: 10
            clip: true
            model: _kommodel
            spacing: 10
@@ -413,9 +426,9 @@ Drawer
                            height: 30
                            fillMode: Image.PreserveAspectCrop
                            layer.enabled: true
-                           //layer.effect: OpacityMask {
-                           //    maskSource: mask
-                           //}
+                           layer.effect: OpacityMask {
+                               maskSource: mask
+                           }
                     }
                     Rectangle {
                      anchors.leftMargin: 10
@@ -495,8 +508,10 @@ Drawer
                //if(komentartext1.text)
                   // var regExp = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
                    //if(!regExp.test(email.text))
-               var string = event.dodajkomentar(komentartext1.text,"jjjj");
+               block.visible =true;
+               ucitajInstance.dodajKomentar(location.getId(),komentartext1.text);
                komentartext1.remove(0,komentartext1.length)
+               block.visible = false;
            }
        background:Image {
            anchors.fill: parent

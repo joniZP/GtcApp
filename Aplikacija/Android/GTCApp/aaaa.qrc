@@ -39,5 +39,6 @@
         <file>city.png</file>
         <file>kategorije.png</file>
         <file>friends.png</file>
+        <file>remove-user.png</file>
     </qresource>
 </RCC>

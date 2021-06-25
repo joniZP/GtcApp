@@ -49,6 +49,7 @@ Rectangle
                required property string ime
                required property int index
                required property bool prihvacen
+               required property bool vidjen
                Rectangle
                {
                    anchors.fill: parent
@@ -58,7 +59,8 @@ Rectangle
                    width: parent.width
                    height: parent.height-10
                    anchors.verticalCenter: parent.verticalCenter
-                   color: "transparent"
+                   color: vidjen==true?"transparent":"#b1e6ec";
+
 
                    Rectangle
                    {
@@ -111,7 +113,7 @@ Rectangle
                        Text
                        {
                            id:nazivlokacijeprofil
-                           text: qsTr("Sasa Stojiljkovic")
+                           text: qsTr(ime)
                            anchors.left: parent.left
                            anchors.leftMargin: 20
                            anchors.top: parent.top
@@ -137,7 +139,6 @@ Rectangle
                            onClicked:
                            {
                                _zahtevimodel.obrisi(index)
-                               console.log(index)
                            }
                        }
                        Button
