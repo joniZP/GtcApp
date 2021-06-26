@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/ikonice">
+        <file>comment.png</file>
+        <file>event.png</file>
+        <file>GTCLogo.png</file>
+        <file>location.png</file>
+        <file>lock.png</file>
+        <file>user.png</file>
+    </qresource>
+</RCC>

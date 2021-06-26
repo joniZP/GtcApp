@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>MItem.qml</file>
+        <file>prijavljeneLokacijeForm.qml</file>
+        <file>prijavljeniDogadjajiForm.qml</file>
+        <file>prijavljeniKomentariForm.qml</file>
+        <file>loginForm.qml</file>
+        <file>registracijaForm.qml</file>
+        <file>zaboravljenaLozinkaForm.qml</file>
+        <file>odobriLokacijuForm.qml</file>
+    </qresource>
+</RCC>
