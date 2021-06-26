@@ -8,6 +8,8 @@
 #include<QtSql>
 #include<QtSql>
 #include<obavestenje.h>
+#include<MySqlService.h>
+#include<LOCALDATA.h>
 class ObavestenjaModel: public QAbstractListModel{
     Q_OBJECT
 
@@ -17,8 +19,10 @@ private:
         SlikaRole = Qt::UserRole + 1,
         TextRole,
         IdLokacije_dogadjajaRole,
-        CheckedRole,
-        LidRole
+        VidjenRole,
+        LidRole,
+        KorisnikRole,
+        IdORole
     };
     static ObavestenjaModel* instance;
     ObavestenjaModel();
@@ -43,13 +47,25 @@ private:
         }
     }
 
+    void removeAll()
+    {
+        beginRemoveRows(QModelIndex(), 0,m_obavestenja.count());
+        m_obavestenja.clear();
+        endRemoveRows();
+    }
+
     Q_INVOKABLE
     void obrisi(int i)
     {
         beginRemoveRows(QModelIndex(),i,i);
         if(m_obavestenja.count()>0)
         {
-             m_obavestenja.removeAt(i);
+            MySqlService &s = MySqlService::MySqlInstance();
+            MyQuery query;
+            query="DELETE FROM Obavestenje where idObavestenja=%1";
+            query<< m_obavestenja[i].idO();
+            s.SendQuery(query);
+            m_obavestenja.removeAt(i);
         }
         endRemoveRows();
     }

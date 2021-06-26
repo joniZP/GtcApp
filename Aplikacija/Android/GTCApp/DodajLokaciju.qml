@@ -355,7 +355,9 @@ Rectangle
                         if(lokid !== -1)
                         {
                          getLokacijaById(lokid);
+                         natpis="Lokacija"
                          pageLoader.source= "lokacija.qml"
+
                         }
                          block.visible = false;
 

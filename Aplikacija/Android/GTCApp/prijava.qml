@@ -9,6 +9,7 @@ Rectangle {
 
 
 ColumnLayout{
+     // @disable-check M16
     width:parent.width
     TextField {
         id: prijavakorisnickoime
@@ -92,6 +93,7 @@ ColumnLayout{
                      loginID.visible = false;
                      porukeID.visible = true;
                      zahteviID.visible = true;
+                     naziv="Pocetna"
                      pageLoader.source = "pocetna.qml"
                  }
              }
@@ -108,6 +110,7 @@ ColumnLayout{
             anchors.fill:parent
             onClicked:
             {
+                naziv="Zaboravljena lozinka"
                 pageLoader.source = "zaboravljena_lozinka.qml"
             }
 
@@ -130,6 +133,7 @@ RowLayout{
             anchors.fill:parent
             onClicked:
             {
+                 naziv="Registracija"
                  pageLoader.source = "registracija.qml"
 
             }

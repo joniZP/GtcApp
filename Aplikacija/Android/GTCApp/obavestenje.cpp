@@ -1,7 +1,7 @@
 #include "obavestenje.h"
 
-obavestenje::obavestenje(const QString &slika, const QString &text,const QString &id,const bool& checked,const bool& lid)
-    : m_slika(slika), m_text(text),m_id(id),m_checked(checked),m_lid(lid)
+obavestenje::obavestenje(const QString &slika, const QString &text,const QString &id,const bool& checked,const bool& lid,const int& idld,const bool &vidjen,const int & idO)
+    : m_slika(slika), m_text(text),m_id(id),m_checked(checked),m_lid(lid),m_vidjen(vidjen),m_idLD(idld),m_idO(idO)
 {
 }
 
@@ -25,4 +25,16 @@ bool obavestenje::checked() const
 bool obavestenje::lid() const
 {
     return m_lid;
+}
+int obavestenje::idLD() const
+{
+    return m_idLD;
+}
+int obavestenje::idO() const
+{
+    return m_idO;
+}
+bool obavestenje::vidjen() const
+{
+    return m_vidjen;
 }

@@ -42,15 +42,23 @@ QVariant ObavestenjaModel::data(const QModelIndex &index, int role) const
     }
     else if(role==IdLokacije_dogadjajaRole)
     {
-        return o.id();
+        return o.idLD();
     }
-    else if(role==CheckedRole)
+    else if(role==VidjenRole)
     {
-        return o.checked();
+        return o.vidjen();
     }
     else if(role==LidRole)
     {
         return o.lid();
+    }
+    else if(role==KorisnikRole)
+    {
+        return o.id();
+    }
+    else if(role==IdORole)
+    {
+        return o.idO();
     }
     return QVariant();
 }
@@ -60,9 +68,11 @@ QHash<int, QByteArray> ObavestenjaModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles[SlikaRole] = "slika";
     roles[TextRole] = "tekst";
-    roles[IdLokacije_dogadjajaRole] = "id";
-    roles[CheckedRole] = "cekirano";
+    roles[IdLokacije_dogadjajaRole] = "idLD";
+    roles[VidjenRole] = "vidjen";
     roles[LidRole] = "lid";
+    roles[KorisnikRole] = "sender";
+     roles[IdORole] = "idO";
     return roles;
 }
 

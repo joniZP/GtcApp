@@ -61,7 +61,35 @@ int main(int argc, char *argv[])
     KorisnikLokacijaModel &korisniklokacijamodel = KorisnikLokacijaModel::GetInstance();
     PrijateljiModel &prijateljimodel = PrijateljiModel::GetInstance();
     Notification &notification = Notification::GetInstance();
-    UcitavanjeLokacije *ucitavanjeLokacije = new UcitavanjeLokacije();
+    UcitavanjeLokacije & ucitavanjeLokacije = UcitavanjeLokacije::GetInstance();
+   // UcitavanjeLokacije *ucitavanjeLokacije = new UcitavanjeLokacije();
+
+
+
+
+
+
+    MProfil *mp=new MProfil(); //za ucitavanje svog profila
+    MProfil *mp1=new MProfil(); //za ucitavanje tudjeg profila
+    LOCALDATA *ld=new LOCALDATA();
+    PrijateljiEvents *pe =new PrijateljiEvents();
+    KorisnikEvents *ke=new KorisnikEvents();
+    UcitavanjeProfila *up=new UcitavanjeProfila();
+    PretragaLokacija *pl=new PretragaLokacija();
+    MLokacija *loc=new MLokacija();
+    mp=ld->getMProfil();
+    engine.rootContext()->setContextProperty("mProfilInst", mp);
+   // engine.rootContext()->setContextProperty("mProfil", mp1);
+    engine.rootContext()->setContextProperty("localData",ld);
+    engine.rootContext()->setContextProperty("prijateljiEvents", pe);
+    engine.rootContext()->setContextProperty("korisnikEvents", ke);
+    engine.rootContext()->setContextProperty("ucitavanjeProfilaInstance", up);
+    engine.rootContext()->setContextProperty("pretrazi", pl);
+    engine.rootContext()->setContextProperty("ucitajInstance", &ucitavanjeLokacije);
+   // engine.rootContext()->setContextProperty("location", loc);
+
+
+
 
 
 
@@ -76,20 +104,19 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("_korisniklokacijamodel", &korisniklokacijamodel);
     engine.rootContext()->setContextProperty("_prijateljimodel", &prijateljimodel);
     engine.rootContext()->setContextProperty("notification", &notification);
-    engine.rootContext()->setContextProperty("ucitajInstance", ucitavanjeLokacije);
+   // engine.rootContext()->setContextProperty("ucitajInstance", ucitavanjeLokacije);
 
 
-    zahtevimodel.dodajzahtev(zahtev("qrc:/new/prefix1/change.png","Ime","ID",false,false));
-    zahtevimodel.dodajzahtev(zahtev("qrc:/new/prefix1/change.png","Ime1","ID",false,false));
-    zahtevimodel.dodajzahtev(zahtev("qrc:/new/prefix1/change.png","Ime2","ID",false,false));
+   // zahtevimodel.dodajzahtev(zahtev("qrc:/new/prefix1/change.png","Ime","ID",false,false));
+   // zahtevimodel.dodajzahtev(zahtev("qrc:/new/prefix1/change.png","Ime1","ID",false,false));
+   // zahtevimodel.dodajzahtev(zahtev("qrc:/new/prefix1/change.png","Ime2","ID",false,false));
 
-    obavestenjamodel.dodajobavestenje(obavestenje("qrc:/new/prefix1/change.png","TEKST","ID",false,true));
-    obavestenjamodel.dodajobavestenje(obavestenje("qrc:/new/prefix1/change.png","TEKST","ID",false,false));
+    //obavestenjamodel.dodajobavestenje(obavestenje("qrc:/new/prefix1/change.png","TEKST","ID",false,true));
+   // obavestenjamodel.dodajobavestenje(obavestenje("qrc:/new/prefix1/change.png","TEKST","ID",false,false));
 
     //--------------------------[ IMPORTI ] --------------------------------------------
     qmlRegisterType<events>("Events",1,0,"Events");
     qmlRegisterType<klasa>("Klasa",1,0,"Klasa");
-    qmlRegisterType<UcitavanjeLokacije>("UcitavanjeLokacije",1,0,"UcitavanjeLokacije");
     qmlRegisterType<PretragaLokacija>("PretragaLokacija",1,0,"PretragaLokacija");
     qmlRegisterType<MLokacija>("MLokacija",1,0,"MLokacija");
     qmlRegisterType<UpisLokacijaDogadjaj>("UpisLokacijaDogadjaj",1,0,"UpisLokacijaDogadjaj");

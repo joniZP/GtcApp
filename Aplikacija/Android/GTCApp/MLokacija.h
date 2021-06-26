@@ -29,12 +29,12 @@ public:
     {
         return id;
     }
- Q_INVOKABLE
+    Q_INVOKABLE
     QString getKreator() const
     {
         return kreator;
     }
- Q_INVOKABLE
+    Q_INVOKABLE
     QString getNaziv() const
     {
         return naziv;
@@ -75,6 +75,11 @@ public:
        return punoime;
    }
 
+   Q_INVOKABLE
+ void setIme(QString ime)
+  {
+      this->naziv=ime;
+  }
 
 
 

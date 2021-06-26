@@ -44,26 +44,19 @@ Rectangle
             {
                 height:60
                 width:scrolobavestenja.width
-               required property int id
+               required property int idLD
                required property string slika
                required property string tekst
                required property int index
-               required property bool cekirano
+               required property bool vidjen
                required property bool lid
+               required property string sender
+                required property int idO
                Rectangle
                {
+                   id:rectobavestenje
                    anchors.fill: parent
-                   Component.onCompleted:
-                   {
-                       if(cekirano==true)
-                       {
-                           color="white"
-                       }
-                       else
-                       {
-                          color="#b8dff2"
-                       }
-                   }
+                   color: vidjen==true?"white":"#b8dff2";
                    Rectangle
                    {
 
@@ -87,7 +80,7 @@ Rectangle
                             onClicked:
                             {
 
-                                  console.log(index)
+                                 console.log(index)
                                 _obavestenjamodel.obrisi(index)
 
                             }
@@ -105,7 +98,7 @@ Rectangle
                        Image
                        {
                            id:lokacijaprofilimage
-                          source: slika
+                           source: slika
                            width: parent.width
                            height: parent.height
                            fillMode: Image.PreserveAspectCrop
@@ -113,6 +106,18 @@ Rectangle
                            layer.effect: OpacityMask
                            {
                                maskSource: mask
+                           }
+                           MouseArea
+                           {
+                               anchors.fill: parent
+                               onClicked:
+                               {
+                                   block.visible = true;
+                                   getProfilByUsername(sender)
+                                   natpis="Profil"
+                                   pageLoader.source = "profil.qml"
+                                   block.visible = false;
+                               }
                            }
                        }
                        Rectangle {
@@ -141,33 +146,43 @@ Rectangle
                            width: parent.width
                            wrapMode: Text.WordWrap
                        }
-                   }
 
-                   MouseArea
-                   {
-
-                       width: parent.width-10
-                       height: parent.height
-                       anchors.left: parent.left
-                       onClicked:
+                       MouseArea
                        {
-                           block.visible=true
-                           funkcija(id)
-                           block.visible=false
-                           _obavestenjamodel.pregledaj(index)
-                           glavnirect.color="white"
-                           if(lid==true)
+
+                           width: parent.width-10
+                           height: parent.height
+                           anchors.left: parent.left
+                           onClicked:
                            {
-                                pageLoader.source= "lokacija.qml"
-                           }
-                           else
-                           {
-                               pageLoader.source= "dogadjaj.qml"
+                               block.visible=true
+                              // _obavestenjamodel.pregledaj(index)
+                               rectobavestenje.color="white"
+
+                               if(lid==false)
+                               {
+
+
+                                   getLokacijaById(idLD)
+                                   notification.setVidjeni(idO)
+                                   natpis="Lokacija"
+                                   pageLoader.source= "lokacija.qml"
+
+                               }
+                               else
+                               {
+                                   getDogadjajById(idLD)
+                                   natpis="Dogadjaj"
+                                   pageLoader.source= "dogadjaj.qml"
+                               }
+                                  block.visible=false
+
                            }
 
                        }
-
                    }
+
+
 
 
             }

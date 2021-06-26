@@ -7,6 +7,7 @@
 #include<zahtevimodel.h>
 #include<LINKS.h>
 #include <QTimer>
+#include"QtAndroidExtras/QtAndroid"
 
 class Notification : public QObject
 {
@@ -15,7 +16,7 @@ class Notification : public QObject
 
 private:
      QTimer *timer;
-   static Notification* instance;
+    static Notification* instance;
 
     static QNetworkAccessManager *manager;
     static int NewNotification;
@@ -45,17 +46,32 @@ private:
 
 public:
     static void ReplyNotificationData(QNetworkReply * reply)
-    {
-        MySqlTable t;
-        t = reply->readAll();
-        if(t.isSuccessfully())
-        {
-            NewNotification = t.Rows[0][0].toInt();
-            //emit GetInstance().DataChanged();
-            emit GetInstance().nekiNasSignal(NewNotification);
-            qDebug()<<"Broj notifikacija: "<<NewNotification;
-        }
-    }
+       {
+           MySqlTable t;
+           t = reply->readAll();
+           if(t.isSuccessfully())
+           {
+               if(NewNotification <  t.Rows[0][0].toInt())
+               {
+                     QtAndroid::androidContext().object();
+                     QAndroidJniObject javaNotification = QAndroidJniObject::fromString("Neki text");
+
+                    // QAndroidJniObject::callStaticMethod<void>("com/notification/javalib/NotificationClient","notify");
+
+                     QAndroidJniObject::callStaticMethod<void>(
+                            "com/notification/javalib/NotificationClient",
+                            "notify",
+                            "(Landroid/content/Context;Ljava/lang/String;)V",
+                            QtAndroid::androidContext().object(),
+                            javaNotification.object<jstring>());
+               }
+               NewNotification = t.Rows[0][0].toInt();
+               //emit GetInstance().DataChanged();
+               emit GetInstance().nekiNasSignal(NewNotification);
+
+            //   qDebug()<<"Broj notifikacija: "<<NewNotification;
+           }
+       }
 
     static void AsyncNotification(){
         MyQuery query;
@@ -101,6 +117,54 @@ public:
      {
          return NewNotification;
      }
+
+     Q_INVOKABLE
+     static void podeliLokaciju(int id,QString username)
+     {
+
+         MySqlService &s = MySqlService::MySqlInstance();
+         MyQuery query;
+         query="INSERT INTO Obavestenje(`sender`, `reciever`, `tip`, `idDL`) VALUES('%1','%2',%3,%4)";
+         query<<LOCALDATA::mProfil->getKorisnickoIme()<<username<<0<<id;
+         s.SendQuery(query);
+         qDebug()<<"podeljeno" << query.toStr();
+     }
+
+     Q_INVOKABLE
+     void setVidjeni(int id)
+     {
+         MySqlService &s = MySqlService::MySqlInstance();
+         MyQuery query;
+         query="UPDATE Obavestenje SET vidjen=1 WHERE idObavestenja=%1";
+         query<<id;
+         s.SendQuery(query);
+         qDebug()<<"sdsdsaas "<<query.toStr();
+     }
+
+    Q_INVOKABLE
+     void ucitajObavestenja()
+     {
+         MySqlService &s = MySqlService::MySqlInstance();
+         MySqlTable t;
+         MyQuery query;
+         query="SELECT Obavestenje.idDL,Obavestenje.tip,Obavestenje.vidjen,Obavestenje.idObavestenja,Korisnik.ime,Korisnik.prezime,Korisnik.korisnickoIme,Korisnik.slika FROM `Obavestenje` INNER join Korisnik on Obavestenje.sender=Korisnik.korisnickoIme WHERE reciever='%1'";
+         query<<LOCALDATA::mProfil->getKorisnickoIme();
+         t =s.WSendQuery(query);
+         if(t.isSuccessfully())
+         {
+             ObavestenjaModel &om=ObavestenjaModel::GetInstance();
+             om.removeAll();
+             QString tekst;
+             for(int i =0;i<t.Count();i++)
+             {
+                 tekst="Korisnik "+t.Rows[i]["ime"]+" "+t.Rows[i]["prezime"]+" deli " +(t.Rows[i]["tip"].toInt() == 0?"lokaciju":"dogadjaj");
+                 om.dodajobavestenje(obavestenje((t.Rows[i]["slika"].toInt() == 0? LINKS::getProfileDefaultPicture():LINKS::getProfilePicture(t.Rows[i]["korisnickoIme"])),tekst,t.Rows[i]["korisnickoIme"],false,t.Rows[i]["tip"].toInt(),t.Rows[i]["idDL"].toInt(),t.Rows[i]["vidjen"].toInt(),t.Rows[i]["idObavestenja"].toInt()));
+             }
+         }
+
+     }
+
+
 
 
 signals:

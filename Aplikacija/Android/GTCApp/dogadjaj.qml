@@ -7,7 +7,6 @@ import QtLocation 5.6
 import QtPositioning 5.6
 import QtGraphicalEffects 1.12
 //import QtWebView 1.1
-import UcitavanjeLokacije 1.0
 import MLokacija 1.0
 
 Rectangle {
@@ -107,7 +106,9 @@ Rectangle
                        anchors.fill: parent
                        onClicked:
                        {
+                          natpis="Profil"
                           pageLoader.source = "profil.qml"
+
 
                        }
                    }

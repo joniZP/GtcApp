@@ -4,69 +4,20 @@ import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
 //import QtQuick.Controls.Material 2.3
 import QtGraphicalEffects 1.0
-import Events 1.0
 import Klasa 1.0
-import UcitavanjeLokacije 1.0
 import MLokacija 1.0
-import PretragaLokacija 1.0
-import LOCALDATA 1.0
-import KorisnikEvents 1.0
 import MProfil 1.0
-import UcitavanjeProfila 1.0
-import PrijateljiEvents 1.0
 
 ApplicationWindow
 {
-    property MLokacija location
     property Klasa klas
     property string natpis: ""
-    property MProfil mProfil
-    property MProfil mProfilInst;//localdata
-    property string friendsIcon;
-
-
-    LOCALDATA{
-    id:localData
-
-    Component.onCompleted: {
-    mProfilInst = localData.getMProfil();
-    }
-    }
-
-    PrijateljiEvents{
-    id:prijateljiEvents
-    }
-
-    KorisnikEvents{
-    id:korisnikEvents
-    }
-
-
-    PretragaLokacija
-    {
-        id:pretrazi
-    }
-    Component.onCompleted:
-    {
-
-       let klas1= event.fun1()
-       klas=klas1
-    }
-
-
-    UcitavanjeProfila{
-        id:ucitavanjeProfilaInstance
-    }
-
-
-
-
-
-
+    property MLokacija location
+    property  MProfil mProfil
     function getProfilByUsername(username)
     {
-        let userpom = ucitavanjeProfilaInstance.getProfil(username);
-        mProfil = userpom;
+        var pom = ucitavanjeProfilaInstance.getProfil(username);
+        mProfil = pom
         prijateljiEvents.setStanjeByUsername(username);
     }
 
@@ -77,8 +28,8 @@ ApplicationWindow
 
     function getLokacijaById(id)
     {
-        let lokacijapom= ucitajInstance.getLokacija(id)
-        location = lokacijapom;
+        let pom = ucitajInstance.getLokacija(id)
+        location =pom
     }
 
     function refreshProfilData()
@@ -103,7 +54,7 @@ ApplicationWindow
     }
     function refreshSlika(url)
     {
-       mProfilInst.setSlikaURL(url);
+        mProfilInst.setSlikaURL(url);
         const nesto = localData.getMProfil();
         console.log("\n\n\n"+nesto.getSlikaURL());
     }
@@ -118,16 +69,7 @@ ApplicationWindow
     //Material.theme: Material.LightBlue
     //Material.accent: Material.DeepOrange
     property Sbutt pom:pocetna
-   Events
-   {
-       id: event
-
-   }
-   Klasa
-   {
-     id:klass
-   }
-   ColumnLayout
+    ColumnLayout
     {
 
         // @disable-check M16
@@ -176,8 +118,8 @@ ApplicationWindow
                     }
                 }
                 Text {
-                    id: iii
-                    text:klas.getp1();
+                    id: natpisid
+                    text:"Pocetna";
                     color: "#ffffff"
                     font.family: "Helvetica"
                     font.pointSize: 18
@@ -204,9 +146,11 @@ ApplicationWindow
                         anchors.fill: parent
                         onClicked:
                         {
+                            block.visible=true
                             pretrazi.reset()
-                            pageLoader.source="pretraga.qml"
                             natpis="Pretraga"
+                            pageLoader.source="pretraga.qml"
+                            block.visible=false
                         }
                     }
 
@@ -225,10 +169,10 @@ ApplicationWindow
                 id: pageLoader
                 anchors.centerIn: parent
                 anchors.fill: parent
-                source: "ListaLokacija.qml"
+                source: "Pocetna.qml"
                 onSourceChanged:
                 {
-                    iii.text=natpis
+                     natpisid.text=natpis
                     if(source!="qrc:/pretraga.qml")
                     {
                         pretragalupa.visible=true
@@ -241,7 +185,6 @@ ApplicationWindow
                 }
 
             }
-            color: "red"
             id: prikaz1
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -302,6 +245,7 @@ ApplicationWindow
                                 drawer.close()
                                block.visible = true;
                                ucitavanjeProfilaInstance.ucitajLokacijeiDogadjaje(mProfilInst.getKorisnickoIme())
+                               natpis="Moj profil"
                                pageLoader.source = "mojprofil.qml"
 
                                block.visible = false;
@@ -421,7 +365,7 @@ ApplicationWindow
                             }
                         pocetna.color_="#d9d7d2"
                         pom=pocetna
-                            natpis="Pocetna"
+                        natpis="Lokacija"
                         pageLoader.source = "lokacija.qml" 
                         drawer.close()
                         }
@@ -440,8 +384,9 @@ ApplicationWindow
                         onClicked:
                         {
                             //console.log( men.fun1(dugme))
-                            pageLoader.source = "profil.qml"
                             natpis="Prvi"
+                            pageLoader.source = "profil.qml"
+
                             if(pom!=null)
                             {
                                  pom.color_="#ffffff"
@@ -575,7 +520,7 @@ ApplicationWindow
                            }
                        pocetna.color_="#d9d7d2"
                        pom=pocetna
-                           natpis="Pocetna"
+                       natpis="Pocetna"
                        pageLoader.source = "pocetna.qml"
                         korisnikEvents.odjava()
                        drawer.close()
@@ -607,6 +552,7 @@ ApplicationWindow
                  anchors.fill: parent
                  onClicked:
                  {
+                    natpis="Prijava"
                     pageLoader.source = "prijava.qml"
                     drawer.close()
                  }
@@ -654,10 +600,14 @@ ApplicationWindow
                     MouseArea{
                         anchors.fill:parent
 
-                        onClicked: {
-
-                            pageLoader.source = "obavestenja.qml"
+                        onClicked:
+                        {
                             drawer.close()
+                            block.visible=true
+                            notification.ucitajObavestenja()
+                            natpis="Obavestenja"
+                            pageLoader.source = "obavestenja.qml"
+                            block.visible=false
                         }
                     }
                 }
@@ -724,9 +674,13 @@ ApplicationWindow
                         anchors.fill:parent
 
                         onClicked: {
-                            notification.ucitajZahtevi();
-                            pageLoader.source = "zahtevi.qml"
                             drawer.close()
+                            block.visible=true
+                            notification.ucitajZahtevi();
+                            natpis="Zahtevi"
+                            pageLoader.source = "zahtevi.qml"
+                            block.visible=false
+
                         }
                     }
                 }

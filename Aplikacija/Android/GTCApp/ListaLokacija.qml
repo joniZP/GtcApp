@@ -61,6 +61,8 @@ Rectangle
                            text: qsTr(naziv)
                            anchors.left: parent.left
                            anchors.leftMargin: 20
+                           width: parent.width
+                           wrapMode: Text.WordWrap
                            anchors.verticalCenter: parent.verticalCenter
                        }
                    }
@@ -84,11 +86,12 @@ Rectangle
                        anchors.fill:parent
                        onClicked:
                        {
-                           opislokacijeprofil.text=id
                            block.visible=true
                            getLokacijaById(id)
                            block.visible=false
+                           natpis="Lokacija"
                            pageLoader.source= "lokacija.qml"
+
                        }
                    }
 

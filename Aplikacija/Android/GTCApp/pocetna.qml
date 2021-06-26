@@ -4,8 +4,7 @@ import QtQuick.Layouts 1.3
 
 Rectangle
 {
-    color: "#121177"
     id: prikaz4
-    width: 300
-    height: 300
+    anchors.fill: parent
+    color: "#2ab1de"
 }

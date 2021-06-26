@@ -248,7 +248,9 @@ Rectangle
             onClicked:
             {
                  //event.setpom(1);
+                 natpis="Dodavanje lokacije"
                  pageLoader.source = "DodajLokaciju.qml"
+
             }
                     background: Rectangle {
                         id:be

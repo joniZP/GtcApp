@@ -14,9 +14,11 @@ class UcitavanjeLokacije : public QObject
 {
     Q_OBJECT
    private:
-    MLokacija* lokacija;
-    bool liked =false;
+    static MLokacija* lokacija;
+    static bool liked;
+    static bool loadLiked;
     QTimer *liketimer;
+    static UcitavanjeLokacije * instance;
     UcitavanjeLokacije()
     {
         liketimer = new QTimer(this);
@@ -24,12 +26,33 @@ class UcitavanjeLokacije : public QObject
     }
 
 public:
-    explicit UcitavanjeLokacije(QObject *parent = nullptr);
+   // explicit UcitavanjeLokacije(QObject *parent = nullptr);
 
+    static UcitavanjeLokacije & GetInstance()
+    {
+        if(instance == NULL)
+            instance = new UcitavanjeLokacije();
+        return *instance;
+    }
 
     static void sacuvajLikeUBazu(){
+         GetInstance().liketimer->stop();
 
-        // liketimer->stop();
+         if(liked != loadLiked)
+         {
+             loadLiked = liked;
+             if(liked)
+             {
+                 insertLike();
+             }
+             else
+             {
+                 deleteLike();
+             }
+         }
+
+
+
     }
 
     Q_INVOKABLE
@@ -63,6 +86,7 @@ public:
                   }
 
                   liked = isLiked(lokacija->getId());
+                  loadLiked = liked;
                }
            }
 
@@ -129,11 +153,11 @@ public:
     {
         if(liked)
         {
-            return "../new/prefix1/like.png";
+           return "../new/prefix1/heart.png";
         }
         else
         {
-            return "../new/prefix1/heart.png";
+           return "../new/prefix1/like.png";
         }
     }
 
@@ -142,24 +166,31 @@ public:
     {
         liked = !liked;
         liketimer->stop();
-        liketimer->start(5000);
+        liketimer->start(2000);
     }
 
 
-    void insertLike(int idLokacije)
+    static void insertLike()
     {
+        if(lokacija != NULL)
+        {
         MySqlService &s = MySqlService::MySqlInstance();
         MyQuery query("INSERT INTO LokacijaLikes SET idLokacije=%1, idProfila='%2'");//("SELECT * FROM KomentariLokacije WHERE idLokacije='%1'");
-        query<<idLokacije<<LOCALDATA::mProfil->getKorisnickoIme();
+        query<<lokacija->getId()<<LOCALDATA::mProfil->getKorisnickoIme();
         s.SendQuery(query);
+        }
     }
 
-    void deleteLike(int idLokacije)
+    static void deleteLike()
     {
+        if(lokacija != NULL)
+        {
         MySqlService &s = MySqlService::MySqlInstance();
         MyQuery query("DELETE FROM LokacijaLikes WHERE idLokacije=%1 and idProfila='%2'");//("SELECT * FROM KomentariLokacije WHERE idLokacije='%1'");
-        query<<idLokacije<<LOCALDATA::mProfil->getKorisnickoIme();
+        query<<lokacija->getId()<<LOCALDATA::mProfil->getKorisnickoIme();
+       // qDebug()<<query.toStr();
         s.SendQuery(query);
+        }
     }
 
 

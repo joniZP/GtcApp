@@ -41,31 +41,26 @@ public:
            return true;
 
     }
-     Q_INVOKABLE
-    bool izmenaProfila(QString trenutnokorisnickoime, QString ime,QString korisnickoime,QString email,QString sifra, QString telefon)
-    {
-        MySqlService &s = MySqlService::MySqlInstance();
-        MySqlTable t;
-        QString query="UPDATE Users SET KorisnickoIme ='"+ korisnickoime+"' Email='"+email+"' Password='"+sifra+"' PunoIme='"+ime+"' Telefon='"+telefon+"' WHERE KorisnickoIme ='"+trenutnokorisnickoime+"'";
+       Q_INVOKABLE
+        void izmenaProfila(QString ime,QString prezime,QString sifra, QString telefon)
+        {
 
-        //QString query="INSERT INTO Users VALUES('"+ime+"','"+korisnickoime+"','"+email+"','"+sifra+"',0,'')";
-        QString q="SELECT * FROM Users WHERE KorisnickoIme='"+korisnickoime+"'";
-        qDebug()<<query;
-           t = s.WSendQuery(q);
-           if(t.isSuccessfully())
-           {
+            MySqlService &s = MySqlService::MySqlInstance();
+            MySqlTable t;
+            MyQuery query;
+            query="UPDATE Korisnik SET ime='%1', prezime='%2', lozinka='%3', telefon='%4' WHERE korisnickoIme ='%5'";
+            query<<ime<<prezime<<sifra<<telefon<<LOCALDATA::mProfil->getKorisnickoIme();
 
-           if(t.Count()>1)
-           {
-               return false;
-           }
-           }
-           s.SendQuery(query);
-           EmailVerificator &ev = EmailVerificator::GetInstance();
-           //ev.SendVerificationEmail(email,korisnickoime,ime);
-           return true;
+            t = s.WSendQuery(query);
+            if(t.isSuccessfully())
+            {
+                LOCALDATA::mProfil->setIme(ime);
+                LOCALDATA::mProfil->setPrezime(prezime);
+                LOCALDATA::mProfil->setLozinka(sifra);
+                LOCALDATA::mProfil->setTelefon(telefon);
+            }
 
-    }
+        }
      Q_INVOKABLE
     bool izmeniSlikuProfila(QString slikaurl)
     {
@@ -79,6 +74,25 @@ public:
 
            return true;
     }
+
+    Q_INVOKABLE
+    void zaboravljena_lozinka(QString username)
+    {
+        EmailVerificator & e=EmailVerificator::GetInstance();
+        MySqlService &s = MySqlService::MySqlInstance();
+        MySqlTable t;
+        QString q="SELECT * FROM Korisnik WHERE korisnickoIme='"+username+"'";
+        t = s.WSendQuery(q);
+        if(t.isSuccessfully())
+        {
+            if(t.Count()>0)
+            {
+               e.SendForgotPasswordEmail(t.Rows[0]["email"],username,t.Rows[0]["ime"]+" "+t.Rows[0]["prezime"]);
+            }
+        }
+
+    }
+
      Q_INVOKABLE
     int prijava(QString korisnickoime,QString password)
     {

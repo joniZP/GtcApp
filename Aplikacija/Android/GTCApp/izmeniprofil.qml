@@ -6,18 +6,26 @@ import QtQuick.Layouts 1.3
 Rectangle {
 
 ColumnLayout{
+
+// @disable-check M16
     width:parent.width
 
 
     TextField {
         id: ime
         Layout.topMargin: 80
-        placeholderText: qsTr("Ime i prezime")
-        text: ""
+        placeholderText: qsTr("Ime")
+        text: mProfilInst.getIme()
          Layout.alignment: Qt.AlignHCenter
            Layout.minimumWidth: parent.width/5*4
     }
-
+    TextField {
+        id: prezime
+        placeholderText: qsTr("Prezime")
+        text:  mProfilInst.getPrezime()
+         Layout.alignment: Qt.AlignHCenter
+           Layout.minimumWidth: parent.width/5*4
+    }
 
 
 
@@ -26,9 +34,10 @@ ColumnLayout{
         id: korisnickoime
         placeholderText: qsTr("Korisnicko ime")
        // Material.background: Material.Orange
-
+         text:  mProfilInst.getKorisnickoIme()
          //Layout.alignment: Qt.AlignHCenter
-           Layout.minimumWidth: parent.width/5*4
+        Layout.minimumWidth: parent.width/5*4
+        enabled: false
     }
     Text {
         id: greskakorisnickoime
@@ -45,9 +54,11 @@ ColumnLayout{
         Layout.alignment: Qt.AlignHCenter
         id: email
         placeholderText: qsTr("Email adresa")
+        text:  mProfilInst.getEmail()
        // Material.background: Material.Orange
          //Layout.alignment: Qt.AlignHCenter
-           Layout.minimumWidth: parent.width/5*4
+         Layout.minimumWidth: parent.width/5*4
+         enabled: false
     }
     Text {
         id: greskaemail
@@ -107,6 +118,7 @@ ColumnLayout{
         Layout.alignment: Qt.AlignHCenter
         id: telefon
         placeholderText: qsTr("Telefon")
+         text:  mProfilInst.getTelefon()
         Layout.minimumWidth: parent.width/5*4
 
     }
@@ -116,7 +128,7 @@ ColumnLayout{
          Layout.alignment: Qt.AlignHCenter
         id: button
         Layout.minimumWidth: parent.width/5*4
-        text: qsTr("Registruj se")
+        text: qsTr("Izmeni")
         onClicked:
         {
             greskaemail.visible=false
@@ -124,14 +136,13 @@ ColumnLayout{
             greskalozinka.visible=false
             greskapotvrdalozinke.visible=false
             let b=false;
-
-            var regExp = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
-            if(!regExp.test(email.text))
-            {
-                email.text=""
-               greskaemail.visible=true
-                b=true;
-            }
+           // var regExp = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+            //if(!regExp.test(email.text))
+          //  {
+              //  email.text=""
+             //  greskaemail.visible=true
+              //  b=true;
+          //  }
             if(lozinka.text.length>7)
             {
                 if(potvrdalozinke.text!=lozinka.text)
@@ -148,30 +159,15 @@ ColumnLayout{
                 potvrdalozinke.text=""
                 greskalozinka.visible=true
                 lozinka.text=""
-
                 b=true
             }
 
             if(b===false)
             {
                 block.visible=true
-                if(!event.izmena(ime.text,korisnickoime.text,email.text,lozinka.text, telefon.text))
-                {
-
-                    korisnickoime.text=""
-                    greskakorisnickoime.text="Korisnicko ime zauzeto"
-                    greskakorisnickoime.visible=true
-                    block.visible=false
-
-                }
-                else
-                {
-                    if(lozinka.text!="")
-                    {
-                    pageLoader.source = "prijava.qml"
-                    block.visible=false
-                    }
-                }
+                korisnikEvents.izmenaProfila(ime.text,prezime.text,lozinka.text,telefon.text)
+                mProfilInst=localData.getMProfil()
+                block.visible=false
             }
         }
     }

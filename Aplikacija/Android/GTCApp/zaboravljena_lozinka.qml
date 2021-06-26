@@ -49,10 +49,11 @@ Rectangle {
             }
 
 
-            if(b==false)
+            if(b===false)
             {
                 block.visible=true
-                event.zaboravljena_lozinka(email.text)
+                korisnikEvents.zaboravljena_lozinka(email.text)
+                naziv="Prijava"
                 pageLoader.source = "prijava.qml"
                 block.visible=false
             }

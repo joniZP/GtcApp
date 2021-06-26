@@ -5,14 +5,18 @@ QT += qml quick
 QT += network
 QT += gui
 QT += location positioning
+
 CONFIG += c++11
 PKGCONFIG += openssl
+
+
+QT += androidextras
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 SOURCES += \
- EmailVerificator.cpp \
+        EmailVerificator.cpp \
         FileUploader.cpp \
         KorisnikEvents.cpp \
         LINKS.cpp \
@@ -47,9 +51,11 @@ SOURCES += \
         slikamodel.cpp \
         ucitavanjelokacije.cpp \
         zahtev.cpp \
-        zahtevimodel.cpp
+        zahtevimodel.cpp \
+
 
 RESOURCES += qml.qrc \
+    DB.qrc \
     aaaa.qrc
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -100,4 +106,27 @@ HEADERS += \
     ucitavanjelokacije.h \
     zahtev.h \
     zahtevimodel.h
+
 android: include(C:/Users/PC/AppData/Local/Android/Sdk/android_openssl/openssl.pri)
+
+DISTFILES += \
+  NotificationClient.java \
+
+
+DISTFILES += \
+    android/AndroidManifest.xml \
+    android/build.gradle \
+    android/gradle.properties \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew \
+    android/gradlew.bat \
+    android/res/values/libs.xml \
+    android/src/com/notification/javalib/NotificationClient.java
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+ANDROID_ABIS = armeabi-v7a
+
+
+
+

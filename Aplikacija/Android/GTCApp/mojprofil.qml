@@ -44,11 +44,11 @@ Rectangle{
                     anchors.fill: parent
                     id:mouseareaizmeniinformacije
 
-                    onClicked: {
-
-                        pageLoader.source="izmeniprofil.qml"
-
-                      }
+                    onClicked:
+                    {
+                        natpis="Izmena profila"
+                        pageLoader.source="izmeniprofil.qml" 
+                     }
             }
 
             }
@@ -405,6 +405,8 @@ Rectangle{
                            text: qsTr(naziv)
                            anchors.left: parent.left
                            anchors.leftMargin: 20
+                           width: parent.width
+                           wrapMode: Text.WordWrap
                            anchors.verticalCenter: parent.verticalCenter
                        }
                    }
@@ -436,6 +438,7 @@ Rectangle{
                            block.visible=true
                            getLokacijaById(id)
                            block.visible=false
+                           natpis="Lokacija"
                            pageLoader.source= "lokacija.qml"
                        }
                    }
@@ -509,6 +512,7 @@ Rectangle{
                      {
                      block.visible = true;
                      getDogadjajById(id);
+                     natpis="Dogadjaj"
                      pageLoader.source= "dogadjaj.qml"
                      block.visible = false;
                      }
@@ -554,7 +558,7 @@ Rectangle{
                     Text{
                         anchors.verticalCenter: parent.verticalCenter
                         id: emailprofil
-                        text:"email"
+                        text:mProfilInst.getEmail()
                         anchors.left: parent.left
                         anchors.leftMargin: 15
 
@@ -588,7 +592,7 @@ Rectangle{
                     Text{
                         anchors.verticalCenter: parent.verticalCenter
                         id: telefonprofil
-                        text:"telefon"
+                        text:mProfilInst.getTelefon()
                         anchors.left: parent.left
                         anchors.leftMargin: 15
 
@@ -679,6 +683,7 @@ Rectangle{
                            block.visible = true;
                            getProfilByUsername(korisnickoime)
                            pageLoader.source = "profil.qml"
+                           natpis="Profil"
                            block.visible = false;
                            //pozovi funkciju da ucita korisnika
                        }

@@ -204,6 +204,7 @@ ColumnLayout{
                 }
                 else
                 {
+                    naziv="Prijava"
                     pageLoader.source = "prijava.qml"   
                 }
                  block.visible=false

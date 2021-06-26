@@ -452,6 +452,8 @@ ListView {
                        {
                            id:nazivlokacijeprofil
                            text: qsTr(naziv)
+                           width: parent.width
+                           wrapMode: Text.WordWrap
                            anchors.left: parent.left
                            anchors.leftMargin: 20
                            anchors.verticalCenter: parent.verticalCenter
@@ -483,6 +485,7 @@ ListView {
                            block.visible=true
                            getLokacijaById(id)
                            block.visible=false
+                           naziv="Lokacija"
                            pageLoader.source= "lokacija.qml"
                        }
                    }
@@ -556,6 +559,7 @@ ListView {
                      {
                      block.visible = true;
                      getDogadjajById(id);
+                     naziv="Dogadjaj"
                      pageLoader.source= "dogadjaj.qml"
                      block.visible = false;
                      }

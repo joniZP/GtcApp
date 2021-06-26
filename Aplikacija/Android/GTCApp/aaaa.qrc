@@ -40,5 +40,7 @@
         <file>kategorije.png</file>
         <file>friends.png</file>
         <file>remove-user.png</file>
+        <file>send.png</file>
+        <file>close-removebg-preview.png</file>
     </qresource>
 </RCC>
