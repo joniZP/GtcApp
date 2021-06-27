@@ -19,7 +19,8 @@ private:
     static Notification* instance;
 
     static QNetworkAccessManager *manager;
-    static int NewNotification;
+    static int NewFriendNotification;
+    static int NewShareNotification;
         Notification(){
         timer = new QTimer(this);
         connect(timer, &QTimer::timeout, this, QOverload<>::of(&Notification::AsyncNotification));
@@ -51,23 +52,19 @@ public:
            t = reply->readAll();
            if(t.isSuccessfully())
            {
-               if(NewNotification <  t.Rows[0][0].toInt())
+               if(NewFriendNotification <  t.Rows[0]["Zahtevi"].toInt())
                {
-                     QtAndroid::androidContext().object();
-                     QAndroidJniObject javaNotification = QAndroidJniObject::fromString("Neki text");
-
-                    // QAndroidJniObject::callStaticMethod<void>("com/notification/javalib/NotificationClient","notify");
-
-                     QAndroidJniObject::callStaticMethod<void>(
-                            "com/notification/javalib/NotificationClient",
-                            "notify",
-                            "(Landroid/content/Context;Ljava/lang/String;)V",
-                            QtAndroid::androidContext().object(),
-                            javaNotification.object<jstring>());
+                    sendPushNotification("Imate novi zahtev za prijateljstvo!","Zahtev za prijateljstvo");
                }
-               NewNotification = t.Rows[0][0].toInt();
+               if(NewShareNotification <  t.Rows[0]["Obavestenja"].toInt())
+               {
+                    sendPushNotification("Imate novu poruku u sanducetu!","Nova poruka");
+               }
+               NewFriendNotification = t.Rows[0]["Zahtevi"].toInt();
+               NewShareNotification = t.Rows[0]["Obavestenja"].toInt();
                //emit GetInstance().DataChanged();
-               emit GetInstance().nekiNasSignal(NewNotification);
+               emit GetInstance().updateFriendNotification(NewFriendNotification);
+               emit GetInstance().updateSharedNotification(NewShareNotification);
 
             //   qDebug()<<"Broj notifikacija: "<<NewNotification;
            }
@@ -75,7 +72,7 @@ public:
 
     static void AsyncNotification(){
         MyQuery query;
-        query="SELECT count(*) FROM `Zahtev` WHERE primalac='%1' and vidjen='0'";
+        query="SELECT Obavestenja,Zahtevi from(SELECT COUNT(*) as Obavestenja From Obavestenje WHERE reciever='%1' and vidjen = 0) as t1, (SELECT count(*) as Zahtevi FROM `Zahtev` WHERE primalac='%2' and vidjen='0') as t2";
         query<<LOCALDATA::mProfil->getKorisnickoIme();
        SendRequest(query.toStr());
     }
@@ -115,7 +112,7 @@ public:
      Q_INVOKABLE
      static int getBrNovihZahteva()
      {
-         return NewNotification;
+         return NewFriendNotification;
      }
 
      Q_INVOKABLE
@@ -164,11 +161,31 @@ public:
 
      }
 
+     static void sendPushNotification(QString text,QString naslov)
+     {
+         QtAndroid::androidContext().object();
+         QAndroidJniObject javaNotification = QAndroidJniObject::fromString(text);
+         QAndroidJniObject javaTitle = QAndroidJniObject::fromString(naslov);
+
+        // QAndroidJniObject::callStaticMethod<void>("com/notification/javalib/NotificationClient","notify");
+
+         QAndroidJniObject::callStaticMethod<void>(
+                "com/notification/javalib/NotificationClient",
+                "notify",
+                "(Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;)V",
+                QtAndroid::androidContext().object(),
+                javaNotification.object<jstring>(),
+                javaTitle.object<jstring>()
+                     );
+     }
+
 
 
 
 signals:
 void nekiNasSignal(int br);
+void updateFriendNotification(int num);
+void updateSharedNotification(int num);
 
 };
 

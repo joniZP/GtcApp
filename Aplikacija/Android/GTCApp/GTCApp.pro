@@ -30,6 +30,7 @@ SOURCES += \
         PrijateljiEvents.cpp \
         UcitavanjeProfila.cpp \
         UpisLokacijaDogadjaj.cpp \
+    back.cpp \
         dogadjaj.cpp \
         dogadjajdodaj.cpp \
         events.cpp \
@@ -85,6 +86,7 @@ HEADERS += \
     PrijateljiEvents.h \
     UcitavanjeProfila.h \
     UpisLokacijaDogadjaj.h \
+    back.h \
     dogadjaj.h \
     dogadjajdodaj.h \
     events.h \

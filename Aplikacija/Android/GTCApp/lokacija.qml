@@ -70,18 +70,17 @@ Rectangle
     anchors.top: slider.bottom
     color: "#d3d3d3"
     width: parent.width
-    height: 1000
+    height:lokacija_opis_kontejner.height+350
 
 
 
 
     Rectangle
     {
-
+        id:rectneki
       width:parent.width
       anchors.top: parent.top
       anchors.topMargin: 10
-
     Rectangle
     {
         id: lokacija_opis_kontejner
@@ -411,6 +410,7 @@ Drawer
                required property string slika
                required property string tekst
                required property string ime
+               required property string id
                width:parent.width
                height: tex.implicitHeight+tex0.implicitHeight+20
                     Image
@@ -441,6 +441,26 @@ Drawer
                           leftPadding: 10
                           id: tex0
                           text: qsTr(ime)
+
+                      }
+                      Text {
+                          anchors.right: parent.right
+                          anchors.rightMargin: 10
+                          anchors.top: parent.top
+                          anchors.topMargin: -5
+                          id: prijavi
+                          font.pixelSize: 25
+                          text: qsTr("...")
+
+                          MouseArea
+                          {
+                              anchors.fill: parent
+                              onClicked:
+                              {
+
+                                  menu.open()
+                              }
+                          }
                       }
                     Text {
                          anchors.top: tex0.bottom
@@ -452,6 +472,25 @@ Drawer
                          clip: true
                          wrapMode: Text.Wrap
                          text: qsTr(tekst)
+                    }
+
+
+                    Menu
+                    {
+                        width: 100
+                       // height: item1.height
+                        id: menu
+                        x:prijavi.x-menu.width+prijavi.width
+                        y:prijavi.y+prijavi.height
+                        MenuItem
+                        {
+                            id:item1
+                            anchors.centerIn: parent
+                            text: qsTr("Prijavi")
+
+                            onClicked: ucitajInstance.prijaviKomentarLokacija(id,"")
+                        }
+
                     }
                     }
 

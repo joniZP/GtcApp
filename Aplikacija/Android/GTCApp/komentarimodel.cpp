@@ -32,17 +32,21 @@ QVariant KomentariModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
     const Komentar &Komentari = m_lokacije[index.row()];
-    if (role == TypeRole)
+    if (role == SlikaRole)
     {
         return Komentari.slika();
     }
-    else if (role == SizeRole)
+    else if (role == TextRole)
     {
         return Komentari.tekst();
     }
-    else if(role==ColorRole)
+    else if(role==ImeRole)
     {
         return Komentari.ime();
+    }
+    else if(role==IdRole)
+    {
+        return Komentari.id();
     }
     return QVariant();
 }
@@ -50,9 +54,10 @@ QVariant KomentariModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> KomentariModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[TypeRole] = "slika";
-    roles[SizeRole] = "tekst";
-    roles[ColorRole] = "ime";
+    roles[SlikaRole] = "slika";
+    roles[TextRole] = "tekst";
+    roles[ImeRole] = "ime";
+    roles[IdRole] = "id";
     return roles;
 }
 

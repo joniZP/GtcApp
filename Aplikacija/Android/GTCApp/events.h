@@ -175,7 +175,7 @@ public slots:
     void dodajkomentar(QString text,QString username)
     {
         KomentariModel &model=KomentariModel::GetInstance();
-        model.dodajkomentar(Komentar("/new/prefix1/person-icon.png",text,username));
+        //model.dodajkomentar(Komentar("/new/prefix1/person-icon.png",text,username));
 
     }
     QString zaboravljena_lozinka(QString username)

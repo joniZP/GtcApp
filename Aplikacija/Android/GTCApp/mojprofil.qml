@@ -13,7 +13,6 @@ Rectangle{
     }
     id: glavni
     anchors.fill:parent
-    color:parent.color
     ColumnLayout{
           // @disable-check M16
         anchors.fill:parent
@@ -578,7 +577,6 @@ Rectangle{
                             Layout.preferredHeight: parent.height/2
                             Layout.preferredWidth: parent.height/2
                             anchors.verticalCenter: parent.verticalCenter
-                            anchors.left:parent
                             anchors.leftMargin: 10
                             id: telefonprofilslika
                             source: "../new/prefix1/smartphone-call.png"

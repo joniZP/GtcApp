@@ -25,6 +25,7 @@
 #include<prijateljimodel.h>
 #include<prijateljievents.h>
 #include<Notification.h>
+#include<back.h>
 
 
 
@@ -68,7 +69,7 @@ int main(int argc, char *argv[])
 
 
 
-
+    back* b=new back();
     MProfil *mp=new MProfil(); //za ucitavanje svog profila
     MProfil *mp1=new MProfil(); //za ucitavanje tudjeg profila
     LOCALDATA *ld=new LOCALDATA();
@@ -86,6 +87,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("ucitavanjeProfilaInstance", up);
     engine.rootContext()->setContextProperty("pretrazi", pl);
     engine.rootContext()->setContextProperty("ucitajInstance", &ucitavanjeLokacije);
+    engine.rootContext()->setContextProperty("back", b);
    // engine.rootContext()->setContextProperty("location", loc);
 
 

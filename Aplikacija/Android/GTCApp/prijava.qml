@@ -93,8 +93,8 @@ ColumnLayout{
                      loginID.visible = false;
                      porukeID.visible = true;
                      zahteviID.visible = true;
-                     naziv="Pocetna"
-                     pageLoader.source = "pocetna.qml"
+                     natpis="Pocetna"
+                     pageLoader.source = "qrc:/pocetna.qml"
                  }
              }
          }
@@ -110,7 +110,7 @@ ColumnLayout{
             anchors.fill:parent
             onClicked:
             {
-                naziv="Zaboravljena lozinka"
+               natpis="Zaboravljena lozinka"
                 pageLoader.source = "zaboravljena_lozinka.qml"
             }
 
@@ -133,7 +133,7 @@ RowLayout{
             anchors.fill:parent
             onClicked:
             {
-                 naziv="Registracija"
+                 natpis="Registracija"
                  pageLoader.source = "registracija.qml"
 
             }

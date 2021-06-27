@@ -1,7 +1,7 @@
-#include "Komentar.h"
+#include "komentar.h"
 
-Komentar::Komentar(const QString &slika, const QString &text,const QString &ime)
-    : m_slika(slika), m_text(text),m_ime(ime)
+Komentar::Komentar(const QString &slika, const QString &text,const QString &ime,const int id)
+    : m_slika(slika), m_text(text),m_ime(ime),m_id(id)
 {
 }
 
@@ -17,5 +17,9 @@ QString Komentar::tekst() const
 QString Komentar::ime() const
 {
     return m_ime;
+}
+int Komentar::id() const
+{
+    return m_id;
 }
 

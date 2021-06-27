@@ -106,8 +106,13 @@ public:
             t = s.WSendQuery(query);
             if(t.isSuccessfully())
             {
-                 KomentariModel& kom =  KomentariModel::GetInstance();
-                kom.dodajkomentar(Komentar(LOCALDATA::mProfil->getSlikaURL(),text, LOCALDATA::mProfil->getIme() + " "+ LOCALDATA::mProfil->getPrezime()));
+                MySqlTable t1;
+                t1 = s.WSendQuery("SELECT max(IdKomentara) FROM ReportKomentar");
+                if(t1.isSuccessfully())
+                {
+                     KomentariModel& kom =  KomentariModel::GetInstance();
+                     kom.dodajkomentar(Komentar(LOCALDATA::mProfil->getSlikaURL(),text, LOCALDATA::mProfil->getIme() + " "+ LOCALDATA::mProfil->getPrezime(),t1.Rows[0][0].toInt()));
+                }
             }
 
 
@@ -129,7 +134,7 @@ public:
             kom.removeAll();
             for(int i = 0; i < t1.Count();i++)
             {
-                kom.dodajkomentar(Komentar( t1.Rows[i]["slika"].toInt() == 0? LINKS::getProfileDefaultPicture(): LINKS::getProfilePicture(t1.Rows[i]["idKorisnika"]),t1.Rows[i]["tekstKomentara"],t1.Rows[0]["ime"]+" "+ t1.Rows[0]["prezime"]));
+                kom.dodajkomentar(Komentar( t1.Rows[i]["slika"].toInt() == 0? LINKS::getProfileDefaultPicture(): LINKS::getProfilePicture(t1.Rows[i]["idKorisnika"]),t1.Rows[i]["tekstKomentara"],t1.Rows[0]["ime"]+" "+ t1.Rows[0]["prezime"],t1.Rows[0]["idKomentara"].toInt()));
             }
         }
 
@@ -181,15 +186,28 @@ public:
         }
     }
 
+
+
+    Q_INVOKABLE
+    void prijaviKomentarLokacija(int idkom,QString razlog)
+    {
+        MySqlService &s = MySqlService::MySqlInstance();
+        MyQuery query("INSERT INTO `ReportKomentar`(idKomentara,LokDog, `username`, `razlog`) VALUES (%1,%2,'%3','%4')");//;0 za lokaciju
+        query<<idkom<<0<<LOCALDATA::mProfil->getKorisnickoIme()<<razlog;
+        s.SendQuery(query);
+        qDebug()<<"|aeqwt"<<query.toStr();
+    }
+
+
     static void deleteLike()
     {
         if(lokacija != NULL)
         {
-        MySqlService &s = MySqlService::MySqlInstance();
-        MyQuery query("DELETE FROM LokacijaLikes WHERE idLokacije=%1 and idProfila='%2'");//("SELECT * FROM KomentariLokacije WHERE idLokacije='%1'");
-        query<<lokacija->getId()<<LOCALDATA::mProfil->getKorisnickoIme();
-       // qDebug()<<query.toStr();
-        s.SendQuery(query);
+            MySqlService &s = MySqlService::MySqlInstance();
+            MyQuery query("DELETE FROM LokacijaLikes WHERE idLokacije=%1 and idProfila='%2'");//("SELECT * FROM KomentariLokacije WHERE idLokacije='%1'");
+            query<<lokacija->getId()<<LOCALDATA::mProfil->getKorisnickoIme();
+           // qDebug()<<query.toStr();
+            s.SendQuery(query);
         }
     }
 

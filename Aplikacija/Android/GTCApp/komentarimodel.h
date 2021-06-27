@@ -16,9 +16,10 @@ class KomentariModel: public QAbstractListModel{
 private:
 
     enum KomentariRoles {
-        TypeRole = Qt::UserRole + 1,
-        SizeRole,
-        ColorRole
+        TextRole = Qt::UserRole + 1,
+        SlikaRole,
+        ImeRole,
+        IdRole
     };
     static KomentariModel* instance;
     KomentariModel();

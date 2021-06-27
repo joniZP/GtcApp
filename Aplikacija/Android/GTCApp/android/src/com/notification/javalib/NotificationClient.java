@@ -19,7 +19,7 @@ public class NotificationClient
 
     public NotificationClient() {}
 
-    public static void notify(Context context, String message) {
+    public static void notify(Context context, String message,String title) {
         try {
             m_notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -34,14 +34,11 @@ public class NotificationClient
 
             m_builder.setSmallIcon(R.drawable.icon)
                     .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon))
-                    .setContentTitle("A message from Qt!")
+                    .setContentTitle(title)
                     .setContentText(message)
                     .setDefaults(Notification.DEFAULT_SOUND)
-                    .setColor(Color.GREEN)
+                    .setColor(Color.BLUE)
                     .setAutoCancel(true);
-
-
-
 
 
 

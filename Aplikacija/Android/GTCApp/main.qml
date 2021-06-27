@@ -11,7 +11,7 @@ import MProfil 1.0
 ApplicationWindow
 {
     property Klasa klas
-    property string natpis: ""
+    property string natpis: "Pocetna"
     property MLokacija location
     property  MProfil mProfil
     function getProfilByUsername(username)
@@ -19,6 +19,22 @@ ApplicationWindow
         var pom = ucitavanjeProfilaInstance.getProfil(username);
         mProfil = pom
         prijateljiEvents.setStanjeByUsername(username);
+    }
+
+    function menu(icon)
+    {
+        if(icon=="qrc:/new/prefix1/dropdown-menu-icon-20.jpg")
+        {
+            refreshProfilData();
+            drawer.open()
+        }
+        else
+        {
+            var v=back.nazad(pageLoader.source)
+            natpis=back.getNatpis();
+            console.log(natpis)
+            pageLoader.source=v
+        }
     }
 
     function getDogadjajById(id)
@@ -37,14 +53,14 @@ ApplicationWindow
         nalogIme.text = qsTr(mProfilInst.getIme()+" "+mProfilInst.getPrezime());
         nalogImg.source = mProfilInst.getSlikaURL();
         nalogEmail.text = qsTr(mProfilInst.getEmail());
-        const obavestenja = localData.getBrObavestenja();
-        if(obavestenja === 0)
-            nalogSlikaPoruka.visible = false;
-        else
-        {
-             nalogBrojPoruka.text = obavestenja;
-            nalogSlikaPoruka.visible = true;
-        }
+       // const obavestenja = localData.getBrObavestenja();
+       // if(obavestenja === 0)
+           // nalogSlikaPoruka.visible = false;
+       // else
+       // {
+            // nalogBrojPoruka.text = obavestenja;
+          //  nalogSlikaPoruka.visible = true;
+       // }
         const ulogovan = localData.getUlogovan();
         porukeID.visible = zahteviID.visible = ulogovan;
         loginID.visible = !ulogovan;
@@ -96,12 +112,14 @@ ApplicationWindow
                 width: parent.width
                 Rectangle
                 {
-                    id:iddd
+                    id:menuiconrect
                     Image
                     {
-                        id: nam
+                        id: menuicon
                         source: "/new/prefix1/dropdown-menu-icon-20.jpg"
-                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        width: 40
+                        height: 40
                     }
                     width: 40
                     height: 40
@@ -112,8 +130,7 @@ ApplicationWindow
                         anchors.fill: parent
                         onClicked:
                         {
-                            refreshProfilData();
-                            drawer.open()
+                            menu(menuicon.source)
                         }
                     }
                 }
@@ -123,7 +140,7 @@ ApplicationWindow
                     color: "#ffffff"
                     font.family: "Helvetica"
                     font.pointSize: 18
-                    anchors.left: iddd.right
+                    anchors.left: menuiconrect.right
                     anchors.leftMargin: 20
 
                 }
@@ -146,11 +163,11 @@ ApplicationWindow
                         anchors.fill: parent
                         onClicked:
                         {
-                            block.visible=true
-                            pretrazi.reset()
-                            natpis="Pretraga"
-                            pageLoader.source="pretraga.qml"
-                            block.visible=false
+                             block.visible=true
+                             pretrazi.reset()
+                             natpis="Pretraga"
+                             pageLoader.source="pretraga.qml"
+                             block.visible=false
                         }
                     }
 
@@ -169,10 +186,10 @@ ApplicationWindow
                 id: pageLoader
                 anchors.centerIn: parent
                 anchors.fill: parent
-                source: "Pocetna.qml"
+                source: "pocetna.qml"
                 onSourceChanged:
                 {
-                     natpisid.text=natpis
+                    natpisid.text=natpis
                     if(source!="qrc:/pretraga.qml")
                     {
                         pretragalupa.visible=true
@@ -181,7 +198,23 @@ ApplicationWindow
                     else
                     {
                        pretragalupa.visible=false
+                    }  
+                    back.napred(pageLoader.source,natpis)
+                    const icon=back.getIcon()
+                    menuicon.source=icon
+
+                    if(icon!="qrc:/new/prefix1/dropdown-menu-icon-20.jpg")
+                    {
+                        menuicon.width=30
+                        menuicon.height=30
                     }
+                    else
+                    {
+                        menuicon.width=40
+                        menuicon.height=40
+                    }
+
+                    console.log(pageLoader.source)
                 }
 
             }
@@ -562,55 +595,76 @@ ApplicationWindow
 
 
         Image {
-                    id: porukeID
-                    source: "qrc:/new/prefix1/comment__2_-removebg-preview.png"
-                    width:25
-                    height:25
-                    visible: localData.getUlogovan();
+            id: porukeID
+            source: "qrc:/new/prefix1/comment__2_-removebg-preview.png"
+            width:25
+            height:25
+            visible: localData.getUlogovan();
 
-                    anchors.right: parent.right
-                    anchors.top: parent.top
-                    anchors.topMargin: 10
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.topMargin: 10
 
-                    anchors.rightMargin: 20
+            anchors.rightMargin: 20
 
 
-                    Image {
-                        id: nalogSlikaPoruka
-                        source: "qrc:/new/prefix1/reddot.png"
+            Image {
+                id: nalogSlikaPoruka
+                source: "qrc:/new/prefix1/reddot.png"
 
-                        width:13
-                        height:13
+                width:13
+                height:13
+                visible: false;
 
-                        anchors.right:parent.right
-                        anchors.top: parent.top
-                        anchors.rightMargin: -3
-                        anchors.topMargin: -3
-                        Text {
-                            id: nalogBrojPoruka
-                            text:  localData.getBrObavestenja()
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            font.family: "Helvetica"
-                            anchors.centerIn: parent
-                            font.pointSize: 10
-                            color: "white"
-                        }
-                    }
+                anchors.right:parent.right
+                anchors.top: parent.top
+                anchors.rightMargin: -3
+                anchors.topMargin: -3
+                Text {
+                    id: nalogBrojPoruka
+                    text:  localData.getBrObavestenja()
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    font.family: "Helvetica"
+                    anchors.centerIn: parent
+                    font.pointSize: 10
+                    color: "white"
 
-                    MouseArea{
-                        anchors.fill:parent
 
-                        onClicked:
-                        {
-                            drawer.close()
-                            block.visible=true
-                            notification.ucitajObavestenja()
-                            natpis="Obavestenja"
-                            pageLoader.source = "obavestenja.qml"
-                            block.visible=false
-                        }
-                    }
+                    Connections {
+                          target: notification
+                          function onUpdateSharedNotification(br){
+                              if(br > 99)
+                                  br = 99;
+                              if(br === 0)
+                              {
+                                  nalogSlikaPoruka.visible = false;
+                              }
+                              else
+                              {
+                                  nalogSlikaPoruka.visible = true;
+                                  nalogBrojPoruka.text=br;
+                              }
+
+                         }
+                     }
+
                 }
+            }
+
+            MouseArea{
+                anchors.fill:parent
+
+                onClicked:
+                {
+                    drawer.close()
+                    block.visible=true
+                    notification.ucitajObavestenja()
+                    natpis="Obavestenja"
+                    pageLoader.source = "obavestenja.qml"
+                    block.visible=false
+                }
+            }
+        }
                 Image {
                     id: zahteviID
                     source: "qrc:/new/prefix1/friends.png"
@@ -650,7 +704,7 @@ ApplicationWindow
 
                             Connections {
                                   target: notification
-                                  function onNekiNasSignal(br){
+                                  function onUpdateFriendNotification(br){
                                       if(br > 99)
                                           br = 99;
                                       if(br === 0)
