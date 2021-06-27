@@ -22,8 +22,11 @@ private:
 public:
      static EmailVerificator& GetInstance();
 
-    void SendVerificationEmail(QString email, QString username, QString fullname);
+     void SendVerificationEmail(QString email, QString username, QString fullname);
+     void SendForgotPasswordEmail(QString email, QString username, QString fullname);
+
 
 };
 
 #endif // EMAILVERIFIKATOR_H
+

@@ -3,8 +3,9 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.0
 
-Item {
-    Rectangle{
+
+
+Rectangle{
         gradient: Gradient {
             GradientStop { position: 0.0; color: "#1f3c5e" }
           //  GradientStop { position: 0.33; color: "yellow" }
@@ -15,11 +16,13 @@ Item {
     ColumnLayout
     {
        anchors.fill: parent
+
     ColumnLayout
     {
-     Layout.alignment: Qt.AlignCenter//   anchors.fill: parent
+        Layout.alignment: Qt.AlignCenter//   anchors.fill: parent
         width:parent.width
         spacing:0
+
 
         Rectangle
         {
@@ -39,6 +42,8 @@ Item {
         }
 
         Rectangle{
+
+
             color: "transparent"
             height:170
             width:450
@@ -47,6 +52,7 @@ Item {
             {
                 spacing:0
               TextField{
+                  id: username
                   Image
                   {
                       id:usericon
@@ -61,12 +67,13 @@ Item {
                    placeholderText: "username"
                    leftPadding: 40
                    topPadding: 20
-                    font.pointSize: 20
+                    font.pointSize: 10
                    Layout.preferredHeight: 50
                    Layout.preferredWidth: 450
                     //Layout.alignment: AlignTop
                 }
                 TextField{
+                    id: password
                     Image
                     {
                         id:passicon
@@ -81,7 +88,7 @@ Item {
                   placeholderText: "password"
                   leftPadding: 40
                   topPadding: 20
-                  font.pointSize: 20
+                  font.pointSize: 10
                   Layout.preferredHeight: 50
                   Layout.preferredWidth: 450
                     //Layout.alignment: AlignVCenter
@@ -98,6 +105,23 @@ Item {
                            hoverEnabled: true
                            onClicked:
                            {
+                               if(username.text!="" && password.text!="")
+                               {
+                               if(korisnikEvents.prijava(username.text, password.text)===1)
+                                 {
+                                   setprofile();
+                                   username.text=""
+                                   password.text=""
+                                   textiznad.text=""
+                                   pageLoader.source= "odobriLokacijuForm.qml";
+                                 }
+                               else
+                                 {
+                                   console.log("gStanmprtam nestrp")
+                                   textiznad.text="Korisnicko ime/lozinka pogresno/a"
+                                   textiznad.color="red";
+                                 }
+                               }
 
                            }
                        }
@@ -209,4 +233,4 @@ Item {
     }
     }
     }
-}}
+}

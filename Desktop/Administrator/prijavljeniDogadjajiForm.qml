@@ -19,10 +19,14 @@ Rectangle
            id: id
            height:parent.height
            width:parent.width/6
-           border.color: "red"
-
+           //border.color: "#1b4676"
+color:"#04acf3"
            anchors.left: of.left
-           Text {
+           border.color: "#1b4676"
+           border.width: 2
+           Text{
+           color:"white"
+           font.bold: true
                id: name
                text: qsTr("ID")
                anchors.centerIn: parent
@@ -33,10 +37,14 @@ Rectangle
            id: opis
            height:parent.height
            width:parent.width/6
-           border.color: "red"
-
+           //border.color: "#1b4676"
+color:"#04acf3"
            anchors.left: id.right
-           Text {
+           border.color: "#1b4676"
+           border.width: 2
+           Text{
+           color:"white"
+           font.bold: true
                id: names
                text: qsTr("Opis")
                anchors.centerIn: parent
@@ -47,10 +55,14 @@ Rectangle
            id: tip
            height:parent.height
            width:parent.width/6
-           border.color: "red"
-
+           //border.color: "#1b4676"
+color:"#04acf3"
            anchors.left: opis.right
-           Text {
+           border.color: "#1b4676"
+           border.width: 2
+           Text{
+           color:"white"
+           font.bold: true
                id: namess
                text: qsTr("Tip")
                anchors.centerIn: parent
@@ -61,10 +73,14 @@ Rectangle
            id: vreme
            height:parent.height
            width:parent.width/6
-           border.color: "red"
-
+           //border.color: "#1b4676"
+color:"#04acf3"
            anchors.left: tip.right
-           Text {
+           border.color: "#1b4676"
+           border.width: 2
+           Text{
+           color:"white"
+           font.bold: true
                id: namesss
                text: qsTr("Razlog")
                anchors.centerIn: parent
@@ -75,10 +91,14 @@ Rectangle
            id: razlog
            height:parent.height
            width:parent.width/6
-           border.color: "red"
-
+           //border.color: "#1b4676"
+color:"#04acf3"
            anchors.left: vreme.right
-           Text {
+           border.color: "#1b4676"
+           border.width: 2
+           Text{
+           color:"white"
+           font.bold: true
                id: namessss
                text: qsTr("Vreme")
                anchors.centerIn: parent
@@ -89,10 +109,14 @@ Rectangle
            id: odluka
            height:parent.height
            width:parent.width/6
-           border.color: "red"
-
+           //border.color: "#1b4676"
+color:"#04acf3"
            anchors.left: razlog.right
-           Text {
+           border.color: "#1b4676"
+           border.width: 2
+           Text{
+           color:"white"
+           font.bold: true
                id: namesssss
                text: qsTr("ODLUKA")
                anchors.centerIn: parent
@@ -139,10 +163,13 @@ Rectangle
                         id:slikarect
                         height: parent.height
                         width: parent.width/6
-                        border.color: "red"
+                        //border.color: "#1b4676"
                         anchors.left: parent.left
-                        Text
-                        {
+
+                        border.color: "#1b4676"
+                        Text{
+                        color:"#1b4676"
+                        font.bold: true
                             id:iddogadjajatext
                             text: idDogadjaja
                             anchors.centerIn: parent
@@ -155,10 +182,13 @@ Rectangle
                         id:nazivrect
                         height: parent.height
                        width: parent.width/6
-                       border.color: "red"
+                       //border.color: "#1b4676"
                         anchors.left: slikarect.right
-                        Text
-                        {
+
+                        border.color: "#1b4676"
+                        Text{
+                        color:"#1b4676"
+                        font.bold: true
                             width:parent.width
                             //height: parent.height
                             id:nazivlokacijeprofil
@@ -173,10 +203,13 @@ Rectangle
                         id:gradrect
                         height: parent.height
                       width: parent.width/6
-                      border.color: "red"
+                      //border.color: "#1b4676"
                         anchors.left: nazivrect.right
-                        Text
-                        {
+
+                        border.color: "#1b4676"
+                        Text{
+                        color:"#1b4676"
+                        font.bold: true
 
                             //width:parent.width
                             //height: parent.height
@@ -192,10 +225,13 @@ Rectangle
                         id:autorrect
                         height: parent.height
                         width: parent.width/6
-                        border.color: "red"
+                        //border.color: "#1b4676"
                         anchors.left: gradrect.right
-                        Text
-                        {
+
+                        border.color: "#1b4676"
+                        Text{
+                        color:"#1b4676"
+                        font.bold: true
                             width:parent.width
                             id:autorprofil
                             text: qsTr(razlog)
@@ -209,10 +245,13 @@ Rectangle
                         id:vremerect
                         height: parent.height
                         width: parent.width/6
-                        border.color: "red"
+                        //border.color: "#1b4676"
                         anchors.left: autorrect.right
-                        Text
-                        {
+
+                        border.color: "#1b4676"
+                        Text{
+                        color:"#1b4676"
+                        font.bold: true
                             text: qsTr(vreme)
                             anchors.centerIn: parent
                             wrapMode: Text.Wrap
@@ -225,12 +264,12 @@ Rectangle
                    height:parent.height
                    width: parent.width/6
                    anchors.left: vremerect.right
-                   border.color: "red"
+                   //border.color: "#1b4676"
 
                Rectangle //--------------------LOGIN DUGME----------------------------------
                {
                    id: declinebutton
-                   border.color: "red"
+                   //border.color: "#1b4676"
                    width: (parent.width*6)/15
                    height: 50
                    anchors.verticalCenter: parent.verticalCenter
@@ -270,7 +309,7 @@ Rectangle
                {
                        id: acceptbutton
                       width: (parent.width*6)/15
-                      border.color: "red"
+                      //border.color: "#1b4676"
                        height: 50
                       anchors.verticalCenter: parent.verticalCenter
                        anchors.right:parent.right

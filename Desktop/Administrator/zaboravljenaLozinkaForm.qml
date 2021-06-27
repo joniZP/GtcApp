@@ -111,7 +111,7 @@ Item {
                            Layout.preferredHeight: 50
                            Layout.preferredWidth: 450
                            //Layout.alignment: AlignTop
-                           onTextChanged: imerect.visible=false
+                           //onTextChanged: imerect.visible=false
                            //border.width: 1
                            //radius:10
 
@@ -139,13 +139,28 @@ Item {
                                //color: lozinkamailbutton.pressed ? "#003d57" : "white"
                                MouseArea{
                                    id:lozinkamailbutton
-                                  // anchors.fill: parent
+                                  anchors.fill: parent
                                    hoverEnabled: true
                                    onClicked:
                                    {
-                                       pageLoader.source="registracijaForm.qml"//funkcija za slanje mejla za promenu lozinke
-                                   }
 
+                                       let b=false;
+                                       var regExp = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+                                       if(!regExp.test(email.text))
+                                       {
+                                           email.text=""
+                                           b=true;
+                                           greska.text="Email nije validan. Nazad"
+                                           greska.color="red"
+                                       }
+
+
+                                       if(b===false)
+                                       {
+                                           korisnikEvents.zaboravljena_lozinka(email.text)
+                                           pageLoader.source = "loginForm.qml"
+                                       }
+                                   }
                            }
 
                        }}}
@@ -158,6 +173,7 @@ Item {
                            height:20
                            Text {
 
+                               id: greska
                                anchors.centerIn: parent
                                text: qsTr("Nazad na prijavljivanje.")
                                font.bold:false

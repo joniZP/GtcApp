@@ -1,7 +1,8 @@
-#include"emailVerificator.h"
+#include "EmailVerificator.h"
 
 #ifndef VERIFICATOR
 #define VERIFICATOR
+#include<LINKS.h>
 
 EmailVerificator * EmailVerificator::instance = NULL;
 
@@ -34,11 +35,27 @@ void EmailVerificator::SendVerificationEmail(QString email, QString username, QS
     params.addQueryItem("email", email);
     params.addQueryItem("username", username);
     params.addQueryItem("fullname", fullname);
-
-    QUrl ur("http://humanads.000webhostapp.com/MailVerification.php");
+    params.addQueryItem("table","Administrator");
+    QUrl ur(LINKS::APILINK+"/MyMailer/Verification/MailVerification.php");
     QNetworkRequest req(ur);
 
 
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     manager->post(req, params.query().toUtf8());
 }
+
+void EmailVerificator::SendForgotPasswordEmail(QString email, QString username, QString fullname)
+{
+    QUrlQuery params;
+    params.addQueryItem("email", email);
+    params.addQueryItem("username", username);
+    params.addQueryItem("fullname", fullname);
+    params.addQueryItem("table","Administrator");
+    QUrl ur(LINKS::APILINK+"/MyMailer/ForgotPassword/MailForgotPassword.php");
+    QNetworkRequest req(ur);
+
+
+    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    manager->post(req, params.query().toUtf8());
+}
+

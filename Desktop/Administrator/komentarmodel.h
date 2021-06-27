@@ -9,6 +9,7 @@
 #include<QtSql>
 #include<QtSql>
 #include<komentar.h>
+#include <MySqlService.h>
 
 class Komentarmodel: public QAbstractListModel{
     Q_OBJECT
@@ -16,10 +17,14 @@ class Komentarmodel: public QAbstractListModel{
 private:
 
     enum KomentarRoles {
-        IdKomentaraRole = Qt::UserRole + 1,
+        IdReport = Qt::UserRole + 1,
        TekstKomentaraRole,
-          IdKorisnikaRole,
-        PripadaRole,
+          UsernameRole,
+        LokDogRole,
+        RazlogRole,
+        IdLokDogRole,
+        IDKomRole
+
 
     };
     static Komentarmodel* instance;
@@ -28,6 +33,90 @@ private:
 public:
     static Komentarmodel& GetInstance();
     void dodajKomentar(const Komentar &dog);
+
+
+
+    Q_INVOKABLE
+    static void izbrisiprijavuKomentara(int a)
+    {
+        MySqlService &s = MySqlService::MySqlInstance();
+        MyQuery query;
+
+         query="delete from ReportKomentar where idKomentara=%1";
+         query<<a;
+
+       s.SendQuery(query);
+    }
+    Q_INVOKABLE
+    static void izbrisiKomentar(int a, int b)
+    {
+        izbrisiprijavuKomentara(a);
+        MySqlService &s = MySqlService::MySqlInstance();
+        MyQuery query;
+       if(b==0){
+        query="delete from KomentariDogdjaj where idKomentara=%1";
+        query<<a;
+       }
+       else
+       {
+           query="delete from KomentariLokacije where idKomentara=%1";
+           query<<a;
+       }
+
+        qDebug()<<query.toStr();
+        s.SendQuery(query);
+    }
+
+
+
+
+     Q_INVOKABLE
+     void obrisiprijavu(int a, int b)
+     {
+
+
+         int pom=m_Komentari[a].idkom();
+         if(m_Komentari.count()>0)
+         {
+             qDebug()<<m_Komentari[a].idkom();
+             izbrisiprijavuKomentara(m_Komentari[a].idkom());
+             for(int i=0; i<m_Komentari.count();i++)
+             {
+
+
+
+                 if(pom == m_Komentari[i].idkom() && m_Komentari[i].lokdog()==b)
+                 {
+                     beginRemoveRows(QModelIndex(), i, i);
+                     m_Komentari.removeAt(i);
+                     endRemoveRows();
+                     i--;
+
+                 }
+
+             }
+         }
+
+     }
+     Q_INVOKABLE
+     void prihvatiprijavu(int a, int b)
+     {
+         beginRemoveRows(QModelIndex(), 0, m_Komentari.count());
+         if(m_Komentari.count()>0)
+         {
+              izbrisiKomentar(m_Komentari[a].idkom(), b);
+         }
+         endRemoveRows();
+         obrisiprijavu(a, b);
+     }
+
+
+    void removeAll()
+    {
+            beginRemoveRows(QModelIndex(), 0,m_Komentari.count());
+            m_Komentari.clear();
+            endRemoveRows();
+    }
 
     void remove()
     {

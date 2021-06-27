@@ -22,6 +22,12 @@ Window{
             let lokacijapom= ucitajInstance.getLokacija(id)
             location = lokacijapom;
         }
+        function setprofile()
+        {
+             textlogin.text="LOGOUT";
+            imeprezime.text= _profil.getIme() +" "+ _profil.getPrezime();
+
+        }
 
 
 
@@ -39,6 +45,27 @@ Window{
        Layout.minimumHeight: 50
         color:"#1b4676"
         radius:0
+        Rectangle
+        {
+            height: parent.height
+            width: 300
+            anchors.right: logid.left
+            anchors.rightMargin: 20
+            anchors.verticalCenter: parent.verticalCenter
+            color:"transparent"
+            Text {
+                id: imeprezime
+                text: qsTr("")
+                anchors.centerIn: parent
+                font.pointSize: 16
+                color: "white"
+                font.bold: true
+
+
+
+            }
+
+        }
         Rectangle //--------------------LOGIN DUGME----------------------------------
         {
             width:120
@@ -59,9 +86,22 @@ Window{
                    anchors.fill: parent // BEZ NJEGA JE 0X0 mouseArea
                    anchors.margins: -10
                    hoverEnabled: true
-                   onClicked:pageLoader.source="loginForm.qml"
+                   onClicked:
+                   {
+                       if(textlogin.text==="LOGIN")
+                       {
+                       pageLoader.source="loginForm.qml"
+                       }
+                       else
+                       {
+                           imeprezime.text="";
+                           textlogin.text="LOGIN";
+                           pageLoader.source="loginForm.qml";
+                       }
+                   }
                }
         Text{
+            id:textlogin
             anchors.top:parent.top
             font.bold: true
            font.family: "Helvetica"
@@ -116,17 +156,24 @@ Window{
            spacing:0
            Rectangle
            {
+
                Layout.minimumHeight: parent.height
                Layout.minimumWidth: parent.width/4
                color: "#1b4676"
               radius: 20
                MItem{
+                   id:rect1
+                   opacity: 1
                    MouseArea{
                        anchors.fill: parent
+
                        onClicked:
                        {
-                            ucitajInstance.ucitaj()
+                           if(textlogin.text==="LOGOUT")
+                           {
+                           ucitajInstance.ucitaj()
                            pageLoader.source="prijavljeneLokacijeForm.qml"
+                           }
 
                        }
 
@@ -144,8 +191,11 @@ Window{
                        anchors.fill: parent
                        onClicked:
                        {
+                           if(textlogin.text==="LOGOUT")
+                           {
                            ucitajdogadjajInstance.ucitaj();
                            pageLoader.source="prijavljeniDogadjajiForm.qml"
+                           }
                        }
 
                    }
@@ -162,7 +212,11 @@ Window{
                        anchors.fill: parent
                        onClicked:
                        {
-                           pageLoader.source="prijavljeniKomentariForm.qml"
+                           if(textlogin.text==="LOGOUT")
+                           {
+                           ucitajkomentarInstance.ucitaj();
+                           pageLoader.source="prijavljeniKomentariForm.qml";
+                           }
                        }
 
                    }
@@ -180,7 +234,11 @@ Window{
                        anchors.fill: parent
                        onClicked:
                        {
-                           pageLoader.source="odobriLokacijuForm.qml"
+                           if(textlogin.text==="LOGOUT")
+                           {
+                           ucitajInstance.ucitajOdobravanje();
+                           pageLoader.source="odobriLokacijuForm.qml";
+                           }
                        }
 
                    }

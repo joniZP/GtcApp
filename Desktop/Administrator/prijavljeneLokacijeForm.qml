@@ -21,12 +21,15 @@ Rectangle
            id: id
            height:parent.height
            width:parent.width/10*2
-           border.color: "red"
-
+           border.color: "#1b4676"
+           border.width: 2
+           color:"#04acf3"
            anchors.left: of.left
            Text {
                id: name
                text: qsTr("Slika")
+               color:"white"
+               font.bold: true
                anchors.centerIn: parent
            }
        }
@@ -35,12 +38,15 @@ Rectangle
            id: opis
            height:parent.height
            width:parent.width/10
-           border.color: "red"
-
+           border.color: "#1b4676"
+            border.width: 2
+            color:"#04acf3"
            anchors.left: id.right
            Text {
                id: names
                text: qsTr("ID")
+               color:"white"
+               font.bold: true
                anchors.centerIn: parent
            }
        }
@@ -49,12 +55,15 @@ Rectangle
            id: tip
            height:parent.height
            width:parent.width/10
-           border.color: "red"
-
+           border.color: "#1b4676"
+           border.width: 2
+             color:"#04acf3"
            anchors.left: opis.right
            Text {
                id: namess
                text: qsTr("Lokacija")
+               color:"white"
+               font.bold: true
                anchors.centerIn: parent
            }
        }
@@ -63,12 +72,15 @@ Rectangle
            id: vreme
            height:parent.height
            width:parent.width/10
-           border.color: "red"
-
+           border.color: "#1b4676"
+             border.width: 2
+               color:"#04acf3"
            anchors.left: tip.right
            Text {
                id: namesss
                text: qsTr("Grad")
+               color:"white"
+               font.bold: true
                anchors.centerIn: parent
            }
        }
@@ -77,12 +89,15 @@ Rectangle
            id: razlog
            height:parent.height
            width:parent.width/10
-           border.color: "red"
-
+           border.color: "#1b4676"
+            border.width: 2
+              color:"#04acf3"
            anchors.left: vreme.right
            Text {
                id: namessss
                text: qsTr("Username")
+               color:"white"
+               font.bold: true
                anchors.centerIn: parent
            }
        }
@@ -91,12 +106,15 @@ Rectangle
            id: odluka
            height:parent.height
            width:parent.width/10
-           border.color: "red"
-
+           border.color: "#1b4676"
+             border.width: 2
+               color:"#04acf3"
            anchors.left: razlog.right
            Text {
                id: namesssss
                text: qsTr("ID korisnika")
+               color:"white"
+               font.bold: true
                anchors.centerIn: parent
            }
        }
@@ -105,12 +123,15 @@ Rectangle
            id: odlukaa
            height:parent.height
            width:parent.width/10
-           border.color: "red"
-
+           border.color: "#1b4676"
+             border.width: 2
+               color:"#04acf3"
            anchors.left: odluka.right
            Text {
                id: namessssss
                text: qsTr("Razlog")
+               color:"white"
+               font.bold: true
                anchors.centerIn: parent
            }
        }
@@ -119,12 +140,15 @@ Rectangle
            id: odlukaaa
            height:parent.height
            width:parent.width/10*2
-           border.color: "red"
-
+           border.color: "#1b4676"
+             border.width: 2
+               color:"#04acf3"
            anchors.left: odlukaa.right
            Text {
                id: namesssssss
                text: qsTr("ODLUKA")
+               color:"white"
+               font.bold: true
                anchors.centerIn: parent
            }
        }
@@ -172,7 +196,7 @@ Rectangle
                        width: parent.width/10*2
                        //color: "red"
                        anchors.left: parent.left
-                       border.color: "red"
+                       border.color: "#1b4676"
 
                                 Image{
                                     id:slikalokacija
@@ -207,11 +231,13 @@ Rectangle
                        height: parent.height
                        width: parent.width/10
                        anchors.left: slikarect.right
-                       border.color: "red"
+                       border.color: "#1b4676"
                        Text
                        {
                            id: idprofila
                            text: id
+                           color:"#1b4676"
+                           font.bold: true
                          //  anchors.left : slikarect.right
                            anchors.centerIn: parent
                        }
@@ -223,12 +249,14 @@ Rectangle
                        height: parent.height
                        width: parent.width/10
                        anchors.left:idrect.right
-                       border.color: "red"
+                       border.color: "#1b4676"
                        Text
                        {
                            id: nazivprofila
                            text: qsTr(naziv)
                            anchors.left: parent.left
+                           color:"#1b4676"
+                           font.bold: true
                            //anchors.leftMargin: 15
 
                             anchors.centerIn: parent
@@ -241,13 +269,15 @@ Rectangle
                        height: parent.height
                        width: parent.width/10
                        anchors.left: nazivrect.right
-                       border.color: "red"
+                       border.color: "#1b4676"
                        Text
                        {
                            id:gradprofil
                            //text: qsTr(grad)
                            text: qsTr(grad)
                            anchors.left: parent.left
+                           color:"#1b4676"
+                           font.bold: true
                            //anchors.leftMargin: 15
 
                             anchors.centerIn: parent
@@ -259,7 +289,7 @@ Rectangle
                        height: parent.height
                        width: parent.width/10
                        anchors.left: gradrect.right
-                       border.color: "red"
+                       border.color: "#1b4676"
                        Text
                        {
                            id: idkorisnikaprofil
@@ -267,6 +297,8 @@ Rectangle
                            text: qsTr(idkorisnika)
                            anchors.left: parent.left
                            anchors.centerIn: parent
+                           color:"#1b4676"
+                           font.bold: true
                        }
                    }
 
@@ -276,13 +308,15 @@ Rectangle
                        height: parent.height
                        width: parent.width/10
                        anchors.left: idkorisnikarect.right
-                       border.color: "red"
+                       border.color: "#1b4676"
                        Text
                        {
                            id:usrnm
                           // text: qsTr(grad)
                            text:qsTr(username)
                            anchors.centerIn: parent
+                           color:"#1b4676"
+                           font.bold: true
                        }
                    }
                    Rectangle
@@ -291,13 +325,15 @@ Rectangle
                        height: parent.height
                        width: parent.width/10
                        anchors.left:usernamerect.right
-                       border.color: "red"
+                       border.color: "#1b4676"
                        Text
                        {
                            width:parent.width
                            id:razlogprofil
                           // text: qsTr(grad)
                            text:qsTr(razlog)
+                           color:"#1b4676"
+                           font.bold: true
                            anchors.verticalCenter: parent.verticalCenter
                            wrapMode: Text.Wrap
                        }
@@ -306,7 +342,7 @@ Rectangle
                    Rectangle{
 
                        anchors.left: razlogrect.right
-                       border.color: "red"
+                       border.color: "#1b4676"
                        height: parent.height
                        width: parent.width/10*2
                    Rectangle //--------------------dugme1---------------------------------

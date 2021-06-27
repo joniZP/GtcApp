@@ -79,5 +79,29 @@ public:
          return lokacija;
 
   }
+  Q_INVOKABLE
+    void ucitajOdobravanje()
+    {
+        MySqlService &s = MySqlService::MySqlInstance();
+        QString query;
+        MySqlTable Lokacijatable;
+        query = "SELECT * FROM Lokacija WHERE Verifikovana=0 ";
+
+
+        Lokacijatable = s.WSendQuery(query);
+
+        if(Lokacijatable.isSuccessfully())
+        {
+            //  qDebug() << "kveri:" << Lokacijatable.Count();
+          LokacijaModel &klmodel = LokacijaModel::GetInstance();
+            klmodel.removeAll();
+            for(int i=0;i<Lokacijatable.Count();i++)
+            {
+                QString slikapom =  (Lokacijatable.Rows[i]["brojSlika"].toInt()) > 0 ? LINKS::getLocationPicture(Lokacijatable.Rows[i]["id"].toInt(),0) : LINKS::getNoImageAvailable();
+                qDebug() << slikapom;
+                klmodel.dodajlokaciju(Lokacija(Lokacijatable.Rows[i]["id"].toInt(),slikapom, Lokacijatable.Rows[i]["naziv"], Lokacijatable.Rows[i]["grad"],Lokacijatable.Rows[i]["idkorisnika"]));
+             }
+        }
+    }
 };
 #endif // UCITAVANJELOKACIJE_H

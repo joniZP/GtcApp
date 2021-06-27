@@ -6,6 +6,12 @@ Lokacija::Lokacija(const int& id,const QString &slika, const QString &naziv,cons
 
 }
 
+Lokacija::Lokacija(const int& id,const QString &slika, const QString &naziv,const QString &grad,const QString &idkorisnika)
+   :m_id(id), m_slika(slika), m_naziv(naziv),m_grad(grad),m_idkorisnika(idkorisnika)
+  {
+
+  }
+
 QString Lokacija::slika() const
 {
     return m_slika;

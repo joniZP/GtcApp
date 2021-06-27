@@ -8,8 +8,13 @@
 #include "UcitavanjeLokacije.h"
 #include "UcitavanjeDogadjaja.h"
 #include "UcitavanjeKomentara.h"
+#include <komentar.h>
+#include <komentarmodel.h>
+#include <UcitavanjeKomentara.h>
 #include <QQmlContext>
+#include <korisnikevents.h>
 #include<MLokacija.h>
+#include <MProfil.h>
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -29,9 +34,13 @@ int main(int argc, char *argv[])
     qmlRegisterType<UcitavanjeLokacije>("UcitavanjeLokacije",1,0,"UcitavanjeLokacije");
     qmlRegisterType<MLokacija>("MLokacija",1,0,"MLokacija");
 
+    KorisnikEvents *ke=new KorisnikEvents();
+
     SlikaModel &SModel = SlikaModel::GetInstance ();
     LokacijaModel  &LModel = LokacijaModel::GetInstance();
     Dogadjajmodel &DModel=Dogadjajmodel::GetInstance();
+    Komentarmodel &KModel= Komentarmodel::GetInstance();
+    MProfil &profil=MProfil::GetInstance();
   //  LokacijaModel  &LModel = LokacijaModel::GetInstance();
     //Komentarmodel &KModel = Komentarmodel::GetInstance();
    // Dogadjajmodel &DModel = Dogadjajmodel::GetInstance();
@@ -48,9 +57,15 @@ int main(int argc, char *argv[])
     UcitavanjeDogadjaja* ucitavanjedogadjaja=new UcitavanjeDogadjaja();
     engine.rootContext()->setContextProperty("ucitajdogadjajInstance", ucitavanjedogadjaja);
 
+    UcitavanjeKomentara* ucitavanjekomentara=new UcitavanjeKomentara();
+    engine.rootContext()->setContextProperty("ucitajkomentarInstance", ucitavanjekomentara);
+
    engine.rootContext()->setContextProperty("_slika", &SModel);
    engine.rootContext()->setContextProperty("_LModel", &LModel);
    engine.rootContext()->setContextProperty("_DModel", &DModel);
+   engine.rootContext()->setContextProperty("_KModel", &KModel);
+    engine.rootContext()->setContextProperty("korisnikEvents", ke);
+    engine.rootContext()->setContextProperty("_profil", &profil);
    engine.load(url);
 
 

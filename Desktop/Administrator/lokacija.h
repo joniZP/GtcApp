@@ -7,9 +7,9 @@
 class Lokacija
 {
 public:
-    Lokacija(const int& id,const QString &slika, const QString &naziv,const QString &grad,const QString &idkorisnika,const QString &razlog,const QString username);
+    Lokacija(const int& id, const QString &slika, const QString &naziv,const QString &grad,const QString &idkorisnika,const QString &razlog,const QString username);
 //![0]
-
+    Lokacija(const int& id,const QString &slika, const QString &naziv,const QString &grad,const QString &idkorisnika);
     int id() const;
     QString slika() const;
     QString naziv() const;

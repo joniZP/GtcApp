@@ -13,7 +13,9 @@ CONFIG += c++11
 
 SOURCES += \
         LINKS.cpp \
+        MProfil.cpp \
         UcitavanjeDogadjaja.cpp \
+        UcitavanjeKomentara.cpp \
         UcitavanjeLokacije.cpp \
         dogadjaj.cpp \
         dogadjajmodel.cpp \
@@ -21,6 +23,7 @@ SOURCES += \
         events.cpp \
         komentar.cpp \
         komentarmodel.cpp \
+        korisnikevents.cpp \
         lokacija.cpp \
         lokacijaModel.cpp \
         main.cpp \
@@ -47,6 +50,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     LINKS.h \
     MLokacija.h \
+    MProfil.h \
     MySqlService.h \
     UcitavanjeDogadjaja.h \
     UcitavanjeKomentara.h \
@@ -57,6 +61,7 @@ HEADERS += \
     events.h \
     komentar.h \
     komentarmodel.h \
+    korisnikevents.h \
     lokacija.h \
     lokacijaModel.h \
     slika.h \

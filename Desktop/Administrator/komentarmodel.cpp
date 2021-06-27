@@ -33,21 +33,33 @@ Komentarmodel &Komentarmodel::GetInstance()
             return QVariant();
         }
         const Komentar &Komentar = m_Komentari[index.row()];
-        if (role == IdKomentaraRole)
+        if (role == IdReport)
         {
-            return Komentar.idKomentara();
+            return Komentar.idreport();
         }
-        else if (role == IdKorisnikaRole)
-        {
-            return Komentar.idKorisnika();
-        }
-        else if(role==TekstKomentaraRole)
+        else if (role == TekstKomentaraRole)
         {
             return Komentar.tekst();
         }
-        else if(role==PripadaRole)
+        else if(role==UsernameRole)
         {
-            return Komentar.pripada();
+            return Komentar.username();
+        }
+        else if(role==LokDogRole)
+        {
+            return Komentar.lokdog();
+        }
+        else if(role==RazlogRole)
+        {
+            return Komentar.razlog();
+        }
+        else if(role==IdLokDogRole)
+        {
+            return Komentar.idlokdog();
+        }
+        else if(role==IDKomRole)
+        {
+            return Komentar.idkom();
         }
         return QVariant();
     }
@@ -55,9 +67,12 @@ Komentarmodel &Komentarmodel::GetInstance()
     QHash<int, QByteArray>Komentarmodel::roleNames() const
     {
         QHash<int, QByteArray> roles;
-        roles[IdKomentaraRole] = "idKomentara";
-          roles[IdKorisnikaRole] = "idKorisnika";
-          roles[PripadaRole] = "pripada";
+        roles[IdReport] = "idreport";
           roles[TekstKomentaraRole] = "tekst";
+          roles[UsernameRole] = "username";
+          roles[LokDogRole] = "lokdog";
+          roles[RazlogRole] = "razlog";
+          roles[IdLokDogRole] = "idlokdog";
+          roles[IDKomRole] = "idkom";
         return roles;
     }

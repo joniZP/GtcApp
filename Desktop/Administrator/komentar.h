@@ -7,19 +7,26 @@ class Komentar
 {
 public:
     Komentar();
-   Komentar(const int &idKomentara, const int &idKorisnika,const QString &tekst,const int &pripada);
+   Komentar( const int &idReport, const int &idkom, const QString &tekst, const QString &username,const int &lokdog,const QString &razlog, const int &idlokdog);
 
-   int idKomentara() const;
-    int idKorisnika() const;
-    QString tekst() const;
-    int pripada() const;
+   int idreport() const;
+   int idkom() const;
+   QString tekst() const;
+    QString username() const;
+    int lokdog() const;
+    QString razlog() const;
+    int idlokdog() const;
 
 private:
 
-   int _idKomentara;
-    int _idKorisnika;
-    QString _tekst;
-    int _pripada;
+   int _idreport;
+   int _idkom;
+   QString _tekst;
+   QString _username;
+   int _lokdog;
+   QString _razlog;
+   int _idlokdog;
+
 };
 
 #endif // KOMENTAR_H

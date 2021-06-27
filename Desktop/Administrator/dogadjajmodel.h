@@ -70,19 +70,23 @@ public:
     {
 
 
+        int pom=m_dogadjaji[a].idDogadjaja();
         if(m_dogadjaji.count()>0)
         {
             izbrisiprijavudogadjaja(m_dogadjaji[a].idDogadjaja());
             for(int i=0; i<m_dogadjaji.count();i++)
             {
 
-                beginRemoveRows(QModelIndex(), i, i);
 
-                if(m_dogadjaji[a].idDogadjaja() == m_dogadjaji[i].idDogadjaja())
+
+                if(pom == m_dogadjaji[i].idDogadjaja())
                 {
+                    beginRemoveRows(QModelIndex(), i, i);
                     m_dogadjaji.removeAt(i);
+                    endRemoveRows();
+                    i--;
                 }
-                endRemoveRows();
+
             }
         }
 
