@@ -1,17 +1,12 @@
-#ifndef KORISNIKDOGADJAJMODEL_H
-#define KORISNIKDOGADJAJMODEL_H
+#ifndef KORISNIKDOGADJAJIMODEL_H
+#define KORISNIKDOGADJAJIMODEL_H
 
-
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
-#include <QNetworkRequest>
-#include<QObject>
-#include<QtSql>
-#include<QtSql>
+#include <QObject>
 #include<Dogadjaj.h>
-class KorisnikDogadjajModel: public QAbstractListModel{
-    Q_OBJECT
 
+class KorisnikDogadjajiModel :  public QAbstractListModel
+{
+    Q_OBJECT
 private:
 
     enum KorisnikLokacijaRoles {
@@ -20,10 +15,10 @@ private:
         OpisRole,
         IdRole
     };
-    static KorisnikDogadjajModel* instance;
-    KorisnikDogadjajModel();
+    static KorisnikDogadjajiModel* instance;
+    KorisnikDogadjajiModel();
     public:
-    static KorisnikDogadjajModel& GetInstance();
+    static KorisnikDogadjajiModel& GetInstance();
     void dodajdogadjaj(const Dogadjaj &lok);
     void remove()
     {
@@ -45,10 +40,9 @@ private:
 protected:
     QHash<int, QByteArray> roleNames() const;
     QList<Dogadjaj> m_dogadjaji;
-private:
+
+signals:
 
 };
 
-
-#endif // KorisnikDogadjajModel_H
-
+#endif // KORISNIKDOGADJAJIMODEL_H

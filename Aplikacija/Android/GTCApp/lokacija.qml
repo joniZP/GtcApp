@@ -212,7 +212,7 @@ Rectangle
 
        Rectangle
        {
-           id: lokacija_kreat
+           id: likecomsharecontainer
            width: parent.width-20
            height: 50
            anchors.top: lokacija_kreator.bottom
@@ -234,7 +234,7 @@ Rectangle
                   height: parent.height
               Image {
                       id: like_slika
-                      source: ucitajInstance.vratiIkonicu()
+                      source: likelogic.vratiIkonicu()
                       width: parent.height*0.5
                       height:parent.height*0.5
                       fillMode: Image.PreserveAspectCrop
@@ -256,8 +256,8 @@ Rectangle
                   anchors.fill: parent
                   onClicked:
                   {
-                    ucitajInstance.clickOnLike();
-                    like_slika.source = ucitajInstance.vratiIkonicu();
+                    likelogic.clickOnLike();
+                    like_slika.source = likelogic.vratiIkonicu();
                   }
               }
               }
@@ -354,12 +354,11 @@ Rectangle
               }
           }
 
-
-
-
-
-
        }
+
+
+
+
 }
 }
 Drawer
@@ -488,7 +487,10 @@ Drawer
                             anchors.centerIn: parent
                             text: qsTr("Prijavi")
 
-                            onClicked: ucitajInstance.prijaviKomentarLokacija(id,"")
+                            onClicked:{
+                                lokacijaprijavapopup.open();
+                                report.setParameters(id,2);
+                            }
                         }
 
                     }
@@ -543,10 +545,10 @@ Drawer
                //if(komentartext1.text)
                   // var regExp = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
                    //if(!regExp.test(email.text))
-               block.visible =true;
+               blockcomment.visible =true;
                ucitajInstance.dodajKomentar(location.getId(),komentartext1.text);
                komentartext1.remove(0,komentartext1.length)
-               block.visible = false;
+               blockcomment.visible = false;
            }
        background:Image {
            anchors.fill: parent
@@ -560,6 +562,43 @@ Drawer
    }
 
    }
+
+
+    Rectangle
+    {
+        id:blockcomment
+        anchors.fill: parent
+        visible: false
+        color: "transparent"
+        z:999
+
+
+        Rectangle{
+        id: blockcolor
+        anchors.fill: blockcomment
+        color: "white"
+        opacity: 0.4
+        }
+
+        AnimatedImage
+        {
+            source: "/new/prefix1/spinnerpage.gif"
+            width: 150
+            height: 150
+            anchors.centerIn: parent
+        }
+        MouseArea {
+
+        anchors.fill: parent
+
+        onClicked: mouse.accepted = true
+
+        }
+
+    }
+
+
+
 }
 
 }

@@ -10,7 +10,7 @@ class UpisLokacijaDogadjaj : public QObject
 {
     Q_OBJECT
 public:
-    explicit UpisLokacijaDogadjaj(QObject *parent = nullptr);
+   // explicit UpisLokacijaDogadjaj(QObject *parent = nullptr);
 
     QStringList slike;
     double xcoo = 0;
@@ -60,6 +60,43 @@ public:
         xcoo = x;
         ycoo = y;
     }
+
+
+
+    Q_INVOKABLE
+    int upisiDogadjaj(int idLokacije, QString vreme, QString opis, QString tip)
+    {
+        MySqlService &s = MySqlService::MySqlInstance();
+         MyQuery query("INSERT INTO `Dogadjaj`(`idLokacije`, `vreme`, `opis`, `tip`, `idKorisnika`, `svidjanja`) VALUES (%1,'%2','%3','%4','%5',%6)");
+          query<<idLokacije<<vreme<<opis<<tip<<LOCALDATA::mProfil->getKorisnickoIme()<<0;
+          qDebug() << query.toStr();
+          MySqlTable t;
+          t = s.WSendQuery(query);
+          if(t.isSuccessfully())
+          {
+
+                 MySqlTable t1;
+                 t1 = s.WSendQuery("SELECT max(idDogadjaja) FROM Dogadjaj");
+                 if(t1.isSuccessfully())
+                 {
+                     return t1.Rows[0][0].toInt();
+                 }
+
+
+          }
+          return -1;
+    }
+
+    Q_INVOKABLE
+    QString formatDate(int mesec,int dan, int sat, int minut)
+    {
+        MyQuery format;
+        format = "%1-%2-%3 %4:%5:00";
+        format<<QDateTime::currentDateTime().date().year();
+        format<<mesec<<dan<<sat<<minut;
+        return format.toStr();
+    }
+
 
 signals:
 

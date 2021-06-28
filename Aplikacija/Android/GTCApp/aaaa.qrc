@@ -43,5 +43,6 @@
         <file>send.png</file>
         <file>close-removebg-preview.png</file>
         <file>arrow-119-64.ico</file>
+        <file>3dot.png</file>
     </qresource>
 </RCC>

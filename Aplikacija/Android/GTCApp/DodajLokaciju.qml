@@ -6,14 +6,11 @@ import QtGraphicalEffects 1.12
 import QtQuick.Dialogs 1.0
 import QtPositioning 5.6
 import QtLocation 5.6
-import UpisLokacijaDogadjaj 1.0
 
 
 Rectangle{
     property int slike: 0
-    UpisLokacijaDogadjaj{
-    id:upisservis;
-    }
+
 
     Flickable{
     //  contentHeight: 800
@@ -232,7 +229,7 @@ Rectangle
                         slika5.source=fileDialog.fileUrl
                         slike++
                     }
-                    upisservis.dodajSliku(fileDialog.fileUrl);
+                    upisLokacijaDogadjaj.dodajSliku(fileDialog.fileUrl);
                 }
                 onRejected:
                 {
@@ -282,7 +279,7 @@ Rectangle
                                    console.log("Coordinate:", coord.longitude, coord.latitude)
                                    marker.coordinate= QtPositioning.coordinate(coord.latitude,coord.longitude);
                                    mapa.center= QtPositioning.coordinate(coord.latitude,coord.longitude)
-                                   upisservis.setCoo(coord.latitude,coord.longitude)
+                                   upisLokacijaDogadjaj.setCoo(coord.latitude,coord.longitude)
                                }
 
                            }
@@ -351,7 +348,7 @@ Rectangle
 
                     if(nazivnovelokacije.text!="" && gradnovelokacije.text!="" && opisnovelokacije.text!=""){
                         block.visible = true;
-                       const lokid = upisservis.upisiLokaciju(nazivnovelokacije.text,gradnovelokacije.text,opisnovelokacije.text);
+                       const lokid = upisLokacijaDogadjaj.upisiLokaciju(nazivnovelokacije.text,gradnovelokacije.text,opisnovelokacije.text);
                         if(lokid !== -1)
                         {
                          getLokacijaById(lokid);

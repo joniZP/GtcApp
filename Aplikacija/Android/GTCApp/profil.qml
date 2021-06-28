@@ -559,7 +559,7 @@ ListView {
                      {
                      block.visible = true;
                      getDogadjajById(id);
-                     naziv="Dogadjaj"
+                     natpis="Dogadjaj"
                      pageLoader.source= "dogadjaj.qml"
                      block.visible = false;
                      }

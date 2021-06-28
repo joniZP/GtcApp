@@ -7,18 +7,22 @@ import QtGraphicalEffects 1.0
 import Klasa 1.0
 import MLokacija 1.0
 import MProfil 1.0
+import MDogadjaj 1.0
 
 ApplicationWindow
 {
     property Klasa klas
     property string natpis: "Pocetna"
     property MLokacija location
+    property MDogadjaj  mDogadjaj
     property  MProfil mProfil
+
     function getProfilByUsername(username)
     {
         var pom = ucitavanjeProfilaInstance.getProfil(username);
         mProfil = pom
         prijateljiEvents.setStanjeByUsername(username);
+
     }
 
     function menu(icon)
@@ -39,6 +43,11 @@ ApplicationWindow
 
     function getDogadjajById(id)
     {
+        let pom = ucitavanjeDogadjaja.getDogadjaj(id)
+        mDogadjaj =pom
+        let pom1 = mDogadjaj.getLokacija()
+        location = pom1;
+
 
     }
 
@@ -96,7 +105,7 @@ ApplicationWindow
         Rectangle
         {
             Layout.alignment: Qt.AlignTop
-            id: o
+            id: headerline
             // @disable-check M16
             objectName: "objname"
             width: parent.width
@@ -154,7 +163,7 @@ ApplicationWindow
                     Layout.rightMargin: 10
                     Image
                     {
-                        id: namje
+                        id: pretragalupaimg
                         source: "/new/prefix1/search-3-24.png"
                         anchors.fill: parent
                     }
@@ -163,11 +172,19 @@ ApplicationWindow
                         anchors.fill: parent
                         onClicked:
                         {
-                             block.visible=true
-                             pretrazi.reset()
-                             natpis="Pretraga"
-                             pageLoader.source="pretraga.qml"
-                             block.visible=false
+                             if(pageLoader.source == "qrc:/lokacija.qml")
+                             {
+                                  lokacijamenu.open();
+                             }
+                             else
+                             {
+                                 block.visible=true
+                                 pretrazi.reset()
+                                 natpis="Pretraga"
+                                 pageLoader.source="pretraga.qml"
+                                 block.visible=false
+                             }
+
                         }
                     }
 
@@ -181,8 +198,44 @@ ApplicationWindow
 
         Rectangle
         {
+            Menu
+            {
+                width: 200
+               // height: item1.height
+                id: lokacijamenu
+                x:parent.width-lokacijamenu.width
+                y:0
+
+                MenuItem
+                {
+                    id:lokacijamenuitem
+                   // anchors.centerIn: parent
+                    text: qsTr("Organizuj dogadjaj")
+
+                    onClicked: {
+                        pageLoader.source="qrc:/DodajDogadjaj.qml"
+                    }
+                }
+
+                MenuItem
+                {
+                    id:lokacijamenuitem1
+                   // anchors.centerIn: parent
+                    text: qsTr("Prijavi")
+
+                    onClicked:{
+                        report.setParameters(location.getId(),0);
+                    lokacijaprijavapopup.open();
+                    }
+                }
+
+            }
+
+
+
             Loader
             {
+
                 id: pageLoader
                 anchors.centerIn: parent
                 anchors.fill: parent
@@ -199,11 +252,21 @@ ApplicationWindow
                     {
                        pretragalupa.visible=false
                     }  
+
+                    if(source == "qrc:/lokacija.qml")
+                    {
+                        pretragalupaimg.source="/new/prefix1/3dot.png";
+                    }
+                    else
+                    {
+                        pretragalupaimg.source="/new/prefix1/search-3-24.png";
+                    }
+
                     back.napred(pageLoader.source,natpis)
                     const icon=back.getIcon()
                     menuicon.source=icon
 
-                    if(icon!="qrc:/new/prefix1/dropdown-menu-icon-20.jpg")
+                    if(icon!=="qrc:/new/prefix1/dropdown-menu-icon-20.jpg")
                     {
                         menuicon.width=30
                         menuicon.height=30
@@ -744,12 +807,94 @@ ApplicationWindow
         }
 }
 
+
+
+    Popup {
+        id: lokacijaprijavapopup
+        width: parent.width/5*4
+        height: 180
+        modal: true
+        focus: true
+        anchors.centerIn: parent
+        ColumnLayout
+        {
+            width:parent.width
+            spacing: 10
+
+            Rectangle//OPIS prijave
+            {
+
+                id:lokacijaprijavapopuptext
+                Layout.minimumWidth: lokacijaprijavapopup.width*0.9
+                Layout.alignment: Qt.AlignHCenter
+
+                height: 90
+                color: "transparent"
+                border.color:"#595959"
+
+
+
+                ScrollView {
+                    id: lokacijaprijavascrollview
+                    width: parent.width
+                    height: 80
+                    contentWidth: width
+
+                    TextArea {
+                           id: lokacijaprijavarazlog
+                            placeholderText: qsTr("Unesite razlog prijave")
+                               leftPadding: 6
+                               rightPadding: 30
+                               topPadding: 0
+                               bottomPadding: 0
+                               background: null
+                               wrapMode: Text.WordWrap
+                    }
+                }
+            }
+
+        RowLayout{
+
+             Layout.alignment: Qt.AlignHCenter
+        Button
+        {
+            text: qsTr("Prijavi")
+            onClicked:
+            {
+                report.prijavi(lokacijaprijavarazlog.text)
+                lokacijaprijavarazlog.text = "";
+                lokacijaprijavapopup.close()
+            }
+            Layout.alignment: Qt.AlignHCenter
+        }
+        Button
+        {
+            text: qsTr("Odustani")
+            onClicked:
+            {
+                lokacijaprijavarazlog.text = "";
+                lokacijaprijavapopup.close()
+            }
+            Layout.alignment: Qt.AlignHCenter
+        }
+
+        }
+
+
+        }
+        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+        // anchors.centerIn: parent
+        }
+
+
+
     Rectangle
     {
         id:block
         anchors.fill: parent
         visible: false
         color: "transparent"
+        z:999
 
 
         Rectangle{
@@ -775,4 +920,6 @@ ApplicationWindow
         }
 
     }
+
+
 }

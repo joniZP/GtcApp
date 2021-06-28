@@ -19,6 +19,7 @@ public:
     int like;
     double xcoo;
     double ycoo;
+    int brSlika;
 
 
     explicit MLokacija(QObject *parent = nullptr){
@@ -95,6 +96,12 @@ public:
         this->ycoo = ycoo;
         this->punoime = punoime;
     }
+    void setId(int value);
+    void setKreator(const QString &value);
+    void setOpis(const QString &value);
+    void setGrad(const QString &value);
+    int getBrSlika() const;
+    void setBrSlika(int value);
 };
 
 #endif // MLOKACIJA_H

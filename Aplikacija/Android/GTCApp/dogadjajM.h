@@ -1,7 +1,5 @@
-#ifndef DOGADJAJaaaaa_H
-#define DOGADJAJaaaaa_H
-
-
+#ifndef DOGADJAJM_H
+#define DOGADJAJM_H
 
 #include <QAbstractListModel>
 #include <QStringList>
@@ -23,7 +21,5 @@ private:
     QString m_opis;
 //![1]
 };
+#endif
 
-
-
-#endif // DOGADJAJ_H

@@ -118,11 +118,23 @@ public:
      Q_INVOKABLE
      static void podeliLokaciju(int id,QString username)
      {
+        deljenje(id,username,0);
+     }
 
+
+
+     Q_INVOKABLE
+     static void podeliDogadjaj(int id,QString username)
+     {
+        deljenje(id,username,1);
+     }
+
+     static void deljenje(int id, QString username, int tip)
+     {
          MySqlService &s = MySqlService::MySqlInstance();
          MyQuery query;
          query="INSERT INTO Obavestenje(`sender`, `reciever`, `tip`, `idDL`) VALUES('%1','%2',%3,%4)";
-         query<<LOCALDATA::mProfil->getKorisnickoIme()<<username<<0<<id;
+         query<<LOCALDATA::mProfil->getKorisnickoIme()<<username<<tip<<id;
          s.SendQuery(query);
          qDebug()<<"podeljeno" << query.toStr();
      }

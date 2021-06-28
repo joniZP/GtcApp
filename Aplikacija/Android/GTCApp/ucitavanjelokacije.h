@@ -8,6 +8,7 @@
 #include<LINKS.h>
 #include<slikamodel.h>
 #include<LOCALDATA.h>
+#include<Like.h>
 
 
 class UcitavanjeLokacije : public QObject
@@ -15,14 +16,10 @@ class UcitavanjeLokacije : public QObject
     Q_OBJECT
    private:
     static MLokacija* lokacija;
-    static bool liked;
-    static bool loadLiked;
-    QTimer *liketimer;
     static UcitavanjeLokacije * instance;
     UcitavanjeLokacije()
     {
-        liketimer = new QTimer(this);
-        connect(liketimer, &QTimer::timeout, this, QOverload<>::of(&UcitavanjeLokacije::sacuvajLikeUBazu));
+
     }
 
 public:
@@ -35,25 +32,6 @@ public:
         return *instance;
     }
 
-    static void sacuvajLikeUBazu(){
-         GetInstance().liketimer->stop();
-
-         if(liked != loadLiked)
-         {
-             loadLiked = liked;
-             if(liked)
-             {
-                 insertLike();
-             }
-             else
-             {
-                 deleteLike();
-             }
-         }
-
-
-
-    }
 
     Q_INVOKABLE
     MLokacija* getLokacija(int id)
@@ -85,8 +63,7 @@ public:
                       }
                   }
 
-                  liked = isLiked(lokacija->getId());
-                  loadLiked = liked;
+                  Like::setParameters(id,Tip::LokacijaTip);
                }
            }
 
@@ -107,7 +84,7 @@ public:
             if(t.isSuccessfully())
             {
                 MySqlTable t1;
-                t1 = s.WSendQuery("SELECT max(IdKomentara) FROM ReportKomentar");
+                t1 = s.WSendQuery("SELECT max(IdKomentara) FROM KomentariLokacije");
                 if(t1.isSuccessfully())
                 {
                      KomentariModel& kom =  KomentariModel::GetInstance();
@@ -139,78 +116,6 @@ public:
         }
 
     }
-
-    bool isLiked(int idLokacije)
-    {
-        MySqlService &s = MySqlService::MySqlInstance();
-        MySqlTable t;
-        MyQuery query("SELECT * FROM LokacijaLikes WHERE idLokacije=%1 and idProfila='%2'");//("SELECT * FROM KomentariLokacije WHERE idLokacije='%1'");
-        query<<idLokacije<<LOCALDATA::mProfil->getKorisnickoIme();
-         t = s.WSendQuery(query);
-        if(t.isSuccessfully())
-        {
-            return t.Count() > 0;
-        }
-    }
-
-    Q_INVOKABLE
-    QString vratiIkonicu()
-    {
-        if(liked)
-        {
-           return "../new/prefix1/heart.png";
-        }
-        else
-        {
-           return "../new/prefix1/like.png";
-        }
-    }
-
-    Q_INVOKABLE
-    void clickOnLike()
-    {
-        liked = !liked;
-        liketimer->stop();
-        liketimer->start(2000);
-    }
-
-
-    static void insertLike()
-    {
-        if(lokacija != NULL)
-        {
-        MySqlService &s = MySqlService::MySqlInstance();
-        MyQuery query("INSERT INTO LokacijaLikes SET idLokacije=%1, idProfila='%2'");//("SELECT * FROM KomentariLokacije WHERE idLokacije='%1'");
-        query<<lokacija->getId()<<LOCALDATA::mProfil->getKorisnickoIme();
-        s.SendQuery(query);
-        }
-    }
-
-
-
-    Q_INVOKABLE
-    void prijaviKomentarLokacija(int idkom,QString razlog)
-    {
-        MySqlService &s = MySqlService::MySqlInstance();
-        MyQuery query("INSERT INTO `ReportKomentar`(idKomentara,LokDog, `username`, `razlog`) VALUES (%1,%2,'%3','%4')");//;0 za lokaciju
-        query<<idkom<<0<<LOCALDATA::mProfil->getKorisnickoIme()<<razlog;
-        s.SendQuery(query);
-        qDebug()<<"|aeqwt"<<query.toStr();
-    }
-
-
-    static void deleteLike()
-    {
-        if(lokacija != NULL)
-        {
-            MySqlService &s = MySqlService::MySqlInstance();
-            MyQuery query("DELETE FROM LokacijaLikes WHERE idLokacije=%1 and idProfila='%2'");//("SELECT * FROM KomentariLokacije WHERE idLokacije='%1'");
-            query<<lokacija->getId()<<LOCALDATA::mProfil->getKorisnickoIme();
-           // qDebug()<<query.toStr();
-            s.SendQuery(query);
-        }
-    }
-
 
 
 };

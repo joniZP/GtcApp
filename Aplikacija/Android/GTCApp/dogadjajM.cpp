@@ -1,5 +1,4 @@
-#include "Dogadjaj.h"
-
+#include "dogadjajM.h"
 
 Dogadjaj::Dogadjaj(const int& id,const QString &tip, const QString &vreme,const QString &opis)
     :m_id(id), m_tip(tip), m_vreme(vreme),m_opis(opis)
@@ -24,4 +23,5 @@ int Dogadjaj::id() const
 {
     return m_id;
 }
+
 

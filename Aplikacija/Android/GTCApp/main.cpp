@@ -26,6 +26,9 @@
 #include<prijateljievents.h>
 #include<Notification.h>
 #include<back.h>
+#include<Report.h>
+#include<UcitavanjeDogadjaja.h>
+#include<MDogadjaj.h>
 
 
 
@@ -63,6 +66,9 @@ int main(int argc, char *argv[])
     PrijateljiModel &prijateljimodel = PrijateljiModel::GetInstance();
     Notification &notification = Notification::GetInstance();
     UcitavanjeLokacije & ucitavanjeLokacije = UcitavanjeLokacije::GetInstance();
+    Like &like = Like::GetInstance();
+    UcitavanjeDogadjaja &ucitavanjedogadjaja = UcitavanjeDogadjaja::GetInstance();
+
    // UcitavanjeLokacije *ucitavanjeLokacije = new UcitavanjeLokacije();
 
 
@@ -78,7 +84,12 @@ int main(int argc, char *argv[])
     UcitavanjeProfila *up=new UcitavanjeProfila();
     PretragaLokacija *pl=new PretragaLokacija();
     MLokacija *loc=new MLokacija();
+    Report *report=new Report();
+    UpisLokacijaDogadjaj *upislokacijadogadjaj = new UpisLokacijaDogadjaj();
+
     mp=ld->getMProfil();
+     engine.rootContext()->setContextProperty("likelogic", &like);
+
     engine.rootContext()->setContextProperty("mProfilInst", mp);
    // engine.rootContext()->setContextProperty("mProfil", mp1);
     engine.rootContext()->setContextProperty("localData",ld);
@@ -88,6 +99,9 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("pretrazi", pl);
     engine.rootContext()->setContextProperty("ucitajInstance", &ucitavanjeLokacije);
     engine.rootContext()->setContextProperty("back", b);
+    engine.rootContext()->setContextProperty("report", report);
+    engine.rootContext()->setContextProperty("ucitavanjeDogadjaja", &ucitavanjedogadjaja);
+    engine.rootContext()->setContextProperty("upisLokacijaDogadjaj", upislokacijadogadjaj);
    // engine.rootContext()->setContextProperty("location", loc);
 
 
@@ -106,6 +120,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("_korisniklokacijamodel", &korisniklokacijamodel);
     engine.rootContext()->setContextProperty("_prijateljimodel", &prijateljimodel);
     engine.rootContext()->setContextProperty("notification", &notification);
+
    // engine.rootContext()->setContextProperty("ucitajInstance", ucitavanjeLokacije);
 
 
@@ -127,7 +142,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<UcitavanjeProfila>("UcitavanjeProfila",1,0,"UcitavanjeProfila");
     qmlRegisterType<MProfil>("MProfil",1,0,"MProfil");
     qmlRegisterType<PrijateljiEvents>("PrijateljiEvents",1,0,"PrijateljiEvents");
-
+    qmlRegisterType<MDogadjaj>("MDogadjaj",1,0,"MDogadjaj");
 
     engine.load(url);
 

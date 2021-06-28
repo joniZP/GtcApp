@@ -167,8 +167,6 @@ Popup {
         text: qsTr("U redu")
         onClicked:
         {
-            event.fun4()
-
             popup.close()
         }
         Layout.alignment: Qt.AlignHCenter

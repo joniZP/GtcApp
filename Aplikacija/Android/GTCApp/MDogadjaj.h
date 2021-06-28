@@ -2,7 +2,7 @@
 #ifndef MDOGADJAJ_H
 #define MDOGADJAJ_H
 
-
+#include<MLokacija.h>
 #include <QObject>
 
 class MDogadjaj:public QObject
@@ -14,14 +14,16 @@ public:
 
     int id;
     int idLokacije;
-    int idKorisnika;
+    QString idKorisnika;
+    QString imeKorisnika;
     QString vreme;
     QString opis;
     QString tip;
     int like;
+    MLokacija *lokacija;
 
- MDogadjaj(QObject *parent = nullptr){
-
+    MDogadjaj(QObject *parent = nullptr){
+    lokacija = new MLokacija();
     }
     Q_INVOKABLE
     int getId() const
@@ -34,7 +36,7 @@ public:
         return idLokacije;
     }
      Q_INVOKABLE
-    int getIdKorisnika() const
+    QString getIdKorisnika() const
     {
         return idKorisnika;
     }
@@ -58,11 +60,17 @@ public:
    {
        return like;
    }
+    Q_INVOKABLE
+   MLokacija* getLokacija()
+   {
+    return lokacija;
+   }
 
 
 
 
-    MDogadjaj(int id, int idLokacije,int idKorisnika,QString opis,int svidjanja,QString tip,QString vreme)
+
+    MDogadjaj(int id, int idLokacije,QString idKorisnika,QString opis,int svidjanja,QString tip,QString vreme)
     {
         this->id=id;
         this->idLokacije = idLokacije;
@@ -71,8 +79,18 @@ public:
         this->tip=tip;
         this->opis = opis;
         this->vreme = vreme;
+        lokacija = new MLokacija();
+    }
+    Q_INVOKABLE
+    QString getImeKorisnika(){
+        return imeKorisnika;
+    }
+    void setImeKorisnika(const QString &value)
+    {
+        imeKorisnika = value;
     }
 };
+
 
 
 #endif // MDOGADJAJ_H

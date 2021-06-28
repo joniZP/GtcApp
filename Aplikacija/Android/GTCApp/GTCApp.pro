@@ -16,22 +16,26 @@ QT += androidextras
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 SOURCES += \
+    Dogadjaj.cpp \
         EmailVerificator.cpp \
         FileUploader.cpp \
         KorisnikEvents.cpp \
         LINKS.cpp \
         LOCALDATA.cpp \
+    Like.cpp \
         Lokacija.cpp \
         LokacijaModel.cpp \
         MProfil.cpp \
         MySqlService.cpp \
+        MLokacija.cpp\
         Notification.cpp \
         PretragaLokacija.cpp \
         PrijateljiEvents.cpp \
+    Report.cpp \
+    UcitavanjeDogadjaja.cpp \
         UcitavanjeProfila.cpp \
         UpisLokacijaDogadjaj.cpp \
     back.cpp \
-        dogadjaj.cpp \
         dogadjajdodaj.cpp \
         events.cpp \
         kategorija.cpp \
@@ -39,7 +43,7 @@ SOURCES += \
         klasa.cpp \
         komentar.cpp \
         komentarimodel.cpp \
-        korisnikdogadjajmodel.cpp \
+    korisnikdogadjajmodel.cpp \
         korisniklokacijamodel.cpp \
         lokacijadodaj.cpp \
         main.cpp \
@@ -70,11 +74,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    Dogadjaj.h \
     EmailVerificator.h \
     FileUploader.h \
     KorisnikEvents.h \
     LINKS.h \
     LOCALDATA.h \
+    Like.h \
     Lokacija.h \
     LokacijaModel.h \
     MDogadjaj.h \
@@ -84,10 +90,11 @@ HEADERS += \
     Notification.h \
     PretragaLokacija.h \
     PrijateljiEvents.h \
+    Report.h \
+    UcitavanjeDogadjaja.h \
     UcitavanjeProfila.h \
     UpisLokacijaDogadjaj.h \
     back.h \
-    dogadjaj.h \
     dogadjajdodaj.h \
     events.h \
     kategorija.h \
@@ -109,7 +116,7 @@ HEADERS += \
     zahtev.h \
     zahtevimodel.h
 
-android: include(C:/Users/PC/AppData/Local/Android/Sdk/android_openssl/openssl.pri)
+
 
 DISTFILES += \
   NotificationClient.java \
@@ -129,6 +136,7 @@ DISTFILES += \
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 ANDROID_ABIS = armeabi-v7a
 
+android: include(C:/Users/PC/AppData/Local/Android/Sdk/android_openssl/openssl.pri)
 
 
 
