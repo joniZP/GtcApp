@@ -6,5 +6,11 @@
         <file>location.png</file>
         <file>lock.png</file>
         <file>user.png</file>
+        <file>spinnerpage.gif</file>
+        <file>lupa.png</file>
+        <file>loupe.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>loupe.png</file>
     </qresource>
 </RCC>

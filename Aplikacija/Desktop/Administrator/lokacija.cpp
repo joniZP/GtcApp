@@ -1,48 +1,44 @@
 #include "lokacija.h"
 
-Lokacija:: Lokacija(const QString &naziv,const QString &grad, const QString &opis, int idKorisnika, double ocena,int brojOcena,double x,double y, int brojSlika,int likes)
-    :_naziv(naziv),_grad(grad),_opis(opis),_idKorisnika(idKorisnika),_ocena(ocena),_brojOcena(brojOcena),_x(x),_y(y),_brojSlika(brojSlika),_likes(likes)
+Lokacija::Lokacija(const int& id,const QString &slika, const QString &naziv,const QString &grad,const QString &idkorisnika,const QString &razlog,const QString username)
+    :m_id(id), m_slika(slika), m_naziv(naziv),m_grad(grad),m_idkorisnika(idkorisnika),m_razlog(razlog),m_username(username)
 {
 
+}
+
+Lokacija::Lokacija(const int& id,const QString &slika, const QString &naziv,const QString &grad,const QString &idkorisnika)
+   :m_id(id), m_slika(slika), m_naziv(naziv),m_grad(grad),m_idkorisnika(idkorisnika)
+  {
+
+  }
+
+QString Lokacija::slika() const
+{
+    return m_slika;
 }
 
 QString Lokacija::naziv() const
 {
-    return _naziv;
+    return m_naziv;
 }
 QString Lokacija::grad() const
 {
-    return _naziv;
+    return m_grad;
 }
-QString Lokacija::opis() const
+int Lokacija::id() const
 {
-    return _naziv;
+    return m_id;
 }
-int Lokacija::idKorisnika() const
+QString Lokacija::idkorisnika() const
 {
-    return _idKorisnika;
+    return m_idkorisnika;
+
 }
-int Lokacija::brojOcena() const
+QString Lokacija::username() const
 {
-    return _brojOcena;
+    return m_username;
 }
-int Lokacija::brojSlika() const
+QString Lokacija::razlog() const
 {
-    return _brojSlika;
-}
-int Lokacija::likes() const
-{
-    return _likes;
-}
-double Lokacija::Ocena() const
-{
-    return _ocena;
-}
-double Lokacija::x() const
-{
-    return _x;
-}
-double Lokacija::y() const
-{
-    return _y;
+    return m_razlog;
 }

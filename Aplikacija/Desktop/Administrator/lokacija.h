@@ -7,30 +7,25 @@
 class Lokacija
 {
 public:
-    Lokacija();
-    Lokacija(const QString &naziv,const QString &grad, const QString &opis, int idKorisnika, double ocena,int brojOcena,double x,double y, int brojSlika,int likes);
+    Lokacija(const int& id, const QString &slika, const QString &naziv,const QString &grad,const QString &idkorisnika,const QString &razlog,const QString username);
+//![0]
+    Lokacija(const int& id,const QString &slika, const QString &naziv,const QString &grad,const QString &idkorisnika);
+    int id() const;
+    QString slika() const;
     QString naziv() const;
     QString grad() const;
-    QString opis() const;
-    int idKorisnika() const;
-    double Ocena() const ;
-    int brojOcena() const ;
-    double x()const;
-    double y()const;
-    int brojSlika()const;
-    int likes()const;
+    QString idkorisnika() const;
+    QString razlog() const;
+    QString username() const;
 
 private:
-    QString _naziv;
-    QString _grad;
-    QString _opis;
-    int _idKorisnika;
-    double _ocena;
-    int _brojOcena;
-    double _x;
-    double _y;
-    int _brojSlika;
-    int _likes;
+    int m_id;
+    QString m_slika;
+    QString m_naziv;
+    QString m_grad;
+    QString m_idkorisnika;
+    QString m_razlog;
+    QString m_username;
 
 };
 #endif // LOKACIJA_H

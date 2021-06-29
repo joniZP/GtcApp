@@ -2,13 +2,132 @@ import QtQuick 2.0
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
-import QtGraphicalEffects 1.12
 Rectangle
 {
 
    anchors.fill: parent
+   Rectangle
+   {
+       id: of
+       anchors.top: parent.top
+       height: 50
+       width: parent.width
+       color:"red"
+       Rectangle
+       {
+           id: id
+           height:parent.height
+           width:parent.width/6
+           //border.color: "#1b4676"
+color:"#04acf3"
+           anchors.left: of.left
+           border.color: "#1b4676"
+           border.width: 2
+           Text{
+           color:"white"
+           font.bold: true
+               id: name
+               text: qsTr("ID")
+               anchors.centerIn: parent
+           }
+       }
+       Rectangle
+       {
+           id: opis
+           height:parent.height
+           width:parent.width/6
+           //border.color: "#1b4676"
+color:"#04acf3"
+           anchors.left: id.right
+           border.color: "#1b4676"
+           border.width: 2
+           Text{
+           color:"white"
+           font.bold: true
+               id: names
+               text: qsTr("Opis")
+               anchors.centerIn: parent
+           }
+       }
+       Rectangle
+       {
+           id: tip
+           height:parent.height
+           width:parent.width/6
+           //border.color: "#1b4676"
+color:"#04acf3"
+           anchors.left: opis.right
+           border.color: "#1b4676"
+           border.width: 2
+           Text{
+           color:"white"
+           font.bold: true
+               id: namess
+               text: qsTr("Tip")
+               anchors.centerIn: parent
+           }
+       }
+       Rectangle
+       {
+           id: vreme
+           height:parent.height
+           width:parent.width/6
+           //border.color: "#1b4676"
+color:"#04acf3"
+           anchors.left: tip.right
+           border.color: "#1b4676"
+           border.width: 2
+           Text{
+           color:"white"
+           font.bold: true
+               id: namesss
+               text: qsTr("Razlog")
+               anchors.centerIn: parent
+           }
+       }
+       Rectangle
+       {
+           id: razlog
+           height:parent.height
+           width:parent.width/6
+           //border.color: "#1b4676"
+color:"#04acf3"
+           anchors.left: vreme.right
+           border.color: "#1b4676"
+           border.width: 2
+           Text{
+           color:"white"
+           font.bold: true
+               id: namessss
+               text: qsTr("Vreme")
+               anchors.centerIn: parent
+           }
+       }
+       Rectangle
+       {
+           id: odluka
+           height:parent.height
+           width:parent.width/6
+           //border.color: "#1b4676"
+color:"#04acf3"
+           anchors.left: razlog.right
+           border.color: "#1b4676"
+           border.width: 2
+           Text{
+           color:"white"
+           font.bold: true
+               id: namesssss
+               text: qsTr("ODLUKA")
+               anchors.centerIn: parent
+           }
+       }
+
+   }
+
    ScrollView
    {
+
+       anchors.top: of.bottom
        width: parent.width
        height: parent.height
 
@@ -19,132 +138,161 @@ Rectangle
             anchors.fill: parent
             width: parent.width
             height: parent.height
-            model:_slika
+            model: _DModel
             delegate: ItemDelegate
             {
-                height:200
-                width:parent.width
-               required property int id
-               required property string slika
-               required property string naziv
-               required property string grad
 
-                   Rectangle
-                   {
-                   width: parent.width
-                   height: parent.height-10
-                   anchors.verticalCenter: parent.verticalCenter
-                   Rectangle
-                   {
-                         //border.color:"#595959"
-                       id:slikarect
-                       height: parent.height
-                       width: 200
-                       //color: "red"
-                       anchors.left: parent.left
-                       Image
-                       {
-                           id:lokacijaprofilimage
-                           source: slika
-                           width: parent.width
-                           height: parent.height
-                       }
-                   }
-                   Rectangle
-                   {
-                       id:nazivrect
-                       height: parent.height
-                       width: 170
-                       anchors.left: slikarect.right
-                       Text
-                       {
-                           id:nazivlokacijeprofil
-                           text: qsTr(naziv)
-                           anchors.left: parent.left
-                           anchors.leftMargin: 20
-                           anchors.verticalCenter: parent.verticalCenter
-                       }
-                   }
-                   Rectangle
-                   {
-                       id:gradrect
-                       height: parent.height
-                       width:200
-                       anchors.left: nazivrect.right
-                       Text
-                       {
-                           id:opislokacijeprofil
-                           text: qsTr(grad)
-                           anchors.left: parent.left
-                           anchors.leftMargin: 15
-                           anchors.verticalCenter: parent.verticalCenter
-                       }
-                   }
-                   Rectangle
-                   {
-                       id:autorrect
-                       height: parent.height
-                       width:200
-                       anchors.left: gradrect.right
-                       Text
-                       {
-                           id:autorprofil
-                           //text: qsTr(grad)
-                           text: "autor"
-                           anchors.left: parent.left
-                           anchors.leftMargin: 15
-                           anchors.verticalCenter: parent.verticalCenter
-                       }
-                   }
-                   Rectangle
-                   {
-                       id:prijaviorect
-                       height: parent.height
-                       width:200
-                       anchors.left: autorrect.right
-                       Text
-                       {
-                           id:prijavioprofil
-                           //text: qsTr(grad)
-                           text: "prijavio"
-                           anchors.left: parent.left
-                           anchors.leftMargin: 15
-                           anchors.verticalCenter: parent.verticalCenter
-                       }
-                   }
-                   Rectangle
-                   {
-                       id:razlog
-                       height: parent.height
-                       width:200
-                       anchors.left: prijaviorect.right
-                       Text
-                       {
-                           id:razlogprofil
-                          // text: qsTr(grad)
-                           text:"Razlog"
-                           anchors.left: parent.left
-                           anchors.leftMargin: 15
-                           anchors.verticalCenter: parent.verticalCenter
-                       }
-                   }
-                   Rectangle //--------------------LOGIN DUGME----------------------------------
+                height:150
+                width:parent.width
+
+                required property int idDogadjaja
+                required property string opis
+                required property string tip
+                required property string razlog
+                required property string vreme
+                required property int index
+
+                    Rectangle
+                    {
+                    width: parent.width
+                    height: parent.height-10
+                    anchors.verticalCenter: parent.verticalCenter
+                    Rectangle
+                    {
+                        id:slikarect
+                        height: parent.height
+                        width: parent.width/6
+                        //border.color: "#1b4676"
+                        anchors.left: parent.left
+
+                        border.color: "#1b4676"
+                        Text{
+                        color:"#1b4676"
+                        font.bold: true
+                            id:iddogadjajatext
+                            text: idDogadjaja
+                            anchors.centerIn: parent
+                            wrapMode: Text.Wrap
+
+                        }
+                    }
+                    Rectangle
+                    {
+                        id:nazivrect
+                        height: parent.height
+                       width: parent.width/6
+                       //border.color: "#1b4676"
+                        anchors.left: slikarect.right
+
+                        border.color: "#1b4676"
+                        Text{
+                        color:"#1b4676"
+                        font.bold: true
+                            width:parent.width
+                            //height: parent.height
+                            id:nazivlokacijeprofil
+                            text: qsTr(opis)
+                            anchors.centerIn: parent
+                            wrapMode: Text.Wrap
+
+                        }
+                    }
+                    Rectangle
+                    {
+                        id:gradrect
+                        height: parent.height
+                      width: parent.width/6
+                      //border.color: "#1b4676"
+                        anchors.left: nazivrect.right
+
+                        border.color: "#1b4676"
+                        Text{
+                        color:"#1b4676"
+                        font.bold: true
+
+                            //width:parent.width
+                            //height: parent.height
+                            id:naz
+                            anchors.leftMargin: 10
+                            text: tip
+                            anchors.centerIn: parent
+                            wrapMode: Text.Wrap
+                        }
+                    }
+                    Rectangle
+                    {
+                        id:autorrect
+                        height: parent.height
+                        width: parent.width/6
+                        //border.color: "#1b4676"
+                        anchors.left: gradrect.right
+
+                        border.color: "#1b4676"
+                        Text{
+                        color:"#1b4676"
+                        font.bold: true
+                            width:parent.width
+                            id:autorprofil
+                            text: qsTr(razlog)
+
+                            anchors.verticalCenter: parent.verticalCenter
+                            wrapMode: Text.Wrap
+                        }
+                    }
+                    Rectangle
+                    {
+                        id:vremerect
+                        height: parent.height
+                        width: parent.width/6
+                        //border.color: "#1b4676"
+                        anchors.left: autorrect.right
+
+                        border.color: "#1b4676"
+                        Text{
+                        color:"#1b4676"
+                        font.bold: true
+                            text: qsTr(vreme)
+                            anchors.centerIn: parent
+                            wrapMode: Text.Wrap
+                        }
+                    }
+
+                Rectangle{
+
+
+                   height:parent.height
+                   width: parent.width/6
+                   anchors.left: vremerect.right
+                   //border.color: "#1b4676"
+
+               Rectangle //--------------------LOGIN DUGME----------------------------------
                {
                    id: declinebutton
-                   width:100
+                   //border.color: "#1b4676"
+                   width: (parent.width*6)/15
                    height: 50
                    anchors.verticalCenter: parent.verticalCenter
-                   anchors.left:razlog.right
+                   anchors.right:acceptbutton.left
+                   //anchors.rightMargin: 10
                    color: mouseArea.pressed ? "white" : "red"
                    radius:10
-                   scale:  mouseArea.containsMouse ? 0.6 :0.7
+                   scale:  mouseArea.containsMouse ? 0.6 :0.8
                       smooth: mouseArea.containsMouse
                       MouseArea {
                           id: mouseArea
                           anchors.fill: parent // BEZ NJEGA JE 0X0 mouseArea
                           anchors.margins: -10
                           hoverEnabled: true
-                          onClicked:pageLoader.source="loginForm.qml"
+                          onClicked:
+                          {
+                              block.visible=true;
+                              console.log("IDNDEKS ZA PROVERU "+index);
+                             _DModel.obrisiprijavu(index);
+                               block.visible=false;
+
+
+                          }
+
                       }
                Text{
                    anchors.top:parent.top
@@ -160,21 +308,30 @@ Rectangle
                    Rectangle //--------------------LOGIN DUGME----------------------------------
                {
                        id: acceptbutton
-                       width:100
+                      width: (parent.width*6)/15
+                      //border.color: "#1b4676"
                        height: 50
                       anchors.verticalCenter: parent.verticalCenter
-                       anchors.left:declinebutton.right
-                       anchors.leftMargin:10
+                       anchors.right:parent.right
+                       anchors.rightMargin:20
                    color: declineArea.pressed ? "white" : "green"
                    radius:10
-                   scale:  declineArea.containsMouse ? 0.6 :0.7
+                   scale:  declineArea.containsMouse ? 0.6 :0.8
                       smooth: mouseArea.containsMouse
                       MouseArea {
                           id: declineArea
                           anchors.fill: parent // BEZ NJEGA JE 0X0 mouseArea
                           anchors.margins: -10
                           hoverEnabled: true
-                          onClicked:pageLoader.source="loginForm.qml"
+                          onClicked:
+
+                          {
+                              block.visible=true;
+                              console.log("IDNDEKS ZA PROVERU "+index);
+                              _DModel.prihvatiprijavu(index);
+                              //pageLoader.source="loginForm.qml"
+                              block.visible=false;
+                          }
                       }
                Text{
                    anchors.top:parent.top
@@ -187,19 +344,9 @@ Rectangle
                    font.pointSize: 10
                }
                }
+                }
 
-                   MouseArea
-                   {
-                       anchors.fill:parent
-                       onClicked:
-                       {
-                           opislokacijeprofil.text=id
-                           block.visible=true
-                           funkcija(id)
-                           block.visible=false
-                           pageLoader.source= "lokacija.qml"
-                       }
-                   }
+
 
 
             }
@@ -213,4 +360,8 @@ Rectangle
         }
     }
 }
+
 }
+
+
+

@@ -177,6 +177,7 @@ Item {
                            height:20
                            Text {
 
+
                                id:korimerect
                                visible:false
                                //anchors.left: parent
@@ -231,7 +232,7 @@ Item {
                            Layout.preferredHeight: 50
                            Layout.preferredWidth: 450
                            //Layout.alignment: AlignTop
-                           onTextChanged: potvrdjivanjalozinkarect.visible=false
+                           onTextChanged: potvrdjenalozinkarect.visible=false
                            //Keys.enterPressed:
 
                        }
@@ -244,7 +245,7 @@ Item {
                            width:450
                            height:20
                            Text {
-                               id: potvrdjenalozinkarect
+                               id:potvrdjenalozinkarect
                                visible: false
                                //anchors.left: parent
                                text: qsTr("Lozinke se ne poklapaju.")
@@ -269,6 +270,7 @@ Item {
                                hoverEnabled: true
                                onClicked:
                                {
+                                   block.visible=true
                                    var a=false;
 
                                    if(ime.text.length<1 || ime.text.length>40)
@@ -311,18 +313,22 @@ Item {
                                    if(a===false)
                                    {
                                        //prijavljivanje nakon provere u bazi to ne moze odavde
-                                       if(!event.registracija(ime.text,korime.text,email.text,lozinka.text))
+                                       if(!korisnikEvents.registracija(ime.text, prezime.text,korime.text,email.text,lozinka.text))
                                        {
-                                           korimerect.text="Korisnicko ime zauzeto."
-                                           korimerect.visible=true
                                            korime.text=""
+                                           korimerect.visible=true
+                                           korimerect.text="Korisnicko ime ili email je vec iskoriscen/o."
+                                           email.text=""
+                                           emailrect.visible=true
+                                           emailrect.text= "Korisnicko ime ili email je vec iskoriscen/o."
                                        }
                                        else
                                        {
-                                           pageLoader.source="LoginForm.qml"
+                                           pageLoader.source="loginForm.qml"
                                        }
 
                                    }
+                                   block.visible=false;
                                }
                            }
 

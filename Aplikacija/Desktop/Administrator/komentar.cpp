@@ -4,25 +4,37 @@ Komentar::Komentar()
 {
 
 }
-Komentar::Komentar(const int &idKomentara, const int &idKorisnika,const QString &tekst,const int &pripada)
-    :_idKomentara(idKomentara),_idKorisnika(idKorisnika),_tekst(tekst),_pripada(pripada)
+Komentar::Komentar( const int &idreport, const int &idkom,const QString &tekst,const QString &username,const int &lokdog, const QString &razlog,const int &idlokdog )
+    : _idreport(idreport),_idkom(idkom),_tekst(tekst),_username(username),_lokdog(lokdog),_razlog(razlog),_idlokdog(idlokdog)
 {
 
 }
-int Komentar::idKomentara() const
+int Komentar::idreport() const
 {
-    return _idKomentara;
+    return _idreport;
+}
+int Komentar::idkom() const
+{
+    return _idkom;
 }
 QString Komentar::tekst() const
 {
     return _tekst;
 }
-int Komentar::pripada() const
+QString Komentar::username() const
 {
-    return _pripada;
+    return _username;
 
 }
-int Komentar::idKorisnika() const
+int Komentar::lokdog() const
 {
-    return _idKorisnika;
+    return _lokdog;
+}
+QString Komentar::razlog() const
+{
+    return _razlog;
+}
+int Komentar::idlokdog() const
+{
+    return _idlokdog;
 }

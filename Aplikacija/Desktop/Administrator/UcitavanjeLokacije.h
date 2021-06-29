@@ -7,6 +7,7 @@
 #include<slikaModel.h>
 #include <lokacija.h>
 #include <mlokacija.h>
+
 class UcitavanjeLokacije : public QObject
 {
 private:
@@ -18,13 +19,18 @@ public:
   Q_INVOKABLE
   void ucitaj()
   {
+
+
+
+
       MySqlService &s = MySqlService::MySqlInstance();
       QString query;
       MySqlTable Lokacijatable;
       query = "SELECT * FROM Lokacija INNER JOIN ReportLokacija ON Lokacija.id = ReportLokacija.idLokacija ";
 
 
-      Lokacijatable = s.WSendQuery(query);
+     Lokacijatable = s.WSendQuery(query);
+
 
       if(Lokacijatable.isSuccessfully())
       {

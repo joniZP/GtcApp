@@ -22,7 +22,7 @@ public:
       MySqlService &s = MySqlService::MySqlInstance();
       QString query;
       MySqlTable t;
-      query = "SELECT * FROM KomentariDogadjaj INNER JOIN ReportKomentar ON KomentariDogadjaj.idKomentara = ReportKomentar.idKomentara where LokDog=false ";
+      query = "SELECT * FROM KomentariDogadjaj INNER JOIN ReportKomentar ON KomentariDogadjaj.idKomentara = ReportKomentar.idKomentara where LokDog=true ";
 
       t = s.WSendQuery(query);
 
@@ -34,13 +34,13 @@ public:
           {
           for(int i=0;i<t.Count();i++)
             {
-             kmodel.dodajKomentar(Komentar( t.Rows[i]["idReport"].toInt(),t.Rows[i][0].toInt(), t.Rows[i]["tekstKomentara"], t.Rows[i]["idKorisnika"], 0, t.Rows[i]["razlog"], t.Rows[i]["idDogadjaja"].toInt()));
+             kmodel.dodajKomentar(Komentar( t.Rows[i]["idReport"].toInt(),t.Rows[i][0].toInt(), t.Rows[i]["tekstKomentara"], t.Rows[i]["idKorisnika"], 1, t.Rows[i]["razlog"], t.Rows[i]["idDogadjaja"].toInt()));
             }
           }
       }
 
 
-      query = "SELECT KomentariLokacije.*, ReportKomentar.idReport, ReportKomentar.LokDog,ReportKomentar.username,ReportKomentar.razlog FROM KomentariLokacije INNER JOIN ReportKomentar ON KomentariLokacije.idKomentara=ReportKomentar.idKomentara where LokDog=true";
+      query = "SELECT KomentariLokacije.*, ReportKomentar.idReport, ReportKomentar.LokDog,ReportKomentar.username,ReportKomentar.razlog FROM KomentariLokacije INNER JOIN ReportKomentar ON KomentariLokacije.idKomentara=ReportKomentar.idKomentara where LokDog=false";
 
       t = s.WSendQuery(query);
 
@@ -53,7 +53,7 @@ public:
             for(int i=0;i<t.Count();i++)
              {
                 qDebug() << "IDKOMENTARA  :   " <<t.Rows[i]["razlog"];
-             kmodel.dodajKomentar(Komentar(t.Rows[i]["idReport"].toInt(),t.Rows[i]["idKomentara"].toInt(), t.Rows[i]["tekstKomentara"], t.Rows[i]["idKorisnika"], 1, t.Rows[i]["razlog"], t.Rows[i]["idLokacije"].toInt()));
+             kmodel.dodajKomentar(Komentar(t.Rows[i]["idReport"].toInt(),t.Rows[i]["idKomentara"].toInt(), t.Rows[i]["tekstKomentara"], t.Rows[i]["idKorisnika"], 0, t.Rows[i]["razlog"], t.Rows[i]["idLokacije"].toInt()));
             }
           }
       }

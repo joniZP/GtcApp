@@ -1,7 +1,10 @@
-#include "MySqlKrsta.h"
-
 #ifndef KRSTA
 #define KRSTA
+
+#include "MySqlService.h"
+#include<LINKS.h>
+
+
 bool MySqlService::WaitAnswer = false;
 QString MySqlService::Answer = " ";
 MySqlService * MySqlService::instance = NULL;
@@ -11,18 +14,33 @@ QEventLoop MySqlService::waitLoop;
 
 void MySqlService::ReplyAnswer(QNetworkReply *reply)
 {
-    if(WaitAnswer)
+    QString result = reply->readAll();
+    QStringList Status = result.split("###")[0].split("|");
+
+    if(Status[1] == "sync")
     {
-        Answer = reply->readAll();
-        WaitAnswer = false;
-        waitLoop.quit();
-        qDebug() << "Reply: " <<  Answer;
+        if(WaitAnswer)
+        {
+            Answer = result;
+            WaitAnswer = false;
+            waitLoop.quit();
+            qDebug() << "SYNC Reply: " <<  Answer;
+        }
+        else
+        {
+            qDebug() << "SYNC NO WAIT Reply: " <<  result;
+        }
     }
     else
     {
-        qDebug() << "NO WAIT Reply: " <<  reply->readAll();
+        qDebug() << "ASYNC Reply: " <<  result;
     }
+
+
+
+
 }
+
 
 MySqlService &MySqlService::MySqlInstance()
 {
@@ -37,9 +55,10 @@ void MySqlService::SendQuery(QString request)
 {
     QUrlQuery params;
     params.addQueryItem("query", request);
-    params.addQueryItem("proba", "request");
+    params.addQueryItem("querytype","async");
+   // params.addQueryItem("proba", "request");
 
-    QUrl ur("http://humanads.000webhostapp.com/GtcService.php");
+    QUrl ur(LINKS::APILINK+"/Database/GtcService.php");
     QNetworkRequest req(ur);
 
 
@@ -47,13 +66,19 @@ void MySqlService::SendQuery(QString request)
     manager->post(req, params.query().toUtf8());
 }
 
+void MySqlService::SendQuery(MyQuery request)
+{
+    this->SendQuery(request.toStr());
+}
+
 QString MySqlService::WSendQuery(QString request)
 {
     WaitAnswer = true;
     QUrlQuery params;
     params.addQueryItem("query", request);
+    params.addQueryItem("querytype","sync");
 
-    QUrl ur("http://humanads.000webhostapp.com/GtcService.php");
+    QUrl ur(LINKS::APILINK+"/Database/GtcService.php");
     QNetworkRequest req(ur);
 
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
@@ -61,6 +86,11 @@ QString MySqlService::WSendQuery(QString request)
 
     waitLoop.exec();
     return Answer;
+}
+
+QString MySqlService::WSendQuery(MyQuery request)
+{
+    return this->WSendQuery(request.toStr());
 }
 
 MySqlRow::MySqlRow(map<QString, int> *m, QStringList qsl)
@@ -95,10 +125,17 @@ bool MySqlTable::isSuccessfully()
 void MySqlTable::operator =(QString s)
 {
     QStringList delovi  =  s.split("###");
+    //Validacija odgovora
+    if(s[3] != '|')
+    {
+        status = 500;
+        status_message ="Konekcija nije uspostavljena";
+        return;
+    }
     ///////////////////////// STATUS
     QStringList Status = delovi[0].split("|");
     status = Status[0].toInt();
-    status_message = Status[1];
+    status_message = Status[2];
 
     if(status != 200)
     {
@@ -117,7 +154,7 @@ void MySqlTable::operator =(QString s)
         ///////////////////////// DATA
         QStringList Data = delovi[2].split("##");
 
-        for(int i = 0;i< Data.count();i++)
+        for(int i = 0;i< Data.count()-1;i++)
         {
             Rows.append(MySqlRow(colNames,Data[i].split("|")));
         }
@@ -142,12 +179,12 @@ MyQuery::MyQuery(QString s)
 
 void MyQuery::operator =(QString s)
 {
-    q = s;
+    q =s;
 }
+
 
 MyQuery &MyQuery::operator<<(QString s)
 {
-    s = "'"+s+"'";
     q = QString(q).arg(s);
     return *this;
 }

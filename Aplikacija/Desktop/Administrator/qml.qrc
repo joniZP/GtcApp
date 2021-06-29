@@ -9,5 +9,6 @@
         <file>registracijaForm.qml</file>
         <file>zaboravljenaLozinkaForm.qml</file>
         <file>odobriLokacijuForm.qml</file>
+        <file>obrisiNalogForm.qml</file>
     </qresource>
 </RCC>

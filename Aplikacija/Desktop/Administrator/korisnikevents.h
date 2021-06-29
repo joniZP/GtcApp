@@ -84,28 +84,24 @@ public:
     {
         MySqlService &s = MySqlService::MySqlInstance();
         MySqlTable t;
-        QString q="SELECT * FROM Administrator WHERE korisnickoIme='"+korisnickoime+"'and lozinka='"+password+"'";
+        MyQuery q("SELECT * FROM Administrator WHERE korisnickoIme= '%1' and lozinka='%2'");
+        q<<korisnickoime<<password;
+
            t = s.WSendQuery(q);
            if(t.isSuccessfully())
            {
                MProfil &mProfil = MProfil::GetInstance();
-               //kmodel.removeAll();
+
            if(t.Count()>0)
            {
-               /*if(t.Rows[0]["verifikovan"]=="0")
-               {
-                   return 0;
-               }*/
-
                qDebug()<<"KOERISNICKO IME prre:: "<< t.Rows[0]["korisnickoIme"];
               mProfil.setIme(t.Rows[0]["ime"]);
                mProfil.setKorisnickoIme(t.Rows[0]["korisnickoIme"]);
                mProfil.setPrezime(t.Rows[0]["prezime"]);
                mProfil.setLozinka(t.Rows[0]["lozinka"]);
                mProfil.setEmail(t.Rows[0]["email"]);
-              // LOCALDATA::ulogovan = true;
                mProfil.setOcena(t.Rows[0]["ocena"].toFloat());
-                    qDebug()<<"KOERISNICKO IME posle:: "<< t.Rows[0]["korisnickoIme"];
+                qDebug()<<"KOERISNICKO IME posle:: "<< t.Rows[0]["korisnickoIme"];
 
 
                return 1;

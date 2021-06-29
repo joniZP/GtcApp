@@ -9,14 +9,15 @@ class Dogadjaj
 {
 public:
     Dogadjaj();
-   Dogadjaj(const int &idDogadjaja, const int &idLokacije,const QString &vreme,const QString &opis,const QString &tip,const int &idKorisnika);
+   Dogadjaj(const int &idDogadjaja, const int &idLokacije,const QString &vreme,const QString &opis,const QString &tip,const QString &username, const QString razlog);
 
    int idDogadjaja() const;
     int idLokacije() const;
     QString vreme() const;
     QString opis() const;
     QString tip() const;
-    int idKorisnika() const;
+    QString username() const;
+    QString razlog() const;
 
 private:
 
@@ -25,7 +26,8 @@ private:
     QString _vreme;
     QString _opis;
     QString _tip;
-    int _idKorisnika;
+    QString _username;
+    QString _razlog;
 };
 
 #endif // DOGADJAJ_H

@@ -12,18 +12,27 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        LINKS.cpp \
+        MProfil.cpp \
+        UcitavanjeDogadjaja.cpp \
+        UcitavanjeKomentara.cpp \
+        UcitavanjeLokacije.cpp \
         dogadjaj.cpp \
         dogadjajmodel.cpp \
         emailVerificator.cpp \
         events.cpp \
         komentar.cpp \
         komentarmodel.cpp \
+        korisnikevents.cpp \
         lokacija.cpp \
         lokacijaModel.cpp \
         main.cpp \
-        mySqlFile.cpp \
+        mySqlService.cpp \
+        profil.cpp \
+        profilmodel.cpp \
         slika.cpp \
-        slikaModel.cpp
+        slikaModel.cpp \
+        ucitavanjeprofila.cpp
 
 RESOURCES += qml.qrc \
     ikonice.qrc \
@@ -42,16 +51,26 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    LINKS.h \
+    MLokacija.h \
+    MProfil.h \
+    MySqlService.h \
+    UcitavanjeDogadjaja.h \
+    UcitavanjeKomentara.h \
+    UcitavanjeLokacije.h \
     dogadjaj.h \
     dogadjajmodel.h \
     emailVerificator.h \
     events.h \
     komentar.h \
     komentarmodel.h \
+    korisnikevents.h \
     lokacija.h \
     lokacijaModel.h \
-    mySqlFile.h \
+    profil.h \
+    profilmodel.h \
     slika.h \
-    slikaModel.h
+    slikaModel.h \
+    ucitavanjeprofila.h
 
 DISTFILES +=

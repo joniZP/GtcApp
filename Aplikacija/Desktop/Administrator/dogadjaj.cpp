@@ -6,8 +6,8 @@ Dogadjaj::Dogadjaj()
 }
 
 
-Dogadjaj::Dogadjaj(const int &idDogadjaja, const int &idLokacije,const QString &vreme,const QString &opis,const QString &tip,const int &idKorisnika)
-    :_idDogadjaja(idDogadjaja),_idLokacije(idLokacije),_vreme(vreme),_opis(opis),_tip(tip),_idKorisnika(idKorisnika)
+Dogadjaj::Dogadjaj(const int &idDogadjaja, const int &idLokacije,const QString &vreme,const QString &opis,const QString &tip,const QString &username, const QString razlog)
+    :_idDogadjaja(idDogadjaja),_idLokacije(idLokacije),_vreme(vreme),_opis(opis),_tip(tip),_username(username), _razlog(razlog)
 {
 
 }
@@ -33,7 +33,11 @@ QString Dogadjaj::tip() const
 {
     return _tip;
 }
-int Dogadjaj::idKorisnika() const
+QString Dogadjaj::username() const
 {
-    return _idKorisnika;
+    return _username;
+}
+QString Dogadjaj::razlog() const
+{
+    return _razlog;
 }

@@ -51,9 +51,17 @@ Dogadjajmodel &Dogadjajmodel::GetInstance()
         {
             return Dogadjaj.opis();
         }
-        else if(role==IdKorisnikaRole)
+        else if(role==TipRole)
         {
-            return Dogadjaj.idKorisnika();
+            return Dogadjaj.tip();
+        }
+        else if(role==UsernameRole)
+        {
+            return Dogadjaj.username();
+        }
+        else if(role==RazlogRole)
+        {
+            return Dogadjaj.razlog();
         }
         return QVariant();
     }
@@ -65,7 +73,8 @@ Dogadjajmodel &Dogadjajmodel::GetInstance()
         roles[IdLokacijeRole] = "idLokacije";
         roles[VremeRole] = "vreme";
         roles[OpisRole] = "opis";
-         roles[TipRole] = "tip";
-          roles[IdKorisnikaRole] = "idKorisnika";
+        roles[TipRole] = "tip";
+        roles[UsernameRole] = "username";
+        roles[RazlogRole] = "razlog";
         return roles;
     }

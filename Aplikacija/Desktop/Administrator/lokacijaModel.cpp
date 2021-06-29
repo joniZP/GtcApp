@@ -1,6 +1,4 @@
-#include "lokacijaModel.h"
-
-
+#include"lokacijaModel.h"
 LokacijaModel * LokacijaModel::instance = NULL;
 LokacijaModel::LokacijaModel()
 {
@@ -33,46 +31,34 @@ QVariant LokacijaModel::data(const QModelIndex &index, int role) const
     {
         return QVariant();
     }
-    const Lokacija &lokacija = m_lokacije[index.row()];
-    if (role == NazivRole)
+    const Lokacija &Lokacija = m_lokacije[index.row()];
+    if (role == SlikaRole)
     {
-        return lokacija.naziv();
+        return Lokacija.slika();
     }
-    else if (role == OpisRole)
+    else if (role == NazivRole)
     {
-        return lokacija.opis();
+        return Lokacija.naziv();
     }
     else if(role==GradRole)
     {
-        return lokacija.grad();
+        return Lokacija.grad();
     }
-    else if(role==OcenaRole)
+    else if(role==IdRole)
     {
-        return lokacija.Ocena();
+        return Lokacija.id();
     }
-    else if(role==BrojOcenaRole)
+    else if(role==idkorisnikaRole)
     {
-        return lokacija.brojOcena();
+        return Lokacija.idkorisnika();
     }
-    else if(role==BrojSlikaRoles)
+    else if(role==RazlogRole)
     {
-        return lokacija.brojSlika();
+        return Lokacija.razlog();
     }
-    else if(role==XRole)
+    else if(role==usernameRole)
     {
-        return lokacija.x();
-    }
-    else if(role==YRole)
-    {
-        return lokacija.y();
-    }
-    else if(role==IdKorisnikaRole)
-    {
-        return lokacija.idKorisnika();
-    }
-    else if(role==LikesRoles)
-    {
-        return lokacija.likes();
+        return Lokacija.username();
     }
     return QVariant();
 }
@@ -80,16 +66,14 @@ QVariant LokacijaModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> LokacijaModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
+    roles[SlikaRole] = "slika";
     roles[NazivRole] = "naziv";
-    roles[OpisRole] = "opis";
     roles[GradRole] = "grad";
-    roles[OcenaRole] = "ocena";
-    roles[BrojOcenaRole] = "Broj ocena";
-    roles[XRole] = "x";
-    roles[YRole] = "y";
-    roles[LikesRoles] = "likes";
-    roles[BrojSlikaRoles] = "broj slika";
-    roles[IdKorisnikaRole] = "id korisnika";
+    roles[IdRole] = "id";
+    roles[idkorisnikaRole]="idkorisnika";
+    roles[usernameRole] = "username";
+    roles[RazlogRole] = "razlog";
     return roles;
 }
+
 

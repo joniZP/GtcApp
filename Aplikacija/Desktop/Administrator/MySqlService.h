@@ -18,7 +18,9 @@
 
 //extern std::mutex mtx;
 //extern std::condition_variable cv;
-
+/*
+<br />\n<b>Warning</b>:  mysqli_connect(): (HY000/2002): Connection refused in <b>/storage/ssd3/579/16965579/public_html/GTCAPP/Database/gtcconfig.php</b> on line <b>10</b><br />\nERROR: Could not connect. Connection refused"
+*/
 
 using namespace std;
 struct MyQuery;
