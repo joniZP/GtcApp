@@ -31,7 +31,8 @@
 #include<MDogadjaj.h>
 
 
-
+void ucitajKategorije();
+void ucitajGradove();
 //#include<komentarimodel.h>
 //#include"MySqlKrsta.h"
 int main(int argc, char *argv[])
@@ -145,15 +146,21 @@ int main(int argc, char *argv[])
     qmlRegisterType<MDogadjaj>("MDogadjaj",1,0,"MDogadjaj");
 
     engine.load(url);
+    //--------------------------[ INICIJALIZACIJA ]------------------------------------
+    pl->ucitavanjeLokacijaPocetna();//ucitava inicijalno lokacije na pocetnu stranu
+
+    ucitajGradove();
+    ucitajKategorije();
 
     //--------------------------[ TEST ] --------------------------------------------
-      kategorijamodel.dodajkategoriju(Kategorija("sport",false,0));
+   /*   kategorijamodel.dodajkategoriju(Kategorija("sport",false,0));
       kategorijamodel.dodajkategoriju(Kategorija("izlet",false,1));
       kategorijamodel.dodajkategoriju(Kategorija("fudbal",false,2));
       mestomodel.dodajmesto(Kategorija("Nis",false,0));
       mestomodel.dodajmesto(Kategorija("Leskovac",false,1));
       mestomodel.dodajmesto(Kategorija("Beograd",false,2));
-      mestomodel.dodajmesto(Kategorija("Sombor",false,3));
+      mestomodel.dodajmesto(Kategorija("Sombor",false,3));*/
+
 
      // QObject::connect(Notification::GetInstance(),SIGNAL(onDataChanged),)
 
@@ -161,4 +168,42 @@ int main(int argc, char *argv[])
 
 
     return app.exec();
+}
+
+void ucitajKategorije()
+{
+    MySqlService &s = MySqlService::MySqlInstance();
+    KategorijaModel& km =  KategorijaModel::GetInstance();
+    MySqlTable t;
+    MyQuery query("SELECT * from Kategorije");
+     t = s.WSendQuery(query);
+
+    if(t.isSuccessfully())
+    {
+        km.removeAll();
+        for(int i = 0; i < t.Count();i++)
+        {
+            km.dodajkategoriju(Kategorija(t.Rows[i]["kategorija"],false,i));
+        }
+    }
+
+}
+
+void ucitajGradove()
+{
+    MySqlService &s = MySqlService::MySqlInstance();
+    MestoModel& mm =  MestoModel::GetInstance();
+    MySqlTable t;
+    MyQuery query("SELECT * from Gradovi");
+     t = s.WSendQuery(query);
+
+    if(t.isSuccessfully())
+    {
+        mm.removeAll();
+        for(int i = 0; i < t.Count();i++)
+        {
+            mm.dodajmesto(Kategorija(t.Rows[i]["grad"],false,i));
+        }
+    }
+
 }

@@ -25,6 +25,26 @@ ApplicationWindow
 
     }
 
+    function getIdLDP(mysource)
+    {
+        if(mysource == "qrc:/lokacija.qml")
+        {
+           return location.getId();
+        }
+        else if(mysource == "qrc:/dogadjaj.qml")
+        {
+            return mDogadjaj.getId();
+        }
+        else if(mysource == "qrc:/profil.qml")
+        {
+            return mProfil.getKorisnickoIme();
+        }
+        else
+        {
+            return "-1";
+        }
+    }
+
     function menu(icon)
     {
         if(icon=="qrc:/new/prefix1/dropdown-menu-icon-20.jpg")
@@ -34,10 +54,33 @@ ApplicationWindow
         }
         else
         {
+
+            block.visible = true;
             var v=back.nazad(pageLoader.source)
+             if(v =="qrc:/lokacija.qml")//getIdLDP
+                {
+                    getLokacijaById(back.getIdLDP());
+                }
+             else if(v =="qrc:/dogadjaj.qml")
+                {
+                    getDogadjajById(back.getIdLDP());
+                }
+                else if(v =="qrc:/profil.qml")
+                {
+                    getProfilByUsername(back.getIdLDP())
+                }
+
+                if(v=="qrc:/pocetna.qml")
+                {
+                    pretrazi.ucitavanjeLokacijaPocetna();
+                }
+
+             console.log(back.getIdLDP())
+
             natpis=back.getNatpis();
             console.log(natpis)
             pageLoader.source=v
+             block.visible= false;
         }
     }
 
@@ -176,6 +219,10 @@ ApplicationWindow
                              {
                                   lokacijamenu.open();
                              }
+                             else if(pageLoader.source == "qrc:/dogadjaj.qml")
+                             {
+                                   dogadjajmenu.open();
+                             }
                              else
                              {
                                  block.visible=true
@@ -231,6 +278,28 @@ ApplicationWindow
 
             }
 
+            Menu
+            {
+                width: 200
+               // height: item1.height
+                id: dogadjajmenu
+                x:parent.width-lokacijamenu.width
+                y:0
+
+                MenuItem
+                {
+                    id:dogadjajitem1
+                   // anchors.centerIn: parent
+                    text: qsTr("Prijavi")
+
+                    onClicked:{
+                        report.setParameters(mDogadjaj.getId(),1);
+                    lokacijaprijavapopup.open();
+                    }
+                }
+
+            }
+
 
 
             Loader
@@ -253,7 +322,7 @@ ApplicationWindow
                        pretragalupa.visible=false
                     }  
 
-                    if(source == "qrc:/lokacija.qml")
+                    if(source == "qrc:/lokacija.qml" || source == "qrc:/dogadjaj.qml")
                     {
                         pretragalupaimg.source="/new/prefix1/3dot.png";
                     }
@@ -262,9 +331,18 @@ ApplicationWindow
                         pretragalupaimg.source="/new/prefix1/search-3-24.png";
                     }
 
-                    back.napred(pageLoader.source,natpis)
-                    const icon=back.getIcon()
-                    menuicon.source=icon
+
+
+                  //  if(source != "qrc:/prijava.qml" && source != "qrc:/registracija.qml" && source != "qrc:/DodajLokaciju.1ml" && source !="qrc:/DodajDogadjaj")//izuzetci za back
+                 //   {
+
+                        back.napred(pageLoader.source,natpis, getIdLDP(source))
+                        const icon=back.getIcon()
+                        menuicon.source=icon
+                 //   }
+
+
+
 
                     if(icon!=="qrc:/new/prefix1/dropdown-menu-icon-20.jpg")
                     {
@@ -290,522 +368,448 @@ ApplicationWindow
 
     Drawer
     {
-        id: drawer
-        width: 0.66 * parent.width
-        height: parent.height
-        Rectangle
-        {
-            id:qqq
-            anchors.fill: parent
-            color: "#878682"
-        ColumnLayout
-        {
-            spacing: 1
-              // @disable-check M16
-            anchors.fill: parent
-
+            id: drawer
+            width: 0.66 * parent.width
+            height: parent.height
             Rectangle
             {
-                Layout.minimumWidth: parent.width
-                Layout.minimumHeight: 150
-                color:"#66a3ff"
-                ColumnLayout
+                id:qqq
+                anchors.fill: parent
+                color: "#878682"
+            ColumnLayout
+            {
+                spacing: 1
+                  // @disable-check M16
+                anchors.fill: parent
+
+                Rectangle
                 {
-                      // @disable-check M16
-                    width:parent.width
-                    spacing: 0
-                    RowLayout
+                    Layout.minimumWidth: parent.width
+                    Layout.minimumHeight: 150
+                    color:"#66a3ff"
+                    ColumnLayout
                     {
-                        id: roo
                           // @disable-check M16
                         width:parent.width
-                Image
-                {
-                       id: nalogImg
-                       source: mProfilInst.getSlikaURL()
-                       Layout.topMargin: 20
-                       Layout.leftMargin: 10
-                       //anchors.verticalCenter: parent.verticalCenter
-                       Layout.maximumWidth: 60
-                       Layout.maximumHeight: 60
-                       width: 50
-                       height: 50
-                       fillMode: Image.PreserveAspectCrop
-                       layer.enabled: true
+                        spacing: 0
+                        RowLayout
+                        {
+                            id: roo
+                              // @disable-check M16
+                            width:parent.width
+                    Image
+                    {
+                           id: nalogImg
+                           source: mProfilInst.getSlikaURL()
+                           Layout.topMargin: 20
+                           Layout.leftMargin: 10
+                           //anchors.verticalCenter: parent.verticalCenter
+                           Layout.maximumWidth: 60
+                           Layout.maximumHeight: 60
+                           width: 50
+                           height: 50
+                           fillMode: Image.PreserveAspectCrop
+                           layer.enabled: true
 
-                       MouseArea
-                       {
-                           anchors.fill: parent
-                           id: mojprofilotvori
-                           onClicked: {
-                                drawer.close()
-                               block.visible = true;
-                               ucitavanjeProfilaInstance.ucitajLokacijeiDogadjaje(mProfilInst.getKorisnickoIme())
-                               natpis="Moj profil"
-                               pageLoader.source = "mojprofil.qml"
-
-                               block.visible = false;
-
-                               }
-
-                       }
-                       layer.effect: OpacityMask {
-                           maskSource: mask
-                       }
-                }
-
-              /*  Rectangle {
-                       Layout.fillWidth: true
-                        Layout.fillHeight: true
-                        color: "#00000000"
-                       id:aaaa
-                       Rectangle
-                       {
-                           id:naloglogin
-                           width: childrenRect.width
-                           height: childrenRect.height
-                           anchors.top: parent.top
-
-                            color: "#00000000"
                            MouseArea
                            {
                                anchors.fill: parent
-                               onClicked:
+                               id: mojprofilotvori
+                               onClicked: {
+                                    drawer.close()
+                                   block.visible = true;
+                                   ucitavanjeProfilaInstance.ucitajLokacijeiDogadjaje(mProfilInst.getKorisnickoIme())
+                                   natpis="Moj profil"
+                                   pageLoader.source = "mojprofil.qml"
+
+                                   block.visible = false;
+
+                                   }
+
+                           }
+                           layer.effect: OpacityMask {
+                               maskSource: mask
+                           }
+                    }
+
+                  /*  Rectangle {
+                           Layout.fillWidth: true
+                            Layout.fillHeight: true
+                            color: "#00000000"
+                           id:aaaa
+                           Rectangle
+                           {
+                               id:naloglogin
+                               width: childrenRect.width
+                               height: childrenRect.height
+                               anchors.top: parent.top
+
+                                color: "#00000000"
+                               MouseArea
                                {
-                                  pageLoader.source = "prijava.qml"
-                                  drawer.close()
+                                   anchors.fill: parent
+                                   onClicked:
+                                   {
+                                      pageLoader.source = "prijava.qml"
+                                      drawer.close()
+                                   }
+
                                }
 
+                               anchors.right: parent.right
+                               anchors.rightMargin: 20
+                           Text {
+                               id: iiidi
+                               text: qsTr("Login")
+                                anchors.left: parent.left
+                               color: "#ffffff"
+                                anchors.verticalCenter: parent.verticalCenter
+
+
                            }
-
-                           anchors.right: parent.right
-                           anchors.rightMargin: 20
-                       Text {
-                           id: iiidi
-                           text: qsTr("Login")
-                            anchors.left: parent.left
-                           color: "#ffffff"
-                            anchors.verticalCenter: parent.verticalCenter
-
-
-                       }
-                       Text {
-                           id: iiijl
-                           text: qsTr("  >")
-                           anchors.left: iiidi.right
-                          // anchors.rightMargin: 20
-                           color: "#ffffff"
-                           anchors.verticalCenter: iiidi.verticalCenter
-                           //font.family: "Helvetica"
-                           font.pointSize: 30
+                           Text {
+                               id: iiijl
+                               text: qsTr("  >")
+                               anchors.left: iiidi.right
+                              // anchors.rightMargin: 20
+                               color: "#ffffff"
+                               anchors.verticalCenter: iiidi.verticalCenter
+                               //font.family: "Helvetica"
+                               font.pointSize: 30
 
 
 
-                       }
-                       }
-                   }*/
+                           }
+                           }
+                       }*/
 
 
-                 }
-                Text {
-
-                    id: nalogIme
-                    text: qsTr(mProfilInst.getIme() + mProfilInst.getPrezime())
-                    color: "#ffffff"
-                     font.pointSize: 20
-                     Layout.leftMargin: 10
-                      Layout.topMargin: 10
+                     }
+                    Text {
 
 
-                }
-                Text {
-                       id: nalogEmail
-                        text: qsTr(mProfilInst.getEmail())
-                        font.family: "Helvetica"
-                        font.pointSize: 14
-                        color: "#d6d3cb"
+    id: nalogIme
+                        text: qsTr(mProfilInst.getIme() + mProfilInst.getPrezime())
+                        color: "#ffffff"
+                         font.pointSize: 20
                          Layout.leftMargin: 10
-                         Layout.topMargin:0
+                          Layout.topMargin: 10
 
+
+                    }
+                    Text {
+                           id: nalogEmail
+                            text: qsTr(mProfilInst.getEmail())
+                            font.family: "Helvetica"
+                            font.pointSize: 14
+                            color: "#d6d3cb"
+                             Layout.leftMargin: 10
+                             Layout.topMargin:0
+
+                    }
+                       }
+
+                       Rectangle {
+                           id: mask
+                           width: 50
+                           height: 50
+                           radius: 30
+                           visible: false
+                       }
                 }
-                   }
 
-                   Rectangle {
-                       id: mask
-                       width: 50
-                       height: 50
-                       radius: 30
-                       visible: false
-                   }
-            }
-
-        Rectangle
-        {
-            color: "#ffffff"
-            Layout.fillHeight: true
-            Layout.minimumWidth: parent.width
-            Column
+            Rectangle
             {
-                width: parent.width
-                Sbutt
+                color: "#ffffff"
+                Layout.fillHeight: true
+                Layout.minimumWidth: parent.width
+                Column
                 {
-                    MouseArea
+                    width: parent.width
+                    Sbutt
                     {
-                        anchors.fill: parent
-                        onClicked:
+                        MouseArea
                         {
-                            // console.log( men.fun1(dugme1))
-                            if(pom!=null)
+                            anchors.fill: parent
+                            onClicked:
                             {
-                                pom.color_="#ffffff"
-                            }
-                        pocetna.color_="#d9d7d2"
-                        pom=pocetna
-                        natpis="Lokacija"
-                        pageLoader.source = "lokacija.qml" 
-                        drawer.close()
-                        }
-                   }
-                    id: pocetna
-                    widt: parent.width
-                    heigh: 40
-                    sourc: "/new/prefix1/list.png"
-                    tex: "Pocetna"
-                }
-                Sbutt
-                {
-                    MouseArea
-                    {
-                        anchors.fill: parent
-                        onClicked:
-                        {
-                            //console.log( men.fun1(dugme))
-                            natpis="Prvi"
-                            pageLoader.source = "profil.qml"
-
-                            if(pom!=null)
-                            {
-                                 pom.color_="#ffffff"
-                            }
-                            dugme.color_="#d9d7d2"
-                            pom=dugme
+                                // console.log( men.fun1(dugme1))
+                                if(pom!=null)
+                                {
+                                    pom.color_="#ffffff"
+                                }
+                            pocetna.color_="#d9d7d2"
+                            pom=pocetna
+                            natpis="Lokacija"
+                            pageLoader.source = "pocetna.qml"
                             drawer.close()
-                        }
-                    }
-                    id: dugme
-                    widt: parent.width
-                    heigh: 40
-                    sourc: "/new/prefix1/list.png"
-                    tex: "Pretrazi lokacije"
-                }
-                Sbutt
-                {
-                    MouseArea
-                    {
-                        anchors.fill: parent
-                        onClicked:
-                        {
-                            // console.log( men.fun1(dugme1))
-                            if(pom!=null)
-                            {
-                                pom.color_="#ffffff"
                             }
-                        dugme1.color_="#d9d7d2"
-                        pom=dugme1
-                        natpis="Dodaj lokaciju"
-                        pageLoader.source = "DodajLokaciju.qml"
-
-                        drawer.close()
-                        }
-                   }
-                    id: dugme1
-                    widt: parent.width
-                    heigh: 40
-                    sourc: "/new/prefix1/list.png"
-                    tex: "Dodaj lokaciju"
-                }
-                Sbutt
-                {
-                    MouseArea
-                    {
-                        anchors.fill: parent
-                        onClicked:
-                        {
-                            // console.log( men.fun1(dugme2))
-                            if(pom!=null)
-                            {
-                                pom.color_="#ffffff"
-                            }
-                            dugme2.color_="#d9d7d2"
-                            pom=dugme2
-                            natpis="Dodaj dogadjaj"
-                            pageLoader.source = "DodajDogadjaj.qml"
-                            drawer.close()
-                        }
-                    }
-                    id: dugme2
-                    widt: parent.width
-                    heigh: 40
-                    sourc: "/new/prefix1/list.png"
-                    tex: "Dodaj dogadjaj"
-
-               }
-               Sbutt
-               {
-                   MouseArea
-                   {
-                        anchors.fill: parent
-                        onClicked:
-                        {
-                            //console.log( men.fun1(dugme3))
-                            if(pom!=null)
-                            {
-                                pom.color_="#ffffff"
-                            }
-                            dugme3.color_="#d9d7d2"
-                            pom=dugme3
-                            natpis="Pretraga"
-                            pageLoader.source = "pretraga.qml"
-                            drawer.close()
-                        }
-                    }
-                    id: dugme3
-                    widt: parent.width
-                    heigh: 40
-                    sourc: "/new/prefix1/list.png"
-                    tex: "Podesavanja"
-               }
-
-               Sbutt
-               {
-                   MouseArea
-                   {
-                       anchors.fill: parent
-                       onClicked:
-                       {
-                           // console.log( men.fun1(dugme1))
-                           if(pom!=null)
-                           {
-                               pom.color_="#ffffff"
-                           }
-                       pocetna.color_="#d9d7d2"
-                       pom=pocetna
-                       natpis="Lista lokacija"
-                       pageLoader.source = "proba.qml"
-                       drawer.close()
                        }
-                  }
-                   id: listalokacija
-                   widt: parent.width
-                   heigh: 40
-                   sourc: "/new/prefix1/list.png"
-                   tex: "ListaLokacija"
-               }
+                        id: pocetna
+                        widt: parent.width
+                        heigh: 40
+                        sourc: "../new/prefix1/iconhome.png"
+                        tex: "Pocetna"
+                    }
+                    Sbutt
+                    {
+                        MouseArea
+                        {
+                            anchors.fill: parent
+                            onClicked:
+                            {
+                                //console.log( men.fun1(dugme))
+                                natpis="Prvi"
+                                pageLoader.source = "profil.qml"
 
-               Sbutt
-               {
-                   MouseArea
-                   {
-                       anchors.fill: parent
-                       onClicked:
-                       {
-                           // console.log( men.fun1(dugme1))
-                           if(pom!=null)
-                           {
-                               pom.color_="#ffffff"
-                           }
-                       pocetna.color_="#d9d7d2"
-                       pom=pocetna
-                       natpis="Pocetna"
-                       pageLoader.source = "pocetna.qml"
-                        korisnikEvents.odjava()
-                       drawer.close()
+                                if(pom!=null)
+                                {
+                                     pom.color_="#ffffff"
+                                }
+                                dugme.color_="#d9d7d2"
+                                pom=dugme
+                                drawer.close()
+                            }
+                        }
+                        id: dugme
+                        widt: parent.width
+                        heigh: 40
+                        sourc: "../new/prefix1/iconlocation.png"
+                        tex: "Pretrazi lokacije"
+                    }
+                    Sbutt
+                    {
+                        MouseArea
+                        {
+                            anchors.fill: parent
+                            onClicked:
+                            {
+                                // console.log( men.fun1(dugme1))
+                                if(pom!=null)
+                                {
+                                    pom.color_="#ffffff"
+                                }
+                            dugme1.color_="#d9d7d2"
+                            pom=dugme1
+                            natpis="Dodaj lokaciju"
+                            pageLoader.source = "DodajLokaciju.qml"
+
+                            drawer.close()
+                            }
                        }
-                  }
-                   id: pocetnastrana
-                   widt: parent.width
-                   heigh: 40
-                   sourc: "/new/prefix1/log-out.png"
-                   tex: "Log out"
+                        id: dugme1
+                        widt: parent.width
+                        heigh: 40
+                        sourc: "../new/prefix1/iconadd.png"
+                        tex: "Dodaj lokaciju"
+                    }
+
+
+    Sbutt
+                   {
+                       MouseArea
+                       {
+                           anchors.fill: parent
+                           onClicked:
+                           {
+                               // console.log( men.fun1(dugme1))
+                               if(pom!=null)
+                               {
+                                   pom.color_="#ffffff"
+                               }
+                           pocetna.color_="#d9d7d2"
+                           pom=pocetna
+                           natpis="Pocetna"
+                           pageLoader.source = "pocetna.qml"
+                            korisnikEvents.odjava()
+                           drawer.close()
+                           }
+                      }
+                       id: pocetnastrana
+                       widt: parent.width
+                       heigh: 40
+                       sourc: "../new/prefix1/iconlogout.png"
+                       tex: "Log out"
+                   }
                }
            }
        }
-   }
 
-        Text {
-            id: loginID
-            text: qsTr("Login  >")
-             anchors.right: parent.right
-             anchors.top: parent.top
-             anchors.topMargin: 10
-             anchors.rightMargin: 10
-             color: "#ffffff"
-             visible: (!localData.getUlogovan());
-             anchors.verticalCenter: parent.verticalCenter
+            Text {
+                id: loginID
+                text: qsTr("Login  >")
+                 anchors.right: parent.right
+                 anchors.top: parent.top
+                 anchors.topMargin: 10
+                 anchors.rightMargin: 10
+                 color: "#ffffff"
+                 visible: (!localData.getUlogovan());
+                 anchors.verticalCenter: parent.verticalCenter
 
-             MouseArea
-             {
-                 anchors.fill: parent
-                 onClicked:
+                 MouseArea
                  {
-                    natpis="Prijava"
-                    pageLoader.source = "prijava.qml"
-                    drawer.close()
+                     anchors.fill: parent
+                     onClicked:
+                     {
+                        natpis="Prijava"
+                        pageLoader.source = "prijava.qml"
+                        drawer.close()
+                     }
+
                  }
-
-             }
-        }
-
-
-        Image {
-            id: porukeID
-            source: "qrc:/new/prefix1/comment__2_-removebg-preview.png"
-            width:25
-            height:25
-            visible: localData.getUlogovan();
-
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.topMargin: 10
-
-            anchors.rightMargin: 20
+            }
 
 
             Image {
-                id: nalogSlikaPoruka
-                source: "qrc:/new/prefix1/reddot.png"
+                id: porukeID
+                source: "qrc:/new/prefix1/comment__2_-removebg-preview.png"
+                width:25
+                height:25
+                visible: localData.getUlogovan();
 
-                width:13
-                height:13
-                visible: false;
-
-                anchors.right:parent.right
+                anchors.right: parent.right
                 anchors.top: parent.top
-                anchors.rightMargin: -3
-                anchors.topMargin: -3
-                Text {
-                    id: nalogBrojPoruka
-                    text:  localData.getBrObavestenja()
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    font.family: "Helvetica"
-                    anchors.centerIn: parent
-                    font.pointSize: 10
-                    color: "white"
+                anchors.topMargin: 10
+
+                anchors.rightMargin: 20
 
 
-                    Connections {
-                          target: notification
-                          function onUpdateSharedNotification(br){
-                              if(br > 99)
-                                  br = 99;
-                              if(br === 0)
-                              {
-                                  nalogSlikaPoruka.visible = false;
-                              }
-                              else
-                              {
-                                  nalogSlikaPoruka.visible = true;
-                                  nalogBrojPoruka.text=br;
-                              }
-
-                         }
-                     }
-
-                }
-            }
-
-            MouseArea{
-                anchors.fill:parent
-
-                onClicked:
-                {
-                    drawer.close()
-                    block.visible=true
-                    notification.ucitajObavestenja()
-                    natpis="Obavestenja"
-                    pageLoader.source = "obavestenja.qml"
-                    block.visible=false
-                }
-            }
-        }
                 Image {
-                    id: zahteviID
-                    source: "qrc:/new/prefix1/friends.png"
-                    width:25
-                    height:25
-                    visible: localData.getUlogovan()
+                    id: nalogSlikaPoruka
+                    source: "qrc:/new/prefix1/reddot.png"
 
-                    anchors.right: porukeID.left
+                    width:13
+                    height:13
+                    visible: false;
+
+                    anchors.right:parent.right
                     anchors.top: parent.top
-                    anchors.topMargin: 10
-                    anchors.rightMargin: 10
+                    anchors.rightMargin: -3
+                    anchors.topMargin: -3
+                    Text {
+                        id: nalogBrojPoruka
+                        text:  localData.getBrObavestenja()
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        font.family: "Helvetica"
+                        anchors.centerIn: parent
+                        font.pointSize: 10
+                        color: "white"
 
 
+                        Connections {
+                              target: notification
+                              function onUpdateSharedNotification(br){
+                                  if(br > 99)
+                                      br = 99;
+                                  if(br === 0)
+                                  {
+                                      nalogSlikaPoruka.visible = false;
+                                  }
+                                  else
+                                  {
+                                      nalogSlikaPoruka.visible = true;
+                                      nalogBrojPoruka.text=br;
+                                  }
 
-                    Image {
-                        id: nalogSlikaPrijatelji
-                        source: "qrc:/new/prefix1/reddot.png"
-
-                        width:13
-                        height:13
-                        visible:false
-
-                        anchors.right:parent.right
-                        anchors.top: parent.top
-                        anchors.rightMargin: -3
-                        anchors.topMargin: -3
-                        Text {
-                            id: nalogBrojPrijatelji
-                            text:  notification.getBrNovihZahteva()
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            font.family: "Helvetica"
-                            anchors.centerIn: parent
-                            font.pointSize: 10
-                            color: "white"
-
-
-
-                            Connections {
-                                  target: notification
-                                  function onUpdateFriendNotification(br){
-                                      if(br > 99)
-                                          br = 99;
-                                      if(br === 0)
-                                      {
-                                          nalogSlikaPrijatelji.visible = false;
-                                      }
-                                      else
-                                      {
-                                          nalogSlikaPrijatelji.visible = true;
-                                          nalogBrojPrijatelji.text=br;
-                                      }
-
-                                 }
                              }
+                         }
 
-                        }
-                    }
-
-
-                    MouseArea{
-                        anchors.fill:parent
-
-                        onClicked: {
-                            drawer.close()
-                            block.visible=true
-                            notification.ucitajZahtevi();
-                            natpis="Zahtevi"
-                            pageLoader.source = "zahtevi.qml"
-                            block.visible=false
-
-                        }
                     }
                 }
 
+                MouseArea{
+                    anchors.fill:parent
+
+                    onClicked:
+                    {
+                        drawer.close()
+                        block.visible=true
+                        notification.ucitajObavestenja()
+                        natpis="Obavestenja"
+                        pageLoader.source = "obavestenja.qml"
+                        block.visible=false
+                    }
+                }
+            }
+                    Image {
+                        id: zahteviID
+                        source: "qrc:/new/prefix1/friends.png"
+                        width:25
+                        height:25
+                        visible: localData.getUlogovan()
 
 
-        }
-}
+    anchors.right: porukeID.left
+                        anchors.top: parent.top
+                        anchors.topMargin: 10
+                        anchors.rightMargin: 10
+
+
+
+                        Image {
+                            id: nalogSlikaPrijatelji
+                            source: "qrc:/new/prefix1/reddot.png"
+
+                            width:13
+                            height:13
+                            visible:false
+
+                            anchors.right:parent.right
+                            anchors.top: parent.top
+                            anchors.rightMargin: -3
+                            anchors.topMargin: -3
+                            Text {
+                                id: nalogBrojPrijatelji
+                                text:  notification.getBrNovihZahteva()
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                font.family: "Helvetica"
+                                anchors.centerIn: parent
+                                font.pointSize: 10
+                                color: "white"
+
+
+
+                                Connections {
+                                      target: notification
+                                      function onUpdateFriendNotification(br){
+                                          if(br > 99)
+                                              br = 99;
+                                          if(br === 0)
+                                          {
+                                              nalogSlikaPrijatelji.visible = false;
+                                          }
+                                          else
+                                          {
+                                              nalogSlikaPrijatelji.visible = true;
+                                              nalogBrojPrijatelji.text=br;
+                                          }
+
+                                     }
+                                 }
+
+                            }
+                        }
+
+
+                        MouseArea{
+                            anchors.fill:parent
+
+                            onClicked: {
+                                drawer.close()
+                                block.visible=true
+                                notification.ucitajZahtevi();
+                                natpis="Zahtevi"
+                                pageLoader.source = "zahtevi.qml"
+                                block.visible=false
+
+                            }
+                        }
+                    }
+
+
+
+            }
+    }
 
 
 
@@ -817,8 +821,9 @@ ApplicationWindow
         focus: true
         anchors.centerIn: parent
         ColumnLayout
-        {
+        {   //@disable-check M16
             width:parent.width
+
             spacing: 10
 
             Rectangle//OPIS prijave

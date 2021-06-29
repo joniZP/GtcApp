@@ -197,15 +197,14 @@ ColumnLayout{
                 block.visible=true
                 if(!korisnikEvents.registracija(ime.text,prezime.text,korisnickoime.text,email.text,lozinka.text))
                 {
-
                     korisnickoime.text=""
                     greskakorisnickoime.text="Korisnicko ime zauzeto"
                     greskakorisnickoime.visible=true
                 }
                 else
                 {
-                    naziv="Prijava"
-                    pageLoader.source = "prijava.qml"   
+                    natpis="Prijava"
+                    pageLoader.source = "prijava.qml"
                 }
                  block.visible=false
             }

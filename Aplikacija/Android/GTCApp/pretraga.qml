@@ -46,164 +46,173 @@ Rectangle
 
                     // background: null
                 }
+
+
                 Rectangle
-                {
-                    color: "transparent"
-                    width: parent.height
-                    height: parent.height
-                    anchors.left: unospretraga.right
-                    Image
-                    {
-                        id: slika
-                        source: "qrc:/new/prefix1/loupe.png"
-                        width: parent.height*0.8
-                        height: parent.height*0.8
-                        anchors.centerIn: parent
-                        MouseArea
+                                {
+                                    color: "transparent"
+                                    width: parent.height
+                                    height: parent.height
+                                    anchors.left: unospretraga.right
+                                    Image
+                                    {
+                                        id: slika
+                                        source: "qrc:/new/prefix1/loupe.png"
+                                        width: parent.height*0.8
+                                        height: parent.height*0.8
+                                        anchors.centerIn: parent
+                                        MouseArea
+                                        {
+                                            anchors.fill: parent
+                                            //pretrazi.Pretrazi(unospretraga.text)
+                                            onClicked:
+                                            {
+                                                block.visible=true
+                                                if(radio1.checked)
+                                                {
+                                                    scrollpretraga.visible=true
+                                                    scrollpretragadogadjaj.visible=false
+                                                    pretrazi.pretrazi(unospretraga.text,0)
+                                                }
+                                                else
+                                                {
+                                                    scrollpretraga.visible=false
+                                                    scrollpretragadogadjaj.visible=true
+                                                     pretrazi.pretrazi(unospretraga.text,1)
+                                                }
+
+                                                kategorijapopup.visible=false
+                                                mestopopup.visible=false
+
+                                                block.visible=false
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+
+
+                        Rectangle
                         {
-                            anchors.fill: parent
-                            //pretrazi.Pretrazi(unospretraga.text)
-                            onClicked:
+                            id:pretragaFilterRectangle
+                            width: parent.width
+                            height: parent.height/2
+                            anchors.top: pretragaUnosRectangle.bottom
+                            Rectangle
                             {
-                                if(radio1.checked)
+                                id:kategorija
+                                height: parent.height
+                                width: parent.width/2
+                                anchors.left: parent.left
+                                color: "#549cff"
+                                border.color: "#333333"
+                                radius: 3
+                                Image {
+                                    id: cityimage
+                                    source: "/new/prefix1/kategorije.png"
+                                    anchors.verticalCenter: kategorija.verticalCenter
+                                    width:parent.height
+                                    height:parent.height*0.8
+                                    anchors.left: kategorija.left
+                                    anchors.leftMargin: 10
+                                }
+
+                                Text{
+                                anchors.left: cityimage.right
+                                anchors.leftMargin: 10
+                                anchors.verticalCenter: cityimage.verticalCenter
+                                text: "Kategorija"
+                                color: "white"
+                                font.bold: true
+                                }
+
+                                MouseArea
                                 {
-                                    scrollpretraga.visible=true
-                                    scrollpretragadogadjaj.visible=false
+                                    anchors.fill: parent
+                                    onClicked:
+                                    {
+                                       if(kategorijapopup.visible==true)
+                                       {
+                                           kategorijapopup.visible=false
+                                       }
+                                       else
+                                       {
+                                           kategorijapopup.visible=true
+                                       }
+
+                                    }
+
+                                    onPressed: {
+                                      kategorija.color="#064a87"
+                                    }
+                                    onReleased: {
+                                         kategorija.color = "#3db1ce";
+                                    }
 
                                 }
-                                else
-                                {
-                                    scrollpretraga.visible=false
-                                    scrollpretragadogadjaj.visible=true
+                            }
+                            Rectangle
+                            {
+                                id:mesto
+                                height: parent.height
+                                width: parent.width/2
+                                anchors.left: kategorija.right
+                                color: "#549cff"
+                                border.color: "#333333"
+                                radius: 3
+
+
+                Image {
+                                    id: mestoimage
+                                    source: "/new/prefix1/city.png"
+                                    anchors.verticalCenter:  mesto.verticalCenter
+                                    width:parent.height
+                                    height:parent.height*0.8
+                                    anchors.left: mesto.left
+                                    anchors.leftMargin: 10
                                 }
 
-                                kategorijapopup.visible=false
-                                mestopopup.visible=false
-                                block.visible=true
-                                pretrazi.pretrazi(unospretraga.text)
-                                block.visible=false
+                                Text{
+                                anchors.left: mestoimage.right
+                                anchors.leftMargin: 10
+                                anchors.verticalCenter: mestoimage.verticalCenter
+                                text: "Mesto"
+                                color: "white"
+                                font.bold: true
+
+                                }
+
+                                MouseArea
+                                {
+                                    anchors.fill: parent
+                                    onClicked:
+                                    {
+                                        if(mestopopup.visible==true)
+                                        {
+                                            mestopopup.visible=false
+                                        }
+                                        else
+                                        {
+                                            mestopopup.visible=true
+                                        }
+                                    }
+
+                                    onPressed: {
+                                      mesto.color="#064a87"
+                                    }
+                                    onReleased: {
+                                         mesto.color = "#3db1ce";
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-            }
-
-        }
-
-
-        Rectangle
-        {
-            id:pretragaFilterRectangle
-            width: parent.width
-            height: parent.height/2
-            anchors.top: pretragaUnosRectangle.bottom
-            Rectangle
-            {
-                id:kategorija
-                height: parent.height
-                width: parent.width/2
-                anchors.left: parent.left
-                color: "#3db1ce"
-                border.color: "#333333"
-                radius: 3
-                Image {
-                    id: cityimage
-                    source: "/new/prefix1/kategorije.png"
-                    anchors.verticalCenter: kategorija.verticalCenter
-                    width:parent.height
-                    height:parent.height*0.8
-                    anchors.left: kategorija.left
-                    anchors.leftMargin: 10
-                }
-
-                Text{
-                anchors.left: cityimage.right
-                anchors.leftMargin: 10
-                anchors.verticalCenter: cityimage.verticalCenter
-                text: "Kategorija"
-                font.bold: true
-                }
-
-                MouseArea
-                {
-                    anchors.fill: parent
-                    onClicked:
-                    {
-                       if(kategorijapopup.visible==true)
-                       {
-                           kategorijapopup.visible=false
-                       }
-                       else
-                       {
-                           kategorijapopup.visible=true
-                       }
 
                     }
 
-                    onPressed: {
-                      kategorija.color="#064a87"
-                    }
-                    onReleased: {
-                         kategorija.color = "#3db1ce";
-                    }
 
-                }
-            }
-            Rectangle
-            {
-                id:mesto
-                height: parent.height
-                width: parent.width/2
-                anchors.left: kategorija.right
-                color: "#3db1ce"
-                border.color: "#333333"
-                radius: 3
 
-                Image {
-                    id: mestoimage
-                    source: "/new/prefix1/city.png"
-                    anchors.verticalCenter:  mesto.verticalCenter
-                    width:parent.height
-                    height:parent.height*0.8
-                    anchors.left: mesto.left
-                    anchors.leftMargin: 10
-                }
-
-                Text{
-                anchors.left: mestoimage.right
-                anchors.leftMargin: 10
-                anchors.verticalCenter: mestoimage.verticalCenter
-                text: "Mesto"
-                font.bold: true
-
-                }
-
-                MouseArea
-                {
-                    anchors.fill: parent
-                    onClicked:
-                    {
-                        if(mestopopup.visible==true)
-                        {
-                            mestopopup.visible=false
-                        }
-                        else
-                        {
-                            mestopopup.visible=true
-                        }
-                    }
-
-                    onPressed: {
-                      mesto.color="#064a87"
-                    }
-                    onReleased: {
-                         mesto.color = "#3db1ce";
-                    }
-                }
-            }
-        }
-
-    }
     Rectangle
     {
 
@@ -624,7 +633,7 @@ Rectangle
                      {
                          height:40
                          width:parent.width
-                         required property string kategorija
+                         required property string mesto
                          required property int indeks
                          property int klik:0
 
@@ -642,7 +651,7 @@ Rectangle
                                     Text
                                     {
                                         id:mestotext
-                                        text: qsTr(kategorija)
+                                        text: qsTr(mesto)
                                         anchors.left: parent.left
                                         anchors.leftMargin: 20
                                         anchors.verticalCenter: parent.verticalCenter

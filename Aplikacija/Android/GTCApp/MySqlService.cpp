@@ -16,18 +16,33 @@ QEventLoop MySqlService::waitLoop;
 
 void MySqlService::ReplyAnswer(QNetworkReply *reply)
 {
-    if(WaitAnswer)
+    QString result = reply->readAll();
+    QStringList Status = result.split("###")[0].split("|");
+
+    if(Status[1] == "sync")
     {
-        Answer = reply->readAll();
-        WaitAnswer = false;
-        waitLoop.quit();
-        qDebug() << "Reply: " <<  Answer;
+        if(WaitAnswer)
+        {
+            Answer = result;
+            WaitAnswer = false;
+            waitLoop.quit();
+            qDebug() << "SYNC Reply: " <<  Answer;
+        }
+        else
+        {
+            qDebug() << "SYNC NO WAIT Reply: " <<  result;
+        }
     }
     else
     {
-        qDebug() << "NO WAIT Reply: " <<  reply->readAll();
+        qDebug() << "ASYNC Reply: " <<  result;
     }
+
+
+
+
 }
+
 
 MySqlService &MySqlService::MySqlInstance()
 {
@@ -42,7 +57,8 @@ void MySqlService::SendQuery(QString request)
 {
     QUrlQuery params;
     params.addQueryItem("query", request);
-    params.addQueryItem("proba", "request");
+    params.addQueryItem("querytype","async");
+   // params.addQueryItem("proba", "request");
 
     QUrl ur(LINKS::APILINK+"/Database/GtcService.php");
     QNetworkRequest req(ur);
@@ -62,6 +78,7 @@ QString MySqlService::WSendQuery(QString request)
     WaitAnswer = true;
     QUrlQuery params;
     params.addQueryItem("query", request);
+    params.addQueryItem("querytype","sync");
 
     QUrl ur(LINKS::APILINK+"/Database/GtcService.php");
     QNetworkRequest req(ur);
@@ -120,7 +137,7 @@ void MySqlTable::operator =(QString s)
     ///////////////////////// STATUS
     QStringList Status = delovi[0].split("|");
     status = Status[0].toInt();
-    status_message = Status[1];
+    status_message = Status[2];
 
     if(status != 200)
     {

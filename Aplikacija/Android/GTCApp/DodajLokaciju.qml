@@ -52,19 +52,31 @@ Rectangle
                  anchors.topMargin: 40
                  width:parent.width
             }
-            TextField {
-                 id: gradnovelokacije
-                 placeholderText: qsTr("Grad")
-                 anchors.top: nazivnovelokacije.bottom
-                 //anchors.topMargin: 20
-                 width:parent.width
+            ComboBox
+            {
+                id: gradnovelokacije
+                anchors.top: nazivnovelokacije.bottom
+                anchors.topMargin: 10
+                width:parent.width
+                model: _mestomodel
+                textRole: "mesto"
+
+            }
+            ComboBox
+            {
+                id: kategorijanovelokacije
+                anchors.top: gradnovelokacije.bottom
+                anchors.topMargin: 10
+                width:parent.width
+                model: _katmodel
+                textRole: "kategorija"
 
             }
             Rectangle//OPIS LOKACIJE
             {
 
                 id:opisrectangle
-                anchors.top: gradnovelokacije.bottom
+                anchors.top: kategorijanovelokacije.bottom
                 width: parent.width
                 height: gradnovelokacije.height*4/2
                 color: "transparent"

@@ -8,8 +8,8 @@ import QtQuick.Dialogs 1.0
 Rectangle{
     property int pom: 0
     gradient: Gradient{
-    GradientStop{position:0.0; color:"#2A9FF3"}
-     GradientStop{position:1.0; color:"white"}
+    GradientStop{position:0.0; color:"#549cff"}
+     GradientStop{position:1.0; color:"#d3d3d3"}
     }
     id: glavni
     anchors.fill:parent
@@ -46,7 +46,7 @@ Rectangle{
                     onClicked:
                     {
                         natpis="Izmena profila"
-                        pageLoader.source="izmeniprofil.qml" 
+                        pageLoader.source="izmeniprofil.qml"
                      }
             }
 
@@ -130,8 +130,8 @@ Rectangle{
                             {
                                 id: izmeniprofilnu
 
-                                width: (parent.height)/100*60
-                                height:(parent.height)/100*60
+                                width: (parent.height)/100*40
+                                height:(parent.height)/100*40
                                 anchors.bottom: parent.bottom
                                 anchors.right: parent.right
                                 source: "qrc:/new/prefix1/change.png"
@@ -187,6 +187,7 @@ Rectangle{
 
 
         Rectangle{//ime i prezime
+            id: imeprezimerect
                     color:"transparent"
                     height:parent.height*0.1
                     width:parent.width
@@ -198,6 +199,8 @@ Rectangle{
                         //anchors.top: parent
                         anchors.horizontalCenter: parent.horizontalCenter
                         font.pixelSize: 20
+                        color: "white"
+                        font.bold: true
                     }
 
          }
@@ -206,6 +209,7 @@ Rectangle{
             color:"transparent"
             height:parent.height*0.1
             width:parent.width
+            anchors.top:imeprezimerect.bottom
             RowLayout{
                   // @disable-check M16
                 anchors.fill: parent
@@ -218,8 +222,8 @@ Rectangle{
                         anchors.centerIn: parent
                         id: ocenaprofila
                         text: "Ocena: "+ mProfilInst.getOcena();
-                        font.pointSize: 10
-                        color:"green"
+                        font.pointSize: 12
+                        color:"white"
                         font.bold: false
                         font.italic: true
                     }
@@ -230,8 +234,8 @@ Rectangle{
         }
         Rectangle{//resto
             gradient: Gradient{
-            GradientStop{position:0.0; color:"#131E99"}
-             GradientStop{position:1.0; color:"#7E85CE"}
+            GradientStop{position:0.0; color:"#d3d3d3"}
+             GradientStop{position:1.0; color:"#d3d3d3"}
             }
 
             height:parent.height*0.1
@@ -248,13 +252,14 @@ Rectangle{
 
                     Layout.preferredHeight: parent.height
                     Layout.preferredWidth: parent.width*0.33
-                    color: mouseareakreiranelokacije.pressed ? "#131E99":"#131E99"
+                    color: mouseareakreiranidogadjaji.pressed ? "white":"#549cff"
                     Text{
+                        id:prvitext
                         text:"Kreirane\nlokacije"
                         anchors.centerIn: parent
                         font.pixelSize: 14
-                        color:"white"
-                        font.italic: true
+                       color: mouseareakreiranidogadjaji.pressed ? "#549cff":"white"
+                        font.bold: true
 
 
                     }
@@ -266,10 +271,13 @@ Rectangle{
                             profildolerectangle2.visible=false
                             profildolerectangle3.visible=false
                             profildolerectangle1.visible=true
-                            prvi.color="#131E99"
-                            treci.color="#3D4BD8"
-                            drugi.color="#3D4BD8"
+                            prvi.color="white"
+                            treci.color="#549cff"
+                            drugi.color="#549cff"
+                            prvitext.color="#549cff"
+                            drugitext.color="white"
 
+                            trecitext.color="white"
                         }
                     }
                     border.color: "#1E2BAF"
@@ -283,13 +291,14 @@ Rectangle{
                     id:drugi
                     Layout.preferredHeight: parent.height
                     Layout.preferredWidth: parent.width*0.33
-                    color: mouseareakreiranidogadjaji.pressed ? "#131E99":"#3D4BD8"
+                    color: mouseareakreiranidogadjaji.pressed ? "white":"#549cff"
                     Text{
+                        id: drugitext
                         text:"Kreirani\ndogađaji"
                         anchors.centerIn: parent
                         font.pixelSize: 14
-                        color:"white"
-                        font.italic: true
+                       color: mouseareakreiranidogadjaji.pressed ? "#549cff":"white"
+                        font.bold: true
 
 
 
@@ -302,9 +311,12 @@ Rectangle{
                             profildolerectangle2.visible=true
                             profildolerectangle3.visible=false
                             profildolerectangle1.visible=false
-                            prvi.color="#3D4BD8"
-                            treci.color="#3D4BD8"
-                            drugi.color="#131E99"
+                            prvi.color="#549cff"
+                            treci.color="#549cff"
+                            drugi.color="white"
+                            drugitext.color="#549cff"
+                            prvitext.color="white"
+                            trecitext.color="white"
                         }
                     }
                     border.color: "#1E2BAF"
@@ -316,16 +328,18 @@ Rectangle{
                     id:treci
                     Layout.preferredHeight: parent.height
                     Layout.preferredWidth: parent.width*0.33
-                    color: mouseareakontakt.pressed ? "#131E99":"#3D4BD8"
+                   color: mouseareakreiranidogadjaji.pressed ? "white":"#549cff"
                     Text{
+                        id: trecitext
                         text:"Kontakt"
                         anchors.centerIn: parent
                         font.pixelSize: 14
-                        color:"white"
-                        font.italic: true
+                       color: mouseareakreiranidogadjaji.pressed ? "#549cff":"white"
+                        font.bold: true
 
 
                     }
+
                     MouseArea{
                         id: mouseareakontakt
                         hoverEnabled: true
@@ -334,9 +348,13 @@ Rectangle{
                             profildolerectangle2.visible=false
                             profildolerectangle3.visible=true
                             profildolerectangle1.visible=false
-                            prvi.color="#3D4BD8"
-                            treci.color="#131E99"
-                            drugi.color="#3D4BD8"
+                            prvi.color="#549cff"
+                            treci.color="white"
+                            drugi.color="#549cff"
+                            trecitext.color="#549cff"
+                            drugitext.color="white"
+                            prvitext.color="white"
+
                         }
                     }
                     border.color: "#1E2BAF"
@@ -777,4 +795,3 @@ Rectangle{
         }
     }
 }
-

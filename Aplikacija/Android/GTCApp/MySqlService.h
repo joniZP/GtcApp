@@ -37,7 +37,7 @@ class MySqlService: public QObject{
 
 
     static void ReplyAnswer(QNetworkReply * reply);
-
+    static void ReplyAnswerAsync(QNetworkReply * reply);
 
     MySqlService()
     {

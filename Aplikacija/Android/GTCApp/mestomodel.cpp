@@ -52,7 +52,7 @@ QVariant MestoModel::data(const QModelIndex &index, int role) const
 QHash<int, QByteArray> MestoModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[MestoRole] = "kategorija";
+    roles[MestoRole] = "mesto";
     roles[CekiranRole] = "cekirana";
     roles[IndeksRole] = "indeks";
     return roles;

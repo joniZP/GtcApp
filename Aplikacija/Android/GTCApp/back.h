@@ -4,6 +4,10 @@
 #include<qobject.h>
 #include<QDebug>
 #include<stdlib.h>
+#include<MLokacija.h>
+#include<MProfil.h>
+#include<MDogadjaj.h>
+
 class back :public QObject
 {
     Q_OBJECT
@@ -11,9 +15,14 @@ class back :public QObject
     {
         QString natpis;
         QString stranica;
+        QString id;
     };
 
+
+
+
 public:
+    static QString idLDP;
     QList<struktura> *lista=new QList<struktura>;
 
     bool back_=false;
@@ -38,6 +47,12 @@ public:
     }
 
     Q_INVOKABLE
+    QString getIdLDP()
+    {
+        return idLDP;
+    }
+
+    Q_INVOKABLE
     QString nazad(QString tr)
     {
         struktura pom;
@@ -51,27 +66,25 @@ public:
              qDebug()<<lista->count();
             pom=lista->back();
             lista->pop_back();
-            if(pom.stranica==tr)
+            while(pom.stranica==tr || pom.stranica=="qrc:/prijava.qml" || pom.stranica=="qrc:/registracija.qml" || pom.stranica=="qrc:/DodajLokaciju.qml" || pom.stranica=="qrc:/DodajDogadjaj.qml")// if(source != "qrc:/prijava.qml" && source != "qrc:/registracija.qml" && source != "qrc:/DodajLokaciju.1ml" && source !="qrc:/DodajDogadjaj")
             {
+                pom=lista->back();
                 if(lista->count()>1)
-                {
-                    pom=lista->back();
+                {  
                     lista->pop_back();
                 }
-                else
-                {
-                    pom=lista->back();
-                }
+
             }
         }
         natpis=pom.natpis;
         back_=true;
         qDebug()<<"natpis" <<natpis;
+        idLDP = pom.id;
         return pom.stranica;
 
     }
     Q_INVOKABLE
-    void napred(QString p,QString n)
+    void napred(QString p,QString n, QString id)
     {
         if(back_==false)
         {
@@ -79,6 +92,7 @@ public:
             natpis=n;
             pom.natpis=n;
             pom.stranica=p;
+            pom.id = id;
             lista->push_back(pom);
         }
         back_=false;

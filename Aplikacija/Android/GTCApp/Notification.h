@@ -63,6 +63,7 @@ public:
                NewFriendNotification = t.Rows[0]["Zahtevi"].toInt();
                NewShareNotification = t.Rows[0]["Obavestenja"].toInt();
                //emit GetInstance().DataChanged();
+               qDebug()<<"ZAHTEVI"<<t.Rows[0]["Zahtevi"];
                emit GetInstance().updateFriendNotification(NewFriendNotification);
                emit GetInstance().updateSharedNotification(NewShareNotification);
 
@@ -72,7 +73,7 @@ public:
 
     static void AsyncNotification(){
         MyQuery query;
-        query="SELECT Obavestenja,Zahtevi from(SELECT COUNT(*) as Obavestenja From Obavestenje WHERE reciever='%1' and vidjen = 0) as t1, (SELECT count(*) as Zahtevi FROM `Zahtev` WHERE primalac='%2' and vidjen='0') as t2";
+        query="SELECT Obavestenja,Zahtevi from(SELECT COUNT(*) as Obavestenja From Obavestenje WHERE reciever='%1' and vidjen = 0) as t1, (SELECT count(*) as Zahtevi FROM `Zahtev` WHERE primalac='%1' and vidjen='0') as t2";
         query<<LOCALDATA::mProfil->getKorisnickoIme();
        SendRequest(query.toStr());
     }
@@ -147,7 +148,7 @@ public:
          query="UPDATE Obavestenje SET vidjen=1 WHERE idObavestenja=%1";
          query<<id;
          s.SendQuery(query);
-         qDebug()<<"sdsdsaas "<<query.toStr();
+       //  qDebug()<<"sdsdsaas "<<query.toStr();
      }
 
     Q_INVOKABLE

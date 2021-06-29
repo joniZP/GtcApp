@@ -48,9 +48,11 @@ Rectangle
                 width: parent.width
                 anchors.top: tiptekst.bottom
                 anchors.topMargin: 5
-                model: [ "Izlet", "Bleja", "Rostiljanje", "Basket", "Futsal", "Badminton", "Setnja pasa", "Planinarenje", "Kupanje", "Voznja bicikla", "Skijanje", "Zezanje",  ]
+                model: _katmodel
+                textRole: "kategorija"
 
             }
+
         }
         Rectangle
         {
@@ -155,7 +157,7 @@ Rectangle
                 anchors.topMargin: 5
                 anchors.left: minuti.right
 
-                model: [ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",   "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40",   "41", "42", "43", "44", "45", "46", "47", "48", "49", "50",  "51", "52", "53", "54", "55", "56", "57", "58", "59", "60" ]
+                model: [ "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",   "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40",   "41", "42", "43", "44", "45", "46", "47", "48", "49", "50",  "51", "52", "53", "54", "55", "56", "57", "58", "59", "60" ]
 
             }
         }
@@ -222,7 +224,8 @@ Rectangle
                 if(tipdogadjaja.text!=="" && opisdogadjaja.text!=="")
                 {
                     block.visible = true;
-                    let iddogadjaja = upisLokacijaDogadjaj.upisiDogadjaj(location.getId(),upisLokacijaDogadjaj.formatDate(cbxmesec.currentValue,cbxdan.currentValue,cbxsat.currentValue,cbxminut.currentValue),opisdogadjaja.text,tipdogadjaja.currentValue);
+                    let iddogadjaja = upisLokacijaDogadjaj.upisiDogadjaj(location.getId(),upisLokacijaDogadjaj.formatDate(cbxmesec.currentValue,cbxdan.currentValue,cbxsat.currentValue,cbxminut.currentValue),opisdogadjaja.text,tipdogadjaja.currentText);
+                    natpis = "Dogadjaj"
                     getDogadjajById(iddogadjaja);
                     //event.dodajdogadjaj(tipdogadjaja.text.toString(), opisdogadjaja.text.toString(), cbxdan.toString()+"."+cbxmesec.toString()+". "+cbxsat.toString()+":"+cbxminut.toString(), "")
                     pageLoader.source = "dogadjaj.qml"

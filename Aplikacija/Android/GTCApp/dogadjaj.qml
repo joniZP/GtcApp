@@ -1,3 +1,4 @@
+
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
@@ -8,6 +9,7 @@ import QtPositioning 5.6
 import QtGraphicalEffects 1.12
 //import QtWebView 1.1
 import MLokacija 1.0
+import QtQuick.Controls.Styles 1.4
 
 Rectangle
 {
@@ -89,13 +91,86 @@ Rectangle
 }
 
 
+
+
+       /////// prijava
+
+       Rectangle
+       {
+           id: prijavanadogadjaj
+           width: parent.width-20
+           height: 50
+           anchors.top: tekst.bottom
+           anchors.topMargin: 5
+           anchors.horizontalCenter: parent.horizontalCenter
+           color: "white"
+           Text {
+               id: brojprijavljenih
+               text: qsTr("Broj prijavljenih korisnika: 1231")
+               font.family: "Helvetica"
+               font.pointSize: 12
+               anchors.left: parent.left
+               anchors.verticalCenter: parent.verticalCenter
+               anchors.leftMargin: 10
+           }
+           Button
+           {
+               id:prijavabutton
+               background: Rectangle
+               {
+                   id:prijavacolor
+                            color: parent.down ? "#549cd1" :
+                                    (parent.hovered ? "#549cd1" : "#549cff")
+                             radius: 5
+               }
+               anchors.right: parent.right
+               height: parent.height*0.8
+               width:parent.width*0.4
+               anchors.verticalCenter: parent.verticalCenter
+               anchors.rightMargin: 10
+               Text
+               {
+                   id: prijavisetext
+                   text: "Zaineresovan sam"
+                   font.family: "Helvetica"
+                   font.pointSize: 11
+
+
+font.bold: true
+                   anchors.centerIn: parent
+                   color: "white"
+
+               }
+              onClicked:
+              {
+                  if(prijavisetext.text=="Zaineresovan sam")
+                  {
+                      prijavisetext.text="Nisam zaineresovan"
+                      prijavacolor.color= prijavabutton.down ? "#d4271a" :
+                              (prijavabutton.hovered ? "#d4271a" : "#ff0000")
+
+                  }
+                  else
+                  {
+                       prijavisetext.text="Zaineresovan sam"
+                      prijavacolor.color= prijavabutton.down ? "#549cd1" :
+                              (prijavabutton.hovered ? "#549cd1" : "#549cff")
+
+                  }
+              }
+           }
+
+       }
+
+       //////prijava
+
        ///// lokacija
        Rectangle
        {
            id: dogadjajlokacija
            width: parent.width-20
            height: 100
-           anchors.top: tekst.bottom
+           anchors.top: prijavanadogadjaj.bottom
            anchors.topMargin: 5
            anchors.horizontalCenter: parent.horizontalCenter
            color: "white"
@@ -177,7 +252,7 @@ Rectangle
        ///// lokacija
 
 
-       Rectangle
+Rectangle
        {
            id: lokacija_kreator
            width: parent.width-20
@@ -302,7 +377,8 @@ Rectangle
               //color: "blue"
               anchors.left: like.right
 
-              Rectangle{
+
+Rectangle{
                   //color:"red"
                   anchors.centerIn: parent
                   width: komentar_slika.width+komentar_text.width+10
@@ -424,7 +500,7 @@ Drawer
             color:"#2596be"
           }
 
-       ListView
+ListView
        {
            boundsBehavior: ListView.StopAtBounds
            //anchors.fill: parent
@@ -540,7 +616,8 @@ Drawer
        height: parent.height/10
        //color: "red"
 
-       ScrollView {
+
+ScrollView {
            id: flickable
            width: parent.width
            height: Math.max(40,Math.min(contentHeight, 60))
@@ -687,7 +764,8 @@ Drawer
                    Rectangle
                    {
 
-                       //border.color:"#595959"
+
+//border.color:"#595959"
                        color: "transparent"
                        id:slikaprofil
                        height: parent.height

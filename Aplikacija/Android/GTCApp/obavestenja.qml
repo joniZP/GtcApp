@@ -65,27 +65,7 @@ Rectangle
                    height: parent.height-10
                    anchors.verticalCenter: parent.verticalCenter
                     color: "transparent"
-                    Image {
-                        id: obrisiobavestenje
-                        source: "qrc:/new/prefix1/close-removebg-preview.png"
-                        height:8
-                        width: 8
-                        anchors.right: parent.right
-                        anchors.top: parent.top
-                        anchors.rightMargin: 2
-                        MouseArea
-                        {
-                            z: 100
-                            anchors.fill: parent
-                            onClicked:
-                            {
 
-                                 console.log(index)
-                                _obavestenjamodel.obrisi(index)
-
-                            }
-                        }
-                    }
                    Rectangle
                    {
 
@@ -161,13 +141,9 @@ Rectangle
 
                                if(lid==false)
                                {
-
-
                                    getLokacijaById(idLD)
-                                   notification.setVidjeni(idO)
                                    natpis="Lokacija"
                                    pageLoader.source= "lokacija.qml"
-
                                }
                                else
                                {
@@ -175,6 +151,8 @@ Rectangle
                                    natpis="Dogadjaj"
                                    pageLoader.source= "dogadjaj.qml"
                                }
+                               notification.setVidjeni(idO)
+                               rectobavestenje.color ="white";
                                   block.visible=false
 
                            }
@@ -182,6 +160,30 @@ Rectangle
                        }
                    }
 
+
+                   Image {
+                       id: obrisiobavestenje
+                       source: "qrc:/new/prefix1/close-removebg-preview.png"
+                       height:15
+                       width: 15
+                       anchors.right: parent.right
+                       anchors.top: parent.top
+                       anchors.rightMargin: 2
+                       MouseArea
+                       {
+                           z: 100
+                           anchors.fill: parent
+                           onClicked:
+                           {
+
+                                console.log(index)
+                               _obavestenjamodel.obrisi(index)
+
+                           }
+                       }
+                   }
+
+                   ///////
 
 
 

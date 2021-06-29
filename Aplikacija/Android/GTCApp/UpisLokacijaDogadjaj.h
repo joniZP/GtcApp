@@ -79,6 +79,11 @@ public:
                  t1 = s.WSendQuery("SELECT max(idDogadjaja) FROM Dogadjaj");
                  if(t1.isSuccessfully())
                  {
+
+                     query="INSERT into Obavestenje (reciever, sender, tip, idDL, vidjen) SELECT recievertable.*, '%1' as sender,'1' as tip, %2 as idDL, 0 as vidjen from (SELECT * FROM (SELECT prijatelj1 as reciever FROM `Prijatelji` WHERE prijatelj2 = '%1' ) as t1 union all (SELECT prijatelj2 as reciever FROM `Prijatelji` WHERE prijatelj1 = '%1' ) ) as recievertable";
+                     query<<LOCALDATA::mProfil->getKorisnickoIme()<<t1.Rows[0][0];
+                     s.SendQuery(query);
+
                      return t1.Rows[0][0].toInt();
                  }
 
