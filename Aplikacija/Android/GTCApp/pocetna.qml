@@ -50,10 +50,28 @@ Rectangle
                             anchors.left: parent.left
                             Image
                             {
-                                id:lokacijaprofilimage
+                                id:lokacijaitemslika
                                 source: slika
                                 width: parent.width
                                 height: parent.height
+
+                                onProgressChanged:
+                                {
+                                    if(lokacijaitemslika.progress==1)
+                                    {
+                                       // slider.height=slikalokacija.paintedHeight
+                                        spiner.visible=false
+                                    }
+                                }
+                                AnimatedImage
+                                {
+                                    id:spiner
+                                    source: "/new/prefix1/spinnerpicture.gif"
+                                    width: 100
+                                    height: 100
+                                    anchors.centerIn: parent
+                                   // visible: slikalokacija.progress!=1
+                                }
                             }
                         }
                         Rectangle

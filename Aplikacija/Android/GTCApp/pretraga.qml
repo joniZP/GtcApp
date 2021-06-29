@@ -68,7 +68,7 @@ Rectangle
                                             onClicked:
                                             {
                                                 block.visible=true
-                                                if(radio1.checked)
+                                                if(lokacijaradio.checked)
                                                 {
                                                     scrollpretraga.visible=true
                                                     scrollpretragadogadjaj.visible=false
@@ -145,10 +145,10 @@ Rectangle
                                     }
 
                                     onPressed: {
-                                      kategorija.color="#064a87"
+                                      kategorija.color="#68a6fc"
                                     }
                                     onReleased: {
-                                         kategorija.color = "#3db1ce";
+                                         kategorija.color = "#549cff";
                                     }
 
                                 }
@@ -200,10 +200,10 @@ Rectangle
                                     }
 
                                     onPressed: {
-                                      mesto.color="#064a87"
+                                      mesto.color="#68a6fc"
                                     }
                                     onReleased: {
-                                         mesto.color = "#3db1ce";
+                                         mesto.color = "#549cff";
                                     }
                                 }
                             }
@@ -258,10 +258,29 @@ Rectangle
                             anchors.left: parent.left
                             Image
                             {
-                                id:lokacijaprofilimage
+                                id:lokacijaitemslika
                                 source: slika
                                 width: parent.width
                                 height: parent.height
+
+
+                                onProgressChanged:
+                                {
+                                    if(lokacijaitemslika.progress==1)
+                                    {
+                                       // slider.height=slikalokacija.paintedHeight
+                                        spiner.visible=false
+                                    }
+                                }
+                                AnimatedImage
+                                {
+                                    id:spiner
+                                    source: "/new/prefix1/spinnerpicture.gif"
+                                    width: 100
+                                    height: 100
+                                    anchors.centerIn: parent
+                                   // visible: slikalokacija.progress!=1
+                                }
                             }
                         }
                         Rectangle
@@ -474,8 +493,8 @@ Rectangle
                     anchors.left: parent.left
                     RadioButton
                     {
-                        id:radio1
-                        checked: true
+                        id:lokacijaradio
+                        checked: pretragaLD
                         ButtonGroup.group: grupa
                         anchors.verticalCenter: parent.verticalCenter
                         text: qsTr("Lokacije")
@@ -491,7 +510,8 @@ Rectangle
                     anchors.left: prviradio.right
                     RadioButton
                     {
-                        id:radio2
+                         checked: !pretragaLD
+                         id:dogadjajradio
                          ButtonGroup.group: grupa
                          anchors.verticalCenter: parent.verticalCenter
                          text: qsTr("Dogadjaji")

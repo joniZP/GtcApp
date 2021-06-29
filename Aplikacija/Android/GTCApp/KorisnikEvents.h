@@ -50,7 +50,7 @@ public:
             MyQuery query;
             query="UPDATE Korisnik SET ime='%1', prezime='%2', lozinka='%3', telefon='%4' WHERE korisnickoIme ='%5'";
             query<<ime<<prezime<<sifra<<telefon<<LOCALDATA::mProfil->getKorisnickoIme();
-
+            qDebug()<<query.toStr();
             t = s.WSendQuery(query);
             if(t.isSuccessfully())
             {

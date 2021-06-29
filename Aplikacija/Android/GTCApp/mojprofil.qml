@@ -451,7 +451,6 @@ Rectangle{
                        anchors.fill:parent
                        onClicked:
                        {
-                           opislokacijeprofil.text=id
                            block.visible=true
                            getLokacijaById(id)
                            block.visible=false
@@ -565,7 +564,6 @@ Rectangle{
                             anchors.leftMargin: 10
                             id: emailprofilslika
                             source: "../new/prefix1/emaill.png"
-
 
                         }
                         Rectangle{

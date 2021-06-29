@@ -71,8 +71,8 @@ public:
                        mProfil->setPrezime(t.Rows[0]["prezime"]);
                        mProfil->setLozinka( t.Rows[0]["lozinka"]);
                        mProfil->setEmail( t.Rows[0]["email"]);
+                       mProfil->setTelefon(t.Rows[0]["telefon"]);/////
                        mProfil->setOcena(t.Rows[0]["ocena"].toFloat());
-
                        if(t.Rows[0]["slika"].toInt() == 1)
                            mProfil->setSlikaURL(LINKS::getProfilePicture(mProfil->getKorisnickoIme()));
                        else

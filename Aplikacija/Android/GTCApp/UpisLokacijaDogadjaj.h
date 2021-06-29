@@ -17,12 +17,13 @@ public:
     double ycoo= 0;
 
     Q_INVOKABLE
-    int upisiLokaciju(QString naziv, QString grad,QString opis)
+    int upisiLokaciju(QString naziv,QString kategorija, QString grad,QString opis)
     {
         MySqlService &s = MySqlService::MySqlInstance();
          MyQuery query("INSERT INTO `Lokacija`(`naziv`, `grad`, `opis`, `idkorisnika`, `ocena`, `brojOcena`, `x`, `y`, `brojSlika`, `likes`, `Verifikovana`,`kategorija`) VALUES ('%2','%3','%4','%5',%6,%7,%8,%9,%10,%11,%12,'%13')");
-          query<<naziv<<grad<<opis<<LOCALDATA::mProfil->getKorisnickoIme()<<0<<0<<xcoo<<ycoo<<slike.length()<<0<<0<<"Nema";
+          query<<naziv<<grad<<opis<<LOCALDATA::mProfil->getKorisnickoIme()<<0<<0<<xcoo<<ycoo<<slike.length()<<0<<0<<kategorija;
           MySqlTable tpom;
+          qDebug()<<query.toStr();
           tpom = s.WSendQuery(query);
           if(tpom.isSuccessfully())
           {
@@ -61,6 +62,11 @@ public:
         ycoo = y;
     }
 
+    Q_INVOKABLE
+    void removeAllPictrures()
+    {
+       slike.clear();
+    }
 
 
     Q_INVOKABLE

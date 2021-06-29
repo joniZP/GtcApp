@@ -36,7 +36,7 @@ private:
     {
         QUrlQuery params;
         params.addQueryItem("query", query);
-        params.addQueryItem("proba", "request");
+        params.addQueryItem("querytype","aync");
 
         QUrl ur(LINKS::APILINK+"/Database/GtcService.php");
         QNetworkRequest req(ur);

@@ -87,11 +87,11 @@ int main(int argc, char *argv[])
     MLokacija *loc=new MLokacija();
     Report *report=new Report();
     UpisLokacijaDogadjaj *upislokacijadogadjaj = new UpisLokacijaDogadjaj();
-
-    mp=ld->getMProfil();
+    MySqlService &mysqlservice = MySqlService::MySqlInstance();
+     mp=ld->getMProfil();
      engine.rootContext()->setContextProperty("likelogic", &like);
 
-    engine.rootContext()->setContextProperty("mProfilInst", mp);
+  //  engine.rootContext()->setContextProperty("mProfilInst", mp);
    // engine.rootContext()->setContextProperty("mProfil", mp1);
     engine.rootContext()->setContextProperty("localData",ld);
     engine.rootContext()->setContextProperty("prijateljiEvents", pe);
@@ -103,11 +103,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("report", report);
     engine.rootContext()->setContextProperty("ucitavanjeDogadjaja", &ucitavanjedogadjaja);
     engine.rootContext()->setContextProperty("upisLokacijaDogadjaj", upislokacijadogadjaj);
-   // engine.rootContext()->setContextProperty("location", loc);
-
-
-
-
+    engine.rootContext()->setContextProperty("mysqlservice", &mysqlservice);
 
 
     engine.rootContext()->setContextProperty("_kommodel", &kommodel);
@@ -147,11 +143,6 @@ int main(int argc, char *argv[])
 
     engine.load(url);
     //--------------------------[ INICIJALIZACIJA ]------------------------------------
-    pl->ucitavanjeLokacijaPocetna();//ucitava inicijalno lokacije na pocetnu stranu
-
-    ucitajGradove();
-    ucitajKategorije();
-
     //--------------------------[ TEST ] --------------------------------------------
    /*   kategorijamodel.dodajkategoriju(Kategorija("sport",false,0));
       kategorijamodel.dodajkategoriju(Kategorija("izlet",false,1));
@@ -170,40 +161,4 @@ int main(int argc, char *argv[])
     return app.exec();
 }
 
-void ucitajKategorije()
-{
-    MySqlService &s = MySqlService::MySqlInstance();
-    KategorijaModel& km =  KategorijaModel::GetInstance();
-    MySqlTable t;
-    MyQuery query("SELECT * from Kategorije");
-     t = s.WSendQuery(query);
 
-    if(t.isSuccessfully())
-    {
-        km.removeAll();
-        for(int i = 0; i < t.Count();i++)
-        {
-            km.dodajkategoriju(Kategorija(t.Rows[i]["kategorija"],false,i));
-        }
-    }
-
-}
-
-void ucitajGradove()
-{
-    MySqlService &s = MySqlService::MySqlInstance();
-    MestoModel& mm =  MestoModel::GetInstance();
-    MySqlTable t;
-    MyQuery query("SELECT * from Gradovi");
-     t = s.WSendQuery(query);
-
-    if(t.isSuccessfully())
-    {
-        mm.removeAll();
-        for(int i = 0; i < t.Count();i++)
-        {
-            mm.dodajmesto(Kategorija(t.Rows[i]["grad"],false,i));
-        }
-    }
-
-}

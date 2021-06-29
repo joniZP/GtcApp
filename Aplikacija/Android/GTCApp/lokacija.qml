@@ -12,7 +12,6 @@ import MLokacija 1.0
 Rectangle
 {
     id:par
-
 anchors.fill: parent
 Flickable{
 //  contentHeight: 800
@@ -85,7 +84,7 @@ Rectangle
     {
         id: lokacija_opis_kontejner
         width: parent.width-20
-        height: naziv_lokacije.height+opis_lokacije.height+20
+        height: naziv_lokacije.height+opis_lokacije.height+gradlokacija.height+kategorijalokacije.height+25
         anchors.horizontalCenter: parent.horizontalCenter
         color: "white"
         Text {
@@ -93,20 +92,42 @@ Rectangle
             text: qsTr(location.getNaziv())
             font.family: "Helvetica"
             font.pointSize: 18
+            horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
+            width: parent.width
+            wrapMode: Text.WordWrap
+        }
+        Text {
+            id: gradlokacija
+            text: qsTr(location.getGrad())
+            font.family: "Helvetica"
+            font.pointSize: 14
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: naziv_lokacije.bottom
+            anchors.topMargin: 2
         }
 
         Text {
             id: opis_lokacije
-            anchors.top: naziv_lokacije.bottom
-            anchors.topMargin: 20
+            anchors.top: gradlokacija.bottom
+            anchors.topMargin: 10
             text: qsTr(location.getOpis())
-
             font.family: "Helvetica"
             font.pointSize: 14
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width-50
             wrapMode: Text.WordWrap
+        }
+
+        Text {
+            id: kategorijalokacije
+            text: qsTr(location.getKategorija())
+            font.family: "Helvetica"
+            font.pointSize: 14
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 5
+            anchors.right: parent.right
+            anchors.rightMargin: 5
         }
         }
 
@@ -181,10 +202,22 @@ Rectangle
                        onClicked:
                        {
                           block.visible = true;
-                          getProfilByUsername(location.getKreator())
-                          natpis="Profil"
-                          pageLoader.source = "profil.qml"
-                          block.visible = false;
+
+
+                           if(mProfilInst.getKorisnickoIme()===location.getKreator())
+                           {
+                               ucitavanjeProfilaInstance.ucitajLokacijeiDogadjaje(mProfilInst.getKorisnickoIme())
+                               natpis="Moj profil"
+                               pageLoader.source = "mojprofil.qml"
+                           }
+                           else
+                           {
+                               getProfilByUsername(location.getKreator())
+                               natpis="Profil"
+                               pageLoader.source = "profil.qml"
+
+                           }
+                           block.visible = false;
                        }
                    }
                    }
@@ -253,11 +286,20 @@ Rectangle
               }
               MouseArea
               {
+                  id:likelokacijaklik
                   anchors.fill: parent
                   onClicked:
                   {
-                    likelogic.clickOnLike();
-                    like_slika.source = likelogic.vratiIkonicu();
+                    if(localData.getUlogovan())
+                    {
+                        likelogic.clickOnLike();
+                        like_slika.source = likelogic.vratiIkonicu();
+                    }
+                    else
+                    {
+                          ulogujsepopup.open()
+                    }
+
                   }
               }
               }
@@ -278,7 +320,7 @@ Rectangle
                   height: parent.height
               Image {
                       id: komentar_slika
-                      source: "../new/prefix1/comment.png"
+                      source: "../new/prefix1/comment1.png"
                       width: parent.height*0.5
                       height:parent.height*0.5
                       fillMode: Image.PreserveAspectCrop
@@ -300,9 +342,17 @@ Rectangle
                   anchors.fill: parent
                   onClicked:
                   {
+                      if(!localData.getUlogovan())
+                      {
+                         komentarunos.visible=false
+                      }
+                      else
+                      {
+                           komentarunos.visible=true
+                      }
                       block.visible=true;
                       ucitajInstance.ucitajKomentare(location.getId())
-                      draw.open()
+                      komentaridrawer.open()
                       block.visible = false;
                   }
               }
@@ -342,13 +392,21 @@ Rectangle
               }
               MouseArea
               {
+                  id:podelilokacijaklik
                   anchors.fill: parent
                   onClicked:
                   {
-                      block.visible=true
-                      prijateljiEvents.prikaziListuPrijatelja()
-                      deljenje_lokacije.visible=true
-                      block.visible=false
+                      if(localData.getUlogovan())
+                      {
+                          block.visible=true
+                          prijateljiEvents.prikaziListuPrijatelja()
+                          deljenje_lokacije.visible=true
+                          block.visible=false
+                      }
+                      else
+                      {
+                          ulogujsepopup.open()
+                      }
                   }
               }
               }
@@ -363,7 +421,7 @@ Rectangle
 }
 Drawer
 {
-    id: draw
+    id: komentaridrawer
     //interactive: false
     width:parent.width
     dragMargin: 0
@@ -410,6 +468,7 @@ Drawer
                required property string tekst
                required property string ime
                required property string id
+               required property string kreatorid
                width:parent.width
                height: tex.implicitHeight+tex0.implicitHeight+20
                     Image
@@ -423,6 +482,30 @@ Drawer
                            layer.enabled: true
                            layer.effect: OpacityMask {
                                maskSource: mask
+                           }
+
+                           MouseArea
+                           {
+                               anchors.fill: parent
+                               onClicked:
+                               {
+                                   komentaridrawer.close()
+                                   block.visible = true;
+                                   if(mProfilInst.getKorisnickoIme()===kreatorid)
+                                   {
+                                       ucitavanjeProfilaInstance.ucitajLokacijeiDogadjaje(mProfilInst.getKorisnickoIme())
+                                       natpis="Moj profil"
+                                       pageLoader.source = "mojprofil.qml"
+                                   }
+                                   else
+                                   {
+                                       getProfilByUsername(kreatorid)
+                                       natpis="Profil"
+                                       pageLoader.source = "profil.qml"
+
+                                   }
+                                   block.visible = false;
+                               }
                            }
                     }
                     Rectangle {
@@ -456,7 +539,6 @@ Drawer
                               anchors.fill: parent
                               onClicked:
                               {
-
                                   menu.open()
                               }
                           }
@@ -487,9 +569,17 @@ Drawer
                             anchors.centerIn: parent
                             text: qsTr("Prijavi")
 
-                            onClicked:{
-                                lokacijaprijavapopup.open();
-                                report.setParameters(id,2);
+                            onClicked:
+                            {
+                                if(localData.getUlogovan())
+                                {
+                                    lokacijaprijavapopup.open();
+                                    report.setParameters(id,2);
+                                }
+                                else
+                                {
+                                   ulogujsepopup.open()
+                                }
                             }
                         }
 
@@ -536,6 +626,7 @@ Drawer
        }
 
        Button{
+
 
            width: 30
            height: 30

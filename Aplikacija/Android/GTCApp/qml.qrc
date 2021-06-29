@@ -2,10 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>Sbutt.qml</file>
-        <file>prvi.qml</file>
-        <file>drugi.qml</file>
-        <file>treci.qml</file>
-        <file>cetvrti.qml</file>
         <file>pocetna.qml</file>
         <file>prijava.qml</file>
         <file>registracija.qml</file>
@@ -22,7 +18,6 @@
         <file>dogadjaj.qml</file>
         <file>obavestenja.qml</file>
         <file>zahtevi.qml</file>
-        <file>close-removebg-preview.png</file>
     </qresource>
     <qresource prefix="/aa"/>
     <qresource prefix="/saa"/>

@@ -9,6 +9,8 @@
 #include<slikamodel.h>
 #include<LOCALDATA.h>
 #include<Like.h>
+#include<mestomodel.h>
+#include<kategorijamodel.h>
 
 
 class UcitavanjeLokacije : public QObject
@@ -33,43 +35,44 @@ public:
     }
 
 
-    Q_INVOKABLE
-    MLokacija* getLokacija(int id)
-    {
-        MySqlService &s = MySqlService::MySqlInstance();
-        MySqlTable t;
-        lokacija = NULL;
-         MyQuery query("SELECT Lokacija.*,Korisnik.ime,Korisnik.prezime FROM Lokacija inner join Korisnik on Lokacija.idkorisnika = Korisnik.korisnickoIme WHERE Id='%1'");//("SELECT * FROM Lokacija WHERE Id='%1'");
-          query<<id;
-           t = s.WSendQuery(query);
+        Q_INVOKABLE
+        MLokacija* getLokacija(int id)
+        {
+            MySqlService &s = MySqlService::MySqlInstance();
+            MySqlTable t;
 
-           if(t.isSuccessfully())
-           {
-               if(t.Count()>0)
+            lokacija = NULL;
+             MyQuery query("SELECT Lokacija.*,Korisnik.ime,Korisnik.prezime, (SELECT count(*) from LokacijaLikes WHERE idLokacije=%1) as likescount FROM Lokacija inner join Korisnik on Lokacija.idkorisnika = Korisnik.korisnickoIme WHERE Id='%1'");//("SELECT * FROM Lokacija WHERE Id='%1'");
+              query<<id;
+               t = s.WSendQuery(query);
+
+               if(t.isSuccessfully())
                {
-                  lokacija = new MLokacija(id,t.Rows[0]["idkorisnika"],t.Rows[0]["ime"] +" " + t.Rows[0]["prezime"],t.Rows[0]["naziv"],t.Rows[0]["opis"],t.Rows[0]["grad"],t.Rows[0]["likes"].toInt(),t.Rows[0]["x"].toDouble(),t.Rows[0]["y"].toDouble());
-                  SlikaModel &sm = SlikaModel::GetInstance();
-                  sm.removeAll();
-                  if(t.Rows[0]["brojSlika"].toInt() == 0)
-                  {
-                      sm.dodajSliku(LINKS::APILINK+"/upload/noimageavailable.jpeg");
-                  }
-                  else
-                  {
-                      for(int i=0;i< t.Rows[0]["brojSlika"].toInt();i++)
+                   if(t.Count()>0)
+                   {
+                      lokacija = new MLokacija(id,t.Rows[0]["idkorisnika"],t.Rows[0]["ime"] +" " + t.Rows[0]["prezime"],t.Rows[0]["naziv"],t.Rows[0]["opis"],t.Rows[0]["grad"],t.Rows[0]["likescount"].toInt(),t.Rows[0]["x"].toDouble(),t.Rows[0]["y"].toDouble(),t.Rows[0]["kategorija"]);
+                      SlikaModel &sm = SlikaModel::GetInstance();
+                      sm.removeAll();
+                      if(t.Rows[0]["brojSlika"].toInt() == 0)
                       {
-                          sm.dodajSliku(LINKS::getLocationPicture(id,i));
-                          qDebug()<<"UCITAVA: "<<LINKS::getLocationPicture(id,i);
+                          sm.dodajSliku(LINKS::APILINK+"/upload/noimageavailable.jpeg");
                       }
-                  }
+                      else
+                      {
+                          for(int i=0;i< t.Rows[0]["brojSlika"].toInt();i++)
+                          {
+                              sm.dodajSliku(LINKS::getLocationPicture(id,i));
+                              qDebug()<<"UCITAVA: "<<LINKS::getLocationPicture(id,i);
+                          }
+                      }
 
-                  Like::setParameters(id,Tip::LokacijaTip);
+                      Like::setParameters(id,Tip::LokacijaTip);
+                   }
                }
-           }
 
-           return lokacija;
+               return lokacija;
 
-    }
+        }
 
     Q_INVOKABLE
     void dodajKomentar(int idLokacije,QString text)
@@ -88,7 +91,7 @@ public:
                 if(t1.isSuccessfully())
                 {
                      KomentariModel& kom =  KomentariModel::GetInstance();
-                     kom.dodajkomentar(Komentar(LOCALDATA::mProfil->getSlikaURL(),text, LOCALDATA::mProfil->getIme() + " "+ LOCALDATA::mProfil->getPrezime(),t1.Rows[0][0].toInt()));
+                     kom.dodajkomentar(Komentar(LOCALDATA::mProfil->getSlikaURL(),text, LOCALDATA::mProfil->getIme() + " "+ LOCALDATA::mProfil->getPrezime(),t1.Rows[0][0].toInt(),LOCALDATA::mProfil->getKorisnickoIme()));
                 }
             }
 
@@ -102,7 +105,7 @@ public:
         MySqlService &s = MySqlService::MySqlInstance();
         KomentariModel& kom =  KomentariModel::GetInstance();
         MySqlTable t1;
-        MyQuery query("SELECT KomentariLokacije.*,Korisnik.ime,Korisnik.prezime,Korisnik.slika  FROM `KomentariLokacije` inner join Korisnik on KomentariLokacije.idKorisnika = Korisnik.korisnickoIme WHERE idLokacije='%1'");//("SELECT * FROM KomentariLokacije WHERE idLokacije='%1'");
+        MyQuery query("SELECT KomentariLokacije.*,Korisnik.ime,Korisnik.prezime,Korisnik.slika,Korisnik.korisnickoIme  FROM `KomentariLokacije` inner join Korisnik on KomentariLokacije.idKorisnika = Korisnik.korisnickoIme WHERE idLokacije='%1'");//("SELECT * FROM KomentariLokacije WHERE idLokacije='%1'");
         query<<idLokacije;
          t1 = s.WSendQuery(query);
 
@@ -111,7 +114,46 @@ public:
             kom.removeAll();
             for(int i = 0; i < t1.Count();i++)
             {
-                kom.dodajkomentar(Komentar( t1.Rows[i]["slika"].toInt() == 0? LINKS::getProfileDefaultPicture(): LINKS::getProfilePicture(t1.Rows[i]["idKorisnika"]),t1.Rows[i]["tekstKomentara"],t1.Rows[i]["ime"]+" "+ t1.Rows[i]["prezime"],t1.Rows[i]["idKomentara"].toInt()));
+                kom.dodajkomentar(Komentar( t1.Rows[i]["slika"].toInt() == 0? LINKS::getProfileDefaultPicture(): LINKS::getProfilePicture(t1.Rows[i]["idKorisnika"]),t1.Rows[i]["tekstKomentara"],t1.Rows[i]["ime"]+" "+ t1.Rows[i]["prezime"],t1.Rows[i]["idKomentara"].toInt(),t1.Rows[i]["korisnickoIme"]));
+            }
+        }
+
+    }
+
+    Q_INVOKABLE
+    void ucitajKategorije()
+    {
+        MySqlService &s = MySqlService::MySqlInstance();
+        KategorijaModel& km =  KategorijaModel::GetInstance();
+        MySqlTable t;
+        MyQuery query("SELECT * from Kategorije");
+         t = s.WSendQuery(query);
+
+        if(t.isSuccessfully())
+        {
+            km.removeAll();
+            for(int i = 0; i < t.Count();i++)
+            {
+                km.dodajkategoriju(Kategorija(t.Rows[i]["kategorija"],false,i));
+            }
+        }
+
+    }
+    Q_INVOKABLE
+    void ucitajGradove()
+    {
+        MySqlService &s = MySqlService::MySqlInstance();
+        MestoModel& mm =  MestoModel::GetInstance();
+        MySqlTable t;
+        MyQuery query("SELECT * from Gradovi");
+         t = s.WSendQuery(query);
+
+        if(t.isSuccessfully())
+        {
+            mm.removeAll();
+            for(int i = 0; i < t.Count();i++)
+            {
+                mm.dodajmesto(Kategorija(t.Rows[i]["grad"],false,i));
             }
         }
 

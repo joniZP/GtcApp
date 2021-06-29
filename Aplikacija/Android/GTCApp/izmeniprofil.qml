@@ -165,8 +165,10 @@ ColumnLayout{
             if(b===false)
             {
                 block.visible=true
+           //    mProfilInst=ucitavanjeProfilaInstance.getProfil()
                 korisnikEvents.izmenaProfila(ime.text,prezime.text,lozinka.text,telefon.text)
                 mProfilInst=localData.getMProfil()
+                pageLoader.source="mojprofil.qml"
                 block.visible=false
             }
         }

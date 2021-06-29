@@ -98,31 +98,30 @@ Rectangle
        Rectangle
        {
            id: prijavanadogadjaj
-           width: parent.width-20
-           height: 50
-           anchors.top: tekst.bottom
-           anchors.topMargin: 5
-           anchors.horizontalCenter: parent.horizontalCenter
-           color: "white"
-           Text {
-               id: brojprijavljenih
-               text: qsTr("Broj prijavljenih korisnika: 1231")
-               font.family: "Helvetica"
-               font.pointSize: 12
-               anchors.left: parent.left
-               anchors.verticalCenter: parent.verticalCenter
-               anchors.leftMargin: 10
-           }
+              width: parent.width-20
+              height: 50
+              anchors.top: tekst.bottom
+              anchors.topMargin: 5
+              anchors.horizontalCenter: parent.horizontalCenter
+              color: "white"
+              Text {
+                  id: brojprijavljenih
+                  text: qsTr("Broj prijavljenih korisnika: "+ ucitavanjeDogadjaja.getBrPrijava())
+                  font.family: "Helvetica"
+                  font.pointSize: 12
+                  anchors.left: parent.left
+                  anchors.verticalCenter: parent.verticalCenter
+                  anchors.leftMargin: 10
+              }
            Button
            {
                id:prijavabutton
-               background: Rectangle
-               {
-                   id:prijavacolor
-                            color: parent.down ? "#549cd1" :
-                                    (parent.hovered ? "#549cd1" : "#549cff")
-                             radius: 5
-               }
+                background: Rectangle
+                {
+                    id:prijavacolor
+                    color: ucitavanjeDogadjaja.isPrijavljen()=== false? (prijavabutton.down ? "#549cd1" :(prijavabutton.hovered ? "#549cd1" : "#549cff")):                                                            (prijavabutton.down ? "#d4271a" :(prijavabutton.hovered ? "#d4271a" : "#ff0000"))
+                    radius: 5
+                }
                anchors.right: parent.right
                height: parent.height*0.8
                width:parent.width*0.4
@@ -131,20 +130,29 @@ Rectangle
                Text
                {
                    id: prijavisetext
-                   text: "Zaineresovan sam"
+                   text: ucitavanjeDogadjaja.isPrijavljen()=== false? "Zaineresovan sam": "Nisam zainteresovan"
                    font.family: "Helvetica"
                    font.pointSize: 11
-
-
-font.bold: true
+                   font.bold: true
                    anchors.centerIn: parent
                    color: "white"
 
                }
+               //Connections
+              // {
+                 //  target: glavnastranica
+               //    onNekiSignal:
+                 //  {
+                      // prijavanadogadjajbutton.visible=false
+                      // console.log("stigosignal")
+                  // }
+              // }
+
               onClicked:
               {
                   if(prijavisetext.text=="Zaineresovan sam")
                   {
+                      brojprijavljenih.text="Broj prijavljenih korisnika: "+ (ucitavanjeDogadjaja.getBrPrijava()+1)
                       prijavisetext.text="Nisam zaineresovan"
                       prijavacolor.color= prijavabutton.down ? "#d4271a" :
                               (prijavabutton.hovered ? "#d4271a" : "#ff0000")
@@ -152,11 +160,13 @@ font.bold: true
                   }
                   else
                   {
+                      brojprijavljenih.text="Broj prijavljenih korisnika: "+ (ucitavanjeDogadjaja.getBrPrijava())
                        prijavisetext.text="Zaineresovan sam"
-                      prijavacolor.color= prijavabutton.down ? "#549cd1" :
+                       prijavacolor.color= prijavabutton.down ? "#549cd1" :
                               (prijavabutton.hovered ? "#549cd1" : "#549cff")
 
                   }
+                   ucitavanjeDogadjaja.clickOnPrijava();
               }
            }
 
@@ -281,11 +291,22 @@ Rectangle
                        anchors.fill: parent
                        onClicked:
                        {
+                          block.visible = true;
 
-                           block.visible = true;
-                           getProfilByUsername(mDogadjaj.getIdKorisnika())
-                           natpis="Profil"
-                           pageLoader.source = "profil.qml"
+
+                           if(mProfilInst.getKorisnickoIme()===mDogadjaj.getIdKorisnika())
+                           {
+                               ucitavanjeProfilaInstance.ucitajLokacijeiDogadjaje(mProfilInst.getKorisnickoIme())
+                               natpis="Moj profil"
+                               pageLoader.source = "mojprofil.qml"
+                           }
+                           else
+                           {
+                               getProfilByUsername(mDogadjaj.getIdKorisnika())
+                               natpis="Profil"
+                               pageLoader.source = "profil.qml"
+
+                           }
                            block.visible = false;
                        }
                    }
@@ -359,11 +380,20 @@ Rectangle
               }
               MouseArea
               {
+                  id:likedogadjajklik
                   anchors.fill: parent
                   onClicked:
                   {
-                      likelogic.clickOnLike();
-                      like_slika.source = likelogic.vratiIkonicu();
+                      if(localData.getUlogovan())
+                      {
+                          likelogic.clickOnLike();
+                          like_slika.source = likelogic.vratiIkonicu();
+                      }
+                      else
+                      {
+                            ulogujsepopup.open()
+                      }
+
                   }
               }
               }
@@ -378,14 +408,14 @@ Rectangle
               anchors.left: like.right
 
 
-Rectangle{
+             Rectangle{
                   //color:"red"
                   anchors.centerIn: parent
                   width: komentar_slika.width+komentar_text.width+10
                   height: parent.height
               Image {
                       id: komentar_slika
-                      source: "../new/prefix1/comment.png"
+                      source: "../new/prefix1/comment1.png"
                       width: parent.height*0.5
                       height:parent.height*0.5
                       fillMode: Image.PreserveAspectCrop
@@ -407,9 +437,18 @@ Rectangle{
                   anchors.fill: parent
                   onClicked:
                   {
+                      if(!localData.getUlogovan())
+                      {
+                         komentarunos.visible=false
+                      }
+                      else
+                      {
+                           komentarunos.visible=true
+                      }
+
                       block.visible=true;
                       ucitavanjeDogadjaja.ucitajKomentare(mDogadjaj.getId())
-                      draw.open()
+                      komentaridrawer.open()
                       block.visible = false;
                   }
               }
@@ -451,11 +490,18 @@ Rectangle{
               {
                   anchors.fill: parent
                   onClicked:
-                  {
-                      block.visible=true
-                      prijateljiEvents.prikaziListuPrijatelja()
-                      deljenje_lokacije.visible=true
-                      block.visible=false
+                  { 
+                      if(localData.getUlogovan())
+                      {
+                          block.visible=true
+                          prijateljiEvents.prikaziListuPrijatelja()
+                          deljenje_lokacije.visible=true
+                          block.visible=false
+                      }
+                      else
+                      {
+                          ulogujsepopup.open()
+                      }
                   }
               }
               }
@@ -466,16 +512,12 @@ Rectangle{
 }
 Drawer
 {
-    id: draw
+    id: komentaridrawer
     //interactive: false
     width:parent.width
     dragMargin: 0
     height: parent.height/5*4
     edge: Qt.BottomEdge
-    z:980
-
-
-
     Rectangle
     {
         anchors.fill: parent
@@ -517,8 +559,10 @@ ListView
                required property string tekst
                required property string ime
                required property string id
+               required property string kreatorid
                width:parent.width
                height: tex.implicitHeight+tex0.implicitHeight+20
+
                     Image
                     {
                            id: img11
@@ -531,8 +575,61 @@ ListView
                            layer.effect: OpacityMask {
                                maskSource: mask
                            }
+
+                           MouseArea
+                           {
+                               anchors.fill: parent
+                               onClicked:
+                               {
+                                   komentaridrawer.close()
+                                   block.visible = true;
+                                   if(mProfilInst.getKorisnickoIme()===kreatorid)
+                                   {
+                                       ucitavanjeProfilaInstance.ucitajLokacijeiDogadjaje(mProfilInst.getKorisnickoIme())
+                                       natpis="Moj profil"
+                                       pageLoader.source = "mojprofil.qml"
+                                   }
+                                   else
+                                   {
+                                       getProfilByUsername(kreatorid)
+                                       natpis="Profil"
+                                       pageLoader.source = "profil.qml"
+
+                                   }
+                                   block.visible = false;
+                               }
+                           }
                     }
                     Rectangle {
+
+                        Menu
+                        {
+                            width: 100
+                            id: menu
+                            x:prijavi.x-menu.width+prijavi.width
+                            y:prijavi.y+prijavi.height
+                            MenuItem
+                            {
+                                id:item1
+                                anchors.centerIn: parent
+                                text: qsTr("Prijavi")
+
+                                onClicked:
+                                {
+
+                                    if(localData.getUlogovan())
+                                    {
+                                        lokacijaprijavapopup.open();
+                                        report.setParameters(id,3);
+                                    }
+                                    else
+                                    {
+                                       ulogujsepopup.open()
+                                    }
+                                }
+                            }
+
+                        }
                      anchors.leftMargin: 10
                       id: roundRect
                       radius: 10
@@ -563,7 +660,6 @@ ListView
                               anchors.fill: parent
                               onClicked:
                               {
-
                                   menu.open()
                               }
                           }
@@ -581,26 +677,7 @@ ListView
                     }
 
 
-                    Menu
-                    {
-                        width: 100
-                       // height: item1.height
-                        id: menu
-                        x:prijavi.x-menu.width+prijavi.width
-                        y:prijavi.y+prijavi.height
-                        MenuItem
-                        {
-                            id:item1
-                            anchors.centerIn: parent
-                            text: qsTr("Prijavi")
 
-                            onClicked:{
-                                lokacijaprijavapopup.open();
-                                report.setParameters(id,3);
-                            }
-                        }
-
-                    }
                     }
 
 
@@ -678,9 +755,6 @@ ScrollView {
         anchors.fill: parent
         visible: false
         color: "transparent"
-        z:999
-
-
         Rectangle{
         id: blockcolor
         anchors.fill: blockcomment

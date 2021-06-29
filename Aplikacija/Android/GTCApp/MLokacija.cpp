@@ -7,6 +7,11 @@ void MLokacija::setKreator(const QString &value)
     kreator = value;
 }
 
+void MLokacija::setKategorija(const QString &value)
+{
+    kategorija=value;
+}
+
 void MLokacija::setOpis(const QString &value)
 {
     opis = value;
@@ -25,6 +30,11 @@ int MLokacija::getBrSlika() const
 void MLokacija::setBrSlika(int value)
 {
     brSlika = value;
+}
+
+void MLokacija::setLike(int value)
+{
+    like = value;
 }
 
 void MLokacija::setId(int value)

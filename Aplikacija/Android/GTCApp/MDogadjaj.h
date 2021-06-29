@@ -89,7 +89,13 @@ public:
     {
         imeKorisnika = value;
     }
+    void setLike(int value);
 };
+
+inline void MDogadjaj::setLike(int value)
+{
+    like = value;
+}
 
 
 

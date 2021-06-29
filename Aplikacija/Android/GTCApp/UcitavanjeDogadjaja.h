@@ -17,9 +17,14 @@ class UcitavanjeDogadjaja : public QObject
          static MDogadjaj* dogadjaj;
          static UcitavanjeDogadjaja * instance;
          static int brslika;
+         static int brprijava;
+         static bool prijavljen;
+         static bool loadPrijavljen;
+         static QTimer *prijavljentimer;
          UcitavanjeDogadjaja()
          {
-            // connect(liketimer, &QTimer::timeout, this, QOverload<>::of(&UcitavanjeLokacije::sacuvajLikeUBazu));
+             prijavljentimer = new QTimer(this);
+             connect(prijavljentimer, &QTimer::timeout, this, QOverload<>::of(&UcitavanjeDogadjaja::sacuvajPrijavuUBazu));
          }
 
 
@@ -38,8 +43,8 @@ public:
              MySqlService &s = MySqlService::MySqlInstance();
              MySqlTable t;
              dogadjaj = NULL;
-              MyQuery query("SELECT Dogadjaj.*,Lokacija.naziv,Lokacija.grad,Lokacija.brojSlika,Korisnik.ime,Korisnik.prezime,Korisnik.slika from Dogadjaj INNER JOIN Lokacija on Dogadjaj.idLokacije=Lokacija.id INNER join Korisnik on Dogadjaj.idKorisnika = Korisnik.korisnickoIme WHERE idDogadjaja=%1");
-               query<<id;
+             MyQuery query("SELECT Dogadjaj.*,Lokacija.naziv,Lokacija.grad,Lokacija.brojSlika,Korisnik.ime,Korisnik.prezime,Korisnik.slika, (SELECT count(*) from DogadjajLikes WHERE idDogadjaja=%1) as likescount, (SELECT count(*) from PrijavaNaDogadjaj where idDogadjaja=%1) as brprijava from Dogadjaj INNER JOIN Lokacija on Dogadjaj.idLokacije=Lokacija.id INNER join Korisnik on Dogadjaj.idKorisnika = Korisnik.korisnickoIme WHERE idDogadjaja=%1");
+              query<<id;
                 t = s.WSendQuery(query);
 
                 if(t.isSuccessfully())
@@ -53,7 +58,11 @@ public:
                        dogadjaj->setImeKorisnika(t.Rows[0]["ime"]+" "+t.Rows[0]["prezime"]);
                         brslika = t.Rows[0]["slika"].toInt();
 
-                       Like::setParameters(id,Tip::DogadjajTip);
+                        brprijava =t.Rows[0]["brprijava"].toInt();
+                        Like::setParameters(id,Tip::DogadjajTip);
+                        loadPrijavljen = loadStatus();
+                        prijavljen = loadPrijavljen;
+
                     }
                 }
 
@@ -103,7 +112,7 @@ public:
                      if(t1.isSuccessfully())
                      {
                           KomentariModel& kom =  KomentariModel::GetInstance();
-                          kom.dodajkomentar(Komentar(LOCALDATA::mProfil->getSlikaURL(),text, LOCALDATA::mProfil->getIme() + " "+ LOCALDATA::mProfil->getPrezime(),t1.Rows[0][0].toInt()));
+                          kom.dodajkomentar(Komentar(LOCALDATA::mProfil->getSlikaURL(),text, LOCALDATA::mProfil->getIme() + " "+ LOCALDATA::mProfil->getPrezime(),t1.Rows[0][0].toInt(),LOCALDATA::mProfil->getKorisnickoIme()));
                      }
                  }
 
@@ -117,7 +126,7 @@ public:
              MySqlService &s = MySqlService::MySqlInstance();
              KomentariModel& kom =  KomentariModel::GetInstance();
              MySqlTable t1;
-             MyQuery query("SELECT KomentariDogadjaj.*,Korisnik.ime,Korisnik.prezime,Korisnik.slika  FROM `KomentariDogadjaj` inner join Korisnik on KomentariDogadjaj.idKorisnika = Korisnik.korisnickoIme WHERE idDogadjaja='%1'");//("SELECT * FROM KomentariLokacije WHERE idLokacije='%1'");
+             MyQuery query("SELECT KomentariDogadjaj.*,Korisnik.ime,Korisnik.prezime,Korisnik.slika Korisnik.korisnickoIme  FROM `KomentariDogadjaj` inner join Korisnik on KomentariDogadjaj.idKorisnika = Korisnik.korisnickoIme WHERE idDogadjaja='%1'");//("SELECT * FROM KomentariLokacije WHERE idLokacije='%1'");
              query<<idDogadjaja;
               t1 = s.WSendQuery(query);
 
@@ -126,13 +135,83 @@ public:
                  kom.removeAll();
                  for(int i = 0; i < t1.Count();i++)
                  {
-                     kom.dodajkomentar(Komentar( t1.Rows[i]["slika"].toInt() == 0? LINKS::getProfileDefaultPicture(): LINKS::getProfilePicture(t1.Rows[i]["idKorisnika"]),t1.Rows[i]["tekstKomentara"],t1.Rows[i]["ime"]+" "+ t1.Rows[i]["prezime"],t1.Rows[i]["idKomentara"].toInt()));
+                     kom.dodajkomentar(Komentar( t1.Rows[i]["slika"].toInt() == 0? LINKS::getProfileDefaultPicture(): LINKS::getProfilePicture(t1.Rows[i]["idKorisnika"]),t1.Rows[i]["tekstKomentara"],t1.Rows[i]["ime"]+" "+ t1.Rows[i]["prezime"],t1.Rows[i]["idKomentara"].toInt(),t1.Rows[i]["korisnickoIme"]));
                  }
              }
 
          }
 
+         static void sacuvajPrijavuUBazu(){
+                        prijavljentimer->stop();
 
+                       if(prijavljen != loadPrijavljen)
+                       {
+                           loadPrijavljen = prijavljen;
+                           if(prijavljen)
+                           {
+                               insertPrijava();
+                           }
+                           else
+                           {
+                               deletePrijava();
+                           }
+                       }
+
+                  }
+
+
+                  static void insertPrijava()
+                  {
+
+                      MySqlService &s = MySqlService::MySqlInstance();
+                      MyQuery query("INSERT INTO PrijavaNaDogadjaj SET korisnickoIme='%1', idDogadjaja='%2'");
+                      query<<LOCALDATA::mProfil->getKorisnickoIme()<<dogadjaj->getId();
+                      s.SendQuery(query);
+
+                  }
+
+                  static void deletePrijava()
+                  {
+                          MySqlService &s = MySqlService::MySqlInstance();
+                          MyQuery query("DELETE FROM PrijavaNaDogadjaj WHERE korisnickoIme='%1' and idDogadjaja='%4'");
+                          query<<LOCALDATA::mProfil->getKorisnickoIme()<<dogadjaj->getId();
+                          s.SendQuery(query);
+                  }
+
+
+                  static bool loadStatus()
+                  {
+                      MySqlService &s = MySqlService::MySqlInstance();
+                      MySqlTable t;
+                      MyQuery query("SELECT * FROM PrijavaNaDogadjaj WHERE korisnickoIme='%1' and idDogadjaja='%4'");//("SELECT * FROM KomentariLokacije WHERE idLokacije='%1'");
+                      query<<LOCALDATA::mProfil->getKorisnickoIme()<<dogadjaj->getId();
+                       t = s.WSendQuery(query);
+                      if(t.isSuccessfully())
+                      {
+                          return t.Count() > 0;
+                      }
+                  }
+
+                   Q_INVOKABLE
+                   static bool isPrijavljen()
+                   {
+                       return prijavljen;
+                   }
+
+                    Q_INVOKABLE
+                    static int getBrPrijava()
+                    {
+                        return brprijava;
+                    }
+
+
+                    Q_INVOKABLE
+                    static void clickOnPrijava()
+                    {
+                        prijavljen = !prijavljen;
+                        prijavljentimer->stop();
+                        prijavljentimer->start(2000);
+                    }
 
 signals:
 

@@ -19,7 +19,8 @@ private:
         TextRole = Qt::UserRole + 1,
         SlikaRole,
         ImeRole,
-        IdRole
+        IdRole,
+        KreatorRole
     };
     static KomentariModel* instance;
     KomentariModel();

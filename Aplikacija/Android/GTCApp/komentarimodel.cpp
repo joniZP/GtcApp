@@ -48,6 +48,10 @@ QVariant KomentariModel::data(const QModelIndex &index, int role) const
     {
         return Komentari.id();
     }
+    else if(role==KreatorRole)
+    {
+        return Komentari.kreatorid();
+    }
     return QVariant();
 }
 
@@ -58,6 +62,7 @@ QHash<int, QByteArray> KomentariModel::roleNames() const
     roles[TextRole] = "tekst";
     roles[ImeRole] = "ime";
     roles[IdRole] = "id";
+    roles[KreatorRole] = "kreatorid";
     return roles;
 }
 

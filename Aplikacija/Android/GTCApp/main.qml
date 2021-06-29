@@ -16,7 +16,8 @@ ApplicationWindow
     property MLokacija location
     property MDogadjaj  mDogadjaj
     property  MProfil mProfil
-
+    property  MProfil mProfilInst
+    property  bool pretragaLD: true
     function getProfilByUsername(username)
     {
         var pom = ucitavanjeProfilaInstance.getProfil(username);
@@ -24,6 +25,14 @@ ApplicationWindow
         prijateljiEvents.setStanjeByUsername(username);
 
     }
+
+
+  //  Component.onCompleted:
+   // {
+       // let pom=localData.getMProfil()
+      //  mProfilInst=pom
+
+   // }
 
     function getIdLDP(mysource)
     {
@@ -49,7 +58,6 @@ ApplicationWindow
     {
         if(icon=="qrc:/new/prefix1/dropdown-menu-icon-20.jpg")
         {
-            refreshProfilData();
             drawer.open()
         }
         else
@@ -84,16 +92,59 @@ ApplicationWindow
         }
     }
 
+
+
     function getDogadjajById(id)
     {
         let pom = ucitavanjeDogadjaja.getDogadjaj(id)
         mDogadjaj =pom
         let pom1 = mDogadjaj.getLokacija()
         location = pom1;
-
-
     }
+/*
+    function checkprijavljen(ld)
+    {
+        console.log("uslo")
+        if(localData.getUlogovan())
+        {
+            if(ld==="lokacija.qml")
+            {
+                podelilokacijaklik.enabled=true
+                likelokacijaklik.enabled=true
+            }
+            else if(ld==="dogadjaj.qml")
+            {
+                prijavanadogadjajbutton.visible=true
+                likedogadjajklik.enabled=true
+            }
+           // komentarunos.visible=true
+        }
+        else
+        {
 
+
+       // ulogujsepopup
+
+
+            console.log("nije ulogovan "+ld)
+            if(ld=="qrc:/lokacija.qml")
+            {
+                console.log("nije ulogovan lokacija")
+               // podelilokacijaklik.enabled=false
+                //likelokacijaklik.enabled=false
+                aliasproba.komentarunos.visible=false
+            }
+            else if(ld=="qrc:/dogadjaj.qml")
+            {
+                 console.log("nije ulogovan dogadjaj")
+                 prijavanadogadjajbutton.visible=false
+                 likedogadjajklik.enabled=false
+            }
+            //komentarunos.visible=false
+
+        }
+    }
+*/
     function getLokacijaById(id)
     {
         let pom = ucitajInstance.getLokacija(id)
@@ -114,6 +165,7 @@ ApplicationWindow
           //  nalogSlikaPoruka.visible = true;
        // }
         const ulogovan = localData.getUlogovan();
+        logoutdugme.visible=ulogovan
         porukeID.visible = zahteviID.visible = ulogovan;
         loginID.visible = !ulogovan;
         mojprofilotvori.visible = ulogovan;
@@ -128,7 +180,8 @@ ApplicationWindow
     }
 
 
-
+    id:glavnastranica
+   // signal nekiSignal
     visible: true
     width: 300
     height: 500
@@ -259,8 +312,16 @@ ApplicationWindow
                    // anchors.centerIn: parent
                     text: qsTr("Organizuj dogadjaj")
 
-                    onClicked: {
-                        pageLoader.source="qrc:/DodajDogadjaj.qml"
+                    onClicked:
+                    {
+                        if(localData.getUlogovan())
+                        {
+                            pageLoader.source="qrc:/DodajDogadjaj.qml"
+                        }
+                        else
+                        {
+                           ulogujsepopup.visible=true
+                        }
                     }
                 }
 
@@ -270,9 +331,22 @@ ApplicationWindow
                    // anchors.centerIn: parent
                     text: qsTr("Prijavi")
 
-                    onClicked:{
-                        report.setParameters(location.getId(),0);
-                    lokacijaprijavapopup.open();
+                    onClicked:
+                    {
+
+                        onClicked:
+                        {
+                            if(localData.getUlogovan())
+                            {
+                                report.setParameters(location.getId(),0);
+                                lokacijaprijavapopup.open();
+                            }
+                            else
+                            {
+                                 ulogujsepopup.visible=true
+                            }
+                        }
+
                     }
                 }
 
@@ -292,9 +366,17 @@ ApplicationWindow
                    // anchors.centerIn: parent
                     text: qsTr("Prijavi")
 
-                    onClicked:{
-                        report.setParameters(mDogadjaj.getId(),1);
-                    lokacijaprijavapopup.open();
+                    onClicked:
+                    {
+                        if(localData.getUlogovan())
+                        {
+                            report.setParameters(mDogadjaj.getId(),1);
+                            lokacijaprijavapopup.open();
+                        }
+                        else
+                        {
+                             ulogujsepopup.visible=true
+                        }
                     }
                 }
 
@@ -305,10 +387,13 @@ ApplicationWindow
             Loader
             {
 
+
                 id: pageLoader
                 anchors.centerIn: parent
                 anchors.fill: parent
                 source: "pocetna.qml"
+
+
                 onSourceChanged:
                 {
                     natpisid.text=natpis
@@ -321,10 +406,10 @@ ApplicationWindow
                     {
                        pretragalupa.visible=false
                     }  
-
                     if(source == "qrc:/lokacija.qml" || source == "qrc:/dogadjaj.qml")
                     {
                         pretragalupaimg.source="/new/prefix1/3dot.png";
+                       // nekiSignal()
                     }
                     else
                     {
@@ -371,6 +456,12 @@ ApplicationWindow
             id: drawer
             width: 0.66 * parent.width
             height: parent.height
+            dragMargin: 5
+            onOpened:
+            {
+                refreshProfilData()
+            }
+
             Rectangle
             {
                 id:qqq
@@ -559,24 +650,54 @@ ApplicationWindow
                             onClicked:
                             {
                                 //console.log( men.fun1(dugme))
-                                natpis="Prvi"
-                                pageLoader.source = "profil.qml"
-
+                                pretragaLD=true
+                                natpis="Pretraga lokacija"
+                                pageLoader.source = "pretraga.qml"
                                 if(pom!=null)
                                 {
                                      pom.color_="#ffffff"
                                 }
-                                dugme.color_="#d9d7d2"
-                                pom=dugme
+                                dugmepretragalokacija.color_="#d9d7d2"
+                                pom=dugmepretragalokacija
                                 drawer.close()
                             }
                         }
-                        id: dugme
+                        id: dugmepretragalokacija
                         widt: parent.width
                         heigh: 40
                         sourc: "../new/prefix1/iconlocation.png"
                         tex: "Pretrazi lokacije"
                     }
+
+                    Sbutt
+                    {
+                        MouseArea
+                        {
+                            anchors.fill: parent
+                            onClicked:
+                            {
+                                //console.log( men.fun1(dugme))
+                                pretragaLD=false
+                                natpis="Pretraga dogadjaja"
+                                pageLoader.source = "pretraga.qml"
+
+
+                                if(pom!=null)
+                                {
+                                   pom.color_="#ffffff"
+                                }
+                                dugmepretragadogadjaja.color_="#d9d7d2"
+                                pom=dugmepretragadogadjaja
+                                drawer.close()
+                            }
+                        }
+                        id: dugmepretragadogadjaja
+                        widt: parent.width
+                        heigh: 40
+                        sourc: "../new/prefix1/iconlocation.png"
+                        tex: "Pretrazi dogadjaje"
+                    }
+
                     Sbutt
                     {
                         MouseArea
@@ -605,8 +726,10 @@ ApplicationWindow
                     }
 
 
-    Sbutt
+                   Sbutt
                    {
+                       id: logoutdugme
+                       visible: localData.getUlogovan()
                        MouseArea
                        {
                            anchors.fill: parent
@@ -620,12 +743,13 @@ ApplicationWindow
                            pocetna.color_="#d9d7d2"
                            pom=pocetna
                            natpis="Pocetna"
-                           pageLoader.source = "pocetna.qml"
-                            korisnikEvents.odjava()
+                           block.visible=true
+                           korisnikEvents.odjava()
                            drawer.close()
+                           pageLoader.source = "pocetna.qml"
+                           block.visible=false
                            }
                       }
-                       id: pocetnastrana
                        widt: parent.width
                        heigh: 40
                        sourc: "../new/prefix1/iconlogout.png"
@@ -662,7 +786,7 @@ ApplicationWindow
 
             Image {
                 id: porukeID
-                source: "qrc:/new/prefix1/comment__2_-removebg-preview.png"
+                source: "qrc:/new/prefix1/comment.png"
                 width:25
                 height:25
                 visible: localData.getUlogovan();
@@ -739,7 +863,7 @@ ApplicationWindow
                         visible: localData.getUlogovan()
 
 
-    anchors.right: porukeID.left
+                        anchors.right: porukeID.left
                         anchors.top: parent.top
                         anchors.topMargin: 10
                         anchors.rightMargin: 10
@@ -821,11 +945,10 @@ ApplicationWindow
         focus: true
         anchors.centerIn: parent
         ColumnLayout
-        {   //@disable-check M16
+        {
+             // @disable-check M16
             width:parent.width
-
             spacing: 10
-
             Rectangle//OPIS prijave
             {
 
@@ -836,8 +959,6 @@ ApplicationWindow
                 height: 90
                 color: "transparent"
                 border.color:"#595959"
-
-
 
                 ScrollView {
                     id: lokacijaprijavascrollview
@@ -926,5 +1047,177 @@ ApplicationWindow
 
     }
 
+    //////
+    Rectangle{
+        id:connectionlostmessage
+        anchors.top: parent.top;
+        width: parent.width;
+        height: 60;
+        color: "#333333"
+        opacity: 0.8
+        visible: true
 
+            Text{
+                id: connectionlostmessagetext
+                anchors.centerIn: parent
+                text:qsTr("Connection failed")
+                color:"white"
+
+            }
+
+            Connections {
+                  target: mysqlservice
+                  function onMyConnectionLost(){
+                     connectionlostmessage.visible=true;
+
+                    }
+
+                  function onMyConnectionEstablished(){
+
+                    connectionlostmessage.visible=false;
+                  }
+             }
+
+
+        }
+        Rectangle
+        {
+            id:initblock
+            anchors.fill: parent
+            visible: true
+            color: "#ededed"
+            Timer{
+                id:destroyinitblock
+            repeat: false
+            interval: 4000
+            onTriggered: {
+                if(connectionlostmessage.visible == false)
+                {
+                    initblock.visible=false;
+                }
+                else
+                {
+                    initkcolor.visible=true
+                }
+            }
+            }
+
+            Component.onCompleted:
+            {
+                destroyinitblock.start();
+                pretrazi.ucitavanjeLokacijaPocetna();
+                ucitajInstance.ucitajKategorije();
+                ucitajInstance.ucitajGradove();
+                let pom=localData.getMProfil()
+                mProfilInst=pom
+            }
+            Image
+            {
+                id: initbackimg
+                source: "qrc:/new/prefix1/iconlocation.png"
+                width: 150
+                height: 150
+            //  anchors.centerIn: parent
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.verticalCenterOffset: -80
+            }
+
+            Text
+            {
+                id:initblocktext
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 30
+               // anchors.topMargin: 1
+                text: qsTr("Made by Squad®");
+                color: "#549cff"
+            }
+
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked: mouse.accepted = true
+            }
+
+
+            Rectangle
+            {
+            id: initkcolor
+            anchors.fill: initblock
+            color: "#575757"
+            opacity: 0.7
+            visible: false
+
+            Text
+            {
+
+               horizontalAlignment: Text.AlignHCenter
+               anchors.centerIn: initkcolor
+               text:qsTr("Connection failed\n check your connection and try again.")
+               color:"white"
+            }
+
+            }
+
+        }
+
+        Popup {
+            id: ulogujsepopup
+            width: parent.width/5*4
+            height: 120
+            modal: true
+            focus: true
+            anchors.centerIn: parent
+          Rectangle
+          {
+              anchors.fill: parent
+            Text
+            {
+
+                id: ulogujsepopuptext
+                text:"Ova opcija omogucena je samo prijavljenim korisnicima."
+                horizontalAlignment: Text.AlignHCenter
+                width:parent.width*0.9
+                anchors.horizontalCenter: parent.horizontalCenter
+                wrapMode: Text.WordWrap
+                font.pixelSize: 15
+                anchors.top: parent.top
+            }
+
+
+            Rectangle
+            {
+                height: prijavisedugme.implicitHeight
+                anchors.bottom: parent.bottom
+                //anchors.bottomMargin: 10
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: prijavisedugme.implicitWidth+odustanidugme.implicitWidth+20
+                 Button
+                 {
+                     id:prijavisedugme
+                     text: qsTr("Prijavi se")
+                     onClicked:
+                     {
+                         ulogujsepopup.close()
+                         pageLoader.source="qrc:/prijava.qml"
+                     }
+                     anchors.left: parent.left
+                 }
+                Button
+                {
+                    id:odustanidugme
+                    text: qsTr("Odustani")
+                    onClicked:
+                    {
+                        ulogujsepopup.close()
+                    }
+                    anchors.right: parent.right
+                }
+            }
+          }
+
+                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+                // anchors.centerIn: parent
+                }
 }

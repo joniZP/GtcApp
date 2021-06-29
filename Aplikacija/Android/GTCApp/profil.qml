@@ -74,7 +74,6 @@ Rectangle{
                                 //to ce da znaci if(u listi prijatelja){dodajprijateljaimage.source="" dodajprijateljaimage.height=0 i w=0}
                               }
                     }
-
                     }
 
                 }
@@ -106,7 +105,7 @@ Rectangle{
                                 {
 
 
-profilnaimage.width=glavni.width
+                                    profilnaimage.width=glavni.width
                                     profilnaimage.height=glavni.height/100*40
                                     profilnaimage.layer.enabled=false
                                     imeiprezimeprofil.visible=false
@@ -309,7 +308,7 @@ Image {
                         anchors.centerIn: parent
                         font.pixelSize: 14
                         color: mouseareakreiranidogadjaji.pressed ? "#549cff":"white"
-                        font.italic: true
+                        font.bold: true
 
 
                     }
@@ -499,7 +498,6 @@ ListView {
                        anchors.fill:parent
                        onClicked:
                        {
-                           opislokacijeprofil.text=id
                            block.visible=true
                            getLokacijaById(id)
                            block.visible=false

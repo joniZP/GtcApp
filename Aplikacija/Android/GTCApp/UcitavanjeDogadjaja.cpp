@@ -1,10 +1,10 @@
 #include "UcitavanjeDogadjaja.h"
 
-static MDogadjaj* dogadjaj;
-static UcitavanjeDogadjaja * instance;
-static int brslika;
-
+bool UcitavanjeDogadjaja::prijavljen = 0;
+bool UcitavanjeDogadjaja::loadPrijavljen = 0;
+QTimer * UcitavanjeDogadjaja::prijavljentimer = NULL;
 
 MDogadjaj* UcitavanjeDogadjaja::dogadjaj = NULL;
 UcitavanjeDogadjaja* UcitavanjeDogadjaja::instance = NULL;
 int UcitavanjeDogadjaja::brslika = 0;
+int UcitavanjeDogadjaja::brprijava = 0;

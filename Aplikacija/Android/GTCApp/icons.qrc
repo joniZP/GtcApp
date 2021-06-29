@@ -1,0 +1,43 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>person-icon.png</file>
+        <file>dropdown-menu-icon-20.jpg</file>
+        <file>search-3-24.png</file>
+        <file>pngkit_send-icon-png_1882365.png</file>
+        <file>add-friend.png</file>
+        <file>emaill.png</file>
+        <file>request-send.png</file>
+        <file>smartphone-call.png</file>
+        <file>star.png</file>
+        <file>star-empty.png</file>
+        <file>comment.png</file>
+        <file>heart.png</file>
+        <file>like.png</file>
+        <file>share.png</file>
+        <file>pin.png</file>
+        <file>addimage.png</file>
+        <file>addimage2.png</file>
+        <file>loupe.png</file>
+        <file>check.png</file>
+        <file>change.png</file>
+        <file>friendlist.png</file>
+        <file>reddot.png</file>
+        <file>spinnerpicture.gif</file>
+        <file>spinnerpage.gif</file>
+        <file>city.png</file>
+        <file>kategorije.png</file>
+        <file>friends.png</file>
+        <file>remove-user.png</file>
+        <file>send.png</file>
+        <file>close-removebg-preview.png</file>
+        <file>arrow-119-64.ico</file>
+        <file>3dot.png</file>
+        <file>iconlogout.png</file>
+        <file>iconadd.png</file>
+        <file>iconhome.png</file>
+        <file>iconlocation.png</file>
+        <file>logouticon.png</file>
+        <file>comment1.png</file>
+        <file>spinnerinit.gif</file>
+    </qresource>
+</RCC>

@@ -16,6 +16,7 @@ public:
     QString opis;
     QString grad;
     QString punoime;
+    QString kategorija;
     int like;
     double xcoo;
     double ycoo;
@@ -75,6 +76,11 @@ public:
    {
        return punoime;
    }
+   Q_INVOKABLE
+   QString getKategorija()
+   {
+       return kategorija;
+   }
 
    Q_INVOKABLE
  void setIme(QString ime)
@@ -84,7 +90,7 @@ public:
 
 
 
-    MLokacija(int id, QString kreator,QString punoime,QString naziv,QString opis,QString grad,int like, double xcoo,double ycoo)
+    MLokacija(int id, QString kreator,QString punoime,QString naziv,QString opis,QString grad,int like, double xcoo,double ycoo,QString kategorija)
     {
         this->grad=grad;
         this->id = id;
@@ -95,13 +101,16 @@ public:
         this->xcoo=xcoo;
         this->ycoo = ycoo;
         this->punoime = punoime;
+        this->kategorija=kategorija;
     }
     void setId(int value);
     void setKreator(const QString &value);
+    void setKategorija(const QString &value);
     void setOpis(const QString &value);
     void setGrad(const QString &value);
-    int getBrSlika() const;
+    int  getBrSlika() const;
     void setBrSlika(int value);
+    void setLike(int value);
 };
 
 #endif // MLOKACIJA_H

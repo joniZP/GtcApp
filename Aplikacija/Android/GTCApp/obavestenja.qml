@@ -175,9 +175,9 @@ Rectangle
                            anchors.fill: parent
                            onClicked:
                            {
-
-                                console.log(index)
+                               block.visible=true
                                _obavestenjamodel.obrisi(index)
+                               block.visible=false
 
                            }
                        }

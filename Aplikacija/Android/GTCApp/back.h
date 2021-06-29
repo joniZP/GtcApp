@@ -66,7 +66,7 @@ public:
              qDebug()<<lista->count();
             pom=lista->back();
             lista->pop_back();
-            while(pom.stranica==tr || pom.stranica=="qrc:/prijava.qml" || pom.stranica=="qrc:/registracija.qml" || pom.stranica=="qrc:/DodajLokaciju.qml" || pom.stranica=="qrc:/DodajDogadjaj.qml")// if(source != "qrc:/prijava.qml" && source != "qrc:/registracija.qml" && source != "qrc:/DodajLokaciju.1ml" && source !="qrc:/DodajDogadjaj")
+            while(pom.stranica==tr || pom.stranica=="qrc:/prijava.qml" || pom.stranica=="qrc:/registracija.qml" || pom.stranica=="qrc:/DodajLokaciju.qml" || pom.stranica=="qrc:/DodajDogadjaj.qml"|| pom.stranica=="qrc:/izmeniprofil.qml")// if(source != "qrc:/prijava.qml" && source != "qrc:/registracija.qml" && source != "qrc:/DodajLokaciju.1ml" && source !="qrc:/DodajDogadjaj")
             {
                 pom=lista->back();
                 if(lista->count()>1)

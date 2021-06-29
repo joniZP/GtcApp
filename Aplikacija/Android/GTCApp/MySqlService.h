@@ -54,6 +54,9 @@ public:
     QString WSendQuery(QString request);
     QString WSendQuery(MyQuery request);
 
+signals:
+    void myConnectionLost();
+    void myConnectionEstablished();
 
 };
 

@@ -12,37 +12,50 @@ QString MySqlService::Answer = " ";
 MySqlService * MySqlService::instance = NULL;
 QEventLoop MySqlService::waitLoop;
 
-#endif
+
+
 
 void MySqlService::ReplyAnswer(QNetworkReply *reply)
 {
     QString result = reply->readAll();
-    QStringList Status = result.split("###")[0].split("|");
+    QStringList Status = result.split("|");
 
-    if(Status[1] == "sync")
+    if(Status.count()> 1)
     {
-        if(WaitAnswer)
+        if(Status[1] == "sync")
         {
-            Answer = result;
-            WaitAnswer = false;
-            waitLoop.quit();
-            qDebug() << "SYNC Reply: " <<  Answer;
+            if(WaitAnswer)
+            {
+                Answer = result;
+                WaitAnswer = false;
+                waitLoop.quit();
+                qDebug() << "SYNC Reply: " <<  Answer;
+            }
+            else
+            {
+                qDebug() << "SYNC NO WAIT Reply: " <<  result;
+            }
         }
         else
         {
-            qDebug() << "SYNC NO WAIT Reply: " <<  result;
+            qDebug() << "ASYNC Reply: " <<  result;
         }
+        emit MySqlInstance().myConnectionEstablished();
+
     }
     else
     {
-        qDebug() << "ASYNC Reply: " <<  result;
+          if(WaitAnswer)
+            {
+                Answer = "505|sync|Konekcija nije uspostavljena###";
+                WaitAnswer = false;
+                waitLoop.quit();
+            }
+
+           emit MySqlInstance().myConnectionLost();
+         qDebug() << "ERROR Reply: Konekcija nije uspostavljena!" <<  result;
     }
-
-
-
-
 }
-
 
 MySqlService &MySqlService::MySqlInstance()
 {
@@ -213,3 +226,4 @@ QString MyQuery::toStr()
 {
     return q;
 }
+#endif
