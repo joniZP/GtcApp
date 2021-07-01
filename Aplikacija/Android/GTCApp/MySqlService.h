@@ -110,13 +110,3 @@ struct MyQuery{
 
 
 #endif // MYSQLSERVICE_H
-
-
-
-
-
-
-
-
-
-

@@ -32,6 +32,10 @@ public:
     LOCALDATA()
     {
 
+    }
+    Q_INVOKABLE
+    void initMProfil()
+    {
         QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
         db.setDatabaseName("LOCALDB.sqlite");
 
@@ -84,9 +88,8 @@ public:
 
 
         }
-
-
     }
+
     Q_INVOKABLE
     bool getUlogovan()
     {

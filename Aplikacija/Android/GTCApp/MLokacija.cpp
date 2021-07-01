@@ -37,6 +37,16 @@ void MLokacija::setLike(int value)
     like = value;
 }
 
+int MLokacija::getBrKomentara() const
+{
+    return brKomentara;
+}
+
+void MLokacija::setBrKomentara(int value)
+{
+    brKomentara = value;
+}
+
 void MLokacija::setId(int value)
 {
     id = value;

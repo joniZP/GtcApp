@@ -10,14 +10,30 @@ import QtGraphicalEffects 1.12
 //import QtWebView 1.1
 import MLokacija 1.0
 import QtQuick.Controls.Styles 1.4
-
 Rectangle
 {
 
+    function funkcija()
+    {
+        var id= upisLokacijaDogadjaj.azurirajDogadjaj(mDogadjaj.getId(),upisLokacijaDogadjaj.formatDate(cbxmesec.currentValue,cbxdan.currentValue,cbxsat.currentValue,cbxminut.currentValue), opisdogadjajaizmena.text,tipdogadjajaizmena.currentText);
+        console.log(cbxsat.currentValue)
+         console.log(cbxsat.currentText)
+          console.log(cbxsat.currentIndex)
+    }
 
     id:dogadjajglavnirect
     anchors.fill: parent
     color: "#d3d3d3"
+
+    Connections
+    {
+       target: glavnastranica
+        onIzmeniDogadjajsignal:
+        {
+            izmena.visible=true
+            console.log("stigosignal")
+        }
+    }
     Flickable
     {
      anchors.fill: parent
@@ -30,21 +46,30 @@ Rectangle
      id: hederrect
     color: "#d3d3d3"
     width: parent.width
-    height: 250+tekst.height
+    height: 320+tekst.height
     Rectangle
     {
       width:parent.width
       anchors.top: parent.top
       anchors.topMargin: 10
+      color: "transparent"
        Rectangle
        {
+           anchors.top: parent.top
            id: tekst
            width: parent.width-20
-           height: childrenRect.height+10
+           height: opistekst.visible==true?opistekst.height+10:izmena.height
+           anchors.horizontalCenter: parent.horizontalCenter
+           Rectangle
+           {
+
+           id:opistekst
+           visible: !izmena.visible
+           width: parent.width
+           height:opisdogadjaj.height +100
            anchors.top:parent.top
            anchors.topMargin: 10
            anchors.horizontalCenter: parent.horizontalCenter
-           color: "white"
            Rectangle{
                      id: prviPravougaonik
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -57,6 +82,7 @@ Rectangle
                         text: qsTr(mDogadjaj.getTip())
                         font.pointSize: 30
                     }
+
 }
            Rectangle{
                        id: drugiPravougaonik
@@ -88,6 +114,174 @@ Rectangle
                     text: qsTr(mDogadjaj.getOpis())
                }
                    }
+           }
+
+           ////izmena
+           Rectangle
+           {
+                  id: izmena
+                  visible: false
+                  width: parent.width
+                  height: 300
+                  anchors.top: parent.top
+                  anchors.horizontalCenter: parent.horizontalCenter
+              ComboBox
+              {
+                  id: tipdogadjajaizmena
+                  width: parent.width/3
+                  anchors.top: parent.top
+                  anchors.topMargin: 5
+                  model: _katmodel
+                  anchors.horizontalCenter: parent.horizontalCenter
+                  textRole: "kategorija"
+                //  currentIndex: _katmodel.getCurrentIndex(mDogadjaj.getTip())
+
+
+              }
+              Rectangle
+              {
+              anchors.top: tipdogadjajaizmena.bottom
+              id:vremeizmena
+              width: parent.width
+              height: 150
+              Text
+              {
+                  id: vremedogadjaja
+                  anchors.top: parent.top
+                  anchors.topMargin: 20
+                  text: "Vreme dogadjaja"
+                  font.italic: true
+                  color: "#1C2EE5"
+
+              }
+              Text
+              {
+                  id: dan
+                  anchors.top: vremedogadjaja.bottom
+                  anchors.topMargin: 10
+                  text: "Dan:  "
+                  color: "#1C2EE5"
+               }
+
+              ComboBox
+              {
+                  id: cbxdan
+                  width:parent.width/3
+                  anchors.top: vremedogadjaja.bottom
+                  anchors.topMargin: 10
+                  anchors.left: dan.right
+                  anchors.leftMargin: 0
+                 // currentIndex:(mDogadjaj.getDay()-1)
+                  model: [ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",   "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" ]
+
+              }
+              Text
+              {
+                  id: mesec
+                  height: cbxdan.height
+                  anchors.top: vremedogadjaja.bottom
+                  anchors.topMargin: 10
+                  anchors.left: cbxdan.right
+                  anchors.leftMargin: 5
+                  text: "Mesec:  "
+                  color: "#1C2EE5"
+
+              }
+              ComboBox
+              {
+                  id: cbxmesec
+                  width:parent.width/3
+                  anchors.top: vremedogadjaja.bottom
+                  anchors.topMargin: 10
+                  anchors.left: mesec.right
+                  //currentIndex: (mDogadjaj.getMonth()-1)
+                  model: [ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" ]
+
+              }
+              Text
+              {
+                  id: sati
+                  height: cbxdan.height
+                  anchors.top: cbxmesec.bottom
+                  anchors.topMargin: 5
+                  anchors.left: parent.left
+                  text: "Sati:  "
+                  color: "#1C2EE5"
+
+              }
+              ComboBox
+              {
+                  id: cbxsat
+                  width:parent.width/3
+                  anchors.top: cbxmesec.bottom
+                  anchors.topMargin: 5
+                  anchors.left: sati.right
+                 // currentIndex: mDogadjaj.getHour()
+                  model: [ "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",  "21", "22", "23", "24" ]
+
+              }
+              Text
+              {
+                  id: minuti
+                  anchors.top: mesec.bottom
+                  height: cbxdan.height
+                  anchors.topMargin: 5
+                  anchors.left: cbxsat.right
+                  anchors.leftMargin: 5
+
+                  text: "Minuta:  "
+                  //font.italic: true
+                  color: "#1C2EE5"
+
+              }
+              ComboBox
+              {
+                  id: cbxminut
+                  width:parent.width/3
+                  anchors.top: cbxmesec.bottom
+                  anchors.topMargin: 5
+                  anchors.left: minuti.right
+                //  currentIndex: mDogadjaj.getMinute()
+                  model: [ "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",   "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40",   "41", "42", "43", "44", "45", "46", "47", "48", "49", "50",  "51", "52", "53", "54", "55", "56", "57", "58", "59", "60" ]
+
+              }
+              }
+
+              Rectangle
+              {
+
+                      id:opisdogadjajrectangleizmena
+                      anchors.top: vremeizmena.bottom
+                      anchors.topMargin:10
+                      width: parent.width*0.9
+                      height: 60
+                      color: "transparent"
+                      border.color:"#595959"
+                      anchors.horizontalCenter: parent.horizontalCenter
+
+                      ScrollView
+                      {
+                          id: flickableopis
+                          width: parent.width
+                          height: Math.max(30,Math.min(contentHeight, 60))
+                          contentWidth: width
+
+                          TextArea
+                          {
+                              id: opisdogadjajaizmena
+                              leftPadding: 6
+                              rightPadding: 30
+                              topPadding: 0
+                              bottomPadding: 0
+                              background: null
+                              wrapMode: Text.WordWrap
+                            //  text: qsTr(mDogadjaj.getOpis())
+                          }
+                      }
+
+              }
+              }
+           ///izmena
 }
 
 
@@ -106,7 +300,7 @@ Rectangle
               color: "white"
               Text {
                   id: brojprijavljenih
-                  text: qsTr("Broj prijavljenih korisnika: "+ ucitavanjeDogadjaja.getBrPrijava())
+                  text: qsTr("Broj zainteresovanih korisnika: "+ ucitavanjeDogadjaja.getBrPrijava())
                   font.family: "Helvetica"
                   font.pointSize: 12
                   anchors.left: parent.left
@@ -116,6 +310,7 @@ Rectangle
            Button
            {
                id:prijavabutton
+               visible: localData.getUlogovan()===false?false:opistekst.visible
                 background: Rectangle
                 {
                     id:prijavacolor
@@ -138,21 +333,12 @@ Rectangle
                    color: "white"
 
                }
-               //Connections
-              // {
-                 //  target: glavnastranica
-               //    onNekiSignal:
-                 //  {
-                      // prijavanadogadjajbutton.visible=false
-                      // console.log("stigosignal")
-                  // }
-              // }
+
 
               onClicked:
               {
                   if(prijavisetext.text=="Zaineresovan sam")
                   {
-                      brojprijavljenih.text="Broj prijavljenih korisnika: "+ (ucitavanjeDogadjaja.getBrPrijava()+1)
                       prijavisetext.text="Nisam zaineresovan"
                       prijavacolor.color= prijavabutton.down ? "#d4271a" :
                               (prijavabutton.hovered ? "#d4271a" : "#ff0000")
@@ -160,13 +346,12 @@ Rectangle
                   }
                   else
                   {
-                      brojprijavljenih.text="Broj prijavljenih korisnika: "+ (ucitavanjeDogadjaja.getBrPrijava())
                        prijavisetext.text="Zaineresovan sam"
                        prijavacolor.color= prijavabutton.down ? "#549cd1" :
                               (prijavabutton.hovered ? "#549cd1" : "#549cff")
-
                   }
                    ucitavanjeDogadjaja.clickOnPrijava();
+                   brojprijavljenih.text="Broj zainteresovanih korisnika: "+ (ucitavanjeDogadjaja.getBrPrijava())
               }
            }
 
@@ -237,6 +422,7 @@ Rectangle
               }
               MouseArea
               {
+                  enabled: opistekst.visible
                   anchors.fill:parent
                   onClicked:
                   {
@@ -262,7 +448,7 @@ Rectangle
        ///// lokacija
 
 
-Rectangle
+       Rectangle
        {
            id: lokacija_kreator
            width: parent.width-20
@@ -288,6 +474,7 @@ Rectangle
 
                    MouseArea
                    {
+                       enabled: opistekst.visible
                        anchors.fill: parent
                        onClicked:
                        {
@@ -341,11 +528,150 @@ Rectangle
        {
            id: lokacija_kreat
            width: parent.width-20
-           height: 50
+           height: opistekst.visible==true?80:30
            anchors.top: lokacija_kreator.bottom
            anchors.topMargin: 5
            anchors.horizontalCenter: parent.horizontalCenter
            color: "white"
+           Rectangle
+           {
+              id: brojLK
+              anchors.top: parent.top
+              width: parent.width
+              height: 30
+
+              Image
+              {
+                  id: brlikeimage
+                  width: 25
+                  height: 25
+                  anchors.verticalCenter: parent.verticalCenter
+                  anchors.left: parent.left
+                  anchors.leftMargin: 10
+                  source: "qrc:/new/prefix1/heart.png"
+              }
+              Text
+              {
+                  id: brlike
+                  anchors.left: brlikeimage.right
+                  anchors.leftMargin: 5
+                  anchors.verticalCenter: parent.verticalCenter
+                  text: qsTr(mDogadjaj.getBrLajkaString(0))
+              }
+              Text
+              {
+                  id: brkomentaratext
+                  anchors.right: parent.right
+                  anchors.rightMargin: 10
+                  anchors.verticalCenter: parent.verticalCenter
+                  text: qsTr(mDogadjaj.getBrKomentaraString(0))
+              }
+              MouseArea
+              {
+                  enabled: opistekst.visible
+                  anchors.fill: parent
+                  onClicked:
+                  {
+                      if(!localData.getUlogovan())
+                      {
+                         komentarunos.visible=false
+                      }
+                      else
+                      {
+                           komentarunos.visible=true
+                      }
+                      block.visible=true;
+                      ucitajInstance.ucitajKomentare(location.getId())
+                      komentaridrawer.open()
+                      block.visible = false;
+                  }
+              }
+
+              Rectangle
+              {
+                  width: parent.width
+                  height: 1
+                  color: "#c9c9c9"
+                  anchors.bottom: parent.bottom
+              }
+           }
+
+
+           Rectangle
+           {
+               visible: izmena.visible
+               width: parent.width
+               anchors.top: brojLK.bottom
+               anchors.horizontalCenter: parent.horizontalCenter
+               anchors.topMargin: 5
+               height: 50
+               color: "#d3d3d3"
+           Button
+           {
+               id:izmenibutton
+               visible: izmena.visible
+               width: parent.width/2-5
+               anchors.left: parent.left
+               height: 50
+               background: Rectangle
+               {
+                   color:"white"
+                   radius: 2
+               }
+               Text
+               {
+                   anchors.centerIn: parent
+                   text: qsTr("Sacuvaj izmene")
+               }
+               onClicked:
+               {
+                   block.visible=true
+                   getDogadjajById(mDogadjaj.getId())
+                   izmena.visible=false
+                  // var id= upisLokacijaDogadjaj.azurirajDogadjaj(mDogadjaj.getId(),upisLokacijaDogadjaj.formatDate(cbxmesec.currentValue,cbxdan.currentValue,cbxsat.currentValue,cbxminut.currentValue), opisdogadjajaizmena.text,tipdogadjajaizmena.currentText);
+                   console.log(opisdogadjajaizmena.text)
+                  funkcija()
+                   getDogadjajById(mDogadjaj.getId())
+                   pageLoader.source="dogadjaj.qml"
+                   block.visible=false
+               }
+           }
+
+           Button
+           {
+               id:izbrisidogadjaj
+               visible: izmena.visible
+               width: parent.width/2-5
+               anchors.right: parent.right
+               height: 50
+               background: Rectangle
+               {
+                   color:"white"
+                   radius: 2
+               }
+               Text
+               {
+                   anchors.centerIn: parent
+                   text: qsTr("Izbrisi dogadjaj")
+               }
+               onClicked:
+               {
+                   block.visible=true
+                   getDogadjajById(mDogadjaj.getId())
+                   izmena.visible=false
+                   upisLokacijaDogadjaj.obrisiDogadjaj(mDogadjaj.getId())
+                   pageLoader.source="pocetna.qml"
+                   block.visible=false
+               }
+           }
+           }
+           Rectangle
+           {
+             id:likerect
+           visible: opistekst.visible
+           width: parent.width
+           height: 50
+           anchors.top: brojLK.bottom
           Rectangle
           {
               id: like
@@ -387,7 +713,16 @@ Rectangle
                       if(localData.getUlogovan())
                       {
                           likelogic.clickOnLike();
-                          like_slika.source = likelogic.vratiIkonicu();
+                          var ikonica=likelogic.vratiIkonicu();
+                          like_slika.source = ikonica;
+                          if(ikonica==="qrc:/new/prefix1/heart.png")
+                          {
+                              brlike.text=qsTr(mDogadjaj.getBrLajkaString(1))
+                          }
+                          else
+                          {
+                              brlike.text=qsTr(mDogadjaj.getBrLajkaString(-1))
+                          }
                       }
                       else
                       {
@@ -432,6 +767,7 @@ Rectangle
                   anchors.verticalCenter: parent.verticalCenter
                   anchors.leftMargin: 5
               }
+
               MouseArea
               {
                   anchors.fill: parent
@@ -506,6 +842,7 @@ Rectangle
               }
               }
           }
+}
 
           }
      }
@@ -576,6 +913,31 @@ ListView
                                maskSource: mask
                            }
 
+                       Timer
+                       {
+                          id:delaykomentar
+                          repeat: false
+                          interval: 200
+                          onTriggered:
+                          {
+
+                              if(mProfilInst.getKorisnickoIme()===kreatorid)
+                              {
+                                  ucitavanjeProfilaInstance.ucitajLokacijeiDogadjaje(mProfilInst.getKorisnickoIme())
+                                  natpis="Moj profil"
+                                  pageLoader.source = "mojprofil.qml"
+                              }
+                              else
+                              {
+                                  getProfilByUsername(kreatorid)
+                                  natpis="Profil"
+                                  pageLoader.source = "profil.qml"
+
+                              }
+                              block.visible = false;
+
+                          }
+                      }
                            MouseArea
                            {
                                anchors.fill: parent
@@ -583,20 +945,7 @@ ListView
                                {
                                    komentaridrawer.close()
                                    block.visible = true;
-                                   if(mProfilInst.getKorisnickoIme()===kreatorid)
-                                   {
-                                       ucitavanjeProfilaInstance.ucitajLokacijeiDogadjaje(mProfilInst.getKorisnickoIme())
-                                       natpis="Moj profil"
-                                       pageLoader.source = "mojprofil.qml"
-                                   }
-                                   else
-                                   {
-                                       getProfilByUsername(kreatorid)
-                                       natpis="Profil"
-                                       pageLoader.source = "profil.qml"
-
-                                   }
-                                   block.visible = false;
+                                   delaykomentar.start()
                                }
                            }
                     }
@@ -734,6 +1083,7 @@ ScrollView {
                //ucitajInstance.dodajKomentar(location.getId(),komentartext1.text);
                ucitavanjeDogadjaja.dodajKomentar(mDogadjaj.getId(),komentartext1.text);
                komentartext1.remove(0,komentartext1.length)
+               brkomentaratext.text=qsTr(mDogadjaj.getBrKomentaraString(1))
                blockcomment.visible = false;
            }
        background:Image {

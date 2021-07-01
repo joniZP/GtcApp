@@ -42,15 +42,16 @@ public:
             MySqlTable t;
 
             lokacija = NULL;
-             MyQuery query("SELECT Lokacija.*,Korisnik.ime,Korisnik.prezime, (SELECT count(*) from LokacijaLikes WHERE idLokacije=%1) as likescount FROM Lokacija inner join Korisnik on Lokacija.idkorisnika = Korisnik.korisnickoIme WHERE Id='%1'");//("SELECT * FROM Lokacija WHERE Id='%1'");
+             MyQuery query("SELECT Lokacija.*,Korisnik.ime,Korisnik.prezime, (SELECT count(*) from LokacijaLikes WHERE idLokacije=%1) as likescount,(SELECT count(*) from KomentariLokacije WHERE idLokacije=%1) as brKomentara FROM Lokacija inner join Korisnik on Lokacija.idkorisnika = Korisnik.korisnickoIme WHERE Id='%1'");//("SELECT * FROM Lokacija WHERE Id='%1'");
               query<<id;
                t = s.WSendQuery(query);
-
+               qDebug()<<"lokacija query"<<query.toStr();
                if(t.isSuccessfully())
                {
                    if(t.Count()>0)
                    {
                       lokacija = new MLokacija(id,t.Rows[0]["idkorisnika"],t.Rows[0]["ime"] +" " + t.Rows[0]["prezime"],t.Rows[0]["naziv"],t.Rows[0]["opis"],t.Rows[0]["grad"],t.Rows[0]["likescount"].toInt(),t.Rows[0]["x"].toDouble(),t.Rows[0]["y"].toDouble(),t.Rows[0]["kategorija"]);
+                      lokacija->setBrKomentara(t.Rows[0]["brKomentara"].toInt());
                       SlikaModel &sm = SlikaModel::GetInstance();
                       sm.removeAll();
                       if(t.Rows[0]["brojSlika"].toInt() == 0)
@@ -73,6 +74,7 @@ public:
                return lokacija;
 
         }
+
 
     Q_INVOKABLE
     void dodajKomentar(int idLokacije,QString text)
@@ -108,10 +110,10 @@ public:
         MyQuery query("SELECT KomentariLokacije.*,Korisnik.ime,Korisnik.prezime,Korisnik.slika,Korisnik.korisnickoIme  FROM `KomentariLokacije` inner join Korisnik on KomentariLokacije.idKorisnika = Korisnik.korisnickoIme WHERE idLokacije='%1'");//("SELECT * FROM KomentariLokacije WHERE idLokacije='%1'");
         query<<idLokacije;
          t1 = s.WSendQuery(query);
-
+        kom.removeAll();
         if(t1.isSuccessfully())
         {
-            kom.removeAll();
+
             for(int i = 0; i < t1.Count();i++)
             {
                 kom.dodajkomentar(Komentar( t1.Rows[i]["slika"].toInt() == 0? LINKS::getProfileDefaultPicture(): LINKS::getProfilePicture(t1.Rows[i]["idKorisnika"]),t1.Rows[i]["tekstKomentara"],t1.Rows[i]["ime"]+" "+ t1.Rows[i]["prezime"],t1.Rows[i]["idKomentara"].toInt(),t1.Rows[i]["korisnickoIme"]));

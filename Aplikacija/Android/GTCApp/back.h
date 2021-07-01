@@ -17,10 +17,6 @@ class back :public QObject
         QString stranica;
         QString id;
     };
-
-
-
-
 public:
     static QString idLDP;
     QList<struktura> *lista=new QList<struktura>;
@@ -96,6 +92,23 @@ public:
             lista->push_back(pom);
         }
         back_=false;
+    }
+
+    Q_INVOKABLE
+    QString getLastSource()
+    {
+        if(!lista->isEmpty())
+        return lista->back().stranica;
+        else
+            return "qrc:/pocetna.qml";
+    }
+    Q_INVOKABLE
+    QString getLastId()
+    {
+        if(!lista->isEmpty())
+        return lista->back().id;
+        else
+            return "-1";
     }
     explicit back(QObject *parent = nullptr)
     {

@@ -91,11 +91,11 @@ static  QString vratiIkonicu()
  {
      if(liked)
      {
-        return "../new/prefix1/heart.png";
+        return "qrc:/new/prefix1/heart.png";
      }
      else
      {
-        return "../new/prefix1/like.png";
+        return "qrc:/new/prefix1/like.png";
      }
  }
 Q_INVOKABLE

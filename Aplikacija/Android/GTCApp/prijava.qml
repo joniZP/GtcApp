@@ -7,7 +7,6 @@ import QtQuick.Layouts 1.3
 
 Rectangle {
 
-
 ColumnLayout{
      // @disable-check M16
     width:parent.width
@@ -85,16 +84,39 @@ ColumnLayout{
                  else if(pom==2)
                  {
                      popuptext.text="Pogresno korisnicko ime ili lozinka"
-                     popup.open();
+                     console.log("pre"+popup.x+" "+popup.y)
+                     console.log()
+                     popup.open()
+                     console.log("posle"+popup.x+" "+popup.y)
                  }
                  else
                  {
 
+                      block.visible=true
                      loginID.visible = false;
                      porukeID.visible = true;
                      zahteviID.visible = true;
-                     natpis="Pocetna"
-                     pageLoader.source = "qrc:/pocetna.qml"
+                     var v=back.nazad(pageLoader.source)
+                     if(v ==="qrc:/lokacija.qml")//getIdLDP
+                        {
+                            getLokacijaById(back.getIdLDP());
+                        }
+                     else if(v ==="qrc:/dogadjaj.qml")
+                        {
+                            getDogadjajById(back.getIdLDP());
+                        }
+                        else if(v ==="qrc:/profil.qml")
+                        {
+                            getProfilByUsername(back.getIdLDP())
+                        }
+
+                        if(v==="qrc:/pocetna.qml")
+                        {
+                            pretrazi.ucitavanjeLokacijaPocetna();
+                        }
+                        pageLoader.source=v;
+                        refreshProfilData()
+                        block.visible=false
                  }
              }
          }
@@ -144,13 +166,18 @@ RowLayout{
 
 
 }
+
+
 Popup {
     id: popup
     width: parent.width/5*4
     height: 150
     modal: true
     focus: true
-    anchors.centerIn: parent
+    x:(parent.width-popup.width)/2
+    y:(parent.height-popup.height)/2
+
+
     ColumnLayout
     {
         width:parent.width
@@ -168,6 +195,7 @@ Popup {
         onClicked:
         {
             popup.close()
+            pop
         }
         Layout.alignment: Qt.AlignHCenter
     }

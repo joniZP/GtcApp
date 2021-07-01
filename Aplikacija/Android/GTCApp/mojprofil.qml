@@ -7,10 +7,7 @@ import QtQuick.Dialogs 1.0
 
 Rectangle{
     property int pom: 0
-    gradient: Gradient{
-    GradientStop{position:0.0; color:"#549cff"}
-     GradientStop{position:1.0; color:"#d3d3d3"}
-    }
+    color: "#80b5ff"
     id: glavni
     anchors.fill:parent
     ColumnLayout{
@@ -233,10 +230,7 @@ Rectangle{
             }
         }
         Rectangle{//resto
-            gradient: Gradient{
-            GradientStop{position:0.0; color:"#d3d3d3"}
-             GradientStop{position:1.0; color:"#d3d3d3"}
-            }
+
 
             height:parent.height*0.1
             width:parent.width
@@ -280,7 +274,7 @@ Rectangle{
                             trecitext.color="white"
                         }
                     }
-                    border.color: "#1E2BAF"
+                    //border.color: "#1E2BAF"
                     //border.width: 0.5
 
 
@@ -319,7 +313,7 @@ Rectangle{
                             trecitext.color="white"
                         }
                     }
-                    border.color: "#1E2BAF"
+                    //border.color: "#1E2BAF"
                    // border.width: 0.5
 
 
@@ -357,7 +351,7 @@ Rectangle{
 
                         }
                     }
-                    border.color: "#1E2BAF"
+                   // border.color: "#1E2BAF"
                     //border.width: 0.5
 
 
@@ -368,23 +362,25 @@ Rectangle{
             id:profildolerectangle1
             height:parent.height*0.4
             width:parent.width
-            color:"transparent"
+            color:"white"
 
             ScrollView{
-                id:scrollmojprofillokacije
+                id:scrollkorisniklokacija
              width: parent.width
              height: parent.height
 
-        ListView {
-             boundsBehavior: ListView.StopAtBounds
-             clip:true
+
+          ListView
+          {
+           boundsBehavior: ListView.StopAtBounds
+           clip:true
            anchors.fill: parent
            width: parent.width
            height: parent.height
             model:_korisniklokacijamodel
             delegate: ItemDelegate {
                 height:100
-                width:scrollmojprofillokacije.width
+                width:scrollkorisniklokacija.width
                required property int id
                required property string slika
                required property string naziv
@@ -401,6 +397,7 @@ Rectangle{
                        height: parent.height
                        width: parent.height
                        //color: "red"
+                       clip: true
                        anchors.left: parent.left
                        Image
                        {
@@ -408,6 +405,36 @@ Rectangle{
                            source: slika
                            width: parent.width
                            height: parent.height
+                           anchors.centerIn: parent
+                           fillMode: Image.PreserveAspectFit
+                           onStatusChanged:
+                           {
+                               if(lokacijaprofilimage.status==Image.Ready)
+                               {
+                                   spiner.visible=false
+                                  var a=lokacijaprofilimage.paintedHeight/lokacijaprofilimage.paintedWidth
+                                  if(lokacijaprofilimage.paintedWidth<slikarect.width)
+                                  {
+                                      var b=lokacijaprofilimage.width-lokacijaprofilimage.paintedWidth
+                                      lokacijaprofilimage.height=lokacijaprofilimage.height+b*a
+                                  }
+                                  else if(lokacijaprofilimage.paintedHeight<slikarect.height)
+                                  {
+                                      var d=lokacijaprofilimage.height-lokacijaprofilimage.paintedHeight
+                                      lokacijaprofilimage.width=lokacijaprofilimage.width+d/a
+                                  }
+                               }
+                           }
+
+                           AnimatedImage
+                           {
+                               id:spiner
+                               source: "/new/prefix1/spinnerpicture.gif"
+                               width: 100
+                               height: 100
+                               anchors.centerIn: parent
+                              // visible: slikalokacija.progress!=1
+                           }
                        }
                    }
                    Rectangle
@@ -420,10 +447,10 @@ Rectangle{
                        {
                            id:nazivlokacijeprofil
                            text: qsTr(naziv)
-                           anchors.left: parent.left
-                           anchors.leftMargin: 20
                            width: parent.width
                            wrapMode: Text.WordWrap
+                           anchors.left: parent.left
+                           anchors.leftMargin: 20
                            anchors.verticalCenter: parent.verticalCenter
                        }
                    }
@@ -433,7 +460,6 @@ Rectangle{
                        height: parent.height
                        width:parent.width-parent.height-200
                        anchors.left: nazivrect.right
-                       color: "white"
                        Text
                        {
                            id:opislokacijeprofil
@@ -443,7 +469,6 @@ Rectangle{
                            anchors.verticalCenter: parent.verticalCenter
                            wrapMode: Text.WordWrap
                            width: parent.width
-
                        }
                    }
                    MouseArea
@@ -454,7 +479,7 @@ Rectangle{
                            block.visible=true
                            getLokacijaById(id)
                            block.visible=false
-                           natpis="Lokacija"
+                           naziv="Lokacija"
                            pageLoader.source= "lokacija.qml"
                        }
                    }
@@ -476,14 +501,14 @@ Rectangle{
             id:profildolerectangle2
             height:parent.height*0.4
             width:parent.width
-            color:"transparent"
+            color:"white"
 
             ScrollView{
-                id:scrollmojprofildogadjaji
              width: parent.width
              height: parent.height
 
-        ListView {
+
+ListView {
              boundsBehavior: ListView.StopAtBounds
              clip:true
            anchors.fill: parent
@@ -491,51 +516,97 @@ Rectangle{
            height: parent.height
             model:_korisnikdogadjajmodel
             delegate: ItemDelegate {
-                width: scrollmojprofildogadjaji.width
-                height: 80
+                width: profildolerectangle1.width
+                height: profildolerectangle1.height*0.25
                 required property string tip
                 required property string opis
                 required property string vreme
                 required property int id
+////////////////
 
-               RowLayout
+                Rectangle{
+                width: parent.width
+                height: parent.height-10
+                anchors.verticalCenter: parent.verticalCenter
+                Rectangle
                 {
-                      // @disable-check M16
-                    anchors.fill:parent
-                 /*   Image {
-                        id:dogadjajprofilimage
-                        source: slika
-                        Layout.preferredWidth: parent.height
-                        Layout.preferredHeight: parent.height
-                    }*/
-                    Text {
+                    id:tiprect
+                    height: parent.height
+                    width: parent.width/3
+                    anchors.left: parent.left
+                    Text
+                    {
                         id:tipdogadjajaprofil
                         text: qsTr(tip)
+                        width: parent.width
+                        wrapMode: Text.WordWrap
+                        anchors.left: parent.left
+                        anchors.leftMargin: 20
+                        anchors.verticalCenter: parent.verticalCenter
                     }
-
-                    Text {
+                }
+                Rectangle
+                {
+                    id:opisrect
+                    height: parent.height
+                    width:parent.width/3
+                    anchors.left: tiprect.right
+                    Text
+                    {
                         id:opisdogadjajaprofil
                         text: qsTr(opis)
+                        anchors.left: parent.left
+                        anchors.leftMargin: 15
+                        anchors.verticalCenter: parent.verticalCenter
+                        wrapMode: Text.WordWrap
+                        width: parent.width
                     }
-                    Text {
+                }
+                Rectangle
+                {
+                    id:vremerect
+                    height: parent.height
+                    width:parent.width/3
+                    anchors.left: opisrect.right
+                    Text
+                    {
                         id:vremedogadjajaprofil
                         text: qsTr(vreme)
+                        anchors.left: parent.left
+                        anchors.leftMargin: 15
+                        anchors.verticalCenter: parent.verticalCenter
+                        wrapMode: Text.WordWrap
+                        width: parent.width
                     }
-                    MouseArea{
-                        id:mouseareaprofildogadjaj
-                     anchors.fill:parent
-                     onClicked:
-                     {
-                     block.visible = true;
-                     getDogadjajById(id);
-                     natpis="Dogadjaj"
-                     pageLoader.source= "dogadjaj.qml"
-                     block.visible = false;
-                     }
+                }
+                MouseArea
+                {
+                    anchors.fill:parent
+                    onClicked:
+                    {
+                        block.visible = true;
+                        getDogadjajById(id);
+                        natpis="Dogadjaj"
+                        pageLoader.source= "dogadjaj.qml"
+                        block.visible = false;
                     }
                 }
 
-               }
+
+         }
+                Rectangle
+                {
+                    width: parent.width
+                    height: 1
+                    color: "#c9c9c9"
+                    anchors.bottom: parent.bottom
+                }
+
+
+                ////////////////////////
+
+
+            }
         }
         }
         }
@@ -543,7 +614,7 @@ Rectangle{
             id:profildolerectangle3
             height:parent.height*0.4
             width:parent.width
-            color:"transparent"
+            color:"white"
             ColumnLayout{
                   // @disable-check M16
                 anchors.fill:parent

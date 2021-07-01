@@ -32,6 +32,18 @@ private:
         endRemoveRows();
     }
 
+    Q_INVOKABLE
+    int getCurrentIndex(QString k)
+    {
+        for(int i=0;i<m_kategorije.count();i++)
+        {
+            if(m_kategorije[i].kategorija()==k)
+            {
+                return i;
+            }
+        }
+        return 0;
+    }
     void removeAll()
     {
         beginRemoveRows(QModelIndex(), 0,m_kategorije.count());

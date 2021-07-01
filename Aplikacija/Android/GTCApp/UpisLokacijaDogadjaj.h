@@ -43,6 +43,7 @@ public:
                MyQuery m("LOK%1SLIKA%2");
                m<<t.Rows[0][0]<<i;
               f->uploadImage(m.toStr(),slike[i]);
+
            }
 
            return t.Rows[0][0].toInt();
@@ -68,6 +69,38 @@ public:
        slike.clear();
     }
 
+
+    Q_INVOKABLE
+        int azurirajDogadjaj(int idDogadjaja, QString vreme, QString opis, QString tip)
+        {
+            MySqlService &s = MySqlService::MySqlInstance();
+             MyQuery query("UPDATE Dogadjaj SET vreme='%1', opis='%2', tip='%3' WHERE idDogadjaja=%4");
+              query<<vreme<<opis<<tip<<idDogadjaja;
+
+              qDebug()<<query.toStr();
+              s.SendQuery(query);
+              return idDogadjaja;
+        }
+       Q_INVOKABLE
+        void obrisiDogadjaj(int idDogadjaja)
+        {
+            MySqlService &s = MySqlService::MySqlInstance();
+             MyQuery query("DELETE FROM Dogadjaj WHERE idDogadjaja=%1;");
+              query<<idDogadjaja;
+              s.SendQuery(query);
+
+              query = "DELETE FROM Obavestenje WHERE idDL=%1 and tip=1;";
+              query<<idDogadjaja;
+              s.SendQuery(query);
+
+              query="DELETE FROM KomentariDogadjaj WHERE idDogadjaja=%1;";
+              query<<idDogadjaja;
+              s.SendQuery(query);
+
+              query="DELETE FROM DogadjajLikes WHERE idDogadjaja=%1;";
+              query<<idDogadjaja;
+              s.SendQuery(query);
+        }
 
     Q_INVOKABLE
     int upisiDogadjaj(int idLokacije, QString vreme, QString opis, QString tip)

@@ -46,6 +46,7 @@ Rectangle
                             id:slikarect
                             height: parent.height
                             width: parent.height
+                            clip: true
                             //color: "red"
                             anchors.left: parent.left
                             Image
@@ -54,15 +55,28 @@ Rectangle
                                 source: slika
                                 width: parent.width
                                 height: parent.height
+                                anchors.centerIn: parent
+                                fillMode: Image.PreserveAspectFit
 
-                                onProgressChanged:
+                                onStatusChanged:
                                 {
-                                    if(lokacijaitemslika.progress==1)
+                                    if(lokacijaitemslika.status==Image.Ready)
                                     {
-                                       // slider.height=slikalokacija.paintedHeight
                                         spiner.visible=false
+                                       var a=lokacijaitemslika.paintedHeight/lokacijaitemslika.paintedWidth
+                                       if(lokacijaitemslika.paintedWidth<slikarect.width)
+                                       {
+                                           var b=lokacijaitemslika.width-lokacijaitemslika.paintedWidth
+                                           lokacijaitemslika.height=lokacijaitemslika.height+b*a
+                                       }
+                                       else if(lokacijaitemslika.paintedHeight<slikarect.height)
+                                       {
+                                           var d=lokacijaitemslika.height-lokacijaitemslika.paintedHeight
+                                           lokacijaitemslika.width=lokacijaitemslika.width+d/a
+                                       }
                                     }
                                 }
+
                                 AnimatedImage
                                 {
                                     id:spiner
@@ -113,12 +127,13 @@ Rectangle
                             anchors.fill:parent
                             onClicked:
                             {
-                               // opislokacijeprofil.text=id
                                 block.visible=true
                                 getLokacijaById(id)
                                 block.visible=false
                                 natpis="Lokacija"
                                 pageLoader.source= "lokacija.qml"
+
+
                             }
                         }
 

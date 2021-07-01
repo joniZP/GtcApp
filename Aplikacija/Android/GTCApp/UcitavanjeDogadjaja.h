@@ -43,20 +43,22 @@ public:
              MySqlService &s = MySqlService::MySqlInstance();
              MySqlTable t;
              dogadjaj = NULL;
-             MyQuery query("SELECT Dogadjaj.*,Lokacija.naziv,Lokacija.grad,Lokacija.brojSlika,Korisnik.ime,Korisnik.prezime,Korisnik.slika, (SELECT count(*) from DogadjajLikes WHERE idDogadjaja=%1) as likescount, (SELECT count(*) from PrijavaNaDogadjaj where idDogadjaja=%1) as brprijava from Dogadjaj INNER JOIN Lokacija on Dogadjaj.idLokacije=Lokacija.id INNER join Korisnik on Dogadjaj.idKorisnika = Korisnik.korisnickoIme WHERE idDogadjaja=%1");
+             MyQuery query("SELECT Dogadjaj.*,Lokacija.naziv,Lokacija.grad,Lokacija.brojSlika,Korisnik.ime,Korisnik.prezime,Korisnik.slika, (SELECT count(*) from DogadjajLikes WHERE idDogadjaja=%1) as likescount, (SELECT count(*) from PrijavaNaDogadjaj where idDogadjaja=%1) as brprijava, (SELECT count(*) from KomentariDogadjaj WHERE idDogadjaja=%1) as brojKomentara from Dogadjaj INNER JOIN Lokacija on Dogadjaj.idLokacije=Lokacija.id INNER join Korisnik on Dogadjaj.idKorisnika = Korisnik.korisnickoIme WHERE idDogadjaja=%1");
               query<<id;
+              qDebug()<<"dogadjaji   "<<query.toStr();
                 t = s.WSendQuery(query);
 
                 if(t.isSuccessfully())
                 {
                     if(t.Count()>0)
                     {
-                       dogadjaj = new MDogadjaj(id,t.Rows[0]["idLokacije"].toInt(),t.Rows[0]["idKorisnika"],t.Rows[0]["opis"],t.Rows[0]["svidjanja"].toInt(),t.Rows[0]["tip"],t.Rows[0]["vreme"]);
+                       dogadjaj = new MDogadjaj(id,t.Rows[0]["idLokacije"].toInt(),t.Rows[0]["idKorisnika"],t.Rows[0]["opis"],t.Rows[0]["likescount"].toInt(),t.Rows[0]["tip"],t.Rows[0]["vreme"]);
+                       dogadjaj->setBrKomentara(t.Rows[0]["brojKomentara"].toInt());
                        dogadjaj->lokacija->setIme(t.Rows[0]["naziv"]);
                        dogadjaj->lokacija->setGrad(t.Rows[0]["grad"]);
                        dogadjaj->lokacija->setBrSlika(t.Rows[0]["brojSlika"].toInt());
                        dogadjaj->setImeKorisnika(t.Rows[0]["ime"]+" "+t.Rows[0]["prezime"]);
-                        brslika = t.Rows[0]["slika"].toInt();
+                       brslika = t.Rows[0]["slika"].toInt();
 
                         brprijava =t.Rows[0]["brprijava"].toInt();
                         Like::setParameters(id,Tip::DogadjajTip);
@@ -126,13 +128,13 @@ public:
              MySqlService &s = MySqlService::MySqlInstance();
              KomentariModel& kom =  KomentariModel::GetInstance();
              MySqlTable t1;
-             MyQuery query("SELECT KomentariDogadjaj.*,Korisnik.ime,Korisnik.prezime,Korisnik.slika Korisnik.korisnickoIme  FROM `KomentariDogadjaj` inner join Korisnik on KomentariDogadjaj.idKorisnika = Korisnik.korisnickoIme WHERE idDogadjaja='%1'");//("SELECT * FROM KomentariLokacije WHERE idLokacije='%1'");
+             MyQuery query("SELECT KomentariDogadjaj.*,Korisnik.ime,Korisnik.prezime,Korisnik.slika,Korisnik.korisnickoIme  FROM `KomentariDogadjaj` inner join Korisnik on KomentariDogadjaj.idKorisnika = Korisnik.korisnickoIme WHERE idDogadjaja='%1'");//("SELECT * FROM KomentariLokacije WHERE idLokacije='%1'");
              query<<idDogadjaja;
               t1 = s.WSendQuery(query);
-
+               kom.removeAll();
              if(t1.isSuccessfully())
              {
-                 kom.removeAll();
+
                  for(int i = 0; i < t1.Count();i++)
                  {
                      kom.dodajkomentar(Komentar( t1.Rows[i]["slika"].toInt() == 0? LINKS::getProfileDefaultPicture(): LINKS::getProfilePicture(t1.Rows[i]["idKorisnika"]),t1.Rows[i]["tekstKomentara"],t1.Rows[i]["ime"]+" "+ t1.Rows[i]["prezime"],t1.Rows[i]["idKomentara"].toInt(),t1.Rows[i]["korisnickoIme"]));
@@ -140,6 +142,7 @@ public:
              }
 
          }
+
 
          static void sacuvajPrijavuUBazu(){
                         prijavljentimer->stop();
@@ -208,6 +211,7 @@ public:
                     Q_INVOKABLE
                     static void clickOnPrijava()
                     {
+                        prijavljen==true?brprijava--:brprijava++;
                         prijavljen = !prijavljen;
                         prijavljentimer->stop();
                         prijavljentimer->start(2000);

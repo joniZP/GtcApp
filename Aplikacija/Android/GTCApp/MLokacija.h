@@ -2,6 +2,7 @@
 #define MLOKACIJA_H
 
 #include <QObject>
+#include<komentarimodel.h>
 
 class MLokacija:public QObject
 {
@@ -21,6 +22,7 @@ public:
     double xcoo;
     double ycoo;
     int brSlika;
+    int brKomentara;
 
 
     explicit MLokacija(QObject *parent = nullptr){
@@ -111,6 +113,43 @@ public:
     int  getBrSlika() const;
     void setBrSlika(int value);
     void setLike(int value);
+    int getBrKomentara() const;
+    void setBrKomentara(int value);
+     Q_INVOKABLE
+    QString getBrLajkaString(int b)
+    {
+        like+=b;
+        return QString::number(like);
+    }
+
+    Q_INVOKABLE
+    QString getBrKomentaraString(int b)
+    {
+        int br=0;
+        if(b!=0)
+        {
+           KomentariModel &k=KomentariModel::GetInstance();
+           br=k.getBrKom();
+        }
+        else
+        {
+            br=getBrKomentara();
+        }
+        if(br==1)
+        {
+            return QString::number(br)+" komentar";
+        }
+        else if(br>9)
+        {
+            int d=br%10;
+            int p=(br/10)%10;
+            if(d==1&&p!=1)
+            {
+                return QString::number(br)+" komentar";
+            }
+        }
+        return QString::number(br)+" komentara";
+    }
 };
 
 #endif // MLOKACIJA_H

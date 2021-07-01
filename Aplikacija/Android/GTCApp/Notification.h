@@ -66,8 +66,12 @@ public:
                qDebug()<<"ZAHTEVI"<<t.Rows[0]["Zahtevi"];
                emit GetInstance().updateFriendNotification(NewFriendNotification);
                emit GetInstance().updateSharedNotification(NewShareNotification);
-
+               emit MySqlService::MySqlInstance().myConnectionEstablished();
             //   qDebug()<<"Broj notifikacija: "<<NewNotification;
+           }
+           else
+           {
+              emit MySqlService::MySqlInstance().myConnectionLost();
            }
        }
 
@@ -157,7 +161,7 @@ public:
          MySqlService &s = MySqlService::MySqlInstance();
          MySqlTable t;
          MyQuery query;
-         query="SELECT Obavestenje.idDL,Obavestenje.tip,Obavestenje.vidjen,Obavestenje.idObavestenja,Korisnik.ime,Korisnik.prezime,Korisnik.korisnickoIme,Korisnik.slika FROM `Obavestenje` INNER join Korisnik on Obavestenje.sender=Korisnik.korisnickoIme WHERE reciever='%1'";
+         query="SELECT Obavestenje.idDL,Obavestenje.tip,Obavestenje.vidjen,Obavestenje.idObavestenja,Korisnik.ime,Korisnik.prezime,Korisnik.korisnickoIme,Korisnik.slika FROM `Obavestenje` INNER join Korisnik on Obavestenje.sender=Korisnik.korisnickoIme WHERE reciever='%1' ORDER BY idObavestenja DESC";
          query<<LOCALDATA::mProfil->getKorisnickoIme();
          t =s.WSendQuery(query);
          if(t.isSuccessfully())
@@ -167,6 +171,7 @@ public:
              QString tekst;
              for(int i =0;i<t.Count();i++)
              {
+                 ////ovde se treba izmeni
                  tekst="Korisnik "+t.Rows[i]["ime"]+" "+t.Rows[i]["prezime"]+" deli " +(t.Rows[i]["tip"].toInt() == 0?"lokaciju":"dogadjaj");
                  om.dodajobavestenje(obavestenje((t.Rows[i]["slika"].toInt() == 0? LINKS::getProfileDefaultPicture():LINKS::getProfilePicture(t.Rows[i]["korisnickoIme"])),tekst,t.Rows[i]["korisnickoIme"],false,t.Rows[i]["tip"].toInt(),t.Rows[i]["idDL"].toInt(),t.Rows[i]["vidjen"].toInt(),t.Rows[i]["idObavestenja"].toInt()));
              }

@@ -30,7 +30,7 @@ Rectangle
        id:scrolobavestenja
        anchors.top: linijica.bottom
        width: parent.width
-       height: parent.height
+       height: parent.height-obavestenjatekst.implicitHeight-5
 
        ListView
        {

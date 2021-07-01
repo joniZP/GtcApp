@@ -35,12 +35,11 @@ SwipeView{
             height: slider.height
             source:slika
             fillMode: Image.PreserveAspectFit
-            onProgressChanged:
+            onStatusChanged:
             {
-                if(slikalokacija.progress==1)
+                if(slikalokacija.status==Image.Ready)
                 {
-                   // slider.height=slikalokacija.paintedHeight
-                    spiner.visible=false
+                     spiner.visible=false
                 }
             }
             AnimatedImage
@@ -69,7 +68,7 @@ Rectangle
     anchors.top: slider.bottom
     color: "#d3d3d3"
     width: parent.width
-    height:lokacija_opis_kontejner.height+350
+    height:lokacija_opis_kontejner.height+380
 
 
 
@@ -125,9 +124,9 @@ Rectangle
             font.family: "Helvetica"
             font.pointSize: 14
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 5
+            anchors.bottomMargin: 10
             anchors.right: parent.right
-            anchors.rightMargin: 5
+            anchors.rightMargin: 10
         }
         }
 
@@ -247,14 +246,82 @@ Rectangle
        {
            id: likecomsharecontainer
            width: parent.width-20
-           height: 50
+           height: 80
            anchors.top: lokacija_kreator.bottom
            anchors.topMargin: 5
            anchors.horizontalCenter: parent.horizontalCenter
            color: "white"
+           Rectangle
+           {
+              id: brojLK
+              anchors.top: parent.top
+              width: parent.width
+              height: 30
+
+              Image
+              {
+                  id: brlikeimage
+                  width: 25
+                  height: 25
+                  anchors.verticalCenter: parent.verticalCenter
+                  anchors.left: parent.left
+                  anchors.leftMargin: 10
+                  source: "qrc:/new/prefix1/heart.png"
+              }
+              Text
+              {
+                  id: brlike
+                  anchors.left: brlikeimage.right
+                  anchors.leftMargin: 5
+                  anchors.verticalCenter: parent.verticalCenter
+                  text: qsTr(location.getBrLajkaString(0))
+              }
+              Text
+              {
+                  id: brkomentaratext
+                  anchors.right: parent.right
+                  anchors.rightMargin: 10
+                  anchors.verticalCenter: parent.verticalCenter
+                  text: qsTr(location.getBrKomentaraString(0))
+              }
+              MouseArea
+              {
+                  anchors.fill: parent
+                  onClicked:
+                  {
+                      if(!localData.getUlogovan())
+                      {
+                         komentarunos.visible=false
+                      }
+                      else
+                      {
+                           komentarunos.visible=true
+                      }
+                      block.visible=true;
+                      ucitajInstance.ucitajKomentare(location.getId())
+                      komentaridrawer.open()
+                      block.visible = false;
+                  }
+              }
+
+              Rectangle
+              {
+                  width: parent.width
+                  height: 1
+                  color: "#c9c9c9"
+                  anchors.bottom: parent.bottom
+              }
+           }
+
+           Rectangle
+           {
+               width: parent.width
+               height: 50
+               anchors.top: brojLK.bottom
           Rectangle
           {
               id: like
+
               width: parent.width/3
               height: parent.height
              // color: "red"
@@ -293,7 +360,17 @@ Rectangle
                     if(localData.getUlogovan())
                     {
                         likelogic.clickOnLike();
-                        like_slika.source = likelogic.vratiIkonicu();
+                        var ikonica=likelogic.vratiIkonicu();
+                        like_slika.source = ikonica;
+                        if(ikonica==="qrc:/new/prefix1/heart.png")
+                        {
+                            brlike.text=qsTr(location.getBrLajkaString(1))
+                        }
+                        else
+                        {
+                            brlike.text=qsTr(location.getBrLajkaString(-1))
+                        }
+
                     }
                     else
                     {
@@ -345,6 +422,7 @@ Rectangle
                       if(!localData.getUlogovan())
                       {
                          komentarunos.visible=false
+                         koment.height=koment.height+40
                       }
                       else
                       {
@@ -365,7 +443,6 @@ Rectangle
               height: parent.height
              // color: "green"
               anchors.left: komentar_dugme.right
-
               Rectangle{
                  // color:"red"
                   anchors.centerIn: parent
@@ -411,6 +488,7 @@ Rectangle
               }
               }
           }
+           }
 
        }
 
@@ -483,6 +561,29 @@ Drawer
                            layer.effect: OpacityMask {
                                maskSource: mask
                            }
+                           Timer
+                           {
+                              id:delaykomentar
+                              repeat: false
+                              interval: 200
+                              onTriggered:
+                              {
+                                  if(mProfilInst.getKorisnickoIme()===kreatorid)
+                                  {
+                                      ucitavanjeProfilaInstance.ucitajLokacijeiDogadjaje(mProfilInst.getKorisnickoIme())
+                                      natpis="Moj profil"
+                                      pageLoader.source = "mojprofil.qml"
+                                  }
+                                  else
+                                  {
+                                      getProfilByUsername(kreatorid)
+                                      natpis="Profil"
+                                      pageLoader.source = "profil.qml"
+
+                                  }
+                                  block.visible = false;
+                              }
+                          }
 
                            MouseArea
                            {
@@ -491,20 +592,8 @@ Drawer
                                {
                                    komentaridrawer.close()
                                    block.visible = true;
-                                   if(mProfilInst.getKorisnickoIme()===kreatorid)
-                                   {
-                                       ucitavanjeProfilaInstance.ucitajLokacijeiDogadjaje(mProfilInst.getKorisnickoIme())
-                                       natpis="Moj profil"
-                                       pageLoader.source = "mojprofil.qml"
-                                   }
-                                   else
-                                   {
-                                       getProfilByUsername(kreatorid)
-                                       natpis="Profil"
-                                       pageLoader.source = "profil.qml"
+                                   delaykomentar.start()
 
-                                   }
-                                   block.visible = false;
                                }
                            }
                     }
@@ -640,6 +729,7 @@ Drawer
                blockcomment.visible =true;
                ucitajInstance.dodajKomentar(location.getId(),komentartext1.text);
                komentartext1.remove(0,komentartext1.length)
+                brkomentaratext.text=qsTr(location.getBrKomentaraString(1))
                blockcomment.visible = false;
            }
        background:Image {

@@ -30,25 +30,30 @@ private:
     void remove()
     {
         beginRemoveRows(QModelIndex(), 0, 0);
-        if(m_lokacije.count()>0)
+        if(m_komentari.count()>0)
         {
-             m_lokacije.removeFirst();
+             m_komentari.removeFirst();
         }
         endRemoveRows();
     }
 
     void removeAll()
     {
-        beginRemoveRows(QModelIndex(), 0,m_lokacije.count());
-        m_lokacije.clear();
+        beginRemoveRows(QModelIndex(), 0,m_komentari.count());
+        m_komentari.clear();
         endRemoveRows();
+    }
+    Q_INVOKABLE
+    int getBrKom()
+    {
+        return m_komentari.count();
     }
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
 protected:
     QHash<int, QByteArray> roleNames() const;
-    QList<Komentar> m_lokacije;
+    QList<Komentar> m_komentari;
 private:
 
 };

@@ -47,6 +47,13 @@ private:
         }
     }
 
+     Q_INVOKABLE
+    int getCount()
+    {
+        qDebug()<<m_obavestenja.count();
+        return m_obavestenja.count();
+
+    }
     void removeAll()
     {
         beginRemoveRows(QModelIndex(), 0,m_obavestenja.count());

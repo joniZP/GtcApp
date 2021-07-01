@@ -1,4 +1,4 @@
-#include <KomentariModel.h>
+#include <komentarimodel.h>
 KomentariModel * KomentariModel::instance = NULL;
 KomentariModel::KomentariModel()
 {
@@ -15,23 +15,23 @@ KomentariModel &KomentariModel::GetInstance()
 void KomentariModel::dodajkomentar(const Komentar &lok)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    m_lokacije << lok;
+    m_komentari << lok;
     endInsertRows();
 }
 int KomentariModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return m_lokacije.count();
+    return m_komentari.count();
 }
 
 QVariant KomentariModel::data(const QModelIndex &index, int role) const
 {
 
-    if (index.row() < 0 || index.row() >= m_lokacije.count())
+    if (index.row() < 0 || index.row() >= m_komentari.count())
     {
         return QVariant();
     }
-    const Komentar &Komentari = m_lokacije[index.row()];
+    const Komentar &Komentari = m_komentari[index.row()];
     if (role == SlikaRole)
     {
         return Komentari.slika();

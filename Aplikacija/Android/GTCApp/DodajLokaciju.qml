@@ -105,6 +105,8 @@ Rectangle
                         id: slika1
                         anchors.left:slikarectangle.left
                         width: parent.height
+                        sourceSize.width: 64
+                        sourceSize.height: 64
                         height: parent.height
                         source:"../new/prefix1/addimage2.png"
                         MouseArea
@@ -123,6 +125,8 @@ Rectangle
                     {
                         id: slika2
                         anchors.left:slika1.right
+                        sourceSize.width: 64
+                        sourceSize.height: 64
                         width: parent.height
                         height: parent.height
                         MouseArea
@@ -141,6 +145,8 @@ Rectangle
                     {
                         id: slika3
                         anchors.left:slika2.right
+                        sourceSize.width: 64
+                        sourceSize.height: 64
                         width: parent.height
                         height: parent.height
                         MouseArea
@@ -159,6 +165,8 @@ Rectangle
                     {
                         id: slika4
                         anchors.left:slika3.right
+                        sourceSize.width: 1080
+                        sourceSize.height: 1080
                         width: parent.height
                         height: parent.height
                         MouseArea
@@ -179,6 +187,8 @@ Rectangle
                         anchors.left:slika4.right
                         width: parent.height
                         height: parent.height
+                        sourceSize.width: 1080
+                        sourceSize.height: 1080
                         MouseArea
                         {
                             anchors.fill: parent
@@ -282,8 +292,10 @@ Rectangle
                             {
                                 upisLokacijaDogadjaj.setCoo(coord.latitude,coord.longitude)
                             }
-
-                            upisLokacijaDogadjaj.setCoo(0,0)
+                            else
+                            {
+                               upisLokacijaDogadjaj.setCoo(0,0)
+                            }
                         }
                     }
                 }

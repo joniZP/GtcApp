@@ -56,7 +56,7 @@ Rectangle
                                     anchors.left: unospretraga.right
                                     Image
                                     {
-                                        id: slika
+                                        id: slika1
                                         source: "qrc:/new/prefix1/loupe.png"
                                         width: parent.height*0.8
                                         height: parent.height*0.8
@@ -255,6 +255,7 @@ Rectangle
                             height: parent.height
                             width: parent.height
                             //color: "red"
+                            clip: true
                             anchors.left: parent.left
                             Image
                             {
@@ -262,14 +263,25 @@ Rectangle
                                 source: slika
                                 width: parent.width
                                 height: parent.height
-
-
-                                onProgressChanged:
+                                fillMode: Image.PreserveAspectFit
+                                anchors.centerIn: parent
+                                onStatusChanged:
                                 {
-                                    if(lokacijaitemslika.progress==1)
+                                    if(lokacijaitemslika.status==Image.Ready)
                                     {
-                                       // slider.height=slikalokacija.paintedHeight
-                                        spiner.visible=false
+
+                                         spiner.visible=false
+                                        var a=lokacijaitemslika.paintedHeight/lokacijaitemslika.paintedWidth
+                                        if(lokacijaitemslika.paintedWidth<slikarect.width)
+                                        {
+                                            var b=lokacijaitemslika.width-lokacijaitemslika.paintedWidth
+                                            lokacijaitemslika.height=lokacijaitemslika.height+b*a
+                                        }
+                                        else if(lokacijaitemslika.paintedHeight<slikarect.height)
+                                        {
+                                            var d=lokacijaitemslika.height-lokacijaitemslika.paintedHeight
+                                            lokacijaitemslika.width=lokacijaitemslika.width+d/a
+                                        }
                                     }
                                 }
                                 AnimatedImage

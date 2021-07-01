@@ -88,7 +88,6 @@ int main(int argc, char *argv[])
     Report *report=new Report();
     UpisLokacijaDogadjaj *upislokacijadogadjaj = new UpisLokacijaDogadjaj();
     MySqlService &mysqlservice = MySqlService::MySqlInstance();
-     mp=ld->getMProfil();
      engine.rootContext()->setContextProperty("likelogic", &like);
 
   //  engine.rootContext()->setContextProperty("mProfilInst", mp);
