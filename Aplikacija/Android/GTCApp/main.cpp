@@ -29,6 +29,7 @@
 #include<Report.h>
 #include<UcitavanjeDogadjaja.h>
 #include<MDogadjaj.h>
+#include<FileUploader.h>
 
 
 void ucitajKategorije();
@@ -69,7 +70,7 @@ int main(int argc, char *argv[])
     UcitavanjeLokacije & ucitavanjeLokacije = UcitavanjeLokacije::GetInstance();
     Like &like = Like::GetInstance();
     UcitavanjeDogadjaja &ucitavanjedogadjaja = UcitavanjeDogadjaja::GetInstance();
-
+     FileUploader &uploader = FileUploader::GetInstance();
    // UcitavanjeLokacije *ucitavanjeLokacije = new UcitavanjeLokacije();
 
 
@@ -93,6 +94,7 @@ int main(int argc, char *argv[])
   //  engine.rootContext()->setContextProperty("mProfilInst", mp);
    // engine.rootContext()->setContextProperty("mProfil", mp1);
     engine.rootContext()->setContextProperty("localData",ld);
+     engine.rootContext()->setContextProperty("uploader",&uploader);
     engine.rootContext()->setContextProperty("prijateljiEvents", pe);
     engine.rootContext()->setContextProperty("korisnikEvents", ke);
     engine.rootContext()->setContextProperty("ucitavanjeProfilaInstance", up);

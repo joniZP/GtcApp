@@ -66,13 +66,13 @@ public:
           if(reci.count()>0)
           {
 
-              query.append("SELECT * from (Select Konacna.id,COUNT(id) as prioritet from (");
+              query.append("SELECT Lokacija.* from (Select Konacna.id,COUNT(id) as prioritet from (");
 
                  for(int i=0;i<reci.count()-1;i++)
                  {
-                     query.append("(SELECT id FROM Lokacija WHERE opis LIKE '%"+reci[i]+"%')  UNION ALL ");
+                     query.append("(SELECT id FROM Lokacija WHERE opis LIKE '%"+reci[i]+"%' or naziv LIKE '%"+reci[i]+"%')  UNION ALL ");
                  }
-               query.append("(SELECT id FROM Lokacija WHERE opis LIKE '%"+reci[reci.count()-1]+"%')");
+               query.append("(SELECT id FROM Lokacija WHERE opis LIKE '%"+reci[reci.count()-1]+"%' or naziv LIKE '%"+reci[reci.count()-1]+"%' )");
                query.append(")  as Konacna GROUP BY Konacna.id) as spoj left join Lokacija ON spoj.id = Lokacija.id ");
 
           }
@@ -80,10 +80,10 @@ public:
           {
               query.append("SELECT * FROM Lokacija ");
           }
-
+           query.append("WHERE Verifikovana=1 ");
            if(gradovi.count() > 0 || kategorije.count() > 0)
            {
-               query.append("WHERE ");
+               query.append("and ");
 
                if(gradovi.count()>0)
                {
@@ -270,7 +270,7 @@ public:
             MySqlService &s = MySqlService::MySqlInstance();
             MySqlTable t;
             MyQuery query;
-                    query="select * from Lokacija order by id desc limit 20";
+                    query="select * from Lokacija where Verifikovana=1 order by id desc limit 20";
             qDebug()<<query.toStr();
                t = s.WSendQuery(query);
                if(t.isSuccessfully())

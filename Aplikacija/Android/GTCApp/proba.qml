@@ -14,156 +14,198 @@ import QtQuick.Controls.Universal 2.0
 
 Rectangle
 {
-    anchors.fill: parent
-ComboBox
-{
-    id: tipdogadjajaizmena
-    width: parent.width/3
-    anchors.top: parent.top
-    anchors.topMargin: 5
-    model: _katmodel
-    anchors.horizontalCenter: parent.horizontalCenter
-    textRole: "kategorija"
 
-}
-Rectangle
-{
-anchors.top: tipdogadjajaizmena.bottom
-id:vremeizmena
-width: parent.width
-height: 150
-Text
-{
-    id: vremedogadjaja
-    anchors.top: parent.top
-    anchors.topMargin: 20
-    text: "Vreme dogadjaja"
-    font.italic: true
-    color: "#1C2EE5"
-
-}
-Text
-{
-    id: dan
-    anchors.top: vremedogadjaja.bottom
-    anchors.topMargin: 10
-    text: "Dan:  "
-    color: "#1C2EE5"
- }
-ComboBox
-{
-    id: cbxdan
-    width:parent.width/3
-    anchors.top: vremedogadjaja.bottom
-    anchors.topMargin: 10
-    anchors.left: dan.right
-    anchors.leftMargin: 0
-    model: [ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",   "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" ]
-
-}
-Text
-{
-    id: mesec
-    height: cbxdan.height
-    anchors.top: vremedogadjaja.bottom
-    anchors.topMargin: 10
-    anchors.left: cbxdan.right
-    anchors.leftMargin: 5
-    text: "Mesec:  "
-    color: "#1C2EE5"
-
-}
-ComboBox
-{
-    id: cbxmesec
-    width:parent.width/3
-    anchors.top: vremedogadjaja.bottom
-    anchors.topMargin: 10
-    anchors.left: mesec.right
-
-    model: [ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",   "11", "12" ]
-
-}
-Text
-{
-    id: sati
-    height: cbxdan.height
-    anchors.top: cbxmesec.bottom
-    anchors.topMargin: 5
-    anchors.left: parent.left
-    text: "Sati:  "
-    color: "#1C2EE5"
-
-}
-ComboBox
-{
-    id: cbxsat
-    width:parent.width/3
-    anchors.top: cbxmesec.bottom
-    anchors.topMargin: 5
-    anchors.left: sati.right
-
-    model: [ "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",   "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",  "21", "22", "23", "24" ]
-
-}
-Text
-{
-    id: minuti
-    anchors.top: mesec.bottom
-    height: cbxdan.height
-    anchors.topMargin: 5
-    anchors.left: cbxsat.right
-    anchors.leftMargin: 5
-
-    text: "Minuta:  "
-    //font.italic: true
-    color: "#1C2EE5"
-
-}
-ComboBox
-{
-    id: cbxminut
-    width:parent.width/3
-    anchors.top: cbxmesec.bottom
-    anchors.topMargin: 5
-    anchors.left: minuti.right
-
-    model: [ "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10",   "11", "12", "13", "14", "15", "16", "17", "18", "19", "20",  "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40",   "41", "42", "43", "44", "45", "46", "47", "48", "49", "50",  "51", "52", "53", "54", "55", "56", "57", "58", "59", "60" ]
-
-}
-}
-
-Rectangle
-{
-
-        id:opisdogadjajrectangleizmena
-        anchors.top: vremeizmena.bottom
-        anchors.topMargin:10
-        width: parent.width*0.9
+    width: parent.width
+    height: 300
+    anchors.verticalCenter: parent.verticalCenter
+    Rectangle
+    {
+        visible: true
+        id:slika1rect
+        width: 200
+        height: 50
         anchors.horizontalCenter: parent.horizontalCenter
-        height: 35
-        color: "transparent"
-        border.color:"#595959"
-
-
-        ScrollView
+        anchors.top: parent.top
+        Text
         {
-            id: flickableopis
-            width: parent.width
-            height: Math.max(30,Math.min(contentHeight, 80))
-            contentWidth: width
-
-            TextArea
-            {
-                id: opisdogadjajaizmena
-                leftPadding: 6
-                rightPadding: 30
-                topPadding: 0
-                bottomPadding: 0
-                background: null
-                wrapMode: Text.WordWrap
-            }
+            id:prvaslika
+            anchors.left: parent.left
+            anchors.top: parent.top
+            text: qsTr("Uploadovanje prve slike")
+        }
+        AnimatedImage
+        {
+            id:uploading1
+            anchors.left: prvaslika.right
+            anchors.leftMargin: 10
+            anchors.top: parent.top
+            width: 60
+            height: 30
+            source: "qrc:/new/prefix1/loadingimage.gif"
+        }
+        Image
+        {
+            id:done1
+            visible: !uploading1.visible
+            anchors.left: prvaslika.right
+            anchors.leftMargin: 10
+            anchors.top: parent.top
+            width: 60
+            height: 30
+            source: "qrc:/new/prefix1/loadingimage.gif"
         }
 
-}
+    }
+    Rectangle
+    {
+        visible: false
+        id:slika2rect
+        anchors.top: slika1rect.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: 10
+        width: 200
+        height: 50
+        Text
+        {
+            id:drugaslika
+            anchors.left: parent.left
+            anchors.top: parent.top
+            text: qsTr("Uploadovanje druge slike")
+        }
+        AnimatedImage
+        {
+            id:uploading2
+            anchors.left: drugaslika.right
+            anchors.leftMargin: 10
+            anchors.top: parent.top
+            width: 60
+            height: 30
+            source: "qrc:/new/prefix1/loadingimage.gif"
+        }
+        Image
+        {
+            id:done2
+            visible: !uploading2.visible
+            anchors.left: drugaslika.right
+            anchors.leftMargin: 10
+            anchors.top: parent.top
+            width: 60
+            height: 30
+            source: "qrc:/new/prefix1/loadingimage.gif"
+        }
+    }
+    Rectangle
+    {
+        visible: false
+        id:slika3rect
+        anchors.top: slika2rect.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: 10
+        width: 200
+        height: 50
+        Text
+        {
+            id:trecaslika
+            anchors.left: parent.left
+            anchors.top: parent.top
+            text: qsTr("Uploadovanje trece slike")
+        }
+        AnimatedImage
+        {
+            id:uploading3
+            anchors.left: trecaslika.right
+            anchors.leftMargin: 10
+            anchors.top: parent.top
+            width: 60
+            height: 30
+            source: "qrc:/new/prefix1/loadingimage.gif"
+        }
+        Image
+        {
+            id:done3
+            visible: !uploading3.visible
+            anchors.left: trecaslika.right
+            anchors.leftMargin: 10
+            anchors.top: parent.top
+            width: 60
+            height: 30
+            source: "qrc:/new/prefix1/loadingimage.gif"
+        }
+    }
+    Rectangle
+    {
+        visible: false
+        id:slika4rect
+        anchors.top: slika3rect.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: 10
+        width: 200
+        height: 50
+        Text
+        {
+            id:cetvrtaslika
+            anchors.left: parent.left
+            anchors.top: parent.top
+            text: qsTr("Uploadovanje cetvrte slike")
+        }
+        AnimatedImage
+        {
+            id:uploading4
+            anchors.left: cetvrtaslika.right
+            anchors.leftMargin: 10
+            anchors.top: parent.top
+            width: 60
+            height: 30
+            source: "qrc:/new/prefix1/loadingimage.gif"
+        }
+        Image
+        {
+            id:done4
+            visible: !uploading4.visible
+            anchors.left: cetvrtaslika.right
+            anchors.leftMargin: 10
+            anchors.top: parent.top
+            width: 60
+            height: 30
+            source: "qrc:/new/prefix1/loadingimage.gif"
+        }
+    }
+    Rectangle
+    {
+        visible: false
+        id:slika5rect
+        anchors.top: slika4rect.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: 10
+        width: 200
+        height: 50
+        Text
+        {
+            id:petaslika
+            anchors.left: parent.left
+            anchors.top: parent.top
+            text: qsTr("Uploadovanje pete slike")
+        }
+        AnimatedImage
+        {
+            id:uploading5
+            anchors.left: petaslika.right
+            anchors.leftMargin: 10
+            anchors.top: parent.top
+            width: 60
+            height: 30
+            source: "qrc:/new/prefix1/loadingimage.gif"
+        }
+        Image
+        {
+            id:done5
+            visible: !uploading5.visible
+            anchors.left: petaslika.right
+            anchors.leftMargin: 10
+            anchors.top: parent.top
+            width: 60
+            height: 30
+            source: "qrc:/new/prefix1/loadingimage.gif"
+        }
+    }
 }

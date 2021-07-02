@@ -40,5 +40,9 @@
         <file>event.png</file>
         <file>logouticon.png</file>
         <file>reconnect.png</file>
+        <file>loadingimage.gif</file>
+        <file>doneuploading.png</file>
+        <file>backicon.png</file>
+        <file>map-navigation.png</file>
     </qresource>
 </RCC>

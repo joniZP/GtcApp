@@ -17,7 +17,7 @@ public:
      int idO() const;
     void cekiraj(bool b)
     {
-        this->m_checked=b;
+        this->m_vidjen=b;
     }
 private:
     QString m_slika;

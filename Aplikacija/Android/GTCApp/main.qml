@@ -12,7 +12,7 @@ import MDogadjaj 1.0
 ApplicationWindow
 {
     property Klasa klas
-    property string natpis: "Pocetna"
+    property string natpis: "Početna"
     property MLokacija location
     property MDogadjaj  mDogadjaj
     property  MProfil mProfil
@@ -276,12 +276,13 @@ ApplicationWindow
                         onClicked:
                         {
                             menu(menuicon.source)
+
                         }
                     }
                 }
                 Text {
                     id: natpisid
-                    text:"Pocetna";
+                    text:"Početna";
                     color: "#ffffff"
                     font.family: "Helvetica"
                     font.pointSize: 18
@@ -351,6 +352,12 @@ ApplicationWindow
                     id:lokacijamenuitem
                    // anchors.centerIn: parent
                     text: qsTr("Organizuj dogadjaj")
+                    background: Rectangle
+                    {
+                        implicitWidth: parent.width
+                        implicitHeight: parent.height
+                       color: "white"
+                    }
 
                     onClicked:
                     {
@@ -370,7 +377,12 @@ ApplicationWindow
                     id:lokacijamenuitem1
                    // anchors.centerIn: parent
                     text: qsTr("Prijavi")
-
+                    background: Rectangle
+                    {
+                        implicitWidth: parent.width
+                        implicitHeight: parent.height
+                       color: "white"
+                    }
                     onClicked:
                     {
 
@@ -394,11 +406,19 @@ ApplicationWindow
                 width: 200
                // height: item1.height
                 id: dogadjajmenu
+                height: dogadjajitem1.height+8
                 x:parent.width-lokacijamenu.width
                 y:0
 
                 MenuItem
                 {
+                    background: Rectangle
+                    {
+                        implicitWidth: parent.width
+                        implicitHeight: parent.height
+                       color: "white"
+                    }
+
                     id:dogadjajitem1
                    // anchors.centerIn: parent
                     text: qsTr("Prijavi")
@@ -421,6 +441,12 @@ ApplicationWindow
                     id:izmenidogadjaj
                    // anchors.centerIn: parent
                     text: qsTr("Izmeni")
+                    background: Rectangle
+                    {
+                        implicitWidth: parent.width
+                        implicitHeight: parent.height
+                       color: "white"
+                    }
 
                     onClicked:
                     {
@@ -433,10 +459,13 @@ ApplicationWindow
                             }
                             else
                             {
-                                console.log("poslat signal")
                                 izmeniDogadjajsignal()
                             }
-                    }
+                       }
+                        else
+                        {
+                             ulogujsepopup.open()
+                        }
 
                }
 
@@ -478,7 +507,21 @@ ApplicationWindow
                     else
                     {
                        pretragalupa.visible=false
-                    }  
+                    }
+                    if (source=="qrc:/dogadjaj.qml")
+                    {
+                       if(mProfilInst.getKorisnickoIme()!==mDogadjaj.getIdKorisnika())
+                       {
+                           dogadjajmenu.height=dogadjajmenu.height/2
+                           izmenidogadjaj.visible=false
+                       }
+                       else
+                       {
+                            izmenidogadjaj.visible=true
+                            dogadjajmenu.height=dogadjajmenu.height*2
+                       }
+                    }
+
                     if(source == "qrc:/lokacija.qml" || source == "qrc:/dogadjaj.qml")
                     {
                         pretragalupaimg.source="/new/prefix1/3dot.png";
@@ -504,8 +547,8 @@ ApplicationWindow
 
                     if(icon!=="qrc:/new/prefix1/dropdown-menu-icon-20.jpg")
                     {
-                        menuicon.width=30
-                        menuicon.height=30
+                        menuicon.width=25
+                        menuicon.height=20
                     }
                     else
                     {
@@ -563,12 +606,30 @@ ApplicationWindow
                             id: roo
                               // @disable-check M16
                             width:parent.width
+                            spacing: 0
+                            AnimatedImage
+                            {
+                                id:spinernalog
+                                source: "/new/prefix1/spinnerpicture.gif"
+                                Layout.topMargin: 20
+                                Layout.leftMargin: 10
+                                //anchors.verticalCenter: parent.verticalCenter
+                                Layout.maximumWidth: 60
+                                Layout.maximumHeight: 60
+                                width: 50
+                                height: 50
+                                 layer.enabled: true
+                               // visible: slikalokacija.progress!=1
+                                layer.effect: OpacityMask {
+                                    maskSource: mask
+                                }
+                            }
                     Image
                     {
                            id: nalogImg
                            source: mProfilInst.getSlikaURL()
                            Layout.topMargin: 20
-                           Layout.leftMargin: 10
+                           Layout.leftMargin: -60
                            //anchors.verticalCenter: parent.verticalCenter
                            Layout.maximumWidth: 60
                            Layout.maximumHeight: 60
@@ -596,7 +657,19 @@ ApplicationWindow
                            layer.effect: OpacityMask {
                                maskSource: mask
                            }
+
+                           onStatusChanged:
+                           {
+                               if(nalogImg.status==Image.Ready)
+                               {
+                                   //spinernalog.visible=false
+                               }
+                           }
                     }
+
+
+
+
 
                   /*  Rectangle {
                            Layout.fillWidth: true
@@ -652,9 +725,7 @@ ApplicationWindow
 
                      }
                     Text {
-
-
-    id: nalogIme
+                         id: nalogIme
                         text: qsTr(mProfilInst.getIme() + mProfilInst.getPrezime())
                         color: "#ffffff"
                          font.pointSize: 20
@@ -706,7 +777,7 @@ ApplicationWindow
                                 }
                             pocetnadugme.color_="#d9d7d2"
                             pom=pocetnadugme
-                            natpis="Pocetna"
+                            natpis="Početna"
                             pageLoader.source = "pocetna.qml"
                             drawer.close()
                             }
@@ -715,7 +786,7 @@ ApplicationWindow
                         widt: parent.width
                         heigh: 40
                         sourc: "../new/prefix1/iconhome.png"
-                        tex: "Pocetna"
+                        tex: "Početna"
                     }
                     Sbutt
                     {
@@ -741,7 +812,7 @@ ApplicationWindow
                         widt: parent.width
                         heigh: 40
                         sourc: "../new/prefix1/iconlocation.png"
-                        tex: "Pretrazi lokacije"
+                        tex: "Pretraži lokacije"
                     }
 
                     Sbutt
@@ -770,7 +841,7 @@ ApplicationWindow
                         widt: parent.width
                         heigh: 40
                         sourc: "qrc:/new/prefix1/event.png"
-                        tex: "Pretrazi dogadjaje"
+                        tex: "Pretraži dogadjaje"
                     }
 
                     Sbutt
@@ -1320,4 +1391,261 @@ ApplicationWindow
                 closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
                 // anchors.centerIn: parent
                 }
+
+
+
+        Rectangle{
+            id:uploadovanjeslikaglavni
+            anchors.fill: parent
+            opacity: 0.8
+            visible: false
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked: mouse.accepted = true
+            }
+
+        Rectangle
+        {
+            id:uploadovanjeslika
+            visible: true
+            width: parent.width
+            height: 300
+            color: "transparent"
+            anchors.verticalCenter: parent.verticalCenter
+            Rectangle
+            {
+                visible: true
+                id:slika1rect
+                width: 200
+                height: 50
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
+                color: "transparent"
+                Text
+                {
+                    id:prvaslika
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr("Uploadovanje prve slike")
+                }
+                AnimatedImage
+                {
+                    id:uploading1
+                    anchors.left: prvaslika.right
+                    anchors.leftMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: 40
+                    height: 40
+                    source: "qrc:/new/prefix1/loadingimage.gif"
+                }
+                Image
+                {
+                    id:done1
+                    visible: !uploading1.visible
+                    anchors.left: prvaslika.right
+                    anchors.leftMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: 40
+                    height: 40
+                    source: "qrc:/new/prefix1/doneuploading.png"
+                }
+
+            }
+            Rectangle
+            {
+                visible: false
+                id:slika2rect
+                anchors.top: slika1rect.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.topMargin: 10
+                width: 200
+                height: 50
+                color: "transparent"
+                Text
+                {
+                    id:drugaslika
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr("Uploadovanje druge slike")
+                }
+                AnimatedImage
+                {
+                    id:uploading2
+                    anchors.left: drugaslika.right
+                    anchors.leftMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: 40
+                    height: 40
+                    source: "qrc:/new/prefix1/loadingimage.gif"
+                }
+                Image
+                {
+                    id:done2
+                    visible: !uploading2.visible
+                    anchors.left: drugaslika.right
+                    anchors.leftMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: 40
+                    height: 40
+                    source: "qrc:/new/prefix1/doneuploading.png"
+                }
+            }
+            Rectangle
+            {
+                visible: false
+                id:slika3rect
+                anchors.top: slika2rect.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.topMargin: 10
+                width: 200
+                height: 50
+                color: "transparent"
+                Text
+                {
+                    id:trecaslika
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr("Uploadovanje trece slike")
+                }
+                AnimatedImage
+                {
+                    id:uploading3
+                    anchors.left: trecaslika.right
+                    anchors.leftMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: 40
+                    height: 40
+                    source: "qrc:/new/prefix1/loadingimage.gif"
+                }
+                Image
+                {
+                    id:done3
+                    visible: !uploading3.visible
+                    anchors.left: trecaslika.right
+                    anchors.leftMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: 40
+                    height: 40
+                    source: "qrc:/new/prefix1/doneuploading.png"
+                }
+            }
+            Rectangle
+            {
+                visible: false
+                id:slika4rect
+                anchors.top: slika3rect.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.topMargin: 10
+                width: 200
+                height: 50
+                color: "transparent"
+                Text
+                {
+                    id:cetvrtaslika
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr("Uploadovanje cetvrte slike")
+                }
+                AnimatedImage
+                {
+                    id:uploading4
+                    anchors.left: cetvrtaslika.right
+                    anchors.leftMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: 40
+                    height: 40
+                    source: "qrc:/new/prefix1/loadingimage.gif"
+                }
+                Image
+                {
+                    id:done4
+                    visible: !uploading4.visible
+                    anchors.left: cetvrtaslika.right
+                    anchors.leftMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: 40
+                    height: 40
+                    source: "qrc:/new/prefix1/doneuploading.png"
+                }
+            }
+            Rectangle
+            {
+                visible: false
+                id:slika5rect
+                anchors.top: slika4rect.bottom
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.topMargin: 10
+                width: 200
+                height: 50
+                color: "transparent"
+                Text
+                {
+                    id:petaslika
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: qsTr("Uploadovanje pete slike")
+                }
+                AnimatedImage
+                {
+                    id:uploading5
+                    anchors.left: petaslika.right
+                    anchors.leftMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: 40
+                    height: 40
+                    source: "qrc:/new/prefix1/loadingimage.gif"
+                }
+                Image
+                {
+                    id:done5
+                    visible: !uploading5.visible
+                    anchors.left: petaslika.right
+                    anchors.leftMargin: 10
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: 40
+                    height: 40
+                    source: "qrc:/new/prefix1/doneuploading.png"
+                }
+            }
+        }
+        }
+        /*
+        Popup
+        {
+            id: popup
+            width: parent.width/5*4
+            height: 150
+            modal: true
+            focus: true
+            x:(parent.width-popup.width)/2
+            y:(parent.height-popup.height)/2
+
+
+            ColumnLayout
+            {
+              // @disable-check M16
+                width:parent.width
+                spacing: 50
+            Text {
+                id: popuptext
+                text:"Ne mozete izmeniti dogadjaj koji niste vi kreirali"
+                Layout.alignment: Qt.AlignHCenter
+                Layout.topMargin: 10
+            }
+
+            Button
+            {
+                text: qsTr("U redu")
+                onClicked:
+                {
+                    popup.close()
+                    pop
+                }
+                Layout.alignment: Qt.AlignHCenter
+            }
+            }
+            closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+            // anchors.centerIn: parent
+            }*/
 }

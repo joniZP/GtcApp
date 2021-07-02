@@ -136,7 +136,7 @@ Rectangle
                            onClicked:
                            {
                                block.visible=true
-                              // _obavestenjamodel.pregledaj(index)
+                               _obavestenjamodel.pregledaj(index)
                                rectobavestenje.color="white"
 
                                if(lid==false)

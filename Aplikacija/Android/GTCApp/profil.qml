@@ -509,7 +509,7 @@ Image {
                        {
                            id:nazivlokacijeprofil
                            text: qsTr(naziv)
-                           width: parent.width
+                           width: parent.width-20
                            wrapMode: Text.WordWrap
                            anchors.left: parent.left
                            anchors.leftMargin: 20
@@ -530,7 +530,7 @@ Image {
                            anchors.leftMargin: 15
                            anchors.verticalCenter: parent.verticalCenter
                            wrapMode: Text.WordWrap
-                           width: parent.width
+                           width: parent.width-15
                        }
                    }
                    MouseArea
@@ -600,7 +600,7 @@ ListView {
                     {
                         id:tipdogadjajaprofil
                         text: qsTr(tip)
-                        width: parent.width
+                        width: parent.width-20
                         wrapMode: Text.WordWrap
                         anchors.left: parent.left
                         anchors.leftMargin: 20
@@ -615,13 +615,19 @@ ListView {
                     anchors.left: tiprect.right
                     Text
                     {
-                        id:opisdogadjajaprofil
+                        anchors.fill: parent
+                        id:opisdogadjajatekst
                         text: qsTr(opis)
                         anchors.left: parent.left
-                        anchors.leftMargin: 15
+                        anchors.leftMargin: 5
+                        font.pixelSize: 20
                         anchors.verticalCenter: parent.verticalCenter
                         wrapMode: Text.WordWrap
-                        width: parent.width
+                        minimumPixelSize: 10
+                        maximumLineCount: 4
+                        fontSizeMode: Text.Fit
+                        verticalAlignment: Text.AlignVCenter
+
                     }
                 }
                 Rectangle
@@ -638,7 +644,7 @@ ListView {
                         anchors.leftMargin: 15
                         anchors.verticalCenter: parent.verticalCenter
                         wrapMode: Text.WordWrap
-                        width: parent.width
+                        width: parent.width-15
                     }
                 }
                 MouseArea

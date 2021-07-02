@@ -37,12 +37,12 @@ public:
          //  query1<<LOCALDATA::mProfil->getKorisnickoIme()<<t.Rows[0][0];
          //  s.WSendQuery(query1);
 
-           FileUploader *f = new FileUploader();
+           FileUploader &f = FileUploader::GetInstance();
            for(int i=0; i<slike.length();i++)
            {
                MyQuery m("LOK%1SLIKA%2");
                m<<t.Rows[0][0]<<i;
-              f->uploadImage(m.toStr(),slike[i]);
+              f.uploadImage(m.toStr(),slike[i]);
 
            }
 

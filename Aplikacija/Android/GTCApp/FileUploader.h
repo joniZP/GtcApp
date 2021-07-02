@@ -23,13 +23,15 @@ private:
 
     void ReplyAnswer(QNetworkReply *reply);
 
+    static FileUploader* instance;
 public:
     FileUploader();
-
+     static FileUploader& GetInstance();
 
     Q_INVOKABLE bool uploadImage(QString imagename, QString path);
 
-
+signals:
+    void imageUploaded();
 };
 
 #endif // FILEUPLOADER_H

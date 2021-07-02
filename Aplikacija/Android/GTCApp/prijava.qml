@@ -128,6 +128,7 @@ ColumnLayout{
         id: text3
         text: qsTr("Zaboravili ste lozinku?")
         font.pixelSize: 15
+        color: "#549cff"
         MouseArea{
             anchors.fill:parent
             onClicked:

@@ -61,7 +61,7 @@ Rectangle
                            text: qsTr(naziv)
                            anchors.left: parent.left
                            anchors.leftMargin: 20
-                           width: parent.width
+                           width: parent.width-20
                            wrapMode: Text.WordWrap
                            anchors.verticalCenter: parent.verticalCenter
                        }

@@ -52,6 +52,7 @@ Rectangle
                required property bool vidjen
                Rectangle
                {
+                   color: vidjen==true?"transparent":"#b8dff2";
                    anchors.fill: parent
                    Rectangle
                    {
@@ -59,7 +60,7 @@ Rectangle
                    width: parent.width
                    height: parent.height-10
                    anchors.verticalCenter: parent.verticalCenter
-                   color: vidjen==true?"transparent":"#b1e6ec";
+                   color:"transparent"
 
 
                    Rectangle
@@ -98,7 +99,11 @@ Rectangle
                            anchors.fill: parent
                            onClicked:
                            {
-                               //pozovi funkciju da ucita korisnika
+                                block.visible = true
+                               getProfilByUsername(id)
+                               natpis="Profil"
+                               pageLoader.source = "profil.qml"
+                               block.visible = false
                            }
                        }
                    }

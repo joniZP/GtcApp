@@ -41,7 +41,7 @@ private:
     Q_INVOKABLE
     void pregledaj(int i)
     {
-        if(m_obavestenja[i].checked()==false)
+        if(m_obavestenja[i].vidjen()==false)
         {
             m_obavestenja[i].cekiraj(true);
         }

@@ -149,6 +149,7 @@ Rectangle
            }
 
            Map {
+               id:mapa
                anchors.fill: parent
                plugin: mapPlugin
                center: QtPositioning.coordinate(location.getX(),location.getY())
@@ -167,8 +168,27 @@ Rectangle
                    }
                }
 
+
+           }
+
+           Image {
+               anchors.top: parent.top
+               anchors.right: parent.right
+               id: navigation
+               width: 40
+               height: 40
+               source: "qrc:/new/prefix1/map-navigation.png"
+               MouseArea
+               {
+                   anchors.fill:parent
+                   onClicked:
+                   {
+                       location.navigacija()
+                   }
+               }
            }
     }
+
 
 
        Rectangle
@@ -202,7 +222,6 @@ Rectangle
                        {
                           block.visible = true;
 
-
                            if(mProfilInst.getKorisnickoIme()===location.getKreator())
                            {
                                ucitavanjeProfilaInstance.ucitajLokacijeiDogadjaje(mProfilInst.getKorisnickoIme())
@@ -217,6 +236,7 @@ Rectangle
 
                            }
                            block.visible = false;
+
                        }
                    }
                    }
@@ -657,7 +677,12 @@ Drawer
                             id:item1
                             anchors.centerIn: parent
                             text: qsTr("Prijavi")
-
+                            background: Rectangle
+                            {
+                                implicitWidth: parent.width
+                                implicitHeight: parent.height
+                               color: "white"
+                            }
                             onClicked:
                             {
                                 if(localData.getUlogovan())
@@ -735,7 +760,7 @@ Drawer
        background:Image {
            anchors.fill: parent
            id: send
-           source: "/new/prefix1/pngkit_send-icon-png_1882365.png"
+           source: "qrc:/new/prefix1/send.png"
 
 
        }

@@ -68,6 +68,7 @@ Rectangle{
                             id:listaprijateljaarea
 
                             onClicked: {
+                                 natpisid.text="Lista prijatelja"
                                 block.visible = true
                                 prijateljiEvents.prikaziListuPrijatelja()
                                 rectanglelistaprijatelja.visible=true
@@ -553,13 +554,19 @@ ListView {
                     anchors.left: tiprect.right
                     Text
                     {
-                        id:opisdogadjajaprofil
+                        anchors.fill: parent
+                        id:opisdogadjajatekst
                         text: qsTr(opis)
                         anchors.left: parent.left
-                        anchors.leftMargin: 15
+                        anchors.leftMargin: 5
+                        font.pixelSize: 20
                         anchors.verticalCenter: parent.verticalCenter
                         wrapMode: Text.WordWrap
-                        width: parent.width
+                        minimumPixelSize: 10
+                        maximumLineCount: 4
+                        fontSizeMode: Text.Fit
+                        verticalAlignment: Text.AlignVCenter
+
                     }
                 }
                 Rectangle
@@ -576,7 +583,7 @@ ListView {
                         anchors.leftMargin: 15
                         anchors.verticalCenter: parent.verticalCenter
                         wrapMode: Text.WordWrap
-                        width: parent.width
+                        width: parent.width-15
                     }
                 }
                 MouseArea
@@ -759,6 +766,8 @@ ListView {
                        {
                            maskSource: mask
                        }
+
+
                    }
                    MouseArea
                    {
@@ -789,7 +798,7 @@ ListView {
                        anchors.leftMargin: 20
                        anchors.top: parent.top
                        anchors.topMargin: 2
-                       width: parent.width
+                       width: parent.width-20
                        wrapMode: Text.WordWrap
                    }
 
@@ -859,7 +868,8 @@ ListView {
                     }
             onClicked:
             {
-              rectanglelistaprijatelja.visible=false
+                natpisid.text="Moj profil"
+                rectanglelistaprijatelja.visible=false
             }
         }
     }

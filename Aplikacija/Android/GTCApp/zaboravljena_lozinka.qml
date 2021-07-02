@@ -53,7 +53,7 @@ Rectangle {
             {
                 block.visible=true
                 korisnikEvents.zaboravljena_lozinka(email.text)
-                naziv="Prijava"
+                natpis="Prijava"
                 pageLoader.source = "prijava.qml"
                 block.visible=false
             }

@@ -32,13 +32,13 @@ public:
     Q_INVOKABLE
     QString getIcon()
     {
-        if(natpis=="Pocetna")
+        if(natpis=="Početna")
         {
             return "qrc:/new/prefix1/dropdown-menu-icon-20.jpg";
         }
         else
         {
-            return "qrc:/new/prefix1/arrow-119-64.ico";
+            return "qrc:/new/prefix1/backicon.png";
         }
     }
 
@@ -62,7 +62,7 @@ public:
              qDebug()<<lista->count();
             pom=lista->back();
             lista->pop_back();
-            while(pom.stranica==tr || pom.stranica=="qrc:/prijava.qml" || pom.stranica=="qrc:/registracija.qml" || pom.stranica=="qrc:/DodajLokaciju.qml" || pom.stranica=="qrc:/DodajDogadjaj.qml"|| pom.stranica=="qrc:/izmeniprofil.qml")// if(source != "qrc:/prijava.qml" && source != "qrc:/registracija.qml" && source != "qrc:/DodajLokaciju.1ml" && source !="qrc:/DodajDogadjaj")
+            while(pom.stranica==tr || pom.stranica=="qrc:/prijava.qml" || pom.stranica=="qrc:/registracija.qml" || pom.stranica=="qrc:/DodajLokaciju.qml" || pom.stranica=="qrc:/DodajDogadjaj.qml"|| pom.stranica=="qrc:/izmeniprofil.qml"|| pom.stranica=="qrc:/zaboravljena_lozinka.qml")// if(source != "qrc:/prijava.qml" && source != "qrc:/registracija.qml" && source != "qrc:/DodajLokaciju.1ml" && source !="qrc:/DodajDogadjaj")
             {
                 pom=lista->back();
                 if(lista->count()>1)

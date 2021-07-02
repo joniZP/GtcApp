@@ -11,6 +11,58 @@ import QtLocation 5.6
 Rectangle
 {
     property int slike: 0
+    property int lokid :-1
+    property int imagenumber:0
+
+    Connections {
+          target: uploader
+          function onImageUploaded()
+          {
+              console.log("signal za sliku primljen")
+
+              if(imagenumber==0)
+              {
+                  slika2rect.visible=true
+                  uploading1.visible=false
+                  imagenumber++
+              }
+              else if(imagenumber==1)
+              {
+                  slika3rect.visible=true
+                  uploading2.visible=false
+                  imagenumber++
+              }
+              else if(imagenumber==2)
+              {
+                  slika4rect.visible=true
+                  uploading3.visible=false
+                  imagenumber++
+              }
+              else if(imagenumber==3)
+              {
+                  slika5rect.visible=true
+                  uploading4.visible=false
+                  imagenumber++
+              }
+              else if(imagenumber==4)
+              {
+                  slika5rect.visible=false
+                  imagenumber++
+              }
+              if(imagenumber>=slike)
+              {
+                  uploadovanjeslikaglavni.visible=false
+                  if(lokid !== -1)
+                  {
+                      getLokacijaById(lokid);
+                      natpis="Lokacija"
+                      pageLoader.source= "lokacija.qml"
+                  }
+                  //kraj
+              }
+
+          }
+     }
     Flickable
     {
         //  contentHeight: 800
@@ -22,11 +74,7 @@ Rectangle
         clip: true
         Rectangle
         {
-            gradient: Gradient
-            {
-                GradientStop{position:0.0; color:"#2A9FF3"}
-                GradientStop{position:1.0; color:"white"}
-            }
+           color: "#80b5ff"
             anchors.fill:parent
             id: glavni
             Rectangle
@@ -313,8 +361,11 @@ Rectangle
                     upisservis.setCoo(coord.latitude,coord.longitude)
                     }*/
                 }
+
+
                 Button
                 {
+
                     id: dugmedodajlokaciju
                     anchors.top: maparectangle.bottom
                     anchors.topMargin: 17
@@ -354,20 +405,32 @@ Rectangle
                         }
                         if(nazivnovelokacije.text!="" && gradnovelokacije.currentText!=""&&kategorijanovelokacije.currentText!="" && opisnovelokacije.text!="")
                         {
-                            block.visible = true;
-                            const lokid = upisLokacijaDogadjaj.upisiLokaciju(nazivnovelokacije.text,kategorijanovelokacije.currentText,gradnovelokacije.currentText,opisnovelokacije.text);
-                            upisLokacijaDogadjaj.removeAllPictrures();
-                            if(lokid !== -1)
+                            if(slike==0)
                             {
-                                getLokacijaById(lokid);
-                                natpis="Lokacija"
-                                pageLoader.source= "lokacija.qml"
+                                 block.visible = true;
+                                 lokid = upisLokacijaDogadjaj.upisiLokaciju(nazivnovelokacije.text,kategorijanovelokacije.currentText,gradnovelokacije.currentText,opisnovelokacije.text);
+                                 upisLokacijaDogadjaj.removeAllPictrures();
+                                 getLokacijaById(lokid);
+                                 natpis="Lokacija"
+                                 pageLoader.source= "lokacija.qml"
+                                 block.visible = false;
                             }
-                            block.visible = false;
+                            else
+                            {
+                           // block.visible = true;
+                            uploadovanjeslikaglavni.visible=true
+                            lokid = upisLokacijaDogadjaj.upisiLokaciju(nazivnovelokacije.text,kategorijanovelokacije.currentText,gradnovelokacije.currentText,opisnovelokacije.text);
+                            upisLokacijaDogadjaj.removeAllPictrures();
+                            }
+                            //block.visible = false;
                         }
                     }
                 }
             }
         }
     }
+
+
+
+
 }

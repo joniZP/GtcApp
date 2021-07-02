@@ -76,18 +76,18 @@ public:
     }
 
     Q_INVOKABLE
-    void zaboravljena_lozinka(QString username)
+    void zaboravljena_lozinka(QString email)
     {
         EmailVerificator & e=EmailVerificator::GetInstance();
         MySqlService &s = MySqlService::MySqlInstance();
         MySqlTable t;
-        QString q="SELECT * FROM Korisnik WHERE korisnickoIme='"+username+"'";
+        QString q="SELECT * FROM Korisnik WHERE email='"+email+"'";
         t = s.WSendQuery(q);
         if(t.isSuccessfully())
         {
             if(t.Count()>0)
             {
-               e.SendForgotPasswordEmail(t.Rows[0]["email"],username,t.Rows[0]["ime"]+" "+t.Rows[0]["prezime"]);
+               e.SendForgotPasswordEmail(email,t.Rows[0]["korisnickoIme"],t.Rows[0]["ime"]+" "+t.Rows[0]["prezime"]);
             }
         }
 

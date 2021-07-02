@@ -16,9 +16,6 @@ Rectangle
     function funkcija()
     {
         var id= upisLokacijaDogadjaj.azurirajDogadjaj(mDogadjaj.getId(),upisLokacijaDogadjaj.formatDate(cbxmesec.currentValue,cbxdan.currentValue,cbxsat.currentValue,cbxminut.currentValue), opisdogadjajaizmena.text,tipdogadjajaizmena.currentText);
-        console.log(cbxsat.currentValue)
-         console.log(cbxsat.currentText)
-          console.log(cbxsat.currentIndex)
     }
 
     id:dogadjajglavnirect
@@ -660,6 +657,7 @@ Rectangle
                    getDogadjajById(mDogadjaj.getId())
                    izmena.visible=false
                    upisLokacijaDogadjaj.obrisiDogadjaj(mDogadjaj.getId())
+                   natpis="Početna"
                    pageLoader.source="pocetna.qml"
                    block.visible=false
                }
@@ -962,7 +960,12 @@ ListView
                                 id:item1
                                 anchors.centerIn: parent
                                 text: qsTr("Prijavi")
-
+                                background: Rectangle
+                                {
+                                    implicitWidth: parent.width
+                                    implicitHeight: parent.height
+                                   color: "white"
+                                }
                                 onClicked:
                                 {
 
@@ -1089,7 +1092,7 @@ ScrollView {
        background:Image {
            anchors.fill: parent
            id: send
-           source: "/new/prefix1/pngkit_send-icon-png_1882365.png"
+           source: "qrc:/new/prefix1/send.png"
 
 
        }

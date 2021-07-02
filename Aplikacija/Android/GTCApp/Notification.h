@@ -52,20 +52,25 @@ public:
            t = reply->readAll();
            if(t.isSuccessfully())
            {
-               if(NewFriendNotification <  t.Rows[0]["Zahtevi"].toInt())
+               if(LOCALDATA::ulogovan==true)
                {
-                    sendPushNotification("Imate novi zahtev za prijateljstvo!","Zahtev za prijateljstvo");
+                   if(NewFriendNotification <  t.Rows[0]["Zahtevi"].toInt())
+                   {
+                        sendPushNotification("Imate novi zahtev za prijateljstvo!","Zahtev za prijateljstvo");
+                   }
+                   if(NewShareNotification <  t.Rows[0]["Obavestenja"].toInt())
+                   {
+                        sendPushNotification("Imate novu poruku u sanducetu!","Nova poruka");
+                   }
+
+                   NewFriendNotification = t.Rows[0]["Zahtevi"].toInt();
+                   NewShareNotification = t.Rows[0]["Obavestenja"].toInt();
+                   //emit GetInstance().DataChanged();
+                   qDebug()<<"ZAHTEVI"<<t.Rows[0]["Zahtevi"];
+                   emit GetInstance().updateFriendNotification(NewFriendNotification);
+                   emit GetInstance().updateSharedNotification(NewShareNotification);
                }
-               if(NewShareNotification <  t.Rows[0]["Obavestenja"].toInt())
-               {
-                    sendPushNotification("Imate novu poruku u sanducetu!","Nova poruka");
-               }
-               NewFriendNotification = t.Rows[0]["Zahtevi"].toInt();
-               NewShareNotification = t.Rows[0]["Obavestenja"].toInt();
-               //emit GetInstance().DataChanged();
-               qDebug()<<"ZAHTEVI"<<t.Rows[0]["Zahtevi"];
-               emit GetInstance().updateFriendNotification(NewFriendNotification);
-               emit GetInstance().updateSharedNotification(NewShareNotification);
+
                emit MySqlService::MySqlInstance().myConnectionEstablished();
             //   qDebug()<<"Broj notifikacija: "<<NewNotification;
            }

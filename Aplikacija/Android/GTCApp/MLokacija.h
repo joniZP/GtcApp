@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include<komentarimodel.h>
+#include<qdesktopservices.h>
 
 class MLokacija:public QObject
 {
@@ -89,6 +90,16 @@ public:
   {
       this->naziv=ime;
   }
+
+ Q_INVOKABLE
+void navigacija()
+{
+
+    QString link="https://www.google.com/maps/dir/?api=1&destination="+QString::number(xcoo)+","+QString::number(ycoo);
+    qDebug()<<"navigacija "<<link;
+    QDesktopServices::openUrl(QUrl(link));
+
+}
 
 
 

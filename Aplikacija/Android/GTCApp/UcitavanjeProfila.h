@@ -85,7 +85,7 @@ public:
         MySqlService &s = MySqlService::MySqlInstance();
         MyQuery query;
         MySqlTable lokacijatable;
-        query = "SELECT * FROM Lokacija WHERE idKorisnika='%1'";
+        query = "SELECT * FROM Lokacija WHERE idKorisnika='%1' and Verifikovana=1";
         query<<korisnickoime;
 
         lokacijatable = s.WSendQuery(query);

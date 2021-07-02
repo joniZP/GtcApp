@@ -1,13 +1,28 @@
 #include"FileUploader.h"
 
+
+FileUploader * FileUploader::instance = NULL;
+
 void FileUploader::ReplyAnswer(QNetworkReply *reply){
     qDebug() << "UPLOAD Reply: " <<  reply->readAll();
+     emit imageUploaded();
+      qDebug() << "Uerfewew";
+
 }
 
 FileUploader::FileUploader()
 {
     manager = new QNetworkAccessManager();
     QObject::connect(manager, &QNetworkAccessManager::finished, this, &FileUploader::ReplyAnswer);
+}
+
+FileUploader &FileUploader::GetInstance()
+{
+    if(instance == NULL)
+    {
+        instance = new FileUploader();
+    }
+    return *instance;
 }
 
 bool FileUploader::uploadImage(QString imagename, QString path)

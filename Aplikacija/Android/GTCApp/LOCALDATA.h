@@ -64,7 +64,7 @@ public:
 
                 MySqlService &s = MySqlService::MySqlInstance();
                 MySqlTable t;
-                QString q="SELECT * FROM Korisnik WHERE korisnickoIme='"+sqlquery.value(2).toString()+"'";
+                QString q="SELECT Korisnik.*,(SELECT AVG(ocena) from KorisnikOcene WHERE ocenjen='"+sqlquery.value(2).toString()+"') as avgocena FROM Korisnik WHERE korisnickoIme='"+sqlquery.value(2).toString()+"'";
                    t = s.WSendQuery(q);
                    if(t.isSuccessfully())
                    {
@@ -76,7 +76,7 @@ public:
                        mProfil->setLozinka( t.Rows[0]["lozinka"]);
                        mProfil->setEmail( t.Rows[0]["email"]);
                        mProfil->setTelefon(t.Rows[0]["telefon"]);/////
-                       mProfil->setOcena(t.Rows[0]["ocena"].toFloat());
+                       mProfil->setOcena(t.Rows[0]["avgocena"].toFloat());
                        if(t.Rows[0]["slika"].toInt() == 1)
                            mProfil->setSlikaURL(LINKS::getProfilePicture(mProfil->getKorisnickoIme()));
                        else
