@@ -20,15 +20,7 @@ private:
     public:
     static MarkerModel& GetInstance();
     void dodajmarker(const QGeoCoordinate &coordinate);
-    void remove()
-    {
-        beginRemoveRows(QModelIndex(), 0, 0);
-        if(m_coordinates.count()>0)
-        {
-             m_coordinates.removeFirst();
-        }
-        endRemoveRows();
-    }
+    void remove();
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
 protected:

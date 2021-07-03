@@ -22,34 +22,11 @@ private:
     public:
     static KategorijaModel& GetInstance();
     void dodajkategoriju(const Kategorija &kat);
-    void remove()
-    {
-        beginRemoveRows(QModelIndex(), 0, 0);
-        if(m_kategorije.count()>0)
-        {
-             m_kategorije.removeFirst();
-        }
-        endRemoveRows();
-    }
+    void remove();
 
     Q_INVOKABLE
-    int getCurrentIndex(QString k)
-    {
-        for(int i=0;i<m_kategorije.count();i++)
-        {
-            if(m_kategorije[i].kategorija()==k)
-            {
-                return i;
-            }
-        }
-        return 0;
-    }
-    void removeAll()
-    {
-        beginRemoveRows(QModelIndex(), 0,m_kategorije.count());
-        m_kategorije.clear();
-        endRemoveRows();
-    }
+    int getCurrentIndex(QString k);
+    void removeAll();
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
@@ -58,29 +35,9 @@ protected:
 public:
     QList<Kategorija> m_kategorije;
     Q_INVOKABLE
-    void dodaj(int i)
-    {
-        if(m_kategorije[i].cekirana()==false)
-        {
-            m_kategorije[i].setCekirana(true);
-        }
-        else
-        {
-            m_kategorije[i].setCekirana(false);
-        }
-        qDebug()<<m_kategorije[i].cekirana();
-    }
-    void ukloni(int i)
-    {
-        m_kategorije[i].setCekirana(true);
-    }
-    void reset()
-    {
-        for(int i=0;i<m_kategorije.length();i++)
-        {
-            m_kategorije[i].setCekirana(false);
-        }
-    }
+    void dodaj(int i);
+    void ukloni(int i);
+    void reset();
 private:
 
 };

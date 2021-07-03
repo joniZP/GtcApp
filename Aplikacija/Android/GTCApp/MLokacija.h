@@ -70,52 +70,33 @@ public:
         return ycoo;
     }
     Q_INVOKABLE
-   QString getSlika() const
-   {
-       return "http://gtcappservice.000webhostapp.com/GTCAPP/upload/"+kreator+".jpeg";
-   }
-    Q_INVOKABLE
-   QString getPunoIme()
-   {
-       return punoime;
-   }
-   Q_INVOKABLE
-   QString getKategorija()
-   {
-       return kategorija;
-   }
-
-   Q_INVOKABLE
- void setIme(QString ime)
-  {
-      this->naziv=ime;
-  }
-
- Q_INVOKABLE
-void navigacija()
-{
-
-    QString link="https://www.google.com/maps/dir/?api=1&destination="+QString::number(xcoo)+","+QString::number(ycoo);
-    qDebug()<<"navigacija "<<link;
-    QDesktopServices::openUrl(QUrl(link));
-
-}
-
-
-
-    MLokacija(int id, QString kreator,QString punoime,QString naziv,QString opis,QString grad,int like, double xcoo,double ycoo,QString kategorija)
+    QString getSlika() const
     {
-        this->grad=grad;
-        this->id = id;
-        this->kreator = kreator;
-        this->like=like;
-        this->naziv=naziv;
-        this->opis = opis;
-        this->xcoo=xcoo;
-        this->ycoo = ycoo;
-        this->punoime = punoime;
-        this->kategorija=kategorija;
+       return "http://gtcappservice.000webhostapp.com/GTCAPP/upload/"+kreator+".jpeg";
     }
+    Q_INVOKABLE
+    QString getPunoIme()
+    {
+       return punoime;
+    }
+    Q_INVOKABLE
+    QString getKategorija()
+    {
+       return kategorija;
+    }
+
+    Q_INVOKABLE
+    void setIme(QString ime)
+    {
+      this->naziv=ime;
+    }
+
+    Q_INVOKABLE
+void navigacija();
+
+
+
+    MLokacija(int id, QString kreator,QString punoime,QString naziv,QString opis,QString grad,int like, double xcoo,double ycoo,QString kategorija);
     void setId(int value);
     void setKreator(const QString &value);
     void setKategorija(const QString &value);
@@ -127,40 +108,10 @@ void navigacija()
     int getBrKomentara() const;
     void setBrKomentara(int value);
      Q_INVOKABLE
-    QString getBrLajkaString(int b)
-    {
-        like+=b;
-        return QString::number(like);
-    }
+    QString getBrLajkaString(int b);
 
     Q_INVOKABLE
-    QString getBrKomentaraString(int b)
-    {
-        int br=0;
-        if(b!=0)
-        {
-           KomentariModel &k=KomentariModel::GetInstance();
-           br=k.getBrKom();
-        }
-        else
-        {
-            br=getBrKomentara();
-        }
-        if(br==1)
-        {
-            return QString::number(br)+" komentar";
-        }
-        else if(br>9)
-        {
-            int d=br%10;
-            int p=(br/10)%10;
-            if(d==1&&p!=1)
-            {
-                return QString::number(br)+" komentar";
-            }
-        }
-        return QString::number(br)+" komentara";
-    }
+    QString getBrKomentaraString(int b);
 };
 
 #endif // MLOKACIJA_H

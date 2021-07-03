@@ -22,54 +22,20 @@ private:
     public:
     static MestoModel& GetInstance();
     void dodajmesto(const Kategorija &kat);////Treba da se izmeni
-    void remove()
-    {
-        beginRemoveRows(QModelIndex(), 0, 0);
-        if(m_mesta.count()>0)
-        {
-             m_mesta.removeFirst();
-        }
-        endRemoveRows();
-    }
+    void remove();
 
-    void removeAll()
-    {
-        beginRemoveRows(QModelIndex(), 0,m_mesta.count());
-        m_mesta.clear();
-        endRemoveRows();
-    }
+    void removeAll();
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
-protected:
+    protected:
     QHash<int, QByteArray> roleNames() const;
-public:
+    public:
     QList<Kategorija> m_mesta;//Treba da se izmeni
     Q_INVOKABLE
-    void dodaj(int i)
-    {
-        if(m_mesta[i].cekirana()==false)
-        {
-            m_mesta[i].setCekirana(true);
-        }
-        else
-        {
-            m_mesta[i].setCekirana(false);
-        }
-        qDebug()<<m_mesta[i].cekirana();
-    }
-    void ukloni(int i)
-    {
-        m_mesta[i].setCekirana(true);
-    }
-
-    void reset()
-    {
-        for(int i=0;i<m_mesta.length();i++)
-        {
-            m_mesta[i].setCekirana(false);
-        }
-    }
+    void dodaj(int i);
+    void ukloni(int i);
+    void reset();
 private:
 
 };

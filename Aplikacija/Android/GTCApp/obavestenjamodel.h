@@ -29,53 +29,16 @@ private:
     public:
     static ObavestenjaModel& GetInstance();
     void dodajobavestenje(const obavestenje &o );
-    void remove()
-    {
-        beginRemoveRows(QModelIndex(), 0, 0);
-        if(m_obavestenja.count()>0)
-        {
-             m_obavestenja.removeFirst();
-        }
-        endRemoveRows();
-    }
+    void remove();
     Q_INVOKABLE
-    void pregledaj(int i)
-    {
-        if(m_obavestenja[i].vidjen()==false)
-        {
-            m_obavestenja[i].cekiraj(true);
-        }
-    }
+    void pregledaj(int i);
 
      Q_INVOKABLE
-    int getCount()
-    {
-        qDebug()<<m_obavestenja.count();
-        return m_obavestenja.count();
-
-    }
-    void removeAll()
-    {
-        beginRemoveRows(QModelIndex(), 0,m_obavestenja.count());
-        m_obavestenja.clear();
-        endRemoveRows();
-    }
+    int getCount();
+    void removeAll();
 
     Q_INVOKABLE
-    void obrisi(int i)
-    {
-        beginRemoveRows(QModelIndex(),i,i);
-        if(m_obavestenja.count()>0)
-        {
-            MySqlService &s = MySqlService::MySqlInstance();
-            MyQuery query;
-            query="DELETE FROM Obavestenje where idObavestenja=%1";
-            query<< m_obavestenja[i].idO();
-            s.SendQuery(query);
-            m_obavestenja.removeAt(i);
-        }
-        endRemoveRows();
-    }
+    void obrisi(int i);
 
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const;

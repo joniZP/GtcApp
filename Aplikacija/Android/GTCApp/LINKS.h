@@ -25,7 +25,6 @@ static QString getProfileDefaultPicture()
     return APILINK+"/upload/noavailableprofilepicture.jpeg";
 }
 
-
 static QString getNoImageAvailable()
 {
     return APILINK+"/upload/noimageavailable.jpeg";

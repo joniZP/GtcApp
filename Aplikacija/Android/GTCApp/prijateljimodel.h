@@ -26,32 +26,11 @@ private:
     public:
     static PrijateljiModel& GetInstance();
     void dodajPrijatelja(const profillistelement &o );
-    void remove()
-    {
-        beginRemoveRows(QModelIndex(), 0, 0);
-        if(m_prijatelji.count()>0)
-        {
-             m_prijatelji.removeFirst();
-        }
-        endRemoveRows();
-    }
+    void remove();
     Q_INVOKABLE
-    void obrisi(int i)
-    {
-        beginRemoveRows(QModelIndex(),i,i);
-        if(m_prijatelji.count()>0)
-        {
-             m_prijatelji.removeAt(i);
-        }
-        endRemoveRows();
-    }
+    void obrisi(int i);
 
-    void removeAll()
-    {
-        beginRemoveRows(QModelIndex(), 0,m_prijatelji.count());
-        m_prijatelji.clear();
-        endRemoveRows();
-    }
+    void removeAll();
 
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const;

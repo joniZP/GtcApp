@@ -18,6 +18,28 @@ void KomentariModel::dodajkomentar(const Komentar &lok)
     m_komentari << lok;
     endInsertRows();
 }
+
+void KomentariModel::remove()
+{
+    beginRemoveRows(QModelIndex(), 0, 0);
+    if(m_komentari.count()>0)
+    {
+        m_komentari.removeFirst();
+    }
+    endRemoveRows();
+}
+
+void KomentariModel::removeAll()
+{
+    beginRemoveRows(QModelIndex(), 0,m_komentari.count());
+    m_komentari.clear();
+    endRemoveRows();
+}
+
+int KomentariModel::getBrKom()
+{
+    return m_komentari.count();
+}
 int KomentariModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);

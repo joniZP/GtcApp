@@ -27,27 +27,11 @@ private:
     public:
     static KomentariModel& GetInstance();
     void dodajkomentar(const Komentar &kom);
-    void remove()
-    {
-        beginRemoveRows(QModelIndex(), 0, 0);
-        if(m_komentari.count()>0)
-        {
-             m_komentari.removeFirst();
-        }
-        endRemoveRows();
-    }
+    void remove();
 
-    void removeAll()
-    {
-        beginRemoveRows(QModelIndex(), 0,m_komentari.count());
-        m_komentari.clear();
-        endRemoveRows();
-    }
+    void removeAll();
     Q_INVOKABLE
-    int getBrKom()
-    {
-        return m_komentari.count();
-    }
+    int getBrKom();
 
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;

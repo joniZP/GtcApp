@@ -31,7 +31,7 @@ public:
     {
         return id;
     }
- Q_INVOKABLE
+    Q_INVOKABLE
     int getIdLokacije () const
     {
         return idLokacije;
@@ -52,40 +52,40 @@ public:
         return opis;
     }
     Q_INVOKABLE
-   QString getTip() const
-   {
+    QString getTip() const
+    {
        return tip;
-   }
+    }
     Q_INVOKABLE
-   int getLike()
-   {
+    int getLike()
+    {
        return like;
-   }
-   Q_INVOKABLE
-  int getDay()
-  {
-      return dt.date().day();
-  }
-  Q_INVOKABLE
- int getMonth()
- {
-     return dt.date().month();
- }
- Q_INVOKABLE
-int getMinute()
-{
-    return dt.time().minute();
-}
-Q_INVOKABLE
-int getHour()
-{
-   return dt.time().hour();
-}
+    }
     Q_INVOKABLE
-   MLokacija* getLokacija()
-   {
+    int getDay()
+    {
+      return dt.date().day();
+    }
+    Q_INVOKABLE
+    int getMonth()
+    {
+     return dt.date().month();
+    }
+    Q_INVOKABLE
+    int getMinute()
+    {
+    return dt.time().minute();
+    }
+    Q_INVOKABLE
+    int getHour()
+    {
+    return dt.time().hour();
+    }
+    Q_INVOKABLE
+    MLokacija* getLokacija()
+    {
     return lokacija;
-   }
+    }
 
 
 

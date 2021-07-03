@@ -9,10 +9,7 @@ public:
     QString kategorija() const;
     bool cekirana() const;
     int indeks() const;
-    void setCekirana(bool b)
-    {
-        this->m_cekirana=b;
-    }
+    void setCekirana(bool b);
 private:
     QString m_kategorija;
     bool m_cekirana;

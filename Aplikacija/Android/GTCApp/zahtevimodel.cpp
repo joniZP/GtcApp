@@ -19,6 +19,57 @@ void ZahteviModel::dodajzahtev(const zahtev &o)
     m_zahtevi << o;
     endInsertRows();
 }
+
+void ZahteviModel::remove()
+{
+    beginRemoveRows(QModelIndex(), 0, 0);
+    if(m_zahtevi.count()>0)
+    {
+        m_zahtevi.removeFirst();
+    }
+    endRemoveRows();
+}
+
+void ZahteviModel::removeAll()
+{
+    beginRemoveRows(QModelIndex(), 0,m_zahtevi.count());
+    m_zahtevi.clear();
+    endRemoveRows();
+}
+
+void ZahteviModel::prihvati(int i)
+{
+    beginRemoveRows(QModelIndex(),i,i);
+    if(m_zahtevi[i].prihvacen()==false)
+    {
+        PrijateljiEvents::prihvatiZahtev(m_zahtevi[i].id());
+        // m_zahtevi[i].prihvati(true);
+        m_zahtevi.removeAt(i);
+    }
+    endRemoveRows();
+}
+
+void ZahteviModel::obrisi(int i)
+{
+    beginRemoveRows(QModelIndex(),i,i);
+    if(m_zahtevi.count()>0)
+    {
+        PrijateljiEvents::izbrisiZahtev(m_zahtevi[i].id());
+        m_zahtevi.removeAt(i);
+
+    }
+    endRemoveRows();
+}
+
+void ZahteviModel::setVidjeni()
+{
+    MySqlService &s = MySqlService::MySqlInstance();
+    MyQuery query;
+    query="UPDATE Zahtev SET vidjen=1 WHERE primalac='%1' and vidjen=0";
+    query<<LOCALDATA::mProfil->getKorisnickoIme();
+    s.SendQuery(query);
+
+}
 int ZahteviModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);

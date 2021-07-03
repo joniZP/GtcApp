@@ -18,6 +18,23 @@ void KorisnikDogadjajModel::dodajdogadjaj(const Dogadjaj &dog)
     m_dogadjaji << dog;
     endInsertRows();
 }
+
+void KorisnikDogadjajModel::remove()
+{
+    beginRemoveRows(QModelIndex(), 0, 0);
+    if(m_dogadjaji.count()>0)
+    {
+        m_dogadjaji.removeFirst();
+    }
+    endRemoveRows();
+}
+
+void KorisnikDogadjajModel::removeAll()
+{
+    beginRemoveRows(QModelIndex(), 0,m_dogadjaji.count());
+    m_dogadjaji.clear();
+    endRemoveRows();
+}
 int KorisnikDogadjajModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);

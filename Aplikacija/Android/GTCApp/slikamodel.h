@@ -21,24 +21,8 @@ private:
     public:
     static SlikaModel& GetInstance();
     void dodajSliku(const QString slika);
-    void remove()
-    {
-        beginRemoveRows(QModelIndex(), 0, 0);
-        if(m_slike.count()>0)
-        {
-             m_slike.removeFirst();
-        }
-        endRemoveRows();
-    }
-
-    void removeAll()
-    {
-        beginRemoveRows(QModelIndex(), 0,m_slike.count());
-        m_slike.clear();
-        endRemoveRows();
-    }
-
-
+    void remove();
+    void removeAll();
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
 protected:

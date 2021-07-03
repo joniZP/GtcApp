@@ -67,6 +67,8 @@ Rectangle
                                             //pretrazi.Pretrazi(unospretraga.text)
                                             onClicked:
                                             {
+                                                kategorijapopup.visible=false
+                                                mestopopup.visible=false
                                                 block.visible=true
                                                 if(lokacijaradio.checked)
                                                 {
@@ -81,8 +83,7 @@ Rectangle
                                                      pretrazi.pretrazi(unospretraga.text,1)
                                                 }
 
-                                                kategorijapopup.visible=false
-                                                mestopopup.visible=false
+
 
                                                 block.visible=false
                                             }
@@ -399,6 +400,8 @@ Rectangle
                                     text: qsTr(tip)
                                     anchors.left: parent.left
                                     anchors.leftMargin: 20
+                                    wrapMode: Text.WordWrap
+                                    width:parent.width-20
                                     anchors.verticalCenter: parent.verticalCenter
                                 }
                             }
@@ -480,9 +483,10 @@ Rectangle
         {
             id:kategorijapopup
             width: parent.width/2
+            height: parent.height/2
             anchors.left: parent.left
             anchors.top: parent.top
-            border.color: "#c9c9c9"
+           // border.color: "#c9c9c9"
             visible: false
 
             ////radio..
@@ -552,6 +556,7 @@ Rectangle
             {
                 width: parent.width
                 anchors.top: radio.bottom
+                height: parent.height
                 property var kategorije:[]
                 ListView
                 {
@@ -567,6 +572,7 @@ Rectangle
                          width:parent.width
                          required property string kategorija
                          required property int indeks
+                         required property bool cekirana
                          property int klik:0
 
                             Rectangle
@@ -591,14 +597,14 @@ Rectangle
                                     Rectangle
                                     {
                                         id:check
-                                        visible: false
+                                        visible: cekirana
                                         width: parent.height
                                         height: parent.height
                                         anchors.right: parent.right
                                         Image
                                         {
-                                            width: parent.height-2
-                                            height: parent.height-2
+                                            width: parent.height-20
+                                            height: parent.height-20
                                             anchors.centerIn: parent
                                             source: "qrc:/new/prefix1/check.png"
                                         }
@@ -611,6 +617,7 @@ Rectangle
                                     anchors.fill:parent
                                     onClicked:
                                     {
+
                                            _katmodel.dodaj(indeks)
                                         if(check.visible==true)
                                         {
@@ -645,13 +652,15 @@ Rectangle
         {
             id:mestopopup
             width: parent.width/2
+            height: parent.height/2
             anchors.right: parent.right
             anchors.top: parent.top
-            border.color: "#c9c9c9"
+            //border.color: "#c9c9c9"
             visible: false
             ScrollView
             {
                 width: parent.width
+                height: parent.height
                 property var kategorije:[]
                 ListView
                 {
@@ -667,6 +676,7 @@ Rectangle
                          width:parent.width
                          required property string mesto
                          required property int indeks
+                         required property bool cekirana
                          property int klik:0
 
                             Rectangle
@@ -691,14 +701,14 @@ Rectangle
                                     Rectangle
                                     {
                                         id:checkmesto
-                                        visible: false
+                                        visible: cekirana
                                         width: parent.height
                                         height: parent.height
                                         anchors.right: parent.right
                                         Image
                                         {
-                                            width: parent.height-2
-                                            height: parent.height-2
+                                            width: parent.height-20
+                                            height: parent.height-20
                                             anchors.centerIn: parent
                                             source: "qrc:/new/prefix1/check.png"
                                         }

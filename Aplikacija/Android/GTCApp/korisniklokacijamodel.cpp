@@ -18,6 +18,23 @@ void KorisnikLokacijaModel::dodajlokaciju(const lokacija &lok)
     m_lokacije << lok;
     endInsertRows();
 }
+
+void KorisnikLokacijaModel::remove()
+{
+    beginRemoveRows(QModelIndex(), 0, 0);
+    if(m_lokacije.count()>0)
+    {
+        m_lokacije.removeFirst();
+    }
+    endRemoveRows();
+}
+
+void KorisnikLokacijaModel::removeAll()
+{
+    beginRemoveRows(QModelIndex(), 0,m_lokacije.count());
+    m_lokacije.clear();
+    endRemoveRows();
+}
 int KorisnikLokacijaModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);

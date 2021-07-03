@@ -12,18 +12,9 @@ public:
     QString ime() const;
     QString id() const;
     bool vidjen() const;
-
     bool prihvacen() const;
-
-    void prihvati(bool b)
-    {
-        this->m_prihvacen=b;
-    }
-
-    void setVidjen(bool vidjen)
-    {
-        this->m_vidjen = vidjen;
-    }
+    void prihvati(bool b);
+    void setVidjen(bool vidjen);
 
 private:
     QString m_slika;

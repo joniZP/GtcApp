@@ -102,7 +102,7 @@ ApplicationWindow
                 {
                     getLokacijaById(back.getIdLDP());
                 }
-             else if(v =="qrc:/dogadjaj.qml")
+                else if(v =="qrc:/dogadjaj.qml")
                 {
                     getDogadjajById(back.getIdLDP());
                 }
@@ -110,6 +110,11 @@ ApplicationWindow
                 {
                     getProfilByUsername(back.getIdLDP())
                 }
+                 else if(v =="qrc:/mojprofil.qml")
+                 {
+                     ucitavanjeProfilaInstance.ucitajLokacijeiDogadjaje(mProfilInst.getKorisnickoIme())
+                 }
+
 
                 if(v=="qrc:/pocetna.qml")
                 {
@@ -406,7 +411,6 @@ ApplicationWindow
                 width: 200
                // height: item1.height
                 id: dogadjajmenu
-                height: dogadjajitem1.height+8
                 x:parent.width-lokacijamenu.width
                 y:0
 
@@ -455,13 +459,14 @@ ApplicationWindow
                             if(mProfilInst.getKorisnickoIme()!==mDogadjaj.getIdKorisnika())
                             {
                                 console.log("nije taj korisnik")
+                                nedostupnaizmena.open();
                                 //izbaci popup nije tvoj dogadjaj
                             }
                             else
                             {
                                 izmeniDogadjajsignal()
                             }
-                       }
+                         }
                         else
                         {
                              ulogujsepopup.open()
@@ -508,19 +513,7 @@ ApplicationWindow
                     {
                        pretragalupa.visible=false
                     }
-                    if (source=="qrc:/dogadjaj.qml")
-                    {
-                       if(mProfilInst.getKorisnickoIme()!==mDogadjaj.getIdKorisnika())
-                       {
-                           dogadjajmenu.height=dogadjajmenu.height/2
-                           izmenidogadjaj.visible=false
-                       }
-                       else
-                       {
-                            izmenidogadjaj.visible=true
-                            dogadjajmenu.height=dogadjajmenu.height*2
-                       }
-                    }
+
 
                     if(source == "qrc:/lokacija.qml" || source == "qrc:/dogadjaj.qml")
                     {
@@ -1384,6 +1377,60 @@ ApplicationWindow
                         ulogujsepopup.close()
                     }
                     anchors.right: parent.right
+                }
+            }
+          }
+
+                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+                // anchors.centerIn: parent
+                }
+
+
+
+        Popup{
+            id: nedostupnaizmena
+            width: parent.width/5*4
+            height: 120
+            modal: true
+            focus: true
+            x:(parent.width-nedostupnaizmena.width)/2
+            y:(parent.height-nedostupnaizmena.height)/2
+           Rectangle
+           {
+              anchors.fill: parent
+              anchors.centerIn: parent
+            Text
+            {
+
+                id: nedostupnaizmenatext
+                text:"Ova opcija omogucena je samo korisniku koji je kreirao dogadjaj."
+                horizontalAlignment: Text.AlignHCenter
+                width:parent.width*0.9
+                anchors.horizontalCenter: parent.horizontalCenter
+                wrapMode: Text.WordWrap
+                font.pixelSize: 15
+                anchors.top: parent.top
+            }
+
+
+            Rectangle
+            {
+                height: uredudugme.implicitHeight
+                anchors.bottom: parent.bottom
+                //anchors.bottomMargin: 10
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: uredudugme.implicitWidth+10
+
+                Button
+                {
+                    id:uredudugme
+
+                    text: qsTr("Uredu")
+                    onClicked:
+                    {
+                        nedostupnaizmena.close()
+                    }
+                    anchors.centerIn: parent
                 }
             }
           }

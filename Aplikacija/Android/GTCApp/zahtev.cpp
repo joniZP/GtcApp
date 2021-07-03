@@ -27,3 +27,13 @@ bool zahtev::prihvacen() const
 {
     return m_prihvacen;
 }
+
+void zahtev::prihvati(bool b)
+{
+    this->m_prihvacen=b;
+}
+
+void zahtev::setVidjen(bool vidjen)
+{
+    this->m_vidjen = vidjen;
+}

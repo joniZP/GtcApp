@@ -19,6 +19,16 @@ void MarkerModel ::dodajmarker(const QGeoCoordinate &coordinate)
     m_coordinates.append(coordinate);
     endInsertRows();
 }
+
+void MarkerModel::remove()
+{
+    beginRemoveRows(QModelIndex(), 0, 0);
+    if(m_coordinates.count()>0)
+    {
+        m_coordinates.removeFirst();
+    }
+    endRemoveRows();
+}
 int MarkerModel ::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);

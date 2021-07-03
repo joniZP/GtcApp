@@ -18,6 +18,35 @@ void KategorijaModel::dodajkategoriju(const Kategorija &kat)
     m_kategorije << kat;
     endInsertRows();
 }
+
+void KategorijaModel::remove()
+{
+    beginRemoveRows(QModelIndex(), 0, 0);
+    if(m_kategorije.count()>0)
+    {
+        m_kategorije.removeFirst();
+    }
+    endRemoveRows();
+}
+
+int KategorijaModel::getCurrentIndex(QString k)
+{
+    for(int i=0;i<m_kategorije.count();i++)
+    {
+        if(m_kategorije[i].kategorija()==k)
+        {
+            return i;
+        }
+    }
+    return 0;
+}
+
+void KategorijaModel::removeAll()
+{
+    beginRemoveRows(QModelIndex(), 0,m_kategorije.count());
+    m_kategorije.clear();
+    endRemoveRows();
+}
 int KategorijaModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
@@ -56,6 +85,32 @@ QHash<int, QByteArray> KategorijaModel::roleNames() const
     roles[CekiranRole] = "cekirana";
     roles[IndeksRole] = "indeks";
     return roles;
+}
+
+void KategorijaModel::dodaj(int i)
+{
+    if(m_kategorije[i].cekirana()==false)
+    {
+        m_kategorije[i].setCekirana(true);
+    }
+    else
+    {
+        m_kategorije[i].setCekirana(false);
+    }
+    qDebug()<<m_kategorije[i].cekirana();
+}
+
+void KategorijaModel::ukloni(int i)
+{
+    m_kategorije[i].setCekirana(true);
+}
+
+void KategorijaModel::reset()
+{
+    for(int i=0;i<m_kategorije.length();i++)
+    {
+        m_kategorije[i].setCekirana(false);
+    }
 }
 
 

@@ -18,3 +18,8 @@ int Kategorija::indeks() const
 {
     return m_indeks;
 }
+
+void Kategorija::setCekirana(bool b)
+{
+    this->m_cekirana=b;
+}

@@ -13,6 +13,7 @@ Rectangle
     property int slike: 0
     property int lokid :-1
     property int imagenumber:0
+    color: "#80b5ff"
 
     Connections {
           target: uploader
@@ -51,6 +52,19 @@ Rectangle
               }
               if(imagenumber>=slike)
               {
+                  uploading1.visible = true;
+                  uploading2.visible = true;
+                  uploading3.visible = true;
+                  uploading4.visible = true;
+                  uploading5.visible = true;
+
+                  slika1rect.visible = true;
+                  slika2rect.visible = false;
+                  slika3rect.visible = false;
+                  slika4rect.visible = false;
+                  slika5rect.visible = false;
+
+
                   uploadovanjeslikaglavni.visible=false
                   if(lokid !== -1)
                   {

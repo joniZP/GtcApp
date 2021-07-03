@@ -25,21 +25,8 @@ private:
     public:
     static KorisnikDogadjajModel& GetInstance();
     void dodajdogadjaj(const Dogadjaj &lok);
-    void remove()
-    {
-        beginRemoveRows(QModelIndex(), 0, 0);
-        if(m_dogadjaji.count()>0)
-        {
-             m_dogadjaji.removeFirst();
-        }
-        endRemoveRows();
-    }
-    void removeAll()
-    {
-        beginRemoveRows(QModelIndex(), 0,m_dogadjaji.count());
-        m_dogadjaji.clear();
-        endRemoveRows();
-    }
+    void remove();
+    void removeAll();
     int rowCount(const QModelIndex & parent = QModelIndex()) const;
     QVariant data(const QModelIndex & index, int role = Qt::DisplayRole) const;
 protected:

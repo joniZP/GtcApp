@@ -18,6 +18,23 @@ void SlikaModel::dodajSliku(const QString slika)
     m_slike << slika;
     endInsertRows();
 }
+
+void SlikaModel::remove()
+{
+    beginRemoveRows(QModelIndex(), 0, 0);
+    if(m_slike.count()>0)
+    {
+        m_slike.removeFirst();
+    }
+    endRemoveRows();
+}
+
+void SlikaModel::removeAll()
+{
+    beginRemoveRows(QModelIndex(), 0,m_slike.count());
+    m_slike.clear();
+    endRemoveRows();
+}
 int SlikaModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);

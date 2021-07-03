@@ -19,6 +19,33 @@ void PrijateljiModel::dodajPrijatelja(const profillistelement &o)
     m_prijatelji << o;
     endInsertRows();
 }
+
+void PrijateljiModel::remove()
+{
+    beginRemoveRows(QModelIndex(), 0, 0);
+    if(m_prijatelji.count()>0)
+    {
+        m_prijatelji.removeFirst();
+    }
+    endRemoveRows();
+}
+
+void PrijateljiModel::obrisi(int i)
+{
+    beginRemoveRows(QModelIndex(),i,i);
+    if(m_prijatelji.count()>0)
+    {
+        m_prijatelji.removeAt(i);
+    }
+    endRemoveRows();
+}
+
+void PrijateljiModel::removeAll()
+{
+    beginRemoveRows(QModelIndex(), 0,m_prijatelji.count());
+    m_prijatelji.clear();
+    endRemoveRows();
+}
 int PrijateljiModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
