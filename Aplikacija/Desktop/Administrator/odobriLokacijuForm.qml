@@ -534,10 +534,12 @@ Rectangle
               Text{
                   id: opistxt
                   text: qsTr(location.getOpis())
+                  width: parent.width-20
                   font.family: "Helvetica"
                   font.pointSize: 16
                   anchors.verticalCenter: parent.verticalCenter
                  anchors.horizontalCenter: parent.horizontalCenter
+                 wrapMode: Text.WordWrap
               }
           }
 
