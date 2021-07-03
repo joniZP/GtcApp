@@ -9,6 +9,7 @@
         <file>spinnerpage.gif</file>
         <file>lupa.png</file>
         <file>loupe.png</file>
+        <file>user1.png</file>
     </qresource>
     <qresource prefix="/">
         <file>loupe.png</file>

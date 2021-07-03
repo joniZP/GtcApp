@@ -50,17 +50,19 @@ public:
     Q_INVOKABLE
     static void izbrisiKomentar(int a, int b)
     {
-        izbrisiprijavuKomentara(a);
+//        izbrisiprijavuKomentara(a);
         MySqlService &s = MySqlService::MySqlInstance();
         MyQuery query;
        if(b==0){
-        query="delete from KomentariDogdjaj where idKomentara=%1";
+        query="delete from KomentariLokacije where idKomentara=%1";
         query<<a;
+        qDebug() << "OBRISAN KOMENTAR IZ LOKACIJE";
        }
        else
        {
-           query="delete from KomentariLokacije where idKomentara=%1";
+           query="delete from KomentariDogadjaj where idKomentara=%1";
            query<<a;
+           qDebug() << "OBRISAN KOMENTAR IZ DOGADJAJA";
        }
 
         qDebug()<<query.toStr();
@@ -71,43 +73,53 @@ public:
 
 
      Q_INVOKABLE
-     void obrisiprijavu(int a, int b)
+     void obrisiprijavu(int a)
      {
+       //  int pom=m_Komentari[a].idkom();
+            int pom = m_Komentari[a].idkom();
 
-
-         int pom=m_Komentari[a].idkom();
          if(m_Komentari.count()>0)
          {
-             qDebug()<<m_Komentari[a].idkom();
+             qDebug()<<m_Komentari[a].idlokdog();
              izbrisiprijavuKomentara(m_Komentari[a].idkom());
              for(int i=0; i<m_Komentari.count();i++)
              {
+             if(pom == m_Komentari[i].idkom())
+             {
 
-
-
-                 if(pom == m_Komentari[i].idkom() && m_Komentari[i].lokdog()==b)
-                 {
-                     beginRemoveRows(QModelIndex(), i, i);
-                     m_Komentari.removeAt(i);
-                     endRemoveRows();
-                     i--;
-
-                 }
-
+                 beginRemoveRows(QModelIndex(),i,i);
+                 m_Komentari.removeAt(i);
+                 endRemoveRows();
+                 i--;
+             }
              }
          }
 
      }
      Q_INVOKABLE
-     void prihvatiprijavu(int a, int b)
+     void prihvatiprijavu(int a)
      {
-         beginRemoveRows(QModelIndex(), 0, m_Komentari.count());
-         if(m_Komentari.count()>0)
-         {
-              izbrisiKomentar(m_Komentari[a].idkom(), b);
-         }
-         endRemoveRows();
-         obrisiprijavu(a, b);
+          int pom = m_Komentari[a].idkom();
+          izbrisiprijavuKomentara(pom);
+         izbrisiKomentar(pom,m_Komentari[a].lokdog());
+          qDebug() << "ID KOMENTARA:"<<pom;
+          qDebug()<<"ID REPORTA:"<<m_Komentari[a].idreport();
+          qDebug()<<"LOKDOG====="<<m_Komentari[a].lokdog();
+          qDebug()<<"ID LOKDOG====="<<m_Komentari[a].idlokdog();
+          for(int i=0; i<m_Komentari.count();i++)
+          {
+          if(pom == m_Komentari[i].idkom())
+          {
+
+              beginRemoveRows(QModelIndex(),i,i);
+              m_Komentari.removeAt(i);
+              endRemoveRows();
+              i--;
+          }
+          }
+          qDebug()<<"PROLAZI LI FOR";
+       //   qDebug()<< m_Komentari[a].lokdog();
+
      }
 
 

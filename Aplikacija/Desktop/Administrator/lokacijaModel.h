@@ -9,6 +9,7 @@
 #include<QtSql>
 #include<lokacija.h>
 #include <MySqlService.h>
+#include <dogadjajmodel.h>
 class LokacijaModel: public QAbstractListModel{
     Q_OBJECT
 
@@ -33,44 +34,35 @@ private:
     Q_INVOKABLE
     static void izbrisiprijavulokacije(int a)
     {
-        QString pom= QString::number(a);
-
+        QString pom=(QString)a;
         MySqlService &s = MySqlService::MySqlInstance();
-        //QString query;
-        //MySqlTable t;
-        //query = "delete from ReportDogadjaj where idReport='"+pom+"' ";
-         MyQuery query("delete from ReportLokacija where idLokacija=%1");//("SELECT * FROM Lokacija WHERE Id='%1'");
-         query<<a;
-
-       s.SendQuery(query);
+        MyQuery query("delete from ReportLokacija where idLokacija=%1");
+        query<<a;
+        qDebug() << "BRISEM PRIJAVU LOKACIJE ID"<<a;
+        s.SendQuery(query);
     }
     Q_INVOKABLE
     static void izbrisilokaciju(int a)
     {
-        izbrisiprijavulokacije(a);
         MySqlService &s = MySqlService::MySqlInstance();
-        //QString query;
-        //MySqlTable t;
-
+        Dogadjajmodel::izbrisiDogadjajzaId(a);
         MyQuery query("delete from Lokacija where id=%1");
         query<<a;
-        qDebug()<<query.toStr();
          s.SendQuery(query);
-        //obrisi dogadjaj iz
+         MyQuery query2("delete from KomentariLokacije where idLokacije=%1");
+         query<<a;
+         s.SendQuery(query2);
     }
 
      Q_INVOKABLE
      void obrisiprijavu(int a)
      {
-
          int pom=m_lokacije[a].id();
          if(m_lokacije.count()>0)
          {
-
              izbrisiprijavulokacije(m_lokacije[a].id());
              for(int i=0; i<m_lokacije.count();i++)
              {
-
                  if(pom == m_lokacije[i].id())
                  {
                      beginRemoveRows(QModelIndex(), i, i);
@@ -86,48 +78,60 @@ private:
      Q_INVOKABLE
      void prihvatiprijavu(int a)
      {
-
-         qDebug()<<"saleelelelele";
-
-         beginRemoveRows(QModelIndex(), 0, m_lokacije.count());
-         if(m_lokacije.count()>0)
+         int pom = m_lokacije[a].id();
+         izbrisilokaciju(pom);
+         for(int i=0; i<m_lokacije.count();i++)
          {
-              izbrisilokaciju(m_lokacije[a].id());
+         if(pom == m_lokacije[i].id())
+         {
+
+             beginRemoveRows(QModelIndex(),i,i);
+             m_lokacije.removeAt(i);
+             endRemoveRows();
+             i--;
          }
-         endRemoveRows();
-         obrisiprijavu(a);
+         }
      }
-
-
-
-     Q_INVOKABLE
-     void odbaciprijavulokacije(int a)
-     {
-         MySqlService &s = MySqlService::MySqlInstance();
-         MyQuery query("delete from Lokacija where id=%1");
-         query<<a;
-         qDebug()<<query.toStr();
-         s.SendQuery(query);
-     }
-
-
      Q_INVOKABLE
           void odbaciprijavu(int index,int j)
           {
 
-              for(int i=0; i<m_lokacije.count();i++)
-              {
+              int pom=m_lokacije[index].id();
+                izbrisilokaciju(j);
+                    if(m_lokacije.count()>0)
+                    {
+                        for(int i=0; i<m_lokacije.count();i++)
+                        {
+                            if(pom == m_lokacije[i].id())
+                            {
+                                beginRemoveRows(QModelIndex(), i, i);
+                                m_lokacije.removeAt(i);
+                                endRemoveRows();
+                                i--;
+                            }
 
-                  beginRemoveRows(QModelIndex(), i, i);
-
-                  if(m_lokacije[index].id() == m_lokacije[i].id())
-                  {
-                      m_lokacije.removeAt(i);
-                  }
-                  endRemoveRows();
-              }
-              odbaciprijavulokacije(j);
+                        }
+                    }
           }
+
+          /*      int pom=m_lokacije[a].id();
+         if(m_lokacije.count()>0)
+         {
+
+            odbaciprijavulokacije(j);
+             for(int i=0; i<m_lokacije.count();i++)
+             {
+
+                 if(pom == m_lokacije[i].id())
+                 {
+                     beginRemoveRows(QModelIndex(), i, i);
+                     m_lokacije.removeAt(i);
+                     endRemoveRows();
+                     i--;
+                 }
+
+             }
+         }*/
 
 
           Q_INVOKABLE

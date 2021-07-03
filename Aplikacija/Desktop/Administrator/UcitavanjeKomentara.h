@@ -22,7 +22,7 @@ public:
       MySqlService &s = MySqlService::MySqlInstance();
       QString query;
       MySqlTable t;
-      query = "SELECT * FROM KomentariDogadjaj INNER JOIN ReportKomentar ON KomentariDogadjaj.idKomentara = ReportKomentar.idKomentara where LokDog=true ";
+      query = "SELECT * FROM( SELECT ReportKomentar.*, KomentariLokacije.tekstKomentara FROM ReportKomentar inner join KomentariLokacije on ReportKomentar.idKomentara = KomentariLokacije.idKomentara WHERE LokDog=0) as t1 union ALL( SELECT ReportKomentar.*, KomentariDogadjaj.tekstKomentara FROM ReportKomentar inner join KomentariDogadjaj on ReportKomentar.idKomentara = KomentariDogadjaj.idKomentara WHERE LokDog=1)";
 
       t = s.WSendQuery(query);
 
@@ -34,28 +34,10 @@ public:
           {
           for(int i=0;i<t.Count();i++)
             {
-             kmodel.dodajKomentar(Komentar( t.Rows[i]["idReport"].toInt(),t.Rows[i][0].toInt(), t.Rows[i]["tekstKomentara"], t.Rows[i]["idKorisnika"], 1, t.Rows[i]["razlog"], t.Rows[i]["idDogadjaja"].toInt()));
+             kmodel.dodajKomentar(Komentar( t.Rows[i]["idReport"].toInt(),t.Rows[i]["idKomentara"].toInt(), t.Rows[i]["tekstKomentara"], t.Rows[i]["idKorisnika"], t.Rows[i]["LokDog"].toInt(), t.Rows[i]["razlog"], t.Rows[i]["idDogadjaja"].toInt()));
             }
-          }
-      }
+          } //    Komentar( const int &idReport, const int &idkom, const QString &tekst, const QString &username,const int &lokdog,const QString &razlog, const int &idlokdog);
 
-
-      query = "SELECT KomentariLokacije.*, ReportKomentar.idReport, ReportKomentar.LokDog,ReportKomentar.username,ReportKomentar.razlog FROM KomentariLokacije INNER JOIN ReportKomentar ON KomentariLokacije.idKomentara=ReportKomentar.idKomentara where LokDog=false";
-
-      t = s.WSendQuery(query);
-
-      if(t.isSuccessfully())
-      {
-          if(t.Count()>0)
-          {
-          //  qDebug() << "kveri:" << t.Count();
-
-            for(int i=0;i<t.Count();i++)
-             {
-                qDebug() << "IDKOMENTARA  :   " <<t.Rows[i]["razlog"];
-             kmodel.dodajKomentar(Komentar(t.Rows[i]["idReport"].toInt(),t.Rows[i]["idKomentara"].toInt(), t.Rows[i]["tekstKomentara"], t.Rows[i]["idKorisnika"], 0, t.Rows[i]["razlog"], t.Rows[i]["idLokacije"].toInt()));
-            }
-          }
       }
   }
   QString getlokdog(int a)

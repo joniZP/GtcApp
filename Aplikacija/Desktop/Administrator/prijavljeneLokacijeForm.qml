@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
+import QtGraphicalEffects 1.12
 import UcitavanjeLokacije 1.0
 Rectangle
 {
@@ -394,7 +395,7 @@ Rectangle
                   font.family: "Helvetica"
 
                    anchors.centerIn: parent
-                   text:"ODBACI"
+                   text:"ODBACI \n PRIJAVU"
                    color: mouseArea.pressed ? "red":"white"
                    font.pointSize: 10
                      }
@@ -430,7 +431,7 @@ Rectangle
                   font.family: "Helvetica"
 
                    anchors.centerIn: parent
-                   text:"PRIHVATI"
+                   text:"PRIHVATI \n PRIJAVU"
                    color:declineArea.pressed ? "green":"white"
                    font.pointSize: 10
                }
@@ -536,7 +537,10 @@ Rectangle
                       anchors.verticalCenter: parent.verticalCenter
                       anchors.leftMargin: 10
                       layer.enabled: true
-
+                      layer.effect: OpacityMask
+                      {
+                          maskSource: mask
+                      }
                       }
               Text {
                   id: kreator_ime

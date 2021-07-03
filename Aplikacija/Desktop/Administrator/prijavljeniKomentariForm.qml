@@ -2,6 +2,8 @@ import QtQuick 2.0
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.3
+import QtGraphicalEffects 1.12
+
 
 Rectangle
 {
@@ -242,7 +244,7 @@ Rectangle
                         font.bold: true
 
                             id:autorprofil
-                            text: lokdog===1 ? "Dogadjaj" : "Lokacija";
+                            text: lokdog===0 ? "Dogadjaj" : "Lokacija";
                             anchors.centerIn: parent
                         }
 
@@ -299,7 +301,7 @@ Rectangle
                           {
                               block.visible=true;
                               //console.log("ID KOMENTARA::::::  "+idkom);
-                             _KModel.obrisiprijavu(index, lokdog);
+                             _KModel.obrisiprijavu(index);
 block.visible=false;
 
 
@@ -339,7 +341,7 @@ block.visible=false;
                           {
                               block.visible=true;
                               //console.log("ID KOMENTARA::::::  "+idkom);
-                              _KModel.prihvatiprijavu(index, lokdog);
+                              _KModel.prihvatiprijavu(index);
                               block.visible=false;
                               //pageLoader.source="loginForm.qml"
 

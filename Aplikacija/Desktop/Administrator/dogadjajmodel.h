@@ -35,8 +35,7 @@ public:
    Q_INVOKABLE
    static void izbrisiprijavudogadjaja(int a)
    {
-       QString pom= QString::number(a);
-
+       QString pom=(QString)a;
 
        MySqlService &s = MySqlService::MySqlInstance();
        //QString query;
@@ -53,17 +52,52 @@ public:
        izbrisiprijavudogadjaja(a);
        MySqlService &s = MySqlService::MySqlInstance();
        //QString query;
-       //MySqlTable t;
+       MySqlTable t;
 
        MyQuery query("delete from Dogadjaj where idDogadjaja=%1");
        query<<a;
        qDebug()<<query.toStr();
         s.SendQuery(query);
-       //obrisi dogadjaj iz
+          MyQuery query2("delete from KomentariDogadjaj where idDogadjaja=%1 ");/*; delete from Obavestenje where idDL=%1 AND tip=false";*/;
+          query2<<a;
+          s.SendQuery(query2);
+           MyQuery query3("delete from Obavestenje where idDL=%1");/*; delete from Obavestenje where idDL=%1 AND tip=false";*/;
+          query3<<a;
+          s.SendQuery(query3);
+  }
+
+
+Q_INVOKABLE
+   static void izbrisiDogadjajzaId(int a)
+   {
+       MyQuery query;
+       MyQuery query2;
+       MySqlTable t;
+        MySqlService &s = MySqlService::MySqlInstance();
+        qDebug() << "PUNIMO DOGADJAJ";
+       query = "SELECT * FROM Dogadjaj where idLokacije=%1 ";
+       query << a;
+       t = s.WSendQuery(query);
+       if(t.isSuccessfully())
+       {
+           qDebug()<<t.Count();
+           if(t.Count()>0)
+           {
+                for(int i=0;i<t.Count();i++)
+                {
+                    qDebug() << "brisanje za:"<<t.Rows[i]["idDogadjaja"].toInt();
+                    query2="delete from KomentariDogadjaj where idDogadjaja=%1 "/*; delete from Obavestenje where idDL=%1 AND tip=false";*/;
+                    query2<<t.Rows[i]["idDogadjaja"].toInt();
+                     s.SendQuery(query2);
+                }
+                qDebug()<< "Brisanje dogadjaja...." << a;
+            query="delete FROM Dogadjaj where idLokacije=%1";
+            query<<a;
+            s.WSendQuery(query);
+           }
+
    }
-
-
-
+   }
     static Dogadjajmodel& GetInstance();
     void dodajDogadjaj(const Dogadjaj &dog);
     Q_INVOKABLE
@@ -72,14 +106,11 @@ public:
 
 
         int pom=m_dogadjaji[a].idDogadjaja();
+
         if(m_dogadjaji.count()>0)
         {
-            izbrisiprijavudogadjaja(m_dogadjaji[a].idDogadjaja());
             for(int i=0; i<m_dogadjaji.count();i++)
             {
-
-
-
                 if(pom == m_dogadjaji[i].idDogadjaja())
                 {
                     beginRemoveRows(QModelIndex(), i, i);
@@ -90,21 +121,29 @@ public:
 
             }
         }
+        izbrisiprijavudogadjaja(pom);
 
     }
     Q_INVOKABLE
     void prihvatiprijavu(int a)
     {
 
-        qDebug()<<"saleelelelele";
-
-        beginRemoveRows(QModelIndex(), 0, m_dogadjaji.count());
-        if(m_dogadjaji.count()>0)
+       qDebug()<<m_dogadjaji[a].idDogadjaja();
+        qDebug()<< a;
+        int pom = m_dogadjaji[a].idDogadjaja();
+        for(int i=0; i<m_dogadjaji.count();i++)
         {
-             izbrisidogadjaj(m_dogadjaji[a].idDogadjaja());
+        if(pom ==  m_dogadjaji[i].idDogadjaja())
+        {
+
+            beginRemoveRows(QModelIndex(),i,i);
+            m_dogadjaji.removeAt(i);
+            endRemoveRows();
+            i--;
         }
-        endRemoveRows();
-        obrisiprijavu(a);
+        }
+         izbrisidogadjaj(pom);
+     //    izbrisiprijavudogadjaja(pom);
     }
 
     void remove()

@@ -147,10 +147,11 @@ Window
               Timer{
                   id:timer1
                 repeat: false
-                interval: 2000
+                interval: 50
                 onTriggered: {
                 ucitajInstance.ucitaj()
                      block.visible=false;
+                     pageLoader.source="prijavljeneLokacijeForm.qml"
                 }
               }
 
@@ -168,14 +169,8 @@ Window
                            {
 
                                block.visible=true;
+                               timer1.start()
 
-                               //rectprijavise.visible=false
-                                timer1.start()
-
-                              //ucitajInstance.ucitaj()
-                              pageLoader.source="prijavljeneLokacijeForm.qml"
-
-                           //  block.activeFocus = false
 
 
                            }
@@ -320,7 +315,7 @@ Window
                    w:parent.width
                    h:parent.height/8
                    txt:"BRISANJE PROFILA"
-                   src: "../ikonice/location.png"
+                   src: "../ikonice/user.png"
                    clr:parent.color
                }
 
@@ -392,6 +387,10 @@ Window
           width: 150
           height: 150
           anchors.centerIn: parent
+      }
+      onVisibleChanged:
+      {
+            //blockvisible = block.visible
       }
       MouseArea
       {

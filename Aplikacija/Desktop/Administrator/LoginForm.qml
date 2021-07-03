@@ -53,7 +53,7 @@ Rectangle
                       id:usericon
                       height:20
                       width:20
-                      source: "../ikonice/user.png"
+                      source: "../ikonice/user1.png"
                       anchors.left: parent.left
                       anchors.leftMargin: 10
                       anchors.verticalCenter: parent.verticalCenter
@@ -92,6 +92,40 @@ Rectangle
                        Layout.preferredHeight: 50
                        Layout.preferredWidth: 450
                        color: buttonce.pressed ? "#1b4676":"#1e9ad9"
+
+                       Timer{
+                           id:timerlogin
+                         repeat: false
+                         interval: 50
+                         onTriggered: {
+
+                             if(korisnikEvents.prijava(username.text, password.text)===1)
+                               {
+
+                                 setprofile();
+                                 username.text=""
+                                 password.text=""
+                                 textiznad.text=""
+
+                                 pageLoader.source= "odobriLokacijuForm.qml";
+                                   //block.visible=false;
+                             }
+
+                             else
+                               {
+                               //  block.visible=true;
+                                 textiznad.text="Korisnicko ime/lozinka pogresno/a"
+                                 textiznad.color="red";
+                                 username.text=""
+                                 password.text=""
+                                // textiznad.text=""
+                                 //block.visible=false;
+                               }
+
+                             block.visible=false
+                         }
+                       }
+
                        MouseArea
                        {
                            id:buttonce
@@ -104,29 +138,7 @@ Rectangle
                                if(username.text!="" && password.text!="")
                                {
                                  block.visible=true;
-                               if(korisnikEvents.prijava(username.text, password.text)===1)
-                                 {
-
-                                   setprofile();
-                                   username.text=""
-                                   password.text=""
-                                   textiznad.text=""
-
-                                   pageLoader.source= "odobriLokacijuForm.qml";
-                                     //block.visible=false;
-                               }
-
-                               else
-                                 {
-                                 //  block.visible=true;
-                                   textiznad.text="Korisnicko ime/lozinka pogresno/a"
-                                   textiznad.color="red";
-                                   username.text=""
-                                   password.text=""
-                                  // textiznad.text=""
-                                   //block.visible=false;
-                                 }
-                              block.visible=false;
+                                timerlogin.start();
                                }
                            }
                        }

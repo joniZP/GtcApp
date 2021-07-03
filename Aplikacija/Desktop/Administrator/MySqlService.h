@@ -37,7 +37,7 @@ class MySqlService: public QObject{
 
 
     static void ReplyAnswer(QNetworkReply * reply);
-
+    static void ReplyAnswerAsync(QNetworkReply * reply);
 
     MySqlService()
     {
@@ -54,6 +54,9 @@ public:
     QString WSendQuery(QString request);
     QString WSendQuery(MyQuery request);
 
+signals:
+    void myConnectionLost();
+    void myConnectionEstablished();
 
 };
 
@@ -107,3 +110,9 @@ struct MyQuery{
 
 
 #endif // MYSQLSERVICE_H
+
+
+
+
+
+
